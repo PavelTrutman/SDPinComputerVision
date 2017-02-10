@@ -1,0 +1,940 @@
+%%%
+%
+% Style cmpcover.sty
+% ------------------
+% Cover page for CMP publications, such as research reports, reprints, etc.
+% (c) Tomas Werner June 1997, Radim Sara 1998-2001, Vit Zyka 2004-2008
+% 04-03-?? v3.00: VZ
+% 06-05-08 v3.10: VZ mscthesis style
+% 07-10-10 v3.11: VZ IN PRAGUE
+% 08-12-30 v3.12: VZ def\ifFSelse; msc: vedouci; mcs: ISSN yes
+% 09-01-27 v3.13: VZ master thesis -> master's thesis
+% 14-07-25 v3.14: VZ remove unused and colliding macro \ifdef
+%
+% Synopsis:
+% ========
+%
+%  \documentclass[12pt,twoside,a4paper]{article}
+%  \usepackage[style,options]{cmpcover}  (see below for styles)
+%
+%  \title{Document Title}
+%  \CMPSubtitle{Document subtitle}       (optional)
+%  \RCSRevision                          (optional, see below)
+%  \author{Author(s)}
+%  \CMPAdvisor{Advisor(s)}               (for phdthesis, mscthesis, and rreport)
+%  \CMPAffiliation{}                     (optional, use is discouraged)
+%  \CMPAcknowledgement{}                 (optional, required for rreport)
+%  \date{date}                           (optional)
+%  \CMPReportNo{CTU--CMP--0000--00}      (only for rreport, areport, phd thesis, msc thesis)
+%  \CMPEmail{author@cmp.felk.cvut.cz}    (optional)
+%  \CMPDocumentURL{ftp://...}            (optional) 
+%  \CMPCopyright{}                       (optional in reprint and misc)
+%  \CMPReference{}                       (optional in reprint and misc)
+%  \CMPSideBarText{}                     (optional in misc)
+%
+%  \begin{document}
+%  
+%  \end{document}
+%
+%
+%  There are four styles of documents supported:
+%  -------------------------------------------
+%
+%     rreport - research report
+%     areport - activity report,
+%     reprint - paper reprint
+%   phdthesis - PhD thesis
+%   mscthesis - master's thesis
+%        misc - unspecified document       (text given in \CMPSideBarText{Technical report})
+%       empty - no title page is printed   (default style)
+%
+%  Mandatory, optional and ignored fields:
+%  --------------------------------------
+%
+%   title and author are mandatory. In addition some document styles
+%   have  additional mandatory fields:
+%   rreport : CMPReportNo, CMPAcknowledgement
+%   areport : CMPReportNo, CMPDocumentURL
+%   reprint : none
+% phdthesis : CMPReportNo, CMPAcknowledgement, CMPAdvisor
+% mscthesis : CMPReportNo, CMPAcknowledgement, CMPAdvisor
+%      misc : none
+%
+%   Various document styles may have fields that are ignored:
+%   rreport : CMPReference, CMPCopyright
+%   areport : CMPReference, CMPCopyright, CMPAffiliation, CMPAcknowledgement
+%             CMPConfidential, CMPAdvisor
+%   reprint : CMPReportNo, date, CMPAcknowledgement, CMPConfidential,
+%             CMPAdvisor
+% phdthesis : CMPAffiliation, CMPConfidential, CMPReference, CMPCopyright
+% mscthesis : CMPAffiliation, CMPConfidential, CMPReference, CMPCopyright
+%      misc : CMPReportNo
+%
+%  In addition, some fields are optional but recommended and latex
+%  complains if they are not present:
+%
+%   rreport : CMPEmail, CMPDocumentURL
+%   areport : CMPEmail
+%   reprint : CMPEmail
+% phdthesis : CMPEmail, CMPDocumentURL
+% mscthesis : CMPEmail, CMPDocumentURL
+%      misc : none
+%
+% The date field is exceptional in that it is always generated except
+% for reprint.
+%
+%  Options
+%  -------
+%
+%  confidential : prints red CONFIDENTIAL notice on the page. Useful
+%                 only for rreport and misc styles, ignored otherwise. 
+%                 Implies noissn (see below).
+%
+%        noissn : suppresses ISSN and Editor information in Research
+%                 Reports (including PhD theses) and Activity Reports
+%
+%  Title and/or author list long and short forms:
+%  ---------------------------------------------
+%  
+%  You may use \CMPTitle{} in addition to \title{} and \CMPAuthor{}
+%  in addition to \author{}. If \CMPTitle and/or \CMPAuthor are defined
+%  their value is used instead of that of \title and \author. Use
+%  this feature if and only if you are using titlepage in addition
+%  to CMPcover and you want the titles and/or authors format differently.
+%
+%  Printing doublesided documents. 
+%  ------------------------------
+%
+%  Use twoside option for your LaTeX style if you want to supress
+%  printing on the coverpage back.
+%
+%  PDF LaTeX
+%  ---------
+%
+%  Use pdftex option in the \documentclass command.
+%
+%  Fonts:
+%  -----
+%
+%  All fonts are fixed and cannot be changed. The usual
+%  font/face changing commands are ignored. The only exception is
+%  \em or \emph{} to print emphasized (italic) text.
+%
+%
+% See also templates for all document styles in both languages.
+%
+%  Commands Summary
+%  ================
+%
+% \CMPSubtitle
+%   Useful to add RCS version to the title as follows:
+%   \defRCSRevision{$Revision: 2.1 $}
+%   \CMPSubtitle{(Version \RCSRevision)} 
+%
+% \author{Authors, possibly separated by an \and}
+%
+% \CMPAdvisor{Advisors, separated by an \and}
+%   Useful only in phdthesis and mscthesis coverpage styles.
+%   In phdthesis and mscthesis prints 'Thesis Advisor:'
+%     otherwise it prints 'Supervisor:'
+%
+% \date{date, eg \today }
+%
+% \CMPAffiliation{
+%   Affiliation of authors if not from CMP, possibly separated by \and.}
+%   Dags etc. must be handled explicitely by you. USE ONLY WHEN NECESSARY.
+%
+% \CMPAcknowledgement{Acknowledgement text.} 
+%  You may use \em or \emph to emphasize text in this field.
+%
+% \CMPAuthor{Cover page authors} use only when different from \author
+%
+% \CMPCopyright{copyright notice including reference} 
+%  You may use \em or \emph to emphasize text in this field.
+%
+% \CMPCoverpage{style}
+%   Includes the specified style coverpage into the document.
+%
+% \CMPDocumentURL{The URL an electronic version of the document}
+%
+% \CMPEmail{Emails of the authors, possibly separated by \and}
+%
+% \CMPReference{Reference to the publication (citation).}
+%  You may use \em or \emph to emphasize text in this field.
+%
+% \CMPReportNo{Number of Technical Report. Consult with CMP administrator}
+%
+% \CMPTitle{Cover page title)   use only when different from \title
+%
+% \NoCMPTitlePageText prints just empty frame without any text
+% 
+% \title{Title text}
+%
+%
+%-----------------------------------------------------------------------------
+
+ %
+%% Some auxiliary macros 1: % VZ 08-12-30
+ %
+\def\ifFSelse#1#2#3{% 1-cover style 2-true 3-false
+  %\message{ <<<<\FS>>>> }%
+  \def\coverstyle{#1}%
+  %\ifx\FS\coverstyle\expandafter#2\else\expandafter#3\fi
+  \ifx\FS\coverstyle\def\next{#2}\else\def\next{#3}\fi\next
+}
+\def\ifFS#1#2{\ifFSelse{#1}{#2}{}}%    1-cover style 2-true
+\def\ifFSnot#1#2{\ifFSelse{#1}{}{#2}}% 1-cover style 2-false
+
+\newif\ifPDF@ \PDF@false
+\ifx\pdfoutput\undefined\else\ifnum\pdfoutput>0 \expandafter\PDF@true\fi\fi
+
+\RequirePackage{url}
+\RequirePackage{color}
+\RequirePackage{graphicx}
+
+
+\def\@PSFrameTopSkip{8truemm}            % Additional space from the top
+\def\@PSFrameLeftMargin{18truemm}        % Additional space from the left
+
+\def\SideBarWidth{39truemm}
+\def\CMPLogoWidth{36truemm}
+\def\CVUTLogoWidth{30truemm}
+\def\MainMirrorWidth{136truemm}
+\def\@MirrorTopSkip{1.5truemm}           % top skip within the frame
+
+\def\CMPBoxSize{12truemm}
+
+\def\MainMirrorHeight{271truemm}
+\def\LogoSkip{3.5truemm}
+\def\CMPLogoHeight{32truemm}
+\def\CVUTLogoHeight{37truemm} 
+\def\BoxRule{1truemm}
+\newlength{\MainMirrorHeightPlus}
+\setlength{\MainMirrorHeightPlus}{\MainMirrorHeight}
+\addtolength{\MainMirrorHeightPlus}{\BoxRule}
+\newlength\SideBarHeight
+\setlength{\SideBarHeight}{\MainMirrorHeightPlus}
+\addtolength{\SideBarHeight}{-\CMPLogoHeight}
+\addtolength{\SideBarHeight}{-\CVUTLogoHeight}
+\addtolength{\SideBarHeight}{-\LogoSkip}
+\def\BarWindowSep{4truemm}
+
+
+\def\@TitleWidth{120truemm}              % title box width
+\def\@SubtitleWidth{110truemm}           % subtitle box width
+\def\@TitleHeight{43.5truemm}            % title box height
+\def\@TitleHeight{41.7truemm}            % title box height
+\def\@AuthorWidth{100truemm}             % author box width
+\def\@EmailWidth{\@TitleWidth}       % e-mail box width
+\def\@AffiliationWidth{\@TitleWidth} % affiliation box width (as wide as possible)
+\def\@ReportNoWidth{\@AuthorWidth}   % report number box width
+\def\@DateWidth{\@AuthorWidth}       % date box width
+\def\@CopyrightWidth{104truemm}          % copyright box width
+\def\@ConfidentialWidth{100truemm}       % CONFIDENTIAL note box width
+\def\@URLWidth{135truemm}                % FTP box width
+\def\@AdvisorWidth{100truemm}            % advisor name box width
+\def\@AcknowledgementWidth{\@CopyrightWidth} % acknowledgement box width
+\def\@ReferenceWidth{\@CopyrightWidth}       % reference box width
+\def\@AddressWidth{135truemm}            % CMP address box width
+
+\def\@TitleSkip{10.5truemm}              % skip before title
+\def\@SubtitleSkip{3truemm}              % skip before subtitle
+\def\@AuthorSkip{6.2truemm}              % skip before author
+\def\@EmailSkip{5truemm}                 % skip before email address
+\def\@AffiliationSkip{5truemm}           % skip before affiliation
+\def\@ReportNoSkip{10truemm}             % skip before report number
+\def\@DateSkip{6truemm}                  % skip before date
+\def\@URLSkip{6truemm}                   % skip after URL
+\def\@CopyrightSkip{6truemm}             % skip after copyright
+\def\@ConfidentialSkip{10truemm}         % skip after confidential
+\def\@AdvisorSkip{4.5truemm}             % skip after advisor's name
+\def\@AcknowledgementSkip{6truemm}       % skip after acknowledgement
+\def\@ReferenceSkip{\@CopyrightSkip}     % skip after reference
+\def\@AddressSkip{5.5truemm}             % skip after address
+
+
+  %
+ %% Layout control
+  %
+
+\newif\ifDoPrint@
+\newif\ifDoItConfidential@
+\newif\ifSuppressed@
+\newif\ifISSN@
+
+\DoPrint@true  % the text is printed unless suppressed by \NoCMPTitlePageText 
+\DoItConfidential@false
+\Suppressed@false % this is for backward compatibility functionality
+\ISSN@true % print ISSN in rreport and areport unless requested otherwise
+
+
+  %
+ %% Font definitions for the title page
+  %
+
+\def\@TitleFont{%
+ \@sffamily\upshape
+ \fontsize{24.88}{29pt}\selectfont}
+
+\def\@SubtitleFont{%
+ \@sffamily\upshape
+ \fontsize{17.28}{20pt}\selectfont}
+
+\def\@AuthorFont{%
+ \@rmfamily\upshape
+ \fontsize{14}{16pt}\selectfont
+ \def\and{\\[0.5ex]}}
+
+\def\@EmailFont{%
+ \@rmfamily\upshape
+ \fontsize{10}{12pt}\selectfont}
+
+\def\@AffiliationFont{%
+ \@rmfamily\upshape
+ \let\em=\@itshape
+ \fontsize{10}{12pt}\selectfont}
+
+\def\@ReportNoFont{%
+ \@rmfamily\upshape
+ \fontsize{14}{16pt}\selectfont}
+
+\def\@ReportNoFontSmall{%
+ \@rmfamily\upshape
+ \fontsize{12}{18pt}\selectfont}
+
+\def\@DateFont{%
+ \@rmfamily\upshape
+ \fontsize{14}{16pt}\selectfont}
+
+\def\@CopyrightFont{%
+ \@rmfamily\upshape
+ \let\em=\@itshape
+ \fontsize{10}{11pt}\selectfont}
+
+\def\@ConfidentialFont{%
+ \@sffamily\upshape
+ \fontsize{14}{16pt}\selectfont} % \fontsize{24.88}{30pt}\selectfont}
+
+\def\@ReferenceFont{%
+ \@rmfamily\upshape
+ \let\em=\@itshape
+ \fontsize{10}{12pt}\selectfont}
+
+\def\@AddressFont{%
+ \@rmfamily\upshape
+ \fontsize{10}{12pt}\selectfont}
+
+\def\@SerialTitleFont{%
+ \@sffamily\upshape\@bfseries
+ \fontsize{10}{12pt}\selectfont}
+
+\def\@AcknowledgementFont{%
+ \@rmfamily\upshape
+ \let\em=\@itshape
+ \fontsize{10}{12pt}\selectfont}
+
+\def\@URLFont{%
+ \@rmfamily\upshape
+ \fontsize{10}{12pt}\selectfont}
+
+\def\@URLFilenameFont{%
+ \def\UrlNoBreaks{\do\(\do\[\do\{\do\:\do\.}%
+ \@rmfamily\upshape
+ \fontsize{10}{11pt}\selectfont}
+
+\def\@AdvisorFont{%
+ \@rmfamily\upshape\@bfseries
+ \fontsize{10}{12pt}\selectfont
+ \def\and{,\hspace{0.5em plus 0.2em minus 0.1em}}}
+
+\def\@BarFont{%
+ \@sffamily\upshape
+ \fontsize{24.88}{29truept}\selectfont}
+
+\def\@ISSNFont{%
+ \@sffamily\upshape
+ \fontsize{10}{12truept}\selectfont}
+
+\def\@LogoFont{%
+ \@sffamily\upshape
+ \fontsize{9}{11truept}\selectfont
+}
+
+\definecolor{cmporange}{rgb}{1,0.4,0}
+\definecolor{cmpgray}{gray}{0.7}
+
+\def\CMPLogo{\vbox to \CMPLogoHeight{%
+ \hbox to \SideBarWidth{\hfil\includegraphics[width=\CMPLogoWidth]{cmp}\hfil}%
+ \hbox to \SideBarWidth{\@LogoFont\hfil CENTER FOR\hfil}%
+ \hbox to \SideBarWidth{\@LogoFont\hfil MACHINE PERCEPTION\hfil}\vss}}
+
+\def\CVUTLogo{\vbox to \CVUTLogoHeight{%
+ \hbox to \SideBarWidth{\hfil\includegraphics[width=\CVUTLogoWidth]{lev}\hfil}%
+ \hbox to \SideBarWidth{\@LogoFont\hfil CZECH TECHNICAL\hfil}%
+% \hbox to \SideBarWidth{\@LogoFont\hfil UNIVERSITY\hfil}\vss}}
+ \hbox to \SideBarWidth{\@LogoFont\hfil UNIVERSITY IN PRAGUE\hfil}\vss}}
+
+\def\CMPRect{\colorbox{cmporange}{%
+  \hbox to \CMPBoxSize{\vbox to \CMPBoxSize{\relax}\hss}}}
+
+\def\@makeISSN{\ifISSN@\hfill%
+\rotatebox{90}{\hspace{0.5truecm}\@ISSNFont ISSN 1213-2365}\hspace{2truemm}\fi}
+\def\@SideNote{}
+
+\def\SideBar{\colorbox{cmpgray}{\textcolor{white}{%
+ \vbox to \SideBarHeight{\vfill\hbox to\SideBarWidth{%
+  \rotatebox{90}{\CMPRect\hspace{0.5truecm}\@BarFont\@SideBarText\hss}%
+  \@SideNote\hss}\vss}}}}
+
+%\def\Frame{\fcolorbox{cmpgray}{white}{%
+% \vbox to \MainMirrorHeight{\hbox to \MainMirrorWidth{aa\hss}\vss}}}
+
+\def\Frame{\textcolor{cmpgray}{\fbox{%
+ \vbox to \MainMirrorHeight{%
+  \hbox to \MainMirrorWidth{%
+   \textcolor{black}{\ifDoPrint@\@dotext\fi}\hss}\vss}}}}
+
+
+
+ %
+%% Address
+ %
+
+\def\@Editor{%
+{\@SerialTitleFont%
+  Research Reports of CMP, Czech Technical University in Prague,
+  \WriteCMPReportNo}\\[1.1ex]
+  %Series Editor: Ond\v{r}ej Drbohlav\\[1.1ex]
+  Published by\\[1.1ex]}
+
+%\ifx\dateczech\undefined
+\iflanguage{english}{
+\def\@Address{%
+  Center for Machine Perception, Department of Cybernetics\\
+  Faculty of Electrical Engineering, Czech Technical University\\
+  Technick\'a 2, 166\,27 Prague~6, Czech Republic\\
+ %Karlovo n\'am\v{e}st\'\i \ 13, 121\,35 Prague 2, Czech Republic\\
+  fax +420\,2\,2435\,7385, phone +420\,2\,2435\,7637,
+  www: http://cmp.felk.cvut.cz}
+\def\@PublishedAlso{Published also as:}
+\def\@Available{Available at}
+\def\@Confidential{CONFIDENTIAL}
+\def\@Supervised{Supervisor:}
+\def\@Advised{Thesis Advisor:}
+\def\@rreportT{RESEARCH REPORT}
+\def\@areportT{ACTIVITY REPORT}
+\def\@phdthesisT{PhD THESIS}
+\def\@mscthesisT{MASTER'S THESIS}
+\def\@bscthesisT{BACHELOR THESIS}
+\def\@reprintT{REPRINT}
+%\else
+}{
+\def\@Address{%
+  Centrum strojov\'eho vn{\'\i}m\'an{\'\i}, Katedra kybernetiky\\
+  Fakulta elektrotechnick\'a \v{C}VUT\\
+  Technick\'a 2, 166\,27 Praha~6\\
+%  Karlovo n\'am\v{e}st\'\i\ 13, 121\,35 Praha~2\\
+  fax: (02)\,2435\,7385, tel: (02)\,2435\,7637,
+  www: http://cmp.felk.cvut.cz}
+\def\@PublishedAlso{Vy\v{s}lo t\'e\v{z} jako:}
+\def\@Available{Lze z{\'\i}skat na}
+\def\@Confidential{NEVE\v REJN\'A PUBLIKACE}
+\def\@Supervised{\ifFSelse{mscthesis}{Vedouc\'\i}{\v{S}kolitel}:}
+\let\@Advised=\@Supervised
+\def\@rreportT{V\'YZKUMN\'A ZPR\'AVA}
+\def\@areportT{V\'YRO\v{C}N{\'I} ZPR\'AVA}
+\def\@phdthesisT{DOKTORSK\'A DIZERTACE}
+\def\@mscthesisT{DIPLOMOVÁ PRÁCE}
+\def\@bscthesisT{BAKAL\'A\v RSK\'A PRÁCE}
+\def\@reprintT{P\v{R}ETISK}
+%\fi
+}
+
+
+ %
+%% Some auxiliary macros 2:
+ %
+
+%\def\ifdef#1#2{\ifx#1\undefined\relax\else#2\fi}
+
+\def\@mainbox#1#2#3{\hbox to #1{\vbox to #2{#3\vss}\hss}}
+
+\def\@dotext{\@mainbox{\MainMirrorWidth}{\MainMirrorHeight}{\vspace{\@MirrorTopSkip}\@contents}}
+
+\def\@hpbox#1#2{{\hbox to \MainMirrorWidth{\hfil\hbox{\parbox{#1}{#2}}\hfil}}}
+
+\def\@printField#1#2{% \@printField{field abbrv}{full field name}
+\def\status{undefined}
+\expandafter\ifx\csname stat@#1\endcsname\status% is it undefined?
+ \PackageWarning{cmpcover}{The #2 field is undefined}
+\fi
+\def\status{mandatory}
+\expandafter\ifx\csname stat@#1\endcsname\status% is it mandatory?
+ \expandafter\ifx\csname @#1\endcsname\relax
+  \PackageError{cmpcover}{The #2 field is missing}{See documentation}
+ \else
+  \csname @Do#1\endcsname
+ \fi
+\fi
+\def\status{optional}
+\expandafter\ifx\csname stat@#1\endcsname\status% is it optional?
+ \expandafter\ifx\csname @#1\endcsname\relax\relax\else % exists? 
+  \csname @Do#1\endcsname
+ \fi
+\fi
+\def\status{recommended}
+\expandafter\ifx\csname stat@#1\endcsname\status% is it recommended?
+ \expandafter\ifx\csname @#1\endcsname\relax
+  \PackageWarning{cmpcover}{The #2 field is reccomended}
+ \else
+  \csname @Do#1\endcsname
+ \fi
+\fi
+\def\status{ignored}
+\expandafter\ifx\csname stat@#1\endcsname\status% is it ignored?
+ \expandafter\ifx\csname @#1\endcsname\relax\relax\relax\else % exists? 
+  \PackageWarning{cmpcover}{The #2 field is ignored}
+ \fi
+\fi}
+
+
+ % The CMP report number parser, by V. Zyka, Jan 4, 2001
+\newcounter{@cmpnonumber}
+
+%\def\and{\ and\ }
+%\catcode`\|=0 \catcode`\\=12
+%  |newhelp|helpNoReportNo{The proper syntax of CMPReportNo is
+%     "CTU--CMP--<yyyy>--<nn> \and CAK--340--03--1--<yyyy>--<nn>".}
+%|catcode`|\=0 \catcode`\|=12
+\def\noendspace#1 #2\endSp{#1}
+\def\ExtractCMPReportNo@#1CMP--#2--#3\and#4\endNo{%
+  \edef\tmp{#3#2}\ifx\tmp\empty%
+%  \errhelp=\helpNoReportNo%
+% \errmessage{No CMP report number or bad its syntax: \@ReportNo}%
+  \else 
+  % the trick with the counter is to suppress leading zero(s)
+  No.\ \setcounter{@cmpnonumber}{\noendspace#3 \endSp}\the@cmpnonumber, #2\fi}
+\def\WriteCMPReportNo{\expandafter\ExtractCMPReportNo@\@ReportNo%
+  \and CMP----\and\endNo}
+
+
+\def\checkCMPReportNo@#1CMP--#2--#3\and#4\endNo{%
+  \edef\tmp{#3#2}%
+  \ifx\tmp\empty%
+    \PackageWarning{cmpcover}{No CMP report number or wrong syntax: \@ReportNo}%
+    \message{ <ISSN off because of wrong CMP number> }\ISSN@false%
+  \else%
+    \message{ <CMP Report No. \noendspace#3 \endSp, #2> }%
+  \fi}
+\def\CheckCMPReportNo{%
+  \ifISSN@\expandafter\checkCMPReportNo@\@ReportNo\and CMP----\and\endNo
+  \else\message{ <ISSN off> }%
+  \fi}
+
+%  Bugs: fails for \CMPReportNo{CTU--CMP--2000-22}
+
+ %
+%% Revision number under RCS, by V. Zyka
+ %
+{
+\catcode`\$=9
+\gdef\defRCSRevision{\bgroup \catcode`\ =9\catcode`\$=9\catcode`\:=10 \@defrev}
+\gdef\@defrev#1{\gdef\RCSRevision{\@removeRev#1}\egroup}
+}
+\def\@removeRev Revision{\ignorespaces}
+\def\RCSRevision{}
+
+
+ %
+%% Cover page layout
+ %
+\def\@DoCMPTitle{%
+  \vskip\@TitleSkip
+  \@hpbox{\@TitleWidth}{\vbox to\@TitleHeight{%
+    \centering\vfill\@TitleFont\@CMPTitle}}}
+
+\def\@DoCMPSubtitle{%
+  \vskip\@SubtitleSkip
+  \@hpbox{\@SubtitleWidth}{\centering\@SubtitleFont\@CMPSubtitle}}
+
+%\def\@makeNo{N\hskip-.2ex\raisebox{.7ex}{$\circ$}%
+%  \hskip-0.9ex\raisebox{-0.1ex}{-}\hskip0.5em}
+\def\@makeNo{}
+
+\def\@DoReportNo{%
+  \vskip\@ReportNoSkip%
+  \def\and{\def\and{,\ }\\\@ReportNoFontSmall\@PublishedAlso~}%
+  \@hpbox{\@ReportNoWidth}{\centering\@ReportNoFont\@makeNo\@ReportNo}}
+
+\def\@DoCMPAuthor{%
+  \vskip\@AuthorSkip
+  \@hpbox{\@AuthorWidth}{\centering\@AuthorFont\@CMPAuthor}}
+
+\def\@DoEmail{%
+  \vskip\@EmailSkip
+  \def\and{\quad}
+  \@hpbox{\@EmailWidth}{\centering\@EmailFont\@Email}}
+
+\def\@DoAffiliation{%
+  \vskip\@AffiliationSkip
+  \@hpbox{\@AffiliationWidth}{\centering\@AffiliationFont\@Affiliation}}
+
+\def\@DoDate{%
+  \vskip\@DateSkip
+  \@hpbox{\@DateWidth}{\centering\@DateFont\@Date}}
+
+\def\@DoConfidentialLabel{%
+  \@hpbox{\@ConfidentialWidth}{\centering%
+   {\@ConfidentialFont\textcolor{red}{\@Confidential}}}
+ \vskip\@ConfidentialSkip}
+
+\def\@DoReference{%
+  \@hpbox{\@ReferenceWidth}{\@ReferenceFont\@Reference}
+  \vskip\@ReferenceSkip}
+
+\def\@DoftpFilename{%
+  \@hpbox{\@URLWidth}{\centering\def\UrlFont{}\@URLFont%\Url@do
+    \@Available\break\@URLFilenameFont\@ftpFilename}
+  \vskip\@URLSkip}
+
+\def\@DoCopyright{%
+  \@hpbox{\@CopyrightWidth}{\@CopyrightFont\@Copyright}
+  \vskip\@CopyrightSkip}
+
+\def\@DoCMPAdvisor{%
+ \@hpbox{\@AdvisorWidth}{%
+   \centering\@AdvisorFont%
+   \@SupAdv\hspace{0.5em plus 0.1em minus 0.1em}\@CMPAdvisor}
+ \vskip\@AdvisorSkip}
+
+\def\@DoAcknowledgement{%
+  \@hpbox{\@AcknowledgementWidth}{\@AcknowledgementFont\@Acknowledgement}
+  \vskip\@AcknowledgementSkip}
+
+\def\@contents{%
+  %%
+   % This is the cover page contents
+   %
+  %% The following material begins at the page top and goes down
+   %
+  %% title
+   %
+  \ifx\@CMPTitle\undefined\let\@CMPTitle=\@title\fi
+  \@printField{CMPTitle}{Document title}
+   %
+  %% subtitle
+   %
+  \@printField{CMPSubtitle}{Document subtitle}
+   %
+  %% author
+   %
+  \ifx\@CMPAuthor\undefined\let\@CMPAuthor=\@author\fi
+  \@printField{CMPAuthor}{Author name}
+   %
+  %% email
+   %
+  \@printField{Email}{E-mail address}
+  %
+ %% author affiliation
+  %
+  \@printField{Affiliation}{Author(s) affiliation}
+  %
+ %% report number
+  %
+ \@printField{ReportNo}{Report number}
+  %
+ %% date
+  %
+ \def\coverstyle{reprint}
+ \ifx\FS\coverstyle\else\let\@Date=\@date\fi % to avoid the warning in reprint
+ \@printField{Date}{Date}
+  %
+ \vfill
+  %
+  %% The following material will be flushed bottom
+  %
+ %% Confidential
+  %
+ \ifDoItConfidential@\def\@ConfidentialLabel{}\fi
+ \@printField{ConfidentialLabel}{Confidential}
+  %
+ %% Reference 
+  %
+ \@printField{Reference}{Reference}
+  %
+ %% Copyright 
+  %
+ \@printField{Copyright}{Copyright}
+  %
+ %% ftp file
+  %
+ \ifDoItConfidential@\else
+  \@printField{ftpFilename}{FTP filename}
+ \fi
+  %
+ %% advisor
+  %
+ \def\coverstyle{rreport}
+ \ifx\FS\coverstyle\let\@SupAdv=\@Supervised\else\let\@SupAdv=\@Advised\fi
+ \@printField{CMPAdvisor}{Advisor}
+  %
+  %
+ %% acknowledgement
+  %
+ \@printField{Acknowledgement}{Acknowledgement}
+  %
+ %% address
+  %
+ \@hpbox{\@AddressWidth}{\centering\@AddressFont%
+   \ifISSN@\@doEditor\fi\@Address}
+ \vskip\@AddressSkip}
+
+\def\@SideBarText{}
+\def\NoCMPTitlePageText{\DoPrint@false}
+\def\FrameStyle#1{%
+  \gdef\@FrameFilename{\CMPTitlePath#1}
+  \gdef\@Mandatory{}
+  \gdef\@Optional{}
+  \gdef\@Recommended{}
+  \gdef\@Ignored{}
+  \gdef\stat@CMPTitle{mandatory}  % these two are 
+  \gdef\stat@CMPAuthor{mandatory} % always mandatory!
+  \gdef\stat@Email{undefined}
+  \gdef\stat@ReportNo{undefined}
+  \gdef\stat@Affiliation{undefined}
+  \gdef\stat@Date{undefined}
+  \gdef\stat@ConfidentialLabel{undefined}
+  \gdef\stat@Reference{undefined}
+  \gdef\stat@ftpFilename{undefined}
+  \gdef\stat@Copyright{undefined}
+  \gdef\stat@CMPAdvisor{undefined}
+  \gdef\stat@Acknowledgement{undefined}
+  \gdef\stat@CMPSubtitle{optional} % always optional
+  \gdef\@SideBarText{}
+  \gdef\@SideNote{\relax}
+  \gdef\@doEditor{\relax}
+  \def\FS{#1}
+  \def\coverstyle{rreport}
+  \ifx\FS\coverstyle%
+   \def\styleok{}
+   \Suppressed@false
+   \gdef\@SideNote{\@makeISSN}
+   \gdef\@doEditor{\@Editor}
+   \gdef\@SideBarText{\@rreportT}
+   \gdef\stat@ReportNo{mandatory}
+   \gdef\stat@Affiliation{optional}
+   \gdef\stat@Email{recommended}
+   \gdef\stat@Date{recommended}
+   \gdef\stat@ConfidentialLabel{optional}
+   \gdef\stat@Reference{ignored}
+   \gdef\stat@ftpFilename{recommended}
+   \gdef\stat@Copyright{ignored}
+   \gdef\stat@CMPAdvisor{optional}
+   \gdef\stat@Acknowledgement{mandatory}
+  \fi
+  \def\coverstyle{areport}
+  \ifx\FS\coverstyle
+   \def\styleok{}
+   \Suppressed@false
+   \gdef\@SideNote{\@makeISSN}
+   \gdef\@doEditor{\@Editor}
+   \gdef\@SideBarText{\@areportT}
+   \gdef\stat@ReportNo{mandatory}
+   \gdef\stat@Affiliation{ignored}
+   \gdef\stat@Email{recommended}
+   \gdef\stat@Date{recommended}
+   \gdef\stat@ConfidentialLabel{ignored}
+   \gdef\stat@Reference{ignored}
+   \gdef\stat@ftpFilename{mandatory}
+   \gdef\stat@Copyright{ignored}
+   \gdef\stat@CMPAdvisor{ignored}
+   \gdef\stat@Acknowledgement{ignored}
+  \fi
+  \def\coverstyle{reprint}
+  \ifx\FS\coverstyle
+   \def\styleok{}
+   \Suppressed@false
+   \gdef\@SideBarText{\@reprintT}
+   \gdef\stat@ReportNo{ignored}
+   \gdef\stat@Affiliation{optional}
+   \gdef\stat@Email{recommended}
+   \gdef\stat@Date{ignored}
+   \gdef\stat@ConfidentialLabel{ignored}
+   \gdef\stat@Reference{optional}
+   \gdef\stat@ftpFilename{optional}
+   \gdef\stat@Copyright{optional}
+   \gdef\stat@CMPAdvisor{ignored}
+   \gdef\stat@Acknowledgement{ignored}
+  \fi
+  \def\coverstyle{phdthesis}
+  \ifx\FS\coverstyle
+   \def\styleok{}
+   \Suppressed@false
+   \gdef\@SideNote{\@makeISSN}
+   \gdef\@doEditor{\@Editor}
+   \gdef\@SideBarText{\@phdthesisT}
+   \gdef\stat@ReportNo{mandatory}
+   \gdef\stat@Affiliation{ignored}
+   \gdef\stat@Email{recommended}
+   \gdef\stat@Date{recommended}
+   \gdef\stat@ConfidentialLabel{ignored}
+   \gdef\stat@Reference{ignored}
+   \gdef\stat@ftpFilename{recommended}
+   \gdef\stat@Copyright{ignored}
+   \gdef\stat@CMPAdvisor{mandatory}
+   \gdef\stat@Acknowledgement{mandatory}
+  \fi
+  \def\coverstyle{mscthesis}
+  \ifx\FS\coverstyle
+   \def\styleok{}
+   \Suppressed@false
+   \gdef\@SideNote{\@makeISSN}
+   \gdef\@SideNote{\@makeISSN}
+   \gdef\@doEditor{\@Editor}
+   \gdef\@SideBarText{\@mscthesisT}
+   \gdef\stat@ReportNo{mandatory}
+   \gdef\stat@Affiliation{ignored}
+   \gdef\stat@Email{recommended}
+   \gdef\stat@Date{recommended}
+   \gdef\stat@ConfidentialLabel{ignored}
+   \gdef\stat@Reference{ignored}
+   \gdef\stat@ftpFilename{recommended}
+   \gdef\stat@Copyright{ignored}
+   \gdef\stat@CMPAdvisor{mandatory}
+   \gdef\stat@Acknowledgement{mandatory}
+  \fi
+  \def\coverstyle{bscthesis}
+  \ifx\FS\coverstyle
+   \def\styleok{}
+   \Suppressed@false
+   \gdef\@SideNote{\@makeISSN}
+   \gdef\@SideNote{\@makeISSN}
+   \gdef\@doEditor{\@Editor}
+   \gdef\@SideBarText{\@bscthesisT}
+   \gdef\stat@ReportNo{mandatory}
+   \gdef\stat@Affiliation{ignored}
+   \gdef\stat@Email{recommended}
+   \gdef\stat@Date{recommended}
+   \gdef\stat@ConfidentialLabel{ignored}
+   \gdef\stat@Reference{ignored}
+   \gdef\stat@ftpFilename{recommended}
+   \gdef\stat@Copyright{ignored}
+   \gdef\stat@CMPAdvisor{mandatory}
+   \gdef\stat@Acknowledgement{mandatory}
+  \fi
+
+  \def\coverstyle{misc}
+  \ifx\FS\coverstyle
+   \def\styleok{}
+   \Suppressed@false
+   \gdef\stat@ReportNo{ignored}
+   \gdef\stat@Affiliation{optional}
+   \gdef\stat@Email{optional}
+   \gdef\stat@Date{optional}
+   \gdef\stat@ConfidentialLabel{optional}
+   \gdef\stat@Reference{optional}
+   \gdef\stat@ftpFilename{optional}
+   \gdef\stat@Copyright{optional}
+   \gdef\stat@CMPAdvisor{optional}
+   \gdef\stat@Acknowledgement{optional}
+  \fi
+  \def\coverstyle{empty}
+  \def\styleok{}
+  \ifx\FS\coverstyle
+  \Suppressed@true
+  \fi
+  \ifx\styleok\undefined
+   \PackageError{cmpcover}{Unknown cover page style #1}{See documentation}
+  \fi
+}
+
+\def\CMPAffiliation#1{\gdef\@Affiliation{#1}}
+\def\CMPReportNo#1{\gdef\@ReportNo{#1}\CheckCMPReportNo}
+\def\CMPEmail#1{\gdef\@Email{#1}}
+\def\CMPDocumentURL#1{\gdef\@ftpFilename{{\begingroup \Url{#1}}}}
+%\def\Date#1{\gdef\@Date{#1}}
+\def\CMPAcknowledgement#1{\gdef\@Acknowledgement{#1}}
+\def\CMPTitle#1{\gdef\@CMPTitle{#1}}
+\def\CMPSubtitle#1{\gdef\@CMPSubtitle{#1}}
+\def\CMPAuthor#1{\gdef\@CMPAuthor{#1}}
+\def\CMPAdvisor#1{\gdef\@CMPAdvisor{#1}}
+\def\CMPReference#1{\gdef\@Reference{#1}}
+\def\CMPCopyright#1{\gdef\@Copyright{#1}}
+\def\CMPSideBarText#1{}
+\def\CMPConfidential{%
+\PackageWarning{cmpcover}{CMPConfidential command is obsolete, use
+  package option `confidential'}\DoItConfidential@true\ISSN@false}
+
+\def\makeframe{%
+\ifDoPrint@
+\ifSuppressed@
+\else%
+\newpage
+\begingroup
+\let\@sffamily=\sffamily
+\let\@rmfamily=\rmfamily
+\let\@itshape=\itshape
+\let\@bfseries=\bfseries
+\let\@em=\em
+\def\tt{}\def\it{}\def\em{}\def\rm{}\def\sf{}%
+\def\upshape{}\def\itshape{}\def\slshape{}\def\scshape{}%
+\def\mdseries{}\def\bfseries{}\def\rmfamily{}\def\sffamily{}\def\ttfamily{}%
+\def\textup{}%
+\def\tiny{}\def\scriptsize{}\def\footnotesize{}\def\small{}%
+\def\normalsize{}\def\large{}\def\Large{}\def\LARGE{}\def\huge{}\def\Huge{}%
+\parskip0pt
+\parindent0pt
+\fboxsep0pt
+\fboxrule=\BoxRule
+\pagestyle{empty}%
+\topmargin-1truein
+\oddsidemargin=-1truein
+\evensidemargin=\oddsidemargin
+%\ifx\pdfhorigin\undefined\else%
+%\addtolength{\oddsidemargin}{-\pdfhorigin}
+%\addtolength{\topmargin}{-\pdfvorigin}
+%\pdfhorigin0pt
+%\pdfvorigin0pt
+%\fi%
+\voffset0pt
+\headheight0pt
+\headsep0pt
+\topskip=\@PSFrameTopSkip
+\hoffset=\@PSFrameLeftMargin
+\hbox to 0pt{\vbox to 0pt{%
+ \vspace*{\LogoSkip}%
+ \hbox{\CMPLogo\hss}%
+ \hbox{\CVUTLogo\hss}%
+ \hbox{\SideBar}\vss%
+ }\hspace{\BarWindowSep}%
+\vbox to 0pt{\hbox{\Frame}\vss}\hss}%
+\if@twoside\cleardoublepage\else\clearpage\fi%
+\setcounter{page}{1}%
+\endgroup\fi\fi}
+
+ % Backward compatibility
+\def\@CMPCompat{\PackageWarning{cmpcover}{CMPCoverpage command is obsolete}}
+\def\CMPCoverpage#1{\Suppressed@false\FrameStyle{#1}\makeframe\@CMPCompat}
+\FrameStyle{empty}
+
+ % Provide the package
+\DeclareOption{empty}{\FrameStyle{empty}}
+\DeclareOption{rreport}{\FrameStyle{rreport}}
+\DeclareOption{areport}{\FrameStyle{areport}}
+\DeclareOption{reprint}{\FrameStyle{reprint}}
+\DeclareOption{phdthesis}{\FrameStyle{phdthesis}}
+\DeclareOption{mscthesis}{\FrameStyle{mscthesis}}
+\DeclareOption{bscthesis}{\FrameStyle{bscthesis}}
+\DeclareOption{misc}{
+ \FrameStyle{misc}
+ \gdef\CMPSideBarText#1{\gdef\@SideBarText{#1}}}
+\DeclareOption{confidential}{\DoItConfidential@true\ISSN@false}
+\DeclareOption{noissn}{\ISSN@false}
+
+\ProcessOptions*
+
+\AtBeginDocument{\makeframe}
+%\ProvidesPackage{cmpcover}[2001/1/10 ver 2.2 CMP Cover Page]
+\ProvidesPackage{cmpcover}[2005/3/28 ver 3.0 CMP Cover Page]
+
+% end of cmpcover

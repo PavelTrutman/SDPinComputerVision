@@ -1,0 +1,98 @@
+% Document: Bachelor Thesis: Minimal Problem Solver Generator
+% Author: Pavel Trutman
+
+\documentclass[msc]{cmpthesis}
+\usepackage[czech,english]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{indentfirst}
+\usepackage{enumitem}
+\usepackage{textcomp}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{forloop}
+
+\usepackage{subcaption}
+\usepackage{pdflscape}
+\usepackage{multirow}
+\usepackage{dirtree}
+
+% for better verbatim environment
+\usepackage{fancyvrb}
+
+% to inlucude pdf pages
+\usepackage{pdfpages}
+
+% list of symbols and abbreviations
+\usepackage[acronym,nonumberlist,style=long,sort=def]{glossaries}
+\setlength{\glsdescwidth}{0.6\linewidth}
+\setlength{\glspagelistwidth}{0.4\linewidth}
+\renewcommand*{\glsgroupskip}{}
+\newcommand{\Acronym}[2]{\newacronym{#1}{#1}{#2}}
+\input{acronyms}
+\makeglossaries
+
+% algorithmic macros and settings
+\newcounter{counter}
+\renewcommand{\algorithmicrequire}{\textbf{Input:}}
+\renewcommand{\algorithmicensure}{\textbf{Output:}}
+\algdef{S}[IF]{IfML}[1]{\algorithmicif\ #1}
+\newcommand{\StatexIndent}[1][1]{
+  \Statex\forloop{counter}{0}{\value{counter} < #1}{\hskip\algorithmicindent\hskip-0.25em}
+}
+
+\startThesisInfo
+\title{Semidefinite Programming for Geometric Problems in Computer Vision}
+\author{Pavel Trutman}
+\CMPAdvisor{Ing. Tom\'a\v s Pajdla, PhD.}
+\CMPReportNo{}
+\CMPAcknowledgement{\centering }
+
+\CMPEmail{pavel.trutman@fel.cvut.cz}
+\CMPDocumentURL{http://cmp.felk.cvut.cz/~trutmpav/master-thesis/thesis/thesis.pdf}
+\stopThesisInfo
+
+% ============================== your definitions (abbreviations etc.)
+\DeclareMathOperator{\lcm}{lcm}
+\DeclareMathOperator{\LM}{LM}
+
+\setitemize{noitemsep,topsep=0.2cm,parsep=0.2cm,partopsep=0pt,leftmargin=1cm}
+\setenumerate{noitemsep,topsep=0.2cm,parsep=0.2cm,partopsep=0pt,leftmargin=1cm}
+
+% =========================================================== settings
+\graphicspath{{images/}}
+
+% ========================================================== text body
+\begin{document}
+
+\cleardoublepage\def\thepage{\roman{page}}\setcounter{page}{3}
+
+% thesis assignment as required by FEE, CTU
+%\includepdf[pages={1}]{pdfs/assignment-ENG.pdf}
+%\includepdf[pages={1}]{pdfs/assignment-CZE.pdf}
+
+\input{acknowledgement}
+\clearpage
+\input{declaration}
+\clearpage
+\input{abstract}
+\clearpage
+\cleardoublepage\def\thepage{\arabic{page}}\setcounter{page}{1}
+\tableofcontents\pagestyle{headings}
+\listofalgorithms
+
+\glsaddall
+\printglossary[type=acronym,title=List of Symbols and Abbreviations]
+
+\input{introduction.tex}
+
+\input{conclusion.tex}
+
+\appendix
+\input{CD.tex}
+
+\bibliographystyle{plain}
+\bibliography{citations}{}
+
+\end{document}
