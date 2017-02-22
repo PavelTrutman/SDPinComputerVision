@@ -11,6 +11,7 @@
 \usepackage{algpseudocode}
 \usepackage{amsmath}
 \usepackage{amssymb}
+\usepackage{amsthm}
 \usepackage{forloop}
 
 \usepackage{subcaption}
@@ -54,8 +55,13 @@
 \stopThesisInfo
 
 % ============================== your definitions (abbreviations etc.)
-\DeclareMathOperator{\lcm}{lcm}
-\DeclareMathOperator{\LM}{LM}
+\newcommand{\eqB}{\begin{eqnarray}}
+\newcommand{\eqE}{\end{eqnarray}}
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}[chapter]
+\newcommand{\R}{\mathbb{R}}
+\DeclareMathOperator{\Sym}{Sym}
+\DeclareMathOperator{\rank}{rank}
 
 \setitemize{noitemsep,topsep=0.2cm,parsep=0.2cm,partopsep=0pt,leftmargin=1cm}
 \setenumerate{noitemsep,topsep=0.2cm,parsep=0.2cm,partopsep=0pt,leftmargin=1cm}

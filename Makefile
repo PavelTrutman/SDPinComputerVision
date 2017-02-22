@@ -1,13 +1,19 @@
+SHELL:=/bin/bash -O extglob
+
 .PHONY: all pdf fast clean
 
 all: thesis.pdf
 
 pdf: thesis.pdf
 
-fast: thesis.tex abstract.tex acknowledgement.tex acronyms.tex CD.tex conclusion.tex declaration.tex introduction.tex cmpthesis.cls cmpcover.sty
+fast: thesis.tex abstract.tex acknowledgement.tex acronyms.tex CD.tex conclusion.tex declaration.tex introduction.tex SDP.tex cmpthesis.cls cmpcover.sty images/cmp.png images/lev.png
+	sed -i 's/\eqB/\begin{eqnarray}/g' !(thesis).tex
+	sed -i 's/\eqE/\end{eqnarray}/g' !(thesis).tex
 	pdflatex thesis.tex
 
-thesis.pdf: thesis.tex abstract.tex acknowledgement.tex acronyms.tex CD.tex conclusion.tex declaration.tex introduction.tex citations.bib cmpthesis.cls cmpcover.sty images/cmp.png images/lev.png
+thesis.pdf: thesis.tex abstract.tex acknowledgement.tex acronyms.tex CD.tex conclusion.tex declaration.tex introduction.tex SDP.tex citations.bib cmpthesis.cls cmpcover.sty images/cmp.png images/lev.png
+	sed -i 's/\eqB/\begin{eqnarray}/g' !(thesis).tex
+	sed -i 's/\eqE/\end{eqnarray}/g' !(thesis).tex
 	pdflatex thesis.tex
 	makeglossaries thesis
 	bibtex thesis
