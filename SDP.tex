@@ -1,0 +1,65 @@
+\chapter{Semidefinite programming}
+%TODO Some text about semidefinite programming ...
+
+\section{Preliminaries on semidefinite programs}
+We introduce here some notation and preliminaries about symmetric matrices and semidefinite programs.
+We will introduce further notation and preliminaries later on in the text when needed.
+
+At the beginning, let us denote the inner product for two vectors $x$, $y \in\R^n$.
+\begin{eqnarray}
+  \langle x, y\rangle &=& \sum_{i=1}^n x_iy_i
+\end{eqnarray}
+
+And the Frobenius inner product for two matrices $X$, $Y\in\R^{n\times m}$.
+\begin{eqnarray}
+  \langle X, Y\rangle &=& \sum_{i=1}^n \sum_{j=1}^m X_{ij}Y_{ij}
+\end{eqnarray}
+
+\subsection{Symmetric matrices}
+Let $\Sym_n$ denotes the space of $n\times n$ real symmetric matrices.
+
+For matrix $M\in\Sym_n$, the notation $M \succeq 0$ means that $M$ is positive semidefinite.
+$M \succeq 0$ if and only if any of the following equivalent properties holds.
+\begin{enumerate}
+  \item $x^\top Mx \geq 0$ for all $x \in \R^n$.
+  \item All eigenvalues of $M$ are nonnegative.
+\end{enumerate}
+
+For matrix $M\in\Sym_n$, the notation $M \succ 0$ means that $M$ is positive definite.
+$M \succ 0$ if and only if any of the following equivalent properties holds.
+\begin{enumerate}
+  \item $M \succeq 0$ and $\rank M = n$.
+  \item $x^\top Mx > 0$ for all $x \in \R^n$.
+  \item All eigenvalues of $M$ are positive.
+\end{enumerate}
+
+\subsection{Semidefinite programs}
+The standard (primal) form of a semidefinite program in variable $X\in\Sym_n$ is defined as follows:
+\begin{eqnarray}
+  \begin{array}{rclrrclcll}
+    p^* &=& \displaystyle \sup_{X\in\Sym^n} & \multicolumn{3}{l}{\langle C,X\rangle} \\
+    && \text{s.t.} & \langle A_i, X\rangle &=& b_i & (i = 1,\ldots,m)\\
+    &&& X &\succeq& 0
+  \end{array}
+\end{eqnarray}
+where $C$, $A_1$, \ldots, $A_m \in \Sym_n$ and $b\in\R^m$ are given.
+
+The dual form of the primal form is the following program in variable $y\in\R^m$.
+\begin{eqnarray}
+  \begin{array}{rclrrclcll}
+    d^* &=& \displaystyle \inf_{y\in\R^m} & \multicolumn{3}{l}{b^\top y} \\
+    && \text{s.t.} & \displaystyle \sum_{i=1}^m A_iy_i - C &\succeq& 0
+  \end{array}
+\end{eqnarray}
+
+
+\section{State of the art review}
+
+\section{Theoretical background}
+
+\section{Nesterov's algorithm}
+
+\section{Implementation details}
+
+\section{Comparison with the state of the art methods}
+
