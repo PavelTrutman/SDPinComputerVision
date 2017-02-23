@@ -22,4 +22,4 @@ thesis.pdf: thesis.tex abstract.tex acknowledgement.tex acronyms.tex CD.tex conc
 
 clean:
 	-rm thesis.pdf
-	-rm *.log *.aux *.toc *.idx *.ilg *.ind *.out
+	-rm *.acn *.acr *.alg *.aux *.bbl *.blg *.brf *.glg *.glo *.gls *.idx *.ist *.loa *.log *.out *.toc
