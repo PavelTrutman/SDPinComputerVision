@@ -5,12 +5,11 @@
 We introduce here some notation and preliminaries about symmetric matrices and semidefinite programs.
 We will introduce further notation and preliminaries later on in the text when needed.
 
-At the beginning, let us denote the inner product for two vectors $x$, $y \in\R^n$.
+At the beginning, let us denote the inner product for two vectors $x$, $y \in\R^n$
 \begin{eqnarray}
   \langle x, y\rangle &=& \sum_{i=1}^n x_iy_i
 \end{eqnarray}
-
-And the Frobenius inner product for two matrices $X$, $Y\in\R^{n\times m}$.
+and the Frobenius inner product for two matrices $X$, $Y\in\R^{n\times m}$.
 \begin{eqnarray}
   \langle X, Y\rangle &=& \sum_{i=1}^n \sum_{j=1}^m X_{ij}Y_{ij}
 \end{eqnarray}
@@ -37,7 +36,7 @@ $M \succ 0$ if and only if any of the following equivalent properties holds.
 The standard (primal) form of a semidefinite program in variable $X\in\Sym_n$ is defined as follows:
 \begin{eqnarray}
   \begin{array}{rclrrclcll}
-    p^* &=& \displaystyle \sup_{X\in\Sym^n} & \multicolumn{3}{l}{\langle C,X\rangle} \\
+    p^* &=& \displaystyle \sup_{X\in\Sym_n} & \multicolumn{3}{l}{\langle C,X\rangle} \\
     && \text{s.t.} & \langle A_i, X\rangle &=& b_i & (i = 1,\ldots,m)\\
     &&& X &\succeq& 0
   \end{array}
@@ -52,12 +51,86 @@ The dual form of the primal form is the following program in variable $y\in\R^m$
   \end{array}
 \end{eqnarray}
 
-
 \section{State of the art review}
 
 \section{Theoretical background}
 
-\section{Nesterov's algorithm}
+\section{Nesterov's approach}
+In this section, we will follow Chapter 4 of \cite{Nesterov-2004} by Y. Nesterov, which is devoted to convex minimization problems.
+We will extract from it only the minimum, just to be able to introduce a algorithm for SDP programs solving.
+We will present some basic definitions and theorems, but we will not prove them.
+For the proofs look into \cite{Nesterov-2004}.
+
+\subsection{Self-concordant functions}
+\begin{definition}[Self-concordant function in $\R$]
+  A closed convex function $f: \R \mapsto \R$ is self-concordant if there exist a constant $M_f \geq 0$ such that the inequality
+  \begin{eqnarray}
+    |f'''(x)| &\leq& M_f f''(x)^{3/2}
+  \end{eqnarray}
+  holds for all $x\in\dom f$.
+\end{definition}
+
+For better understanding of self-concordant functions we provide several examples.
+
+\begin{example}~\\[-0.5cm]
+  \begin{enumerate}
+    \item Linear and convex quadratic functions.
+      \begin{eqnarray}
+        f'''(x) &=& 0\ \text{ for all } x
+      \end{eqnarray}
+      Linear and convex quadratic functions are self-concordant with constant $M_f = 0$.
+    \item Negative logarithms.
+      \begin{eqnarray}
+        f(x) &=& -\ln(x)\ \text{ for } x>0\\
+        f'(x) &=& -\frac{1}{x}\\
+        f''(x) &=& \frac{1}{x^2}\\
+        f'''(x) &=& -\frac{2}{x^3}\\
+        \frac{|f'''(x)|}{f''(x)^{3/2}} &=& 2
+      \end{eqnarray}
+      Negative logarithms are self-concordant functions with constant $M_f = 2$.
+
+    \item Exponential functions.
+      \begin{eqnarray}
+        f(x) &=& e^x\\
+        f''(x) \ =\ f'''(x) &=& e^x\\
+        \frac{|f'''(x)|}{f''(x)^{3/2}} &=& e^{-x/2} \rightarrow\infty \ \text{ as } x\rightarrow-\infty
+      \end{eqnarray}
+      Exponential functions are not self-concordant functions.
+  \end{enumerate}
+\end{example}
+
+\begin{definition}[Self-concordant function in $\R^n$]
+  A closed convex function $f: \R^n \mapsto \R$ is self-concordant if function
+  \begin{eqnarray}
+    g(t) &=& f(x + tv)
+  \end{eqnarray}
+  is self-concordant for all $x\in\dom f$ and all $v\in\R^n$.
+\end{definition}
+
+Now, let us focus on the main properties of self-concordant functions.
+
+\begin{theorem}
+  Let functions $f_i$ be self-concordant with constants $M_i$  and let $\alpha_i > 0$, $i = 1,2$. Then the function
+ \begin{eqnarray}
+   f(x) &=& \alpha_1f_1(x) + \alpha_2f_2(x)
+ \end{eqnarray}
+ is self-concordant with constant
+ \begin{eqnarray}
+   M_f &=& \max \bigg\{\frac{1}{\sqrt{\alpha_1}}M_1, \frac{1}{\sqrt{\alpha_2}}M_2\bigg\}
+ \end{eqnarray}
+ and
+ \begin{eqnarray}
+   \dom f &=& \dom f_1 \cap \dom f_2.
+ \end{eqnarray}
+\end{theorem}
+
+\begin{corollary}
+  Let function $f$ be self-concordant with some constant $M_f$ and $\alpha > 0$. Then the function $\phi(x) = \alpha f(x)$ is also self-concordant with the constant $M_\phi = \frac{1}{\sqrt{\alpha}}M_f$.
+\end{corollary}
+
+\begin{theorem}
+  Let function $f$ be self-concordant. If $\dom f$ contains no straight line, then the Hessian $f''(x)$ is nondegenerate at any $x$ from $\dom f$.
+\end{theorem}
 
 \section{Implementation details}
 

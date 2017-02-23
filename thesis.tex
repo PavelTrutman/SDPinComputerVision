@@ -57,11 +57,24 @@
 % ============================== your definitions (abbreviations etc.)
 \newcommand{\eqB}{\begin{eqnarray}}
 \newcommand{\eqE}{\end{eqnarray}}
-\theoremstyle{definition}
+\newtheoremstyle{definitionStyle}
+  {}
+  {}
+  {}
+  {}
+  {\bfseries}
+  {.}
+  { }
+  {\thmname{#1}\thmnumber{ #2}\thmnote{ (#3)}}
+\theoremstyle{definitionStyle}
 \newtheorem{definition}{Definition}[chapter]
+\newtheorem{theorem}{Theorem}[chapter]
+\newtheorem{example}{Example}[chapter]
+\newtheorem{corollary}{Corollary}[chapter]
 \newcommand{\R}{\mathbb{R}}
 \DeclareMathOperator{\Sym}{Sym}
 \DeclareMathOperator{\rank}{rank}
+\DeclareMathOperator{\dom}{dom}
 
 \setitemize{noitemsep,topsep=0.2cm,parsep=0.2cm,partopsep=0pt,leftmargin=1cm}
 \setenumerate{noitemsep,topsep=0.2cm,parsep=0.2cm,partopsep=0pt,leftmargin=1cm}
