@@ -124,15 +124,24 @@ Now, let us focus on the main properties of self-concordant functions.
  \end{eqnarray}
 \end{theorem}
 
-\begin{corollary}
+\begin{corollary}\labelcol{SDP:scf:scaling}
   Let function $f$ be self-concordant with some constant $M_f$ and $\alpha > 0$. Then the function $\phi(x) = \alpha f(x)$ is also self-concordant with the constant $M_\phi = \frac{1}{\sqrt{\alpha}}M_f$.
 \end{corollary}
 
-\begin{theorem}
+We call function $f(x)$ as the standard self-concordant function if $f(x)$ is some self-concordant function with the constant $M_f = 2$. Using \refcol{SDP:scf:scaling}, we can see that any self-concordant function can be transformed into the standard self-concordant function by scaling.
+
+\begin{theorem}\labelthe{SDP:scf:hessian}
   Let function $f$ be self-concordant. If $\dom f$ contains no straight line, then the Hessian $f''(x)$ is nondegenerate at any $x$ from $\dom f$.
 \end{theorem}
+
+For some self-concordant function $f(x)$, for which we assume, that $\dom f$ contains no straight line (which implies that all $f''(x)$ are nondegenerate, see \refthe{SDP:scf:hessian}), we denote two local norms as
+\begin{eqnarray}
+  \| u \|_x &=& \sqrt{u^\top f''(x) u}\\
+  \| u \|_x^* &=& \sqrt{u^\top f''(x)^{-1} u}.
+\end{eqnarray}
 
 \section{Implementation details}
 
 \section{Comparison with the state of the art methods}
+
 
