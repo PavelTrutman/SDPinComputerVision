@@ -6,12 +6,12 @@ all: thesis.pdf
 
 pdf: thesis.pdf
 
-fast: thesis.tex abstract.tex acknowledgement.tex acronyms.tex CD.tex conclusion.tex declaration.tex introduction.tex SDP.tex cmpthesis.cls cmpcover.sty images/cmp.png images/lev.png
+fast: thesis.tex abstract.tex acknowledgement.tex acronyms.tex CD.tex conclusion.tex declaration.tex introduction.tex SDP.tex cmpthesis.cls cmpcover.sty images/cmp.png images/lev.png alg/self-concordant-function.tex
 	sed -i 's/\eqB/\begin{eqnarray}/g' !(thesis).tex
 	sed -i 's/\eqE/\end{eqnarray}/g' !(thesis).tex
 	pdflatex thesis.tex
 
-thesis.pdf: thesis.tex abstract.tex acknowledgement.tex acronyms.tex CD.tex conclusion.tex declaration.tex introduction.tex SDP.tex citations.bib cmpthesis.cls cmpcover.sty images/cmp.png images/lev.png
+thesis.pdf: thesis.tex abstract.tex acknowledgement.tex acronyms.tex CD.tex conclusion.tex declaration.tex introduction.tex SDP.tex citations.bib cmpthesis.cls cmpcover.sty images/cmp.png images/lev.png alg/self-concordant-function.tex
 	sed -i 's/\eqB/\begin{eqnarray}/g' !(thesis).tex
 	sed -i 's/\eqE/\end{eqnarray}/g' !(thesis).tex
 	pdflatex thesis.tex

@@ -140,6 +140,42 @@ For some self-concordant function $f(x)$, for which we assume, that $\dom f$ con
   \| u \|_x^* &=& \sqrt{u^\top f''(x)^{-1} u}.
 \end{eqnarray}
 
+Consider following minimization problem
+\begin{eqnarray}
+  x^* &=& \arg\min_{x\in\dom f} f(x)\labeleq{SDP:scf:minProblem}
+\end{eqnarray}
+as the minimization of the self-concordant function $f(x)$.
+\refalg{SDP:scf} is describing the iterative process of solving optimization problem \refeqb{SDP:scf:minProblem}.
+The algorithm is divided into two stages by the value of $\|f'(x_k)\|_{x_k}^*$.
+The splitting parameter $\beta$ guarantees quadratic convergence rate for the second part of the algorithm. The parameter $\beta$ is chosen from interval $(0, \bar{\lambda})$, where
+\begin{eqnarray}
+  \bar{\lambda} &=& \frac{3 - \sqrt{5}}{2},
+\end{eqnarray}
+which is a root of the equation
+\begin{eqnarray}
+  \frac{\lambda}{(1-\lambda)^2} &=& 1.
+\end{eqnarray}
+
+\input{alg/self-concordant-function.tex}
+
+The first while loop (lines \refalgline{SDP:scf:w1b} -- \refalgline{SDP:scf:w1e}) represents damped Newton method, where at each iteration we have
+\begin{eqnarray}
+  f(x_k) - f(x_{k+1}) &\geq& \beta - \ln(1+\beta) \text{ for } k \geq 0,
+\end{eqnarray}
+where
+\begin{eqnarray}
+  \beta - \ln(1+\beta) &>& 0 \text{ for } \beta > 0,
+\end{eqnarray}
+and therefore the global convergence of the algorithm is ensured.
+It can be shown that the local convergence rate of the damped Newton method is also quadratic, but the presented switching strategy is preferred as it gives better complexity bounds.
+
+The second while loop of the algorithm (lines \refalgline{SDP:scf:w2b} -- \refalgline{SDP:scf:w2e}) is the standard Newton method with quadratic convergence rate.
+
+The algorithm terminates when the required precision $\varepsilon$ is reached.
+
+
+\subsection{Self-concordant barriers}
+
 \section{Implementation details}
 
 \section{Comparison with the state of the art methods}
