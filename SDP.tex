@@ -70,7 +70,7 @@ For the proofs look into \cite{Nesterov-2004}.
   holds for all $x\in\dom f$.
 \end{definition}
 
-For better understanding of self-concordant functions we provide several examples.
+For better understanding of self-concordant functions, we provide several examples.
 
 \begin{example}~\\[-0.5cm]
   \begin{enumerate}
@@ -175,6 +175,64 @@ The algorithm terminates when the required precision $\varepsilon$ is reached.
 
 
 \subsection{Self-concordant barriers}
+To be able to introduce self-concordant barriers, let us denote $\Dom f = \cl(\dom f)$.
+
+\begin{definition}[Self-concordant barrier]\labeldef{SDP:scb:scb}
+  Let $F(x)$ be a standard self-concordant function. We call it a $\nu$-self-concordant barrier for set $\Dom F$, if
+  \begin{eqnarray}
+    \sup_{u\in\R^n} \big(2u^\top F'(x) - u^\top F''(x) u\big) &\leq& \nu \labeleq{SDP:scb:def}
+  \end{eqnarray}
+  for all $x\in\dom F$. The value $\nu$ is called the parameter of the barrier.
+\end{definition}
+
+The inequality \refeqb{SDP:scb:def} can be rewritten into the following equivalent matrix notation:
+\begin{eqnarray}
+  F''(x) &\succeq& \frac{1}{\nu}F'(x)F'(x)^\top.\labeleq{SDP:scb:def1}
+\end{eqnarray}
+
+In \refdef{SDP:scb:scb}, the hessian $F''(x)$ is not required to be nondegenerate. However, in case that $F''(x)$ is nondegenerate, the inequality \refeqb{SDP:scb:def} is equivalent to
+\begin{eqnarray}
+  F'^\top(x)F''(x)^{-1}F'(x) &\leq& \nu.\labeleq{SDP:scb:def2}
+\end{eqnarray}
+
+Let us explore, which basic functions are self-concordant barriers.
+
+\begin{example}~\\[-0.5cm]
+  \begin{enumerate}
+    \item Linear functions.
+      \begin{eqnarray}
+        F(x) &=& \alpha + a^\top x,\ \dom F = \R^n\\
+        F''(x) &=& 0
+      \end{eqnarray}
+      From \refeqb{SDP:scb:def1} and for $a \neq 0$ follows, that linear functions are not self-concordant barriers.
+
+    \item Convex quadratic functions.\\
+      For $A = A^\top \succ 0$:
+      \begin{eqnarray}
+        F(x) &=& \alpha + a^\top x + \frac{1}{2} x^\top Ax,\ \dom F = \R^n\\
+        F'(x) &=& a + Ax\\
+        F''(x) &=& A
+      \end{eqnarray}
+      After substitution into \refeqb{SDP:scb:def2} we obtain
+      \begin{eqnarray}
+        (a + Ax)^\top A^{-1}(a + Ax) &=& a^\top A^{-1}a + 2a^\top x + x^\top Ax,
+      \end{eqnarray}
+      which is unbounded from above on $\R^n$. Therefore, quadratic functions are not self-concordant barriers.
+      
+
+    \item Logarithmic barrier for a ray.
+      \begin{eqnarray}
+        F(x) &=& -\ln x,\ \dom F = \{x\in\R\ |\ x > 0\}\\
+        F'(x) &=& -\frac{1}{x}\\
+        F''(x) &=& \frac{1}{x^2}
+      \end{eqnarray}
+      From \refeqb{SDP:scb:def2}, when $F'(x)$ and $F''(x)$ are both scalars, we get
+      \begin{eqnarray}
+        \frac{F'(x)^2}{F''(x)} &=& \frac{x^2}{x^2}\ =\ 1.
+      \end{eqnarray}
+      Therefore, the logarithmic barrier for a ray is a self-concordant barrier with parameter $\nu = 1$ on domain $\{x\in\R\ |\ x > 0\}$.
+  \end{enumerate}
+\end{example}
 
 \section{Implementation details}
 
