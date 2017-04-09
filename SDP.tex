@@ -236,7 +236,7 @@ Let us explore, which basic functions are self-concordant barriers.
 
 Now, let us focus on the main properties of self-concordant barriers.
 
-\begin{theorem}
+\begin{theorem}\labelthe{SDP:scb:penaltyFunction}
   Let $F(x)$ be a self-concordant barrier. Then the function $c^\top x + F(x)$ is a self-concordant function on $\dom F$.
 \end{theorem}
 
@@ -297,6 +297,70 @@ For that, we will use the standard implementation of the damped Newton method wi
 The pseudocode of the whole minimization process is shown in \refalg{SDP:scb:ac}.
 
 \input{alg/analytic-center.tex}
+
+The knowledge of analytic center allows us to solve the standard minimization problem
+\begin{eqnarray}
+  x^* &=& \arg\min_{x\in Q} c^\top x \labeleq{SDP:scb:standardProblem}
+\end{eqnarray}
+with bounded closed convex set $Q \equiv \Dom F$, which has nonempty interior, and which is endowed with a $\nu$-self-concordant barrier $F(x)$.
+Denote
+\begin{eqnarray}
+  f(t,x) &=& tc^\top x + F(x), \text{ for } t \geq 0
+\end{eqnarray}
+as a parametric penalty function.
+Using \refthe{SDP:scb:penaltyFunction} we can see, that $f(t,x)$ is self-concordant in $x$.
+Let us introduce new minimization problem using the parametric penalty function $f(t,x)$
+\begin{eqnarray}
+  x^*(t) &=& \arg\min_{x\in\dom F} f(t,x).
+\end{eqnarray}
+This trajectory is called the central path of the problem \refeqb{SDP:scb:standardProblem}.
+We will reach the solution $x^*(t) \rightarrow x^*$ as $t \rightarrow \infty$.
+Moreover, since the set $Q$ is bounded, the analytic center $x^*_F$ of this set exists and
+\begin{eqnarray}
+  x^*(0) &=& x^*_F.
+\end{eqnarray}
+From the first-order optimality condition, any point of the central path satisfies equation
+\begin{eqnarray}
+  tc + F'(x^*(t)) &=& 0
+\end{eqnarray}
+Since the analytic center lies on the central path and can be found by \refalg{SDP:scb:ac}, all we have to do, to find the solution $x^*$, is to follow the central path. 
+This enables us an approximate centering condition:
+\begin{eqnarray}
+  \|f'(t,x)\|^*_x\ =\ \|tc + F'(x)\|^*_x &\leq& \beta, \labeleq{SDP:scb:cntrCondition}
+\end{eqnarray}
+where the centering parameter $\beta$ is small enough.
+
+Assuming $x\in\dom F$, one iteration of the path-following algorithm consists of two steps:
+\begin{eqnarray}
+  t_+ &=& t + \frac{\gamma}{\|c\|^*_x},\\
+  x_+ &=& x - F''(x)^{-1}(t_+c+F'(x)).
+\end{eqnarray}
+
+\begin{theorem}
+  Let $x$ satisfy the approximate centering condition \refeqb{SDP:scb:cntrCondition}
+  \begin{eqnarray}
+    \|tc + F'(x)\|^*_x &\leq& \beta
+  \end{eqnarray}
+  with $\beta < \bar{\lambda} = \frac{3-\sqrt{5}}{2}$.
+  Then for $\gamma$, such that
+  \begin{eqnarray}
+    |\gamma| &\leq& \frac{\sqrt{\beta}}{1+\sqrt{\beta}} - \beta,
+  \end{eqnarray}
+  we have again
+  \begin{eqnarray}
+    \|t_+c + F'(x_+)\|^*_{x_+} &\leq& \beta.
+  \end{eqnarray}
+\end{theorem}
+
+This theorem ensures the correctness of the presented iteration of the path-following algorithm. For the whole description of the path-following algorithm, please see \refalg{SDP:scb:pf}.
+
+\input{alg/path-follow.tex}
+
+The parameters $\beta$ and $\gamma$ in \refalg{SDP:scb:ac} and \refalg{SDP:scb:pf} can be fixed. The reasonable values are:
+\begin{eqnarray}
+  \beta &=& \frac{1}{9},\\
+  \gamma &=& \frac{\sqrt{\beta}}{1+\sqrt{\beta}} - \beta\ =\ \frac{5}{36}.
+\end{eqnarray}
 
 \section{Implementation details}
 
