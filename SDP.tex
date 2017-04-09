@@ -298,6 +298,13 @@ The pseudocode of the whole minimization process is shown in \refalg{SDP:scb:ac}
 
 \input{alg/analytic-center.tex}
 
+\begin{theorem}
+  \refalg{SDP:scb:ac} terminates no later than after $N$ steps, where
+  \begin{eqnarray}
+    N &=& \frac{1}{\beta - \ln(1+\beta)}\big(F(x_0) - F(x^*_F)\big).
+  \end{eqnarray}
+\end{theorem}
+
 The knowledge of analytic center allows us to solve the standard minimization problem
 \begin{eqnarray}
   x^* &=& \arg\min_{x\in Q} c^\top x \labeleq{SDP:scb:standardProblem}
@@ -321,7 +328,7 @@ Moreover, since the set $Q$ is bounded, the analytic center $x^*_F$ of this set 
 \end{eqnarray}
 From the first-order optimality condition, any point of the central path satisfies equation
 \begin{eqnarray}
-  tc + F'(x^*(t)) &=& 0
+  tc + F'\big(x^*(t)\big) &=& 0
 \end{eqnarray}
 Since the analytic center lies on the central path and can be found by \refalg{SDP:scb:ac}, all we have to do, to find the solution $x^*$, is to follow the central path. 
 This enables us an approximate centering condition:
@@ -333,7 +340,7 @@ where the centering parameter $\beta$ is small enough.
 Assuming $x\in\dom F$, one iteration of the path-following algorithm consists of two steps:
 \begin{eqnarray}
   t_+ &=& t + \frac{\gamma}{\|c\|^*_x},\\
-  x_+ &=& x - F''(x)^{-1}(t_+c+F'(x)).
+  x_+ &=& x - F''(x)^{-1}\big(t_+c+F'(x)\big).
 \end{eqnarray}
 
 \begin{theorem}
@@ -356,11 +363,20 @@ This theorem ensures the correctness of the presented iteration of the path-foll
 
 \input{alg/path-follow.tex}
 
+\begin{theorem}
+  \refalg{SDP:scb:pf} terminates no more than after $N$ steps, where
+  \begin{eqnarray}
+    N &\leq& \mathcal{O}\Bigg(\sqrt{\nu}\ln\frac{\nu \|c\|^*_{x^*_F}}{\epsilon}\Bigg).
+  \end{eqnarray}
+\end{theorem}
+
 The parameters $\beta$ and $\gamma$ in \refalg{SDP:scb:ac} and \refalg{SDP:scb:pf} can be fixed. The reasonable values are:
 \begin{eqnarray}
   \beta &=& \frac{1}{9},\\
   \gamma &=& \frac{\sqrt{\beta}}{1+\sqrt{\beta}} - \beta\ =\ \frac{5}{36}.
 \end{eqnarray}
+
+The union of \refalg{SDP:scb:ac} and \refalg{SDP:scb:pf} can be easily used to solve the standard minimization problem \refeqb{SDP:scb:standardProblem}, supposing we have a feasbile point $x_0\in Q$.
 
 \section{Implementation details}
 

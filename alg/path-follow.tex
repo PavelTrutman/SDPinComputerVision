@@ -14,7 +14,7 @@
     \State $k \gets 0$
     \While{$\epsilon t_k < \nu + \frac{(\beta + \sqrt{\nu})\beta}{1-\beta}$}
       \State $t_{k+1} \gets t_k + \frac{\gamma}{\|c\|^*_{x_k}}$
-      \State $x_{k+1} \gets x_k - F''(x_k)^{-1}(t_{k+1}c + F'(x_k))$
+      \State $x_{k+1} \gets x_k - F''(x_k)^{-1}\big(t_{k+1}c + F'(x_k)\big)$
       \State $k \gets k + 1$
     \EndWhile
     \State \Return $x^* \gets x_k$
