@@ -1,0 +1,21 @@
+\begin{algorithm}[ht]
+  \begin{algorithmic}[1]
+    \Require
+      \Statex $F$ a self-concordant barrier
+      \Statex $x_0 \in \Dom F$ a starting point
+      \Statex $\beta \in (0,1)$
+    \Ensure
+      \Statex $x^*_F$ an approximation of the analytic center of the set $\Dom F$
+      \Statex
+
+    \State $k \gets 0$
+    \While{$\|F'(x_k)\|_{x_k}^* > \beta$}
+      \State $x_{k+1} \gets x_k - \frac{1}{1+\|F'(x_k)\|_{x_k}^*}F''(x_k)^{-1}F'(x_k)$
+      \State $k \gets k + 1$
+    \EndWhile
+    \State \Return $x^*_F \gets x_k$
+
+  \end{algorithmic}
+  \caption{Damped Newton method for analytic centers}
+  \labelalg{SDP:scb:ac}
+\end{algorithm}
