@@ -57,6 +57,8 @@
 % ============================== your definitions (abbreviations etc.)
 \newcommand{\eqB}{\begin{eqnarray}}
 \newcommand{\eqE}{\end{eqnarray}}
+\newcommand{\bmB}{\begin{bmatrix}}
+\newcommand{\bmE}{\end{bmatrix}}
 \newcommand{\labeldef}[1]{\label{definition:#1}}
 \newcommand{\refdef}[1]{Definition \ref{definition:#1}}
 \newcommand{\labelcol}[1]{\label{corollary:#1}}
@@ -69,6 +71,8 @@
 \newcommand{\refalg}[1]{Algorithm \ref{algorithm:#1}}
 \newcommand{\labelalgline}[1]{\label{algorithm:line:#1}}
 \newcommand{\refalgline}[1]{\ref{algorithm:line:#1}}
+\newcommand{\labelfig}[1]{\label{figure:#1}}
+\newcommand{\reffig}[1]{Figure \ref{figure:#1}}
 \newtheoremstyle{definitionStyle}
   {}
   {}
@@ -84,11 +88,13 @@
 \newtheorem{example}{Example}[chapter]
 \newtheorem{corollary}{Corollary}[chapter]
 \newcommand{\R}{\mathbb{R}}
-\DeclareMathOperator{\Sym}{Sym}
+\newcommand{\Sym}{\mathcal{S}}
+\newcommand{\PSDCone}{\mathcal{P}}
 \DeclareMathOperator{\rank}{rank}
 \DeclareMathOperator{\dom}{dom}
 \DeclareMathOperator{\Dom}{Dom}
 \DeclareMathOperator{\cl}{cl}
+\DeclareMathOperator{\inter}{int}
 
 \setitemize{noitemsep,topsep=0.2cm,parsep=0.2cm,partopsep=0pt,leftmargin=1cm}
 \setenumerate{noitemsep,topsep=0.2cm,parsep=0.2cm,partopsep=0pt,leftmargin=1cm}

@@ -16,16 +16,16 @@ and the Frobenius inner product for two matrices $X$, $Y\in\R^{n\times m}$.
 \end{eqnarray}
 
 \subsection{Symmetric matrices}
-Let $\Sym_n$ denotes the space of $n\times n$ real symmetric matrices.
+Let $\Sym^n$ denotes the space of $n\times n$ real symmetric matrices.
 
-For matrix $M\in\Sym_n$, the notation $M \succeq 0$ means that $M$ is positive semidefinite.
+For matrix $M\in\Sym^n$, the notation $M \succeq 0$ means that $M$ is positive semidefinite.
 $M \succeq 0$ if and only if any of the following equivalent properties holds.
 \begin{enumerate}
   \item $x^\top Mx \geq 0$ for all $x \in \R^n$.
   \item All eigenvalues of $M$ are nonnegative.
 \end{enumerate}
 
-For matrix $M\in\Sym_n$, the notation $M \succ 0$ means that $M$ is positive definite.
+For matrix $M\in\Sym^n$, the notation $M \succ 0$ means that $M$ is positive definite.
 $M \succ 0$ if and only if any of the following equivalent properties holds.
 \begin{enumerate}
   \item $M \succeq 0$ and $\rank M = n$.
@@ -34,22 +34,22 @@ $M \succ 0$ if and only if any of the following equivalent properties holds.
 \end{enumerate}
 
 \subsection{Semidefinite programs}
-The standard (primal) form of a semidefinite program in variable $X\in\Sym_n$ is defined as follows:
+The standard (primal) form of a semidefinite program in variable $X\in\Sym^n$ is defined as follows:
 \begin{eqnarray}
   \begin{array}{rclrrclcll}
-    p^* &=& \displaystyle \sup_{X\in\Sym_n} & \multicolumn{3}{l}{\langle C,X\rangle} \\
+    p^* &=& \displaystyle \sup_{X\in\Sym^n} & \multicolumn{3}{l}{\langle C,X\rangle} \\
     && \text{s.t.} & \langle A_i, X\rangle &=& b_i & (i = 1,\ldots,m)\\
     &&& X &\succeq& 0
   \end{array}
 \end{eqnarray}
-where $C$, $A_1$, \ldots, $A_m \in \Sym_n$ and $b\in\R^m$ are given.
+where $C$, $A_1$, \ldots, $A_m \in \Sym^n$ and $b\in\R^m$ are given.
 
 The dual form of the primal form is the following program in variable $y\in\R^m$.
 \begin{eqnarray}
   \begin{array}{rclrrclcll}
     d^* &=& \displaystyle \inf_{y\in\R^m} & \multicolumn{3}{l}{b^\top y} \\
     && \text{s.t.} & \displaystyle \sum_{i=1}^m A_iy_i - C &\succeq& 0
-  \end{array}
+  \end{array}\labeleq{SDP:prelim:dual}
 \end{eqnarray}
 
 \section{State of the art review}
@@ -223,7 +223,7 @@ Let us explore, which basic functions are self-concordant barriers.
 
     \item Logarithmic barrier for a ray.
       \begin{eqnarray}
-        F(x) &=& -\ln x,\ \dom F = \{x\in\R\ |\ x > 0\}\\
+        F(x) &=& -\ln x,\ \dom F = \big\{x\in\R\ |\ x > 0\big\}\\
         F'(x) &=& -\frac{1}{x}\\
         F''(x) &=& \frac{1}{x^2}
       \end{eqnarray}
@@ -231,7 +231,7 @@ Let us explore, which basic functions are self-concordant barriers.
       \begin{eqnarray}
         \frac{F'(x)^2}{F''(x)} &=& \frac{x^2}{x^2}\ =\ 1.
       \end{eqnarray}
-      Therefore, the logarithmic barrier for a ray is a self-concordant barrier with parameter $\nu = 1$ on domain $\{x\in\R\ |\ x > 0\}$.
+      Therefore, the logarithmic barrier for a ray is a self-concordant barrier with parameter $\nu = 1$ on domain $\big\{x\in\R\ |\ x > 0\big\}$.
   \end{enumerate}
 \end{example}
 
@@ -380,6 +380,87 @@ The parameters $\beta$ and $\gamma$ in \refalg{SDP:scb:ac} and \refalg{SDP:scb:p
 The union of \refalg{SDP:scb:ac} and \refalg{SDP:scb:pf} can be easily used to solve the standard minimization problem \refeqb{SDP:scb:standardProblem}, supposing we have a feasible point $x_0\in Q$.
 
 \subsection{Barrier function for semidefinite programming}
+In this section, we are going to show, how to find a self-concordant barrier for the semidefinite program \refeqb{SDP:prelim:dual}, so that we can use \refalg{SDP:scb:ac} and \refalg{SDP:scb:pf} to solve it.
+For the purpose of this section, we are interested only in the constrains of the problem.
+The constrains are defining us the feasibility set $Q$:
+\begin{eqnarray}
+  Q &=& \bigg\{y\in\R^m\ |\ A_0 + \sum_{i=1}^mA_iy_i \succeq 0\bigg\},
+\end{eqnarray}
+where $A_0, \ldots, A_m \in\Sym^n$.
+Let us denote $X(y) = A_0 + \sum_{i=1}^mA_iy_i$.
+If the matrix $X(y)$ is block diagonal
+\begin{eqnarray}
+  X(y) &=& \begin{bmatrix}
+          X_1(y) & 0      & \cdots & 0      \\
+          0      & X_2(y) & \cdots & 0      \\
+          \vdots & \vdots & \ddots & \vdots \\
+          0      & 0      & \cdots & X_k(y)
+        \end{bmatrix}
+\end{eqnarray}
+with $X_j(y)\in\Sym^{n_j}$ for $j = 1, \ldots, k$ and $\sum_{j=1}^k n_j = n$, then the feasibility set $Q$ can be expressed as
+\begin{eqnarray}
+  Q &=& \big\{y\in\R^m\ |\ X_j(y) \succeq 0,\ j = 1,\ldots, k\big\}.
+\end{eqnarray}
+This rule allows us to easily add or remove some constraints without touching the others and to keep the sizes of the used matrices small, which can significantly speed up the computation.
+
+Instead of the set $Q$, which is parametrized by $y$, we can directly optimize over the set of positive semidefinite matrices. This set $\PSDCone^n$ is defined as
+\begin{eqnarray}
+  \PSDCone^n &=& \big\{X\in\Sym^n\ |\ X\succeq0\big\}
+\end{eqnarray}
+and it is called the cone of positive semidefinite $n\times n$ matrices. This cone is a closed convex set, which interior is formed by positive definite matrices and on its boundary lie matrices, which have at least one eigenvalue equal to zero.
+
+Let us denote the function $F(X)$:
+\begin{eqnarray}
+  F(X) &=& -\ln\prod_{i=1}^{n}\lambda_i(X),
+\end{eqnarray}
+where $X\in\inter\PSDCone^n$ and $\big\{\lambda_i(X)\big\}_{i=1}^n$ is the set of eigenvalues of the matrix $X$.
+To avoid the computation of eigenvalues, the function $F(X)$ can be also expressed as:
+\begin{eqnarray}
+  F(X) &=& -\ln\det(X).
+\end{eqnarray}
+
+\begin{theorem}
+  Function $F(X)$ is an $n$-self-concordant barrier for $\PSDCone^n$.
+\end{theorem}
+
+Note, that $\Dom F \supseteq \PSDCone^n$ because $\det(X) \geq 0$ when the number of negative eigenvalues of $X$ is even. Therefore, the set $\Dom F$ is made by separated subsets, which one of them is $\PSDCone^n$. As \refalg{SDP:scb:ac} and \refalg{SDP:scb:pf} are interior point algorithms, when the starting point is from $\inter\PSDCone^n$, then we never leave $\PSDCone^n$ during the execution of the algorithms and the optimal solution is found.
+
+Similarly, the self-concordant barrier function for the set $Q$ is a function 
+\begin{eqnarray}
+  F(y) &=& -\ln\det\big(X(y)\big).
+\end{eqnarray}
+
+\begin{example}
+  To make it clearer, what is the difference between the set $Q$ and $\Dom F(y)$, we have prepared this example. Let
+  \begin{eqnarray}
+    X(y) &=& \bmB y_2 & y_1 \\ y_1 & y_2 \bmE,
+  \end{eqnarray}
+  where $y = \bmB y_1 & y_2 \bmE^\top$. The equation
+  \begin{eqnarray}
+    z &=& \det(X(y))\ =\ y_2^2 - y_1^2
+  \end{eqnarray}
+  represents a hyperbolic paraboloid, which you can see in \reffig{SDP:bf:hyperPar}.
+  Therefore, the equation $z = 0$ is a slice of it, denoted by the purple color in \reffig{SDP:bf:hyperParSlice}. The domain of the self-concordant barrier function is
+ \begin{eqnarray}
+   \Dom F(y) &=& \Big\{y\ |\ \det\big(X(y)\big) \geq 0\Big\}
+ \end{eqnarray}
+ and is shaded by the blue color. 
+ We can see, that the set $\Dom F(y)$ consists of two disjoint parts. One of them is the set, where $X(y)\succeq0$ (denoted by the orange color) and the second part is an area, where both eigenvalues of $X(y)$ are negative.
+
+  \begin{figure}[ht]
+    \centering
+    \resizebox{0.95\textwidth}{!}{\input{graphs/SDP_hyperPar}}
+    \caption{Hyperbolic paraboloid $z = y_2^2 - y_1^2$.}
+    \labelfig{SDP:bf:hyperPar}
+  \end{figure}
+
+  \begin{figure}[ht]
+    \centering
+    \resizebox{0.95\textwidth}{!}{\input{graphs/SDP_hyperParSlice}}
+    \caption{Illustration of the sets $\Dom F(y)$ and $\Big\{y\ |\ \det\big(X(y)\big) \geq 0\Big\}$.}
+    \labelfig{SDP:bf:hyperParSlice}
+  \end{figure}
+\end{example}
 
 
 \section{Implementation details}
