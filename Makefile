@@ -45,5 +45,5 @@ graphs/%.tex graphs/%.eps: sources/graphs/%.gnuplot
 	gnuplot sources/graphs/$*.gnuplot
 
 clean:
-	-rm thesis.pdf
-	-rm *.log *.aux *.toc *.idx *.ilg *.ind *.out
+	-rm thesis.!(tex)
+	-rm $(addprefix graphs/, $(GRAPHS))
