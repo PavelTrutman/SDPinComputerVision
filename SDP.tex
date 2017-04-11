@@ -1,6 +1,7 @@
 \chapter{Semidefinite programming}
 %TODO Some text about semidefinite programming ...
 
+
 \section{Preliminaries on semidefinite programs}
 We introduce here some notation and preliminaries about symmetric matrices and semidefinite programs.
 We will introduce further notation and preliminaries later on in the text when needed.
@@ -52,8 +53,8 @@ The dual form of the primal form is the following program in variable $y\in\R^m$
 \end{eqnarray}
 
 \section{State of the art review}
+%TODO: YALMIP, SEDUMI, MOSEK amd others
 
-\section{Theoretical background}
 
 \section{Nesterov's approach}
 In this section, we will follow Chapter 4 of \cite{Nesterov-2004} by Y. Nesterov, which is devoted to convex minimization problems.
@@ -376,10 +377,14 @@ The parameters $\beta$ and $\gamma$ in \refalg{SDP:scb:ac} and \refalg{SDP:scb:p
   \gamma &=& \frac{\sqrt{\beta}}{1+\sqrt{\beta}} - \beta\ =\ \frac{5}{36}.
 \end{eqnarray}
 
-The union of \refalg{SDP:scb:ac} and \refalg{SDP:scb:pf} can be easily used to solve the standard minimization problem \refeqb{SDP:scb:standardProblem}, supposing we have a feasbile point $x_0\in Q$.
+The union of \refalg{SDP:scb:ac} and \refalg{SDP:scb:pf} can be easily used to solve the standard minimization problem \refeqb{SDP:scb:standardProblem}, supposing we have a feasible point $x_0\in Q$.
+
+\subsection{Barrier function for semidefinite programming}
+
 
 \section{Implementation details}
+%TODO about the code
 
 \section{Comparison with the state of the art methods}
-
+%TODO some graphs
 
