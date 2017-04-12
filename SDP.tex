@@ -378,6 +378,7 @@ The parameters $\beta$ and $\gamma$ in \refalg{SDP:scb:ac} and \refalg{SDP:scb:p
 \end{eqnarray}
 
 The union of \refalg{SDP:scb:ac} and \refalg{SDP:scb:pf} can be easily used to solve the standard minimization problem \refeqb{SDP:scb:standardProblem}, supposing we have a feasible point $x_0\in Q$.
+%TODO: picture with a logarithmic barrier
 
 \subsection{Barrier function for semidefinite programming}
 In this section, we are going to show, how to find a self-concordant barrier for the semidefinite program \refeqb{SDP:prelim:dual}, so that we can use \refalg{SDP:scb:ac} and \refalg{SDP:scb:pf} to solve it.
@@ -395,7 +396,7 @@ If the matrix $X(y)$ is block diagonal
           0      & X_2(y) & \cdots & 0      \\
           \vdots & \vdots & \ddots & \vdots \\
           0      & 0      & \cdots & X_k(y)
-        \end{bmatrix}
+        \end{bmatrix} \labeleq{SDP:bf:bd}
 \end{eqnarray}
 with $X_j(y)\in\Sym^{n_j}$ for $j = 1, \ldots, k$ and $\sum_{j=1}^k n_j = n$, then the feasibility set $Q$ can be expressed as
 \begin{eqnarray}
@@ -427,7 +428,7 @@ Note, that $\Dom F \supseteq \PSDCone^n$ because $\det(X) \geq 0$ when the numbe
 
 Similarly, the self-concordant barrier function for the set $Q$ is a function 
 \begin{eqnarray}
-  F(y) &=& -\ln\det\big(X(y)\big).
+  F(y) &=& -\ln\det\big(X(y)\big). \labeleq{SDP:bf:bfy}
 \end{eqnarray}
 
 \begin{example}
@@ -441,11 +442,12 @@ Similarly, the self-concordant barrier function for the set $Q$ is a function
   \end{eqnarray}
   represents a hyperbolic paraboloid, which you can see in \reffig{SDP:bf:hyperPar}.
   Therefore, the equation $z = 0$ is a slice of it, denoted by the purple color in \reffig{SDP:bf:hyperParSlice}. The domain of the self-concordant barrier function is
- \begin{eqnarray}
-   \Dom F(y) &=& \Big\{y\ |\ \det\big(X(y)\big) \geq 0\Big\}
- \end{eqnarray}
- and is shaded by the blue color. 
- We can see, that the set $\Dom F(y)$ consists of two disjoint parts. One of them is the set, where $X(y)\succeq0$ (denoted by the orange color) and the second part is an area, where both eigenvalues of $X(y)$ are negative.
+  \begin{eqnarray}
+    \Dom F(y) &=& \Big\{y\ |\ \det\big(X(y)\big) \geq 0\Big\}
+  \end{eqnarray}
+  and is shaded by the blue color.
+  We can see, that the set $\Dom F(y)$ consists of two disjoint parts. One of them is the set, where $X(y)\succeq0$ (denoted by the orange color) and the second part is an area, where both eigenvalues of $X(y)$ are negative.
+  Therefore, one has to pick his starting point $x_0$ from the interior of the set $Q$ to obtain the optimal solution from the set $Q$.
 
   \begin{figure}[ht]
     \centering
@@ -462,6 +464,17 @@ Similarly, the self-concordant barrier function for the set $Q$ is a function
   \end{figure}
 \end{example}
 
+When the matrix $X$ has the block diagonal form \refeqb{SDP:bf:bd}, we can rewrite the barrier function \refeqb{SDP:bf:bfy} into summation form
+\begin{eqnarray}
+  F(y) &=& -\sum_{j=1}^k \ln\det\big(X_j(y)\big).
+\end{eqnarray}
+For the purposes of \refalg{SDP:scb:ac} and \refalg{SDP:scb:pf}, we need the first and the second derivatives of this function.
+Let us denote $X_j(y) = A_{j, 0} + \sum_{i=1}^mA_{j, i}y\ind i$ for $j = 1, \ldots, k$, then the derivatives are:
+\begin{eqnarray}
+  \frac{\partial F}{\partial y\ind u}\big(y\big) &=& -\sum_{j=1}^k \tr\big(X_j(y)^{-1}A_{j,u}\big),\\
+  \frac{\partial^2 F}{\partial y\ind u \partial y\ind v}\big(y\big) &=& \sum_{j=1}^k \tr\Big(\big(X_j(y)^{-1}A_{j,u}\big)\big(X_j(y)^{-1}A_{j,v}\big)\Big),
+\end{eqnarray}
+for $u, v = 1,\ldots, k$.
 
 \section{Implementation details}
 %TODO about the code
