@@ -8,11 +8,11 @@ We will introduce further notation and preliminaries later on in the text when n
 
 At the beginning, let us denote the inner product for two vectors $x$, $y \in\R^n$
 \begin{eqnarray}
-  \langle x, y\rangle &=& \sum_{i=1}^n x_iy_i
+  \langle x, y\rangle &=& \sum_{i=1}^n x\ind{i}y\ind{i}
 \end{eqnarray}
 and the Frobenius inner product for two matrices $X$, $Y\in\R^{n\times m}$.
 \begin{eqnarray}
-  \langle X, Y\rangle &=& \sum_{i=1}^n \sum_{j=1}^m X_{ij}Y_{ij}
+  \langle X, Y\rangle &=& \sum_{i=1}^n \sum_{j=1}^m X\ind{i,j}Y\ind{i,j}
 \end{eqnarray}
 
 \subsection{Symmetric matrices}
@@ -38,7 +38,7 @@ The standard (primal) form of a semidefinite program in variable $X\in\Sym^n$ is
 \begin{eqnarray}
   \begin{array}{rclrrclcll}
     p^* &=& \displaystyle \sup_{X\in\Sym^n} & \multicolumn{3}{l}{\langle C,X\rangle} \\
-    && \text{s.t.} & \langle A_i, X\rangle &=& b_i & (i = 1,\ldots,m)\\
+    && \text{s.t.} & \langle A_i, X\rangle &=& b\ind i & (i = 1,\ldots,m)\\
     &&& X &\succeq& 0
   \end{array}
 \end{eqnarray}
@@ -48,7 +48,7 @@ The dual form of the primal form is the following program in variable $y\in\R^m$
 \begin{eqnarray}
   \begin{array}{rclrrclcll}
     d^* &=& \displaystyle \inf_{y\in\R^m} & \multicolumn{3}{l}{b^\top y} \\
-    && \text{s.t.} & \displaystyle \sum_{i=1}^m A_iy_i - C &\succeq& 0
+    && \text{s.t.} & \displaystyle \sum_{i=1}^m A_iy\ind i - C &\succeq& 0
   \end{array}\labeleq{SDP:prelim:dual}
 \end{eqnarray}
 
@@ -384,10 +384,10 @@ In this section, we are going to show, how to find a self-concordant barrier for
 For the purpose of this section, we are interested only in the constrains of the problem.
 The constrains are defining us the feasibility set $Q$:
 \begin{eqnarray}
-  Q &=& \bigg\{y\in\R^m\ |\ A_0 + \sum_{i=1}^mA_iy_i \succeq 0\bigg\},
+  Q &=& \bigg\{y\in\R^m\ |\ A_0 + \sum_{i=1}^mA_iy\ind i \succeq 0\bigg\},
 \end{eqnarray}
 where $A_0, \ldots, A_m \in\Sym^n$.
-Let us denote $X(y) = A_0 + \sum_{i=1}^mA_iy_i$.
+Let us denote $X(y) = A_0 + \sum_{i=1}^mA_iy\ind i$.
 If the matrix $X(y)$ is block diagonal
 \begin{eqnarray}
   X(y) &=& \begin{bmatrix}
