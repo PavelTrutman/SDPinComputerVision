@@ -58,7 +58,7 @@ The dual form of the primal form is the following program in variable $y\in\R^m$
 
 \section{Nesterov's approach}
 In this section, we will follow Chapter 4 of \cite{Nesterov-2004} by Y. Nesterov, which is devoted to convex minimization problems.
-We will extract from it only the minimum, just to be able to introduce a algorithm for SDP programs solving.
+We will extract from it only the minimum, just to be able to introduce an algorithm for semidefinite programs solving.
 We will present some basic definitions and theorems, but we will not prove them.
 For the proofs look into \cite{Nesterov-2004}.
 
@@ -468,13 +468,31 @@ When the matrix $X$ has the block diagonal form \refeqb{SDP:bf:bd}, we can rewri
 \begin{eqnarray}
   F(y) &=& -\sum_{j=1}^k \ln\det\big(X_j(y)\big).
 \end{eqnarray}
-For the purposes of \refalg{SDP:scb:ac} and \refalg{SDP:scb:pf}, we need the first and the second derivatives of this function.
+For the purposes of \refalg{SDP:scb:ac} and \refalg{SDP:scb:pf}, we need the first and the second partial derivatives of this function.
 Let us denote $X_j(y) = A_{j, 0} + \sum_{i=1}^mA_{j, i}y\ind i$ for $j = 1, \ldots, k$, then the derivatives are:
 \begin{eqnarray}
   \frac{\partial F}{\partial y\ind u}\big(y\big) &=& -\sum_{j=1}^k \tr\big(X_j(y)^{-1}A_{j,u}\big),\\
   \frac{\partial^2 F}{\partial y\ind u \partial y\ind v}\big(y\big) &=& \sum_{j=1}^k \tr\Big(\big(X_j(y)^{-1}A_{j,u}\big)\big(X_j(y)^{-1}A_{j,v}\big)\Big),
 \end{eqnarray}
-for $u, v = 1,\ldots, k$.
+for $u, v = 1,\ldots, m$.
+
+The computation of the derivatives is the most expensive part of each step of \refalg{SDP:scb:ac} and \refalg{SDP:scb:pf}.
+Therefore, the estimated number of arithmetic operations of computation of the derivatives is also the complexity of each step in the algorithms.
+The number of arithmetic operations for $j$-th constraint in form $\big\{y\ |\ X_j(y) \succeq 0\big\}$ is:
+\begin{itemize}
+  \item the computation of $X_j(y) = A_{j,0} + \sum_{i=1}^mA_{j,i}y\ind i$ needs $mn^2$ operations,
+  \item the computation of the inversion $X_j(y)^{-1}$ needs $n^3$ operations,
+  \item to compute all matrices $X_j(y)^{-1}A_{j,u}$ for $u = 1,\ldots,m$ is needed $mn^3$ operations,
+  \item to compute $\tr\big(X_j(y)^{-1}A_{j,u}\big)$ for $u = 1,\ldots,m$ is needed $mn$ operations,
+  \item the computation of $\tr\Big(\big(X_j(y)^{-1}A_{j,u}\big)\big(X_j(y)^{-1}A_{j,v}\big)\Big)$ for $u, v = 1,\ldots, m$ needs $m^2n^2$ operations.
+\end{itemize}
+The most expensive parts requires $mn^3$ and $m^2n^2$ arithmetic operations on each constraint.
+Typically, the value $k$, the number of constraints, is small and it keeps constant, when the semidefinite programs are generated as subproblems, when solving more complex problems, e.g.\ polynomial optimization. Therefore, we can say, that $k$ is constant and we can omit it from the complexity estimation.
+To sum up, one step of \refalg{SDP:scb:ac} and \refalg{SDP:scb:pf} requires
+\begin{eqnarray}
+  \mathcal{O}\big(m(m+n)n^2\big)
+\end{eqnarray}
+arithmetic operations.
 
 \section{Implementation details}
 %TODO about the code
