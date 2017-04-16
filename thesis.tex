@@ -43,6 +43,9 @@
 \newcommand{\StatexIndent}[1][1]{
   \Statex\forloop{counter}{0}{\value{counter} < #1}{\hskip\algorithmicindent\hskip-0.25em}
 }
+\renewcommand{\thealgorithm}{\arabic{chapter}.\arabic{algorithm}}
+\DeclareCaptionFormat{algorithm}{#1#2#3}
+\captionsetup[algorithm]{format=algorithm, labelsep=period}
 
 % listings settings
 \makeatletter
@@ -61,8 +64,11 @@
 \def\lst@labellis{}
 \lst@Key{labellis}{}{\def\lst@label{listing:#1}}
 \makeatother
-\lstset{basicstyle=\ttfamily,
+\lstset{basicstyle=\normalfont\ttfamily,
+  columns=fixed,
+  basewidth=0.5em,
   showstringspaces=false,
+  breaklines=true,
   commentstyle=\color{red},
   keywordstyle=\color{blue},
   numbers=left,
@@ -73,12 +79,9 @@
   frame=bottom,
   xleftmargin=25pt,
   framexleftmargin=25pt,
-  %framexrightmargin=17pt,
-  %framexbottommargin=5pt,
-  %framextopmargin=5pt,
 }
 \DeclareCaptionFormat{listing}{\rule{\dimexpr\textwidth\relax}{1pt}\vskip-3pt\hspace{-10pt}#1#2#3}
-\captionsetup[lstlisting]{format=listing, singlelinecheck=false, labelsep=space}
+\captionsetup[lstlisting]{format=listing, singlelinecheck=false, labelsep=period}
 \renewcommand\lstlistlistingname{List of Listings}
 
 \startThesisInfo

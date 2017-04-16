@@ -497,7 +497,7 @@ arithmetic operations.
 \section{Implementation details}
 To be able to study the algorithms described previously in this section, we have implemented them in the programming language Python\cite{python}.
 %TODO: cite python
-The full knowledge of the code allows us to trace the algorithms step by step and inspect their behavior.
+The full knowledge of the code allows us to trace the algorithms step by step and inspect their behaviors.
 Instead of using some state of the art toolboxes for semidefinite programming, e.g.\ SEDUMI\cite{sedumi} and YALMIP\cite{yalmip}, which are more or less black boxes for us, the knowledge of the used algorithms allows us to decide, if the chosen algorithm is suitable for the given semidefinite problem or not.
 %TODO: cite sadumi and yalmip
 Moreover, if we would like to create some specialized solver for some class of semidefinite problems, we can easily reuse the code, edit it as required and build the solver very quickly.
@@ -508,8 +508,8 @@ The package NumPy\cite{numpy} is used for linear algebra computations.
 %TODO: cite numpy
 Please refer to the installation guide of NumPy for your system to ensure, that it is correctly set to use the linear algebra libraries, e.g.\ LAPACK\cite{lapack}, ATLAS\cite{atlas} and BLAS\cite{blas}.
 %TODO: cite lapack, atlas, blas
-The incorrect setting of these libraries causes significant drop of performance.
-Other Python packages are required as well, e.g.\ SymPy\cite{sympy}, SciPy\cite{scipy}, but theirs settings are not so crucial for the performance of this implementation.
+The incorrect setting of these libraries causes significant drop of the performance.
+Other Python packages are required as well, e.g.\ SymPy\cite{sympy} and SciPy\cite{scipy}, but theirs settings are not so crucial for the performance of this implementation.
 %TODO: cite sympy, scipy
 
 \subsection{Package installation}
@@ -518,16 +518,43 @@ The package with implementation of \refalg{SDP:scb:ac} and \refalg{SDP:scb:pf} i
 The newest version of the package is available at \cite{polyopt}.
 %TODO: cite polyopt
 To install the package on your system, you have to clone and checkout the Git repository with the source codes of the package.
-To install other packages that are required, the preferred way is to use the pip installer. The required packages are listed in the \texttt{requirements.txt} file.
+To install other packages that are required, the preferred way is to use the pip\cite{pip} installer. The required packages are listed in the \texttt{requirements.txt} file.
+%TODO: cite pip
 Then, install the package using the script \texttt{setup.py}.
-For the exact commands, please see \reflis{SDP:imp:install}.
+For the exact commands for the whole installation process, please see \reflis{SDP:imp:install}.
 \begin{lstlisting}[language=bash, caption={Installation of the package polyopt.}, labellis={SDP:imp:install}]
 git clone https://github.com/PavelTrutman/polyopt.git
 cd polyopt
 pip3 install -r requirements.txt
 python3 setup.py install
 \end{lstlisting}
+To check, whether the installation was successful, simply run command \texttt{python3 setup.py test} and the predefined tests will be automatically run.
+If no error emerges, then the package is installed and ready to use.
+
 \subsection{Usage}
+The polyopt package is created to be able to solve semidefinite programs in a form
+\begin{eqnarray}
+  \begin{array}{rclrrclcll}
+    y^* &=& \displaystyle \inf_{y\in\R^m} & \multicolumn{3}{l}{c^\top y} \\
+    && \text{s.t.} & \displaystyle A_{j,0} + \sum_{i=1}^m A_{j,i}y\ind i &\succeq& 0 \text{ for } j = 1,\ldots,k,
+  \end{array}
+\end{eqnarray}
+where $A_{j,i}\in\Sym^{n_j}$ for $i = 0,\dots m$ and $j=1,\dots,k$, $c\in\R^m$ and $k$ is the number of constraints.
+In addition, a strictly feasible point $y_0\in\R^m$ must be given.
+
+The semidefinite program solver is implemented in the class \texttt{SDPSolver}. Firstly, the problem is initialized by the matrices $A_{j,i}$ and the vector $c$.
+Then, the function \texttt{solve} is called with parameter $y_0$ as the starting point and with the method for the analytic center estimation.
+A choice from two methods is available, firstly, the method \texttt{dampedNewton}, which corresponds to \refalg{SDP:scb:ac}, and secondly, the method \texttt{auxFollow}, which is the implementation of the Auxiliary path-following scheme \cite{Nesterov-2004}. 
+However, the \texttt{auxFollow} method is unstable and it fails in some cases, and therefore it is not recommended to use.
+The function \texttt{solve} returns the optimal solution $y^*$.
+The minimal working example is shown in \reflis{SDP:imp:usage}.
+\begin{lstlisting}[language=python, caption={Typical use of the class \texttt{SDPSolver} of the polyopt package.}, labellis={SDP:imp:usage}]
+import polyopt
+
+# supposing the matrices Aij and the vectors c and y0 are already defined
+problem = polyopt.SDPSolver(c, [[A10, A11, ..., A1m], ..., [Ak0, Ak1, ..., Akm]])
+yStar = problem.solve(y0, problem.dampedNewton)
+\end{lstlisting}
 
 \section{Comparison with the state of the art methods}
 %TODO some graphs
