@@ -495,7 +495,39 @@ To sum up, one step of \refalg{SDP:scb:ac} and \refalg{SDP:scb:pf} requires
 arithmetic operations.
 
 \section{Implementation details}
-%TODO about the code
+To be able to study the algorithms described previously in this section, we have implemented them in the programming language Python\cite{python}.
+%TODO: cite python
+The full knowledge of the code allows us to trace the algorithms step by step and inspect their behavior.
+Instead of using some state of the art toolboxes for semidefinite programming, e.g.\ SEDUMI\cite{sedumi} and YALMIP\cite{yalmip}, which are more or less black boxes for us, the knowledge of the used algorithms allows us to decide, if the chosen algorithm is suitable for the given semidefinite problem or not.
+%TODO: cite sadumi and yalmip
+Moreover, if we would like to create some specialized solver for some class of semidefinite problems, we can easily reuse the code, edit it as required and build the solver very quickly.
+On the other hand, we can not expect that our implementation will be as fast as the implementation of some state of the art toolboxes, as much more time and people was used for developing them.
+
+The implementation is compatible with Python version 3.6 and higher.
+The package NumPy\cite{numpy} is used for linear algebra computations.
+%TODO: cite numpy
+Please refer to the installation guide of NumPy for your system to ensure, that it is correctly set to use the linear algebra libraries, e.g.\ LAPACK\cite{lapack}, ATLAS\cite{atlas} and BLAS\cite{blas}.
+%TODO: cite lapack, atlas, blas
+The incorrect setting of these libraries causes significant drop of performance.
+Other Python packages are required as well, e.g.\ SymPy\cite{sympy}, SciPy\cite{scipy}, but theirs settings are not so crucial for the performance of this implementation.
+%TODO: cite sympy, scipy
+
+\subsection{Package installation}
+The package with implementation of \refalg{SDP:scb:ac} and \refalg{SDP:scb:pf} is named polyopt, as the semidefinite programming part of this package is only a tool, which is  used for polynomial optimization, which will be described in \refsec{poly}.
+%TODO: ref to polymonial optimization section
+The newest version of the package is available at \cite{polyopt}.
+%TODO: cite polyopt
+To install the package on your system, you have to clone and checkout the Git repository with the source codes of the package.
+To install other packages that are required, the preferred way is to use the pip installer. The required packages are listed in the \texttt{requirements.txt} file.
+Then, install the package using the script \texttt{setup.py}.
+For the exact commands, please see \reflis{SDP:imp:install}.
+\begin{lstlisting}[language=bash, caption={Installation of the package polyopt.}, labellis={SDP:imp:install}]
+git clone https://github.com/PavelTrutman/polyopt.git
+cd polyopt
+pip3 install -r requirements.txt
+python3 setup.py install
+\end{lstlisting}
+\subsection{Usage}
 
 \section{Comparison with the state of the art methods}
 %TODO some graphs

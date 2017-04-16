@@ -9,6 +9,7 @@
 \usepackage{textcomp}
 \usepackage{algorithm}
 \usepackage{algpseudocode}
+\usepackage{listings}
 \usepackage{amsmath}
 \usepackage{amssymb}
 \usepackage{amsthm}
@@ -43,6 +44,43 @@
   \Statex\forloop{counter}{0}{\value{counter} < #1}{\hskip\algorithmicindent\hskip-0.25em}
 }
 
+% listings settings
+\makeatletter
+\def\lst@numbersymbol{}
+\lst@Key{numbersymbol}{}{\def\lst@numbersymbol{#1}}
+\lst@Key{numbers}{none}{%
+  \let\lst@PlaceNumber\@empty
+  \lstKV@SwitchCases{#1}%
+  {none&\\%
+  left&\def\lst@PlaceNumber{\llap{\normalfont
+      \lst@numberstyle{\thelstnumber\lst@numbersymbol}\kern\lst@numbersep}}\\%
+  right&\def\lst@PlaceNumber{\rlap{\normalfont
+      \kern\linewidth \kern\lst@numbersep
+      \lst@numberstyle{\lst@numbersymbol\thelstnumber}}}%
+  }{\PackageError{Listings}{Numbers #1 unknown}\@ehc}}
+\def\lst@labellis{}
+\lst@Key{labellis}{}{\def\lst@label{listing:#1}}
+\makeatother
+\lstset{basicstyle=\ttfamily,
+  showstringspaces=false,
+  commentstyle=\color{red},
+  keywordstyle=\color{blue},
+  numbers=left,
+  numberstyle=\footnotesize\normalfont,
+  numbersymbol=:,
+  captionpos=t,
+  frame=top,
+  frame=bottom,
+  xleftmargin=25pt,
+  framexleftmargin=25pt,
+  %framexrightmargin=17pt,
+  %framexbottommargin=5pt,
+  %framextopmargin=5pt,
+}
+\DeclareCaptionFormat{listing}{\rule{\dimexpr\textwidth\relax}{1pt}\vskip-3pt\hspace{-10pt}#1#2#3}
+\captionsetup[lstlisting]{format=listing, singlelinecheck=false, labelsep=space}
+\renewcommand\lstlistlistingname{List of Listings}
+
 \startThesisInfo
 \title{Semidefinite Programming for Geometric Problems in Computer Vision}
 \author{Pavel Trutman}
@@ -61,19 +99,22 @@
 \newcommand{\bmE}{\end{bmatrix}}
 \newcommand{\ind}[1]{\ensuremath{^{(#1)}}}
 \newcommand{\labeldef}[1]{\label{definition:#1}}
-\newcommand{\refdef}[1]{Definition \ref{definition:#1}}
+\newcommand{\refdef}[1]{Definition~\ref{definition:#1}}
 \newcommand{\labelcol}[1]{\label{corollary:#1}}
-\newcommand{\refcol}[1]{Corollary \ref{corollary:#1}}
+\newcommand{\refcol}[1]{Corollary~\ref{corollary:#1}}
 \newcommand{\labelthe}[1]{\label{theorem:#1}}
-\newcommand{\refthe}[1]{Theorem \ref{theorem:#1}}
+\newcommand{\refthe}[1]{Theorem~\ref{theorem:#1}}
 \newcommand{\labeleq}[1]{\label{equation:#1}}
 \newcommand{\refeqb}[1]{(\ref{equation:#1})}
 \newcommand{\labelalg}[1]{\label{algorithm:#1}}
-\newcommand{\refalg}[1]{Algorithm \ref{algorithm:#1}}
+\newcommand{\refalg}[1]{Algorithm~\ref{algorithm:#1}}
 \newcommand{\labelalgline}[1]{\label{algorithm:line:#1}}
 \newcommand{\refalgline}[1]{\ref{algorithm:line:#1}}
 \newcommand{\labelfig}[1]{\label{figure:#1}}
-\newcommand{\reffig}[1]{Figure \ref{figure:#1}}
+\newcommand{\reffig}[1]{Figure~\ref{figure:#1}}
+\newcommand{\labelsec}[1]{\label{section:#1}}
+\newcommand{\refsec}[1]{Section~\ref{section:#1}}
+\newcommand{\reflis}[1]{Listing~\ref{listing:#1}}
 \newtheoremstyle{definitionStyle}
   {}
   {}
@@ -121,7 +162,9 @@
 \clearpage
 \cleardoublepage\def\thepage{\arabic{page}}\setcounter{page}{1}
 \tableofcontents\pagestyle{headings}
+\listoffigures
 \listofalgorithms
+\lstlistoflistings
 
 \glsaddall
 \printglossary[type=acronym,title=List of Symbols and Abbreviations]
