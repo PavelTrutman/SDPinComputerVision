@@ -73,7 +73,7 @@ For the proofs look into \cite{Nesterov-2004}.
 
 For better understanding of self-concordant functions, we provide several examples.
 
-\begin{example}~\\[-0.5cm]
+\begin{example}~
   \begin{enumerate}
     \item Linear and convex quadratic functions.
       \begin{eqnarray}
@@ -198,7 +198,7 @@ In \refdef{SDP:scb:scb}, the hessian $F''(x)$ is not required to be nondegenerat
 
 Let us explore, which basic functions are self-concordant barriers.
 
-\begin{example}~\\[-0.5cm]
+\begin{example}~
   \begin{enumerate}
     \item Linear functions.
       \begin{eqnarray}
@@ -495,31 +495,24 @@ To sum up, one step of \refalg{SDP:scb:ac} and \refalg{SDP:scb:pf} requires
 arithmetic operations.
 
 \section{Implementation details}
-To be able to study the algorithms described previously in this section, we have implemented them in the programming language Python\cite{python}.
-%TODO: cite python
+To be able to study the algorithms described previously in this section, we have implemented them in the programming language Python \cite{python}.
 The full knowledge of the code allows us to trace the algorithms step by step and inspect their behaviors.
-Instead of using some state of the art toolboxes for semidefinite programming, e.g.\ SEDUMI\cite{sedumi} and YALMIP\cite{yalmip}, which are more or less black boxes for us, the knowledge of the used algorithms allows us to decide, if the chosen algorithm is suitable for the given semidefinite problem or not.
-%TODO: cite sadumi and yalmip
+Instead of using some state of the art toolboxes for semidefinite programming, e.g.\ SeDuMi \cite{sedumi} and MOSEK \cite{mosek}, which are more or less black boxes for us, the knowledge of the used algorithms allows us to decide, if the chosen algorithm is suitable for the given semidefinite problem or not.
 Moreover, if we would like to create some specialized solver for some class of semidefinite problems, we can easily reuse the code, edit it as required and build the solver very quickly.
 On the other hand, we can not expect that our implementation will be as fast as the implementation of some state of the art toolboxes, as much more time and people was used for developing them.
 
 The implementation is compatible with Python version 3.6 and higher.
-The package NumPy\cite{numpy} is used for linear algebra computations.
-%TODO: cite numpy
-Please refer to the installation guide of NumPy for your system to ensure, that it is correctly set to use the linear algebra libraries, e.g.\ LAPACK\cite{lapack}, ATLAS\cite{atlas} and BLAS\cite{blas}.
-%TODO: cite lapack, atlas, blas
+The package NumPy is used for linear algebra computations.
+Please refer to the installation guide of NumPy for your system to ensure, that it is correctly set to use the linear algebra libraries, e.g.\ LAPACK \cite{lapack}, ATLAS \cite{atlas} and BLAS \cite{blas}.
 The incorrect setting of these libraries causes significant drop of the performance.
-Other Python packages are required as well, e.g.\ SymPy\cite{sympy} and SciPy\cite{scipy}, but theirs settings are not so crucial for the performance of this implementation.
-%TODO: cite sympy, scipy
+Other Python packages are required as well, e.g.\ SymPy and SciPy, but theirs settings are not so crucial for the performance of this implementation.
 
 \subsection{Package installation}
 The package with implementation of \refalg{SDP:scb:ac} and \refalg{SDP:scb:pf} is named polyopt, as the semidefinite programming part of this package is only a tool, which is  used for polynomial optimization, which will be described in \refsec{poly}.
 %TODO: ref to polymonial optimization section
-The newest version of the package is available at \cite{polyopt}.
-%TODO: cite polyopt
+The newest version of the package is available at \url{http://cmp.felk.cvut.cz/~trutmpav/master-thesis/polyopt/}.
 To install the package on your system, you have to clone and checkout the Git repository with the source codes of the package.
-To install other packages that are required, the preferred way is to use the pip\cite{pip} installer. The required packages are listed in the \texttt{requirements.txt} file.
-%TODO: cite pip
+To install other packages that are required, the preferred way is to use the pip installer. The required packages are listed in the \texttt{requirements.txt} file.
 Then, install the package using the script \texttt{setup.py}.
 For the exact commands for the whole installation process, please see \reflis{SDP:imp:install}.
 \begin{lstlisting}[language=bash, caption={Installation of the package polyopt.}, labellis={SDP:imp:install}]
@@ -528,7 +521,7 @@ cd polyopt
 pip3 install -r requirements.txt
 python3 setup.py install
 \end{lstlisting}
-To check, whether the installation was successful, simply run command \texttt{python3 setup.py test} and the predefined tests will be automatically run.
+To check, whether the installation was successful, run command \texttt{python3 setup.py test} and the predefined tests will be automatically run.
 If no error emerges, then the package is installed and ready to use.
 
 \subsection{Usage}
