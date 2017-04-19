@@ -528,7 +528,7 @@ If no error emerges, then the package is installed and ready to use.
 The polyopt package is created to be able to solve semidefinite programs in a form
 \begin{eqnarray}
   \begin{array}{rclrrclcll}
-    y^* &=& \displaystyle \inf_{y\in\R^m} & \multicolumn{3}{l}{c^\top y} \\
+    y^* &=& \displaystyle \arg\min_{y\in\R^m} & \multicolumn{3}{l}{c^\top y} \\
     && \text{s.t.} & \displaystyle A_{j,0} + \sum_{i=1}^m A_{j,i}y\ind i &\succeq& 0 \text{ for } j = 1,\ldots,k,
   \end{array}
 \end{eqnarray}
@@ -594,7 +594,7 @@ When the problem is solved, we can list the eigenvalues of $X_{k+1}(y^*)$ by the
   Let us have semidefinite program in a form
   \begin{eqnarray}
     \begin{array}{rclrrclcll}
-      y^* &=& \displaystyle \inf_{y\in\R^2} & \multicolumn{3}{l}{y\ind1 + y\ind2} \\
+      y^* &=& \displaystyle \arg\min_{y\in\R^2} & \multicolumn{3}{l}{y\ind1 + y\ind2} \\
       && \text{s.t.} & \displaystyle \bmB 1 +y\ind1 & y\ind2 & 0\\ y\ind2 & 1 -y\ind1& y\ind2\\ 0 & y\ind2 & 1-y\ind1 \bmE &\succeq& 0
     \end{array}
     \end{eqnarray}
