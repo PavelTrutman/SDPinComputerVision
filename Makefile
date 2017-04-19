@@ -8,7 +8,7 @@ IMAGES = cmp.png lev.png
 
 ALGS = self-concordant-function.tex analytic-center.tex path-follow.tex
 
-GRAPHS_FILES = SDP_hyperPar SDP_hyperParSlice
+GRAPHS_FILES = SDP_hyperPar SDP_hyperParSlice SDP_demo
 GRAPHS_PDF = $(addsuffix .pdf, $(GRAPHS_FILES))
 GRAPHS_TEX = $(addsuffix .tex, $(GRAPHS_FILES))
 GRAPHS_EPS = $(addsuffix .eps, $(GRAPHS_FILES))
@@ -40,6 +40,9 @@ thesis.pdf: $(TEXS) citations.bib $(TEMPLATE) $$(addprefix images/, $(IMAGES)) $
 
 graphs/%.pdf: graphs/%.eps
 	ps2pdf -dEPSCrop graphs/$*.eps graphs/$*.pdf
+
+graphs/%.tex graphs/%.eps: sources/graphs/%.gnuplot sources/graphs/%-*.dat
+	gnuplot sources/graphs/$*.gnuplot
 
 graphs/%.tex graphs/%.eps: sources/graphs/%.gnuplot
 	gnuplot sources/graphs/$*.gnuplot
