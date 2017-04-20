@@ -8,7 +8,7 @@ IMAGES = cmp.png lev.png
 
 ALGS = self-concordant-function.tex analytic-center.tex path-follow.tex
 
-GRAPHS_FILES = SDP_hyperPar SDP_hyperParSlice SDP_demo
+GRAPHS_FILES = SDP_hyperPar SDP_hyperParSlice SDP_demo SDP_barrier
 GRAPHS_PDF = $(addsuffix .pdf, $(GRAPHS_FILES))
 GRAPHS_TEX = $(addsuffix .tex, $(GRAPHS_FILES))
 GRAPHS_EPS = $(addsuffix .eps, $(GRAPHS_FILES))

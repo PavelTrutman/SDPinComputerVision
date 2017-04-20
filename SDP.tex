@@ -94,7 +94,7 @@ For better understanding of self-concordant functions, we provide several exampl
       \begin{eqnarray}
         f(x) &=& e^x\\
         f''(x) \ =\ f'''(x) &=& e^x\\
-        \frac{|f'''(x)|}{f''(x)^{3/2}} &=& e^{-x/2} \rightarrow\infty \ \text{ as } x\rightarrow-\infty
+        \frac{|f'''(x)|}{f''(x)^{3/2}} &=& e^{-x/2} \rightarrow+\infty \ \text{ as } x\rightarrow-\infty
       \end{eqnarray}
       Exponential functions are not self-concordant functions.
   \end{enumerate}
@@ -319,10 +319,10 @@ as a parametric penalty function.
 Using \refthe{SDP:scb:penaltyFunction} we can see, that $f(t,x)$ is self-concordant in $x$.
 Let us introduce new minimization problem using the parametric penalty function $f(t,x)$
 \begin{eqnarray}
-  x^*(t) &=& \arg\min_{x\in\dom F} f(t,x).
+  x^*(t) &=& \arg\min_{x\in\dom F} f(t,x).\labeleq{SDP:scb:centralPath}
 \end{eqnarray}
 This trajectory is called the central path of the problem \refeqb{SDP:scb:standardProblem}.
-We will reach the solution $x^*(t) \rightarrow x^*$ as $t \rightarrow \infty$.
+We will reach the solution $x^*(t) \rightarrow x^*$ as $t \rightarrow +\infty$.
 Moreover, since the set $Q$ is bounded, the analytic center $x^*_F$ of this set exists and
 \begin{eqnarray}
   x^*(0) &=& x^*_F.
@@ -360,7 +360,8 @@ Assuming $x\in\dom F$, one iteration of the path-following algorithm consists of
   \end{eqnarray}
 \end{theorem}
 
-This theorem ensures the correctness of the presented iteration of the path-following algorithm. For the whole description of the path-following algorithm, please see \refalg{SDP:scb:pf}.
+This theorem ensures the correctness of the presented iteration of the path-following algorithm.
+For the whole description of the path-following algorithm please see \refalg{SDP:scb:pf}.
 
 \input{alg/path-follow.tex}
 
@@ -378,7 +379,6 @@ The parameters $\beta$ and $\gamma$ in \refalg{SDP:scb:ac} and \refalg{SDP:scb:p
 \end{eqnarray}
 
 The union of \refalg{SDP:scb:ac} and \refalg{SDP:scb:pf} can be easily used to solve the standard minimization problem \refeqb{SDP:scb:standardProblem}, supposing we have a feasible point $x_0\in Q$.
-%TODO: picture with a logarithmic barrier
 
 \subsection{Barrier function for semidefinite programming}
 In this section, we are going to show, how to find a self-concordant barrier for the semidefinite program \refeqb{SDP:prelim:dual}, so that we can use \refalg{SDP:scb:ac} and \refalg{SDP:scb:pf} to solve it.
@@ -410,7 +410,10 @@ Instead of the set $Q$, which is parametrized by $y$, we can directly optimize o
 \end{eqnarray}
 and it is called the cone of positive semidefinite $n\times n$ matrices. This cone is a closed convex set, which interior is formed by positive definite matrices and on its boundary lie matrices, which have at least one eigenvalue equal to zero.
 
-Let us denote the function $F(X)$:
+Now, we are looking for a self-concordant barrier function, which will enable us to optimize over the cone $\PSDCone^n$.
+The domain of this function needs to contain the set $\PSDCone^n$ and the values of the function have to be growing to $+\infty$ as we are getting closer to the boundary of the set $\PSDCone^n$.
+This will create us a repelling force from the boundary of $\PSDCone^n$, when following the central path \refeqb{SDP:scb:centralPath}.
+Consider the function $F(X)$ as the self-concordant barrier function for the set $\PSDCone^n$:
 \begin{eqnarray}
   F(X) &=& -\ln\prod_{i=1}^{n}\lambda_i(X),
 \end{eqnarray}
@@ -423,6 +426,27 @@ To avoid the computation of eigenvalues, the function $F(X)$ can be also express
 \begin{theorem}\labelthe{SDP:bf:nu}
   Function $F(X)$ is an $n$-self-concordant barrier for $\PSDCone^n$.
 \end{theorem}
+
+\begin{example}
+  Consider one-dimensional problem with linear constraint $x \geq 0$.
+  Then, the set $Q$ is
+  \begin{eqnarray}
+    Q &=& \{x\in\R\ |\ x \geq 0\}
+  \end{eqnarray}
+  and one of the barrier functions for this set $Q$ is
+  \begin{eqnarray}
+    F(x) &=& -\ln(x).
+  \end{eqnarray}
+  Then, when following the central path \refeqb{SDP:scb:centralPath}, the function $F(x)$ allows us to reach the boundary of $Q$ as $t$ grows to $+\infty$.
+  This situation is showed in \reffig{SDP:bf:barrier} for different values of $t$.
+
+  \begin{figure}[ht]
+    \centering
+    \resizebox{0.95\textwidth}{!}{\input{graphs/SDP_barrier}}
+    \caption{Illustration of the barrier function for different values of $t$.}
+    \labelfig{SDP:bf:barrier}
+  \end{figure}
+\end{example}
 
 Note, that $\Dom F \supseteq \PSDCone^n$ because $\det(X) \geq 0$ when the number of negative eigenvalues of $X$ is even. Therefore, the set $\Dom F$ is made by separated subsets, which one of them is $\PSDCone^n$. As \refalg{SDP:scb:ac} and \refalg{SDP:scb:pf} are interior point algorithms, when the starting point is from $\inter\PSDCone^n$, then we never leave $\PSDCone^n$ during the execution of the algorithms and the optimal solution is found.
 
@@ -514,7 +538,7 @@ The newest version of the package is available at \url{http://cmp.felk.cvut.cz/~
 To install the package on your system, you have to clone and checkout the Git repository with the source codes of the package.
 To install other packages that are required, the preferred way is to use the pip\footnote{The PyPA recommended tool for installing Python packages. See \url{https://pip.pypa.io}.} installer. The required packages are listed in the \texttt{requirements.txt} file.
 Then, install the package using the script \texttt{setup.py}.
-For the exact commands for the whole installation process, please see \reflis{SDP:imp:install}.
+For the exact commands for the whole installation process please see \reflis{SDP:imp:install}.
 \begin{lstlisting}[language=bash, caption={Installation of the package polyopt.}, labellis={SDP:imp:install}]
 git clone https://github.com/PavelTrutman/polyopt.git
 cd polyopt
