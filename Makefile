@@ -14,6 +14,9 @@ GRAPHS_TEX = $(addsuffix .tex, $(GRAPHS_FILES))
 GRAPHS_EPS = $(addsuffix .eps, $(GRAPHS_FILES))
 GRAPHS = $(GRAPHS_TEX) $(GRAPHS_PDF)
 
+DRAWINGS_FILES = SDP_problem
+DRAWINGS_PDF = $(addsuffix .pdf, $(DRAWINGS_FILES))
+
 INTER = $(addprefix graphs/, $(GRAPHS_EPS))
 
 .PHONY: all pdf fast clean
@@ -24,12 +27,12 @@ all: thesis.pdf
 
 pdf: thesis.pdf
 
-fast: $(TEXS) $(TEMPLATE) $$(addprefix images/, $(IMAGES)) $$(addprefix alg/, $(ALGS)) $$(addprefix graphs/, $(GRAPHS))
+fast: $(TEXS) $(TEMPLATE) $$(addprefix images/, $(IMAGES)) $$(addprefix alg/, $(ALGS)) $$(addprefix graphs/, $(GRAPHS)) $$(addprefix drawings/, $(DRAWINGS_PDF))
 	sed -i 's/\eqB/\begin{eqnarray}/g' !(thesis).tex
 	sed -i 's/\eqE/\end{eqnarray}/g' !(thesis).tex
 	pdflatex thesis.tex
 
-thesis.pdf: $(TEXS) citations.bib $(TEMPLATE) $$(addprefix images/, $(IMAGES)) $$(addprefix alg/, $(ALGS)) $$(addprefix graphs/, $(GRAPHS))
+thesis.pdf: $(TEXS) citations.bib $(TEMPLATE) $$(addprefix images/, $(IMAGES)) $$(addprefix alg/, $(ALGS)) $$(addprefix graphs/, $(GRAPHS)) $$(addprefix drawings/, $(DRAWINGS_PDF))
 	sed -i 's/\eqB/\begin{eqnarray}/g' !(thesis).tex
 	sed -i 's/\eqE/\end{eqnarray}/g' !(thesis).tex
 	pdflatex thesis.tex

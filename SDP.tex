@@ -51,16 +51,40 @@ The dual form of the primal form is the following program in variable $y\in\R^m$
     && \text{s.t.} & \displaystyle \sum_{i=1}^m A_iy\ind i - C &\succeq& 0
   \end{array}\labeleq{SDP:prelim:dual}
 \end{eqnarray}
+The constraint 
+\begin{eqnarray}
+  F(y) &=& \sum_{i=1}^m A_iy\ind i - C\ \succeq\ 0
+\end{eqnarray}
+
+of the problem \refeqb{SDP:prelim:dual} is called a linear matrix inequality (LMI) in the variable $y$.
+It can be shown, that this constraint is convex since if $F(x) \succeq 0$ and $F(y) \succeq 0$, then $\forall \alpha: 0\leq  \alpha \leq 1$ holds
+\begin{eqnarray}
+  F\big(\alpha x + (1-\alpha)y\big) &=& \alpha F(x) + (1-\alpha)F(y)\ \succeq \ 0.
+\end{eqnarray}
+The objective function of the problem \refeqb{SDP:prelim:dual} is linear, and therefore convex too.
+Because the semidefinite program \refeqb{SDP:prelim:dual} has convex objective function and convex constraint, it is a convex optimization problem and can be solved by standard convex optimization methods.
+To get a general picture, how a simple semidefinite problem may look like, see \reffig{SDP:prelim:problem}.
+
+\begin{figure}[ht]
+  \centering
+  \includegraphics[width=0.5\textwidth]{drawings/SDP_problem.pdf}
+  \caption{Example of a simple semidefinite problem for $y\in\R^2$. Boundary of the feasible set $\big\{y\ |\ F(y)\succeq 0\big\}$ is shown as a black curve. The minimal value of the objective function $b^\top y$ is attained at $y^*$.}
+  \labelfig{SDP:prelim:problem}
+\end{figure}
+
+The optimal solution $y^*$ of any semidefinite program lies on the boundary of the feasible set, supposing the problem is feasible and the solution exists.
+The boundary of the feasible set is not smooth in general, but it is piecewise smooth as each piece is an algebraic surface.
 
 \section{State of the art review}
 %TODO: YALMIP, SEDUMI, MOSEK amd others
 
 
 \section{Nesterov's approach}
-In this section, we will follow Chapter 4 of \cite{Nesterov-2004} by Y. Nesterov, which is devoted to the convex minimization problems.
-We will extract from it only the minimum, just to be able to introduce an algorithm for semidefinite programs solving.
+In this section, we will follow Chapter 4 of \cite{Nesterov-2004} by Y. Nesterov, which is devoted to the convex optimization problems.
+This chapter describes the state of the art interior-point methods for solving convex optimization problems.
+We will extract from it the only minimum, just to be able to introduce an algorithm for semidefinite programs solving.
 We will present some basic definitions and theorems, but we will not prove them.
-For the proofs look into \cite{Nesterov-2004}.
+For the proofs and more details look into \cite{Nesterov-2004}.
 
 \subsection{Self-concordant functions}
 \begin{definition}[Self-concordant function in $\R$]
@@ -591,26 +615,26 @@ When the problem is solved, we can obtain the eigenvalues of $X(y^*)$ by calling
 We should observe, that some of them are positive and some of them are zero (up to the numerical precision).
 The zero eigenvalues mean, that we have reached the boundary of the set $Q$, because the optimal solution lies always on the boundary of the set $Q$.
 
-It may happen, that the set $\Dom F$ is not bounded, but the optimal solution is attained.
+It may happen, that the set $\Dom F$ is not bounded, but the optimal solution can be attained.
 In this case, the analytic center does not exists and the proposed algorithms can not be used. 
-By adding a constrain for $R\in\R$
+By adding a constraint 
 \begin{eqnarray}
   X_{k+1}(y) &=& \bmB R^2 & y\ind1 & y\ind2 & \cdots & y\ind m\\
                       y\ind1 & 1 & 0 & \cdots & 0\\
                       y\ind2 & 0 & 1 & \cdots & 0\\
                       \vdots & \vdots & \vdots & \ddots & \vdots\\
-                      y\ind m & 0 & 0 & \cdots & 1\bmE,\labeleq{SDP:imp:bound}
+                      y\ind m & 0 & 0 & \cdots & 1\bmE \text{ for } R\in\R, \labeleq{SDP:imp:bound}
 \end{eqnarray}
 we bound the set by the ball with radius $R$.
-The constrain \refeqb{SDP:imp:bound} is equivalent to
+The constraint \refeqb{SDP:imp:bound} is equivalent to
 \begin{eqnarray}
   \|y\|_2^2 &\leq&R^2.
 \end{eqnarray}
 This will make the set $\Dom F$ bounded and the analytic center can by found in the standard way by \refalg{SDP:scb:ac}.
-When optimizing the linear function by \refalg{SDP:scb:pf}, the radius $R$ may be set too small and the optimum may be found on the boundary of the constrain \refeqb{SDP:imp:bound}.
+When optimizing the linear function by \refalg{SDP:scb:pf}, the radius $R$ may be set too small and the optimum may be found on the boundary of the constraint \refeqb{SDP:imp:bound}.
 Then, the found optimum is not the solution of the original problem and the algorithm has to be run again with bigger value of $R$.
-The optimum is found on the boundary of the constrain \refeqb{SDP:imp:bound}, if at least one of the eigenvalues of $X_{k+1}(y^*)$ is zero.
-In our implementation, the artificial bounding constrain \refeqb{SDP:imp:bound} can be set by \texttt{problem.bound(R)}.
+The optimum is found on the boundary of the constraint \refeqb{SDP:imp:bound}, if at least one of the eigenvalues of $X_{k+1}(y^*)$ is zero.
+In our implementation, the artificial bounding constraint \refeqb{SDP:imp:bound} can be set by \texttt{problem.bound(R)}.
 When the problem is solved, we can list the eigenvalues of $X_{k+1}(y^*)$ by the function \texttt{problem.eigenvalues('bounded')}.
 
 \begin{example}\labelex{SDP:imp:demo}
@@ -648,7 +672,7 @@ import polyopt
 
 # Problem statement
 # min c1*y1 + c2*y2
-# s. t. A0 + A1*y1 + A2*y2 >= 0
+# s.t. A0 + A1*y1 + A2*y2 >= 0
 c = array([[1], [1]])
 A0 = array([[1,  0,  0],
             [0,  1,  0],
