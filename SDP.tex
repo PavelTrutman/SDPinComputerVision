@@ -75,6 +75,23 @@ To get a general picture, how a simple semidefinite problem may look like, see \
 The optimal solution $y^*$ of any semidefinite program lies on the boundary of the feasible set, supposing the problem is feasible and the solution exists.
 The boundary of the feasible set is not smooth in general, but it is piecewise smooth as each piece is an algebraic surface.
 
+\begin{example}[Linear programming]
+  Semidefinite programming can be seen as an extension to the linear programming since the componentwise inequalities between vectors in linear programming can be replaced by LMI.
+  Consider a linear program in a standard form
+  \begin{eqnarray}
+    \begin{array}{rclrrclcll}
+      y^* &=& \displaystyle \arg\min_{y\in\R^m} & \multicolumn{3}{l}{b^\top y} \\
+      && \text{s.t.} & \displaystyle Ay - c &\geq& 0
+    \end{array}
+  \end{eqnarray}
+  with $b\in\R^m$, $c\in\R^n$ and $A = \bmB a_1 & \ldots & a_m \bmE \in\R^{n\times m}$.
+  This program can be transformed into the semidefinite program \refeqb{SDP:prelim:dual} by assigning
+  \begin{eqnarray}
+    C &=& \diag(c),\\
+    A_i &=& \diag(a_i).
+  \end{eqnarray}
+\end{example}
+
 \section{State of the art review}
 %TODO: YALMIP, SEDUMI, MOSEK amd others
 
