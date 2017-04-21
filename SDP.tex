@@ -6,7 +6,9 @@ Since in SDP we are optimizing a convex function on a convex set, SDP is a speci
 Since SDP can be solved efficiently in polynomial time using interior-point method, it has many applications in practise.
 For example, any linear program (LP) and quadratically constrained quadratic program (QCQP) can be written as a semidefinite program.
 However, this may be not the best idea to do as more efficient algorithms exist for solving LPs and QCQPs.
-On the other hand, there exist many useful applications of SDP, e.g.\ many problems in combinatorial optimization can be approximated by semidefinite programs as well as many problems arising from automatic control theory.
+On the other hand, there exist many useful applications of SDP, e.g.\ many NP-complete problems in combinatorial optimization can be approximated by semidefinite programs. 
+One of the combinatorial problem worth mentioning is the MAX CUT problem (one of the Karp's original NP-complete problems \cite{karp1972}), for which M. Goemans and D. P. Williamson created the first approximation algorithm based on SDP \cite{max-cut}.
+Also in control theory, there are many problems based on linear matrix inequalities, which are solvable by SDP.
 Special application of SDP comes from polynomial optimization since global solution of polynomial optimization problems can be found by hierarchies of semidefinite programs.
 We will focus in details on this application in \refsec{poly}.
 
@@ -103,8 +105,20 @@ The boundary of the feasible set is not smooth in general, but it is piecewise s
 \end{example}
 
 \section{State of the art review}
-%TODO: YALMIP, SEDUMI, MOSEK amd others
+An early paper by R. Bellman and K. Fan about theoretical properties of semidefinite programs \cite{Bellman-Fan} was issued in 1963.
+Later on, many researchers worked on the problem of minimizing the maximal eigenvalue of a symmetric matrix, which can be done by solving a semidefinite program.
+Selecting a few from many: J. Cullum, W. Donath, P. Wolfe \cite{Cullum-Donath-Wolfe}, M. Overton \cite{Overton} and G. Pataki \cite{Pataki}.
+In 1984, the interior-point methods for LPs solving were introduced by N. Karmarkar \cite{Karmarkar1984}.
+It was the first reasonably efficient algorithm that solves LPs in polynomial time with excellent behavior in practise.
+The interior-point algorithms were then extended to be able to solve convex quadratic programs.
 
+In 1988, Y. Nesterov and A. Nemirovski \cite{Nesterov-Nemirovski} did an important breakthrough.
+They showed that interior-point methods developed for LPs solving can be generalized to all convex optimization problems.
+All that is required, is the knowledge of a self-concordant barrier function for the feasible set of the problem.
+Y. Nesterov and A. Nemirovski have shown that a self-concordant barrier function exists for every convex set, however their proposed universal self-concordant barrier function and its first and second derivatives are not easily computable.
+Fortunately, for SDP, which is an important class of convex optimization programs, computable self-concordant barrier functions are known, and therefore the interior-point methods can be used.
+
+%TODO: YALMIP, SEDUMI, MOSEK amd others
 
 \section{Nesterov's approach}
 In this section, we will follow Chapter 4 of \cite{Nesterov-2004} by Y. Nesterov, which is devoted to the convex optimization problems.
