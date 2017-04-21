@@ -1,6 +1,14 @@
 \chapter{Semidefinite programming}
-%TODO Some text about semidefinite programming ...
+The goal of the semidefinite programming (SDP) is to optimize a linear function on a given set, which is an intersection of a cone of positive semidefinite matrices with an affine space.
+This set is called a spectrahedron and it is a convex set.
+Since in SDP we are optimizing a convex function on a convex set, SDP is a special case of convex optimization.
 
+Since SDP can be solved efficiently in polynomial time using interior-point method, it has many applications in practise.
+For example, any linear program (LP) and quadratically constrained quadratic program (QCQP) can be written as a semidefinite program.
+However, this may be not the best idea to do as more efficient algorithms exist for solving LPs and QCQPs.
+On the other hand, there exist many useful applications of SDP, e.g.\ many problems in combinatorial optimization can be approximated by semidefinite programs as well as many problems arising from automatic control theory.
+Special application of SDP comes from polynomial optimization since global solution of polynomial optimization problems can be found by hierarchies of semidefinite programs.
+We will focus in details on this application in \refsec{poly}.
 
 \section{Preliminaries on semidefinite programs}
 We introduce here some notation and preliminaries about symmetric matrices and semidefinite programs.
@@ -18,14 +26,16 @@ and the Frobenius inner product for two matrices $X$, $Y\in\R^{n\times m}$.
 \subsection{Symmetric matrices}
 Let $\Sym^n$ denotes the space of $n\times n$ real symmetric matrices.
 
-For matrix $M\in\Sym^n$, the notation $M \succeq 0$ means that $M$ is positive semidefinite.
+For a matrix $M\in\Sym^n$, the notation $M \succeq 0$ means that $M$ is positive semidefinite.
 $M \succeq 0$ if and only if any of the following equivalent properties holds.
 \begin{enumerate}
   \item $x^\top Mx \geq 0$ for all $x \in \R^n$.
   \item All eigenvalues of $M$ are nonnegative.
 \end{enumerate}
+The set of all positive semidefinite matrices is a cone.
+We will denote it as $\PSDCone^n$ and it is called a cone of positive semidefinite matrices.
 
-For matrix $M\in\Sym^n$, the notation $M \succ 0$ means that $M$ is positive definite.
+For a matrix $M\in\Sym^n$, the notation $M \succ 0$ means that $M$ is positive definite.
 $M \succ 0$ if and only if any of the following equivalent properties holds.
 \begin{enumerate}
   \item $M \succeq 0$ and $\rank M = n$.
@@ -55,8 +65,8 @@ The constraint
 \begin{eqnarray}
   F(y) &=& \sum_{i=1}^m A_iy\ind i - C\ \succeq\ 0
 \end{eqnarray}
-
 of the problem \refeqb{SDP:prelim:dual} is called a linear matrix inequality (LMI) in the variable $y$.
+The feasible region defined by LMI is called a spectrahedron.
 It can be shown, that this constraint is convex since if $F(x) \succeq 0$ and $F(y) \succeq 0$, then $\forall \alpha: 0\leq  \alpha \leq 1$ holds
 \begin{eqnarray}
   F\big(\alpha x + (1-\alpha)y\big) &=& \alpha F(x) + (1-\alpha)F(y)\ \succeq \ 0.
