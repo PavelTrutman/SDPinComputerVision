@@ -115,10 +115,24 @@ The interior-point algorithms were then extended to be able to solve convex quad
 In 1988, Y. Nesterov and A. Nemirovski \cite{Nesterov-Nemirovski} did an important breakthrough.
 They showed that interior-point methods developed for LPs solving can be generalized to all convex optimization problems.
 All that is required, is the knowledge of a self-concordant barrier function for the feasible set of the problem.
-Y. Nesterov and A. Nemirovski have shown that a self-concordant barrier function exists for every convex set, however their proposed universal self-concordant barrier function and its first and second derivatives are not easily computable.
+Y. Nesterov and A. Nemirovski have shown that a self-concordant barrier function exists for every convex set.
+However their proposed universal self-concordant barrier function and its first and second derivatives are not easily computable.
 Fortunately, for SDP, which is an important class of convex optimization programs, computable self-concordant barrier functions are known, and therefore the interior-point methods can be used.
 
-%TODO: YALMIP, SEDUMI, MOSEK amd others
+Nowadays, there are many libraries and toolboxes that one can use for solving semidefinite programs.
+They differ to each other in used methods and their implementations.
+Before starting solving a problem, one should know the details of the problem to solve and choose the library accordingly to it as not every method and its implementation is suitable for the given problem.
+
+Most methods are based on interior-point methods, which are efficient and robust for general semidefinite programs.
+The main disadvantage of these methods is that they need to store and factorize usually large Hessian matrix.
+Most modern implementations of the interior-point methods do not need the knowledge of an interior feasible point in advance.
+SeDuMi \cite{sedumi} casts the standard semidefinite program into the homogeneous self-dual form, which has a trivial feasible point.
+SDPA \cite{sdpa} uses an infeasible interior-point method, which can initialized by an infeasible point.
+Some of the libraries (e.g.\ MOSEK \cite{mosek}) have started out as LPs solvers and were extended for QCQPs solving and convex optimization later on.
+
+Another type of methods used in SDP are the first-order methods. 
+They avoid storing and factorizing Hessian matrices, and therefore they are able to solve much larger problems than interior-point methods, but at some cost in accuracy.
+This method is implemented, for instance, in the SCS solver \cite{scs}.
 
 \section{Nesterov's approach}
 In this section, we will follow Chapter 4 of \cite{Nesterov-2004} by Y. Nesterov, which is devoted to the convex optimization problems.
@@ -704,7 +718,7 @@ When the problem is solved, we can list the eigenvalues of $X_{k+1}(y^*)$ by the
   and the objective function has value $-1.37$.
   The eigenvalues of $X(y^*)$ are
   \begin{eqnarray}
-    \Big\{\lambda_i\big(X(y^*)\big)\Big\}_{i=0}^3 &=& \{2.32\cdot10^{-4};\ 1.32;\ 2.45\}.
+    \Big\{\lambda_i\big(X(y^*)\big)\Big\}_{i=1}^3 &=& \{2.32\cdot10^{-4};\ 1.32;\ 2.45\}.
   \end{eqnarray}
 
   \begin{lstlisting}[float, language=python, caption={Code for solving semidefinite problem stated in \refex{SDP:imp:demo}.}, labellis={SDP:imp:demo}]
