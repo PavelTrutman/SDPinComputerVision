@@ -11,6 +11,7 @@ One of the combinatorial problem worth mentioning is the MAX CUT problem (one of
 Also in control theory, there are many problems based on linear matrix inequalities, which are solvable by SDP.
 Special application of SDP comes from polynomial optimization since global solution of polynomial optimization problems can be found by hierarchies of semidefinite programs.
 We will focus in details on this application in \refsec{poly}.
+%TODO: ref to polymonial optimization section
 
 \section{Preliminaries on semidefinite programs}
 We introduce here some notation and preliminaries about symmetric matrices and semidefinite programs.
@@ -767,5 +768,16 @@ print(problem.eigenvalues())
 \end{example}
 
 \section{Comparison with the state of the art methods}
-%TODO some graphs
+\begin{table}[ht]
+  \centering
+  \input{tables/SDP_performance.tex}
+  \caption{TODO}
+  \label{SDP:perf:times}
+\end{table}
 
+\begin{figure}[ht]
+  \centering
+  \resizebox{0.95\textwidth}{!}{\input{graphs/SDP_performance}}
+  \caption{TODO}
+  \labelfig{SDP:perf:times}
+\end{figure}
