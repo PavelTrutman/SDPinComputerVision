@@ -1,20 +1,20 @@
 \chapter{Semidefinite programming}
 The goal of the semidefinite programming (SDP) is to optimize a linear function on a given set, which is an intersection of a cone of positive semidefinite matrices with an affine space.
 This set is called a spectrahedron and it is a convex set.
-Since in SDP we are optimizing a convex function on a convex set, SDP is a special case of convex optimization.
+As in SDP we are optimizing a convex function on a convex set, SDP is a special case of convex optimization.
 
-Since SDP can be solved efficiently in polynomial time using interior-point method, it has many applications in practise.
+Since SDP can be solved efficiently in polynomial time using interior-point methods, it has many applications in practise.
 For example, any linear program (LP) and quadratically constrained quadratic program (QCQP) can be written as a semidefinite program.
 However, this may be not the best idea to do as more efficient algorithms exist for solving LPs and QCQPs.
 On the other hand, there exist many useful applications of SDP, e.g.\ many NP-complete problems in combinatorial optimization can be approximated by semidefinite programs. 
 One of the combinatorial problem worth mentioning is the MAX CUT problem (one of the Karp's original NP-complete problems \cite{karp1972}), for which M. Goemans and D. P. Williamson created the first approximation algorithm based on SDP \cite{max-cut}.
-Also in control theory, there are many problems based on linear matrix inequalities, which are solvable by SDP.
+Also in control theory, there are many problems based on linear matrix inequalities, which are solvable by SDP.\@
 Special application of SDP comes from polynomial optimization since global solution of polynomial optimization problems can be found by hierarchies of semidefinite programs.
 We will focus in details on this application in \refsec{poly}.
 %TODO: ref to polymonial optimization section
 
 \section{Preliminaries on semidefinite programs}
-We introduce here some notation and preliminaries about symmetric matrices and semidefinite programs.
+In this section, we introduce some notation and preliminaries about symmetric matrices and semidefinite programs.
 We will introduce further notation and preliminaries later on in the text when needed.
 
 At the beginning, let us denote the inner product for two vectors $x$, $y \in\R^n$
@@ -97,7 +97,7 @@ The boundary of the feasible set is not smooth in general, but it is piecewise s
       && \text{s.t.} & \displaystyle Ay - c &\geq& 0
     \end{array}
   \end{eqnarray}
-  with $b\in\R^m$, $c\in\R^n$ and $A = \bmB a_1 & \ldots & a_m \bmE \in\R^{n\times m}$.
+  with $b\in\R^m$, $c\in\R^n$ and $A = \bmB a_1 & \cdots & a_m \bmE \in\R^{n\times m}$.
   This program can be transformed into the semidefinite program \refeqb{SDP:prelim:dual} by assigning
   \begin{eqnarray}
     C &=& \diag(c),\\
@@ -117,8 +117,8 @@ In 1988, Y. Nesterov and A. Nemirovski \cite{Nesterov-Nemirovski} did an importa
 They showed that interior-point methods developed for LPs solving can be generalized to all convex optimization problems.
 All that is required, is the knowledge of a self-concordant barrier function for the feasible set of the problem.
 Y. Nesterov and A. Nemirovski have shown that a self-concordant barrier function exists for every convex set.
-However their proposed universal self-concordant barrier function and its first and second derivatives are not easily computable.
-Fortunately, for SDP, which is an important class of convex optimization programs, computable self-concordant barrier functions are known, and therefore the interior-point methods can be used.
+However, their proposed universal self-concordant barrier function and its first and second derivatives are not easily computable.
+Fortunately for SDP, which is an important class of convex optimization programs, computable self-concordant barrier functions are known, and therefore the interior-point methods can be used.
 
 Nowadays, there are many libraries and toolboxes that one can use for solving semidefinite programs.
 They differ to each other in used methods and their implementations.
@@ -181,7 +181,7 @@ For better understanding of self-concordant functions, we provide several exampl
 \end{example}
 
 \begin{definition}[Self-concordant function in $\R^n$]
-  A closed convex function $f: \R^n \mapsto \R$ is self-concordant if function
+  A closed convex function $f: \R^n \mapsto \R$ is self-concordant if function $g: \R \mapsto \R$
   \begin{eqnarray}
     g(t) &=& f(x + tv)
   \end{eqnarray}
@@ -226,7 +226,7 @@ Consider following minimization problem
   x^* &=& \arg\min_{x\in\dom f} f(x)\labeleq{SDP:scf:minProblem}
 \end{eqnarray}
 as the minimization of the self-concordant function $f(x)$.
-\refalg{SDP:scf} is describing the iterative process of solving optimization problem \refeqb{SDP:scf:minProblem}.
+\refalg{SDP:scf} is describing the iterative process of solving the optimization problem \refeqb{SDP:scf:minProblem}.
 The algorithm is divided into two stages by the value of $\|f'(x_k)\|_{x_k}^*$.
 The splitting parameter $\beta$ guarantees quadratic convergence rate for the second part of the algorithm. The parameter $\beta$ is chosen from interval $(0, \bar{\lambda})$, where
 \begin{eqnarray}
@@ -348,7 +348,7 @@ Now, let us focus on the main properties of self-concordant barriers.
 \end{theorem}
 
 There is one special point of convex set, which is important for solving convex minimization problem. 
-It is called analytic center of convex set and we will focus on its properties.
+It is called the analytic center of convex set and we will focus on its properties.
 
 \begin{definition}
   Let $F(x)$ be a $\nu$-self-concordant barrier for the set $\Dom F$. The point
@@ -448,7 +448,7 @@ For the whole description of the path-following algorithm please see \refalg{SDP
 \begin{theorem}
   \refalg{SDP:scb:pf} terminates no more than after $N$ steps, where
   \begin{eqnarray}
-    N &\leq& \mathcal{O}\Bigg(\sqrt{\nu}\ln\frac{\nu \|c\|^*_{x^*_F}}{\epsilon}\Bigg).
+    N &\leq& \mathcal{O}\Bigg(\sqrt{\nu}\ln\frac{\nu \|c\|^*_{x^*_F}}{\varepsilon}\Bigg).
   \end{eqnarray}
 \end{theorem}
 
@@ -528,7 +528,7 @@ To avoid the computation of eigenvalues, the function $F(X)$ can be also express
   \end{figure}
 \end{example}
 
-Note, that $\Dom F \supseteq \PSDCone^n$ because $\det(X) \geq 0$ when the number of negative eigenvalues of $X$ is even. Therefore, the set $\Dom F$ is made by separated subsets, which one of them is $\PSDCone^n$. As \refalg{SDP:scb:ac} and \refalg{SDP:scb:pf} are interior point algorithms, when the starting point is from $\inter\PSDCone^n$, then we never leave $\PSDCone^n$ during the execution of the algorithms and the optimal solution is found.
+Note, that $\Dom F \supseteq \PSDCone^n$ because $\det(X) \geq 0$ when the number of negative eigenvalues of $X$ is even. Therefore, the set $\Dom F$ is made by disjoint subsets, which one of them is $\PSDCone^n$. As \refalg{SDP:scb:ac} and \refalg{SDP:scb:pf} are interior point algorithms, when the starting point is from $\inter\PSDCone^n$, then we never leave $\PSDCone^n$ during the execution of the algorithms and the optimal solution is found.
 
 Similarly, the self-concordant barrier function for the set $Q$ is a function 
 \begin{eqnarray}
@@ -551,7 +551,7 @@ Similarly, the self-concordant barrier function for the set $Q$ is a function
   \end{eqnarray}
   and is shaded by the blue color.
   We can see, that the set $\Dom F(y)$ consists of two disjoint parts. One of them is the set, where $X(y)\succeq0$ (denoted by the orange color) and the second part is an area, where both eigenvalues of $X(y)$ are negative.
-  Therefore, one has to pick his starting point $x_0$ from the interior of the set $Q$ to obtain the optimal solution from the set $Q$.
+  Therefore, one has to pick his starting point $x_0$ from the interior of the set $Q = \big\{y\in\R^2\ |\ X(y) \succeq 0\big\}$ to obtain the optimal solution from the set $Q$.
 
   \begin{figure}[ht]
     \centering
@@ -603,7 +603,7 @@ To be able to study the algorithms described previously in this section, we have
 The full knowledge of the code allows us to trace the algorithms step by step and inspect their behaviors.
 Instead of using some state of the art toolboxes for semidefinite programming, e.g.\ SeDuMi \cite{sedumi} and MOSEK \cite{mosek}, which are more or less black boxes for us, the knowledge of the used algorithms allows us to decide, if the chosen algorithm is suitable for the given semidefinite problem or not.
 Moreover, if we would like to create some specialized solver for some class of semidefinite problems, we can easily reuse the code, edit it as required and build the solver very quickly.
-On the other hand, we can not expect that our implementation will be as fast as the implementation of some state of the art toolboxes, as much more time and people was used for developing them.
+On the other hand, we can not expect that our implementation will be as fast as the implementation of some state of the art toolboxes, as much more time and people was used to develop them.
 
 The implementation is compatible with Python version 3.6 and higher.
 The package NumPy is used for linear algebra computations.
@@ -625,7 +625,7 @@ cd polyopt
 pip3 install -r requirements.txt
 python3 setup.py install
 \end{lstlisting}
-To check, whether the installation was successful, run command \texttt{python3 setup.py test} and the predefined tests will be automatically run.
+To check, whether the installation was successful, run command \texttt{python3 setup.py test}, which will execute the predefined tests.
 If no error emerges, then the package is installed and ready to use.
 
 \subsection{Usage}
@@ -639,7 +639,7 @@ The Polyopt package is created to be able to solve semidefinite programs in a fo
 where $A_{j,i}\in\Sym^{n_j}$ for $i = 0,\dots m$ and $j=1,\dots,k$, $c\in\R^m$ and $k$ is the number of constraints.
 In addition, a strictly feasible point $y_0\in\R^m$ must be given.
 
-The semidefinite program solver is implemented in the class \texttt{SDPSolver}. Firstly, the problem is initialized by the matrices $A_{j,i}$ and the vector $c$.
+The semidefinite program solver is implemented in the class \texttt{SDPSolver} of the Polyopt package. Firstly, the problem is initialized by the matrices $A_{j,i}$ and the vector $c$.
 Then, the function \texttt{solve} is called with parameter $y_0$ as the starting point and with the method for the analytic center estimation.
 A choice from two methods is available, firstly, the method \texttt{dampedNewton}, which corresponds to \refalg{SDP:scb:ac}, and secondly, the method \texttt{auxFollow}, which is the implementation of the Auxiliary path-following scheme \cite{Nesterov-2004}. 
 However, the \texttt{auxFollow} method is unstable and it fails in some cases, and therefore it is not recommended to use.
@@ -663,7 +663,7 @@ An example of such a graph is shown in \reffig{SDP:imp:demo}.
 
 The parameters $\beta$ and $\gamma$ are predefined to the same values as in \refeqb{SDP:scb:beta} and \refeqb{SDP:scb:gamma}.
 These parameters can be set to different values by assigning to the variables \texttt{problem.beta} and \texttt{problem.gamma} respectively.
-The default value for the accuracy parameter $\epsilon$ is $10^{-3}$.
+The default value for the accuracy parameter $\varepsilon$ is $10^{-3}$.
 This value can be changed by overwriting the variable \texttt{problem.eps}.
 
 The function \texttt{problem.getNu()} returns the $\nu$ parameter of the self-concordant barrier function used for the problem according to \refthe{SDP:bf:nu}.
@@ -688,7 +688,7 @@ The constraint \refeqb{SDP:imp:bound} is equivalent to
 \end{eqnarray}
 This will make the set $\Dom F$ bounded and the analytic center can by found in the standard way by \refalg{SDP:scb:ac}.
 When optimizing the linear function by \refalg{SDP:scb:pf}, the radius $R$ may be set too small and the optimum may be found on the boundary of the constraint \refeqb{SDP:imp:bound}.
-Then, the found optimum is not the solution of the original problem and the algorithm has to be run again with bigger value of $R$.
+Then, the found optimum is not the solution to the original problem and the algorithm has to be run again with bigger value of $R$.
 The optimum is found on the boundary of the constraint \refeqb{SDP:imp:bound}, if at least one of the eigenvalues of $X_{k+1}(y^*)$ is zero.
 In our implementation, the artificial bounding constraint \refeqb{SDP:imp:bound} can be set by \texttt{problem.bound(R)}.
 When the problem is solved, we can list the eigenvalues of $X_{k+1}(y^*)$ by the function \texttt{problem.eigenvalues('bounded')}.
@@ -771,26 +771,35 @@ print(problem.eigenvalues())
 \input{macros/SDP_performance}
 Because a new implementation of a well-known algorithm was made, one should compare many properties of this implementation with the contemporary state of the art methods.
 For that reason, we have generated some random instances of semidefinite problems.
-We have solved these problems by our implementation from the Polyopt package and by selected the state of the art toolboxes, namely SeDuMi \cite{sedumi} and MOSEK \cite{mosek}.
+We have solved these problems by our implementation from the Polyopt package and by selected state of the art toolboxes, namely SeDuMi \cite{sedumi} and MOSEK \cite{mosek}.
 Firstly, we have verified the correctness of the implementation by checking that the optimal solution is the same as the solution obtained by SeDuMi and MOSEK for each instance of data.
 We have also measured execution times of all three libraries and compared them in \reftab{SDP:perf:times} and \reffig{SDP:perf:times}.
 
+\subsection{Problem description}
 Now, let us describe, how the random instances of the semidefinite problems were generated.
 From \refeqb{SDP:bf:O} we know that each step of \refalg{SDP:scb:ac} and \refalg{SDP:scb:pf} requires $m(m+n)n^2$ arithmetic operations, where $m$ is the size of the matrices in the LMI constraint and $n$ is the number of variables.
-Since in typical applications of SDP, the size of the matrices grows with the number of variables, we have set $m = n$ to have just single parameter, which we call size of the problem.
+Since in typical applications of SDP, the size of the matrices grows with the number of variables, we have set $m = n$ to have just single parameter, which we call the size of the problem.
+
 In our experiment, we have generated \importSDPPerformanceUnique{} unique LMI constraints for each size of the problem from \importSDPPerformanceDimMin{} to \importSDPPerformanceDimMax{}.
 Each unique constraint has form
 \begin{eqnarray}
-  X_{k,l}(y) &=& \Iden k + \sum_{i=1}^k A_{k,l,i} y\ind i
+  X_{k,l}(y) &=& \Iden k + \sum_{i=1}^k A_{k,l,i} y\ind i\labeleq{SDP:perf:constr}
 \end{eqnarray}
-for $k = \importSDPPerformanceDimMin, \ldots, \importSDPPerformanceDimMax$ and $l = 1,\ldots, \importSDPPerformanceUnique$, where $A_{k,l,i}\in\Sym^k$.
-The matrices $A_{k,l,i}$ are filled by random numbers from uniform distribution $(-1;1)$ with symmetricity of the matrices preserved.
+for the size of the problem $k = \importSDPPerformanceDimMin, \ldots, \importSDPPerformanceDimMax$ and unique LMI constraint $l = 1,\ldots, \importSDPPerformanceUnique$, where $A_{k,l,i}\in\Sym^k$.
+The matrices $A_{k,l,i}$ were filled with random numbers from uniform distribution $(-1;1)$ with symmetricity of the matrices preserved.
+The package Polyopt requires the starting point $y_0$ to be given by the user in advance.
+But from the structure of the constraint \refeqb{SDP:perf:constr} we can see that $y_0\in\R^k$
+\begin{eqnarray}
+  y_0 &=& \bmB 0 & \cdots & 0\bmE^\top
+\end{eqnarray}
+is a feasible point.
 However, since the LMI constraints were randomly generated, there is no guarantee that the sets, which they define, are bounded.
-Therefore, we add constraint \refeqb{SDP:imp:bound} for $R = \importSDPPerformanceBound$, which will guarantee that we will optimize over bounded set.
+Therefore, we have added constraint \refeqb{SDP:imp:bound} for $R = \importSDPPerformanceBound$, which guarantees that we are optimizing over bounded sets.
+
 The objective function of the problem is generated randomly too.
 For each unique instance, we have generated random vector $r\in\R^n$ from uniform distribution $(-1;1)$.
 Then, the objective function to minimize is $r^\top y$.
-The final generated problem denoted $P_{k,l}$ looks like
+The final generated problem denoted as $P_{k,l}$ looks like
 \begin{eqnarray}
   \begin{array}{rclrrclcll}
     && \displaystyle \min_{y\in\R^k} & \multicolumn{3}{l}{r_{k,l}^\top y} \\
@@ -803,17 +812,18 @@ The final generated problem denoted $P_{k,l}$ looks like
  \end{array}
 \end{eqnarray}
 
-To eliminate influences that negatively affect the execution times on CPU, such as other processes competing for the same CPU core, processor caching, data loading delays, we have executed each problem $P_{k,l}$ \importSDPPerformanceRepeat{} times.
+\subsection{Time measuring}
+To eliminate influences that negatively affect the execution times on CPU, such as other processes competing for the same CPU core, processor caching, data loading delays, etc., we have executed each problem $P_{k,l}$ \importSDPPerformanceRepeat{} times.
 So, for each problem $P_{k,l}$ we have obtained execution times $\tau_{k,l,s}$ for $s = 1,\ldots,\importSDPPerformanceRepeat$.
-Because the influences mentioned above can only prolong the execution times, we have selected minimum of $\tau_{k,l,s}$ for each $P_{k,l}$
+Because the influences mentioned above can only prolong the execution times, we have selected minimum of $\tau_{k,l,s}$ for each problem $P_{k,l}$.
 \begin{eqnarray}
-  \tau_{k,l} &=& \min_{s=1}^{\importSDPPerformanceRepeat} \tau_{k,l,s}.
+  \tau_{k,l} &=& \min_{s=1}^{\importSDPPerformanceRepeat} \tau_{k,l,s}
 \end{eqnarray}
-Since the execution times of problems of the same sizes should be more or less the same, we have computed the average execution time $\tau_k$ for each problem size.
+Since the execution times of problems of the same sizes should be more or less the same, we have computed the average execution time $\tau_k$ for each size of the problem.
 \begin{eqnarray}
   \tau_k &=& \frac{1}{\importSDPPerformanceUnique}\sum_{l=1}^{\importSDPPerformanceUnique} \tau_{k,l}
 \end{eqnarray}
-These execution times $\tau_k$ were measured and computed separately for the Polyopt, SeDuMi and MOSEK toolboxes and are shown in \reftab{SDP:perf:times} and \reffig{SDP:perf:times}, where $k$ is the size of the problem.
+These execution times $\tau_k$, where $k$ is the size of the problem, were measured and computed separately for the Polyopt, SeDuMi and MOSEK toolboxes and are shown in \reftab{SDP:perf:times} and \reffig{SDP:perf:times}.
 
 \begin{table}[ht]
   \centering
@@ -830,15 +840,19 @@ These execution times $\tau_k$ were measured and computed separately for the Pol
 \end{figure}
 
 It has to be mentioned, that the Polyopt toolbox is implemented in Python, but the toolboxes SeDuMi and MOSEK were run from MATLAB with precompiled MEX files (compiled C, \CC{} or Fortran code) and therefore the execution times are not readily comparable.
-On the other side, the Python package NumPy uses common linear algebra libraries, like LAPACK \cite{lapack}, ATLAS \cite{atlas} and BLAS \cite{blas} and we can presume that SeDuMi and MOSEK use them too.
+On the other side, the Python package NumPy uses common linear algebra libraries, like LAPACK \cite{lapack}, ATLAS \cite{atlas} and BLAS \cite{blas}, and we can presume that SeDuMi and MOSEK use them too.
 
 Our intention was to measure only the execution time of the solving phase, not of the preparation time.
 In case of the Polyopt package, we measured the execution time of the function \texttt{solve()}.
 For SeDuMi and MOSEK, we have used MATLAB framework YALMIP \cite{yalmip} for defining the semidefinite programs and calling the solvers.
 The execution time of the YALMIP code is quite long, because YALMIP makes an analysis of the problem and compiles it into a standard form.
 Only after that, an external solver (SeDuMi or MOSEK) is called to solve the problem.
-Fortunately, YALMIP measures the execution time of the solver, so we have used this time in our statistics.
+Fortunately, YALMIP internally measures the execution time of the solver, so we have used this time in our statistics.
 
+The experiments were executed on Intel Core i5-3210M CPU 2.50 GHz based computer with sufficient amount of free system memory.
+The installed version of Python was 3.6.1 and MATLAB R2016b 64-bit was used.
+
+\subsection{Results}
 By the look of the graph in \reffig{SDP:perf:times}, we can see that the MOSEK toolbox totally wins.
 The SeDuMi toolbox seems to have some constant overhead, but the execution time grows slowly with the increasing size of the problem.
 The Polyopt package accomplishes quite bad results compared to SeDuMi and MOSEK, especially for large sizes of problems.

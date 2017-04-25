@@ -5,14 +5,14 @@
       \Statex $x_0 \in \dom F$ a starting point satisfying $\|F'(x_0)\|^*_{x_0} \leq \beta$, e.g.\ the analytic center $x^*_F$ of the set $\Dom F$
       \Statex $\beta \in (0,1)$ a centering parameter
       \Statex $\gamma$ a parameter satisfying $|\gamma| \leq \frac{\sqrt{\beta}}{1+\sqrt{\beta}} - \beta$
-      \Statex $\epsilon > 0$ an accuracy
+      \Statex $\varepsilon > 0$ an accuracy
     \Ensure
       \Statex $x^*$ an optimal solution to the minimization problem \refeqb{SDP:scb:standardProblem}
       \Statex
 
     \State $t_0 \gets 0$
     \State $k \gets 0$
-    \While{$\epsilon t_k < \nu + \frac{(\beta + \sqrt{\nu})\beta}{1-\beta}$}
+    \While{$\varepsilon t_k < \nu + \frac{(\beta + \sqrt{\nu})\beta}{1-\beta}$}
       \State $t_{k+1} \gets t_k + \frac{\gamma}{\|c\|^*_{x_k}}$
       \State $x_{k+1} \gets x_k - F''(x_k)^{-1}\big(t_{k+1}c + F'(x_k)\big)$
       \State $k \gets k + 1$

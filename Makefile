@@ -67,7 +67,7 @@ graphs/%.tex graphs/%.eps: sources/graphs/%.gnuplot
 	gnuplot sources/graphs/$*.gnuplot
 
 tables/SDP_performance.tex macros/SDP_performance.tex data/SDP_performance.dat: data/SDP_matrices.mat data/SDP_timesPolyopt.mat data/SDP_timesSedumi.mat data/SDP_timesMosek.mat sources/scripts/SDP_timesLaTeX.py
-	PYTHONPATH=sources/scripts/ python3 -m SDP_timesLaTeX
+	PYTHONPATH=sources/scripts/ python3.6 -m SDP_timesLaTeX
 
 clean:
 	-rm thesis.!(tex)
@@ -86,7 +86,7 @@ data/SDP_timesPolyopt.mat: data/SDP_matrices.mat sources/scripts/SDP_polyopt.py
 	if [ -e $@ ] && [ "$(AllowGenerateData)" != "TRUE" ]; then \
 		touch $@; \
 	else \
-		PYTHONPATH=sources/scripts/ python3 -m SDP_polyopt; \
+		PYTHONPATH=sources/scripts/ python3.6 -m SDP_polyopt; \
 	fi;
 
 data/SDP_timesSedumi.mat: data/SDP_matrices.mat sources/scripts/SDP_sedumi.m
@@ -107,5 +107,5 @@ data/SDP_matrices.mat: sources/scripts/SDP_generateData.py
 	if [ -e $@ ] && [ "$(AllowGenerateData)" != "TRUE" ]; then \
 		touch $@; \
 	else \
-		PYTHONPATH=sources/scripts/ python3 -m SDP_generateData; \
+		PYTHONPATH=sources/scripts/ python3.6 -m SDP_generateData; \
 	fi;
