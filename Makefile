@@ -26,6 +26,9 @@ DRAWINGS_PDF = $(addsuffix .pdf, $(DRAWINGS_FILES))
 TABLES_FILES = SDP_performance
 TABLES_TEXS = $(addsuffix .tex, $(TABLES_FILES))
 
+MACROS_FILES = SDP_performance
+MACROS_TEXS = $(addsuffix .tex, $(MACROS_FILES))
+
 INTER = $(addprefix graphs/, $(GRAPHS_EPS))
 
 .PHONY: all pdf fast clean cleanData cleanAll
@@ -39,8 +42,7 @@ pdf: thesis.pdf
 fast: Fast = TRUE
 fast: thesis.pdf
 
-thesis.pdf: $(TEXS) citations.bib $(TEMPLATE) $$(addprefix images/, $(IMAGES)) $$(addprefix alg/, $(ALGS)) $$(addprefix graphs/, $(GRAPHS)) $$(addprefix drawings/, $(DRAWINGS_PDF)) $$(addprefix tables/, $(TABLES_TEXS))
-	$(info $(Fast))
+thesis.pdf: $(TEXS) citations.bib $(TEMPLATE) $$(addprefix images/, $(IMAGES)) $$(addprefix alg/, $(ALGS)) $$(addprefix graphs/, $(GRAPHS)) $$(addprefix drawings/, $(DRAWINGS_PDF)) $$(addprefix tables/, $(TABLES_TEXS)) $$(addprefix macros/, $(MACROS_TEXS))
 	sed -i 's/\eqB/\begin{eqnarray}/g' !(thesis).tex
 	sed -i 's/\eqE/\end{eqnarray}/g' !(thesis).tex
 	pdflatex thesis.tex
@@ -64,13 +66,15 @@ graphs/SDP_performance.tex graphs/SDP_performance.eps: sources/graphs/SDP_perfor
 graphs/%.tex graphs/%.eps: sources/graphs/%.gnuplot
 	gnuplot sources/graphs/$*.gnuplot
 
-tables/SDP_performance.tex data/SDP_performance.dat: data/SDP_matrices.mat data/SDP_timesPolyopt.mat data/SDP_timesSedumi.mat data/SDP_timesMosek.mat sources/scripts/SDP_timesLaTeX.py
+tables/SDP_performance.tex macros/SDP_performance.tex data/SDP_performance.dat: data/SDP_matrices.mat data/SDP_timesPolyopt.mat data/SDP_timesSedumi.mat data/SDP_timesMosek.mat sources/scripts/SDP_timesLaTeX.py
 	PYTHONPATH=sources/scripts/ python3 -m SDP_timesLaTeX
 
 clean:
 	-rm thesis.!(tex)
 	-rm $(addprefix graphs/, $(GRAPHS)) $(addprefix graphs/, $(GRAPHS_EPS))
-	-rm tables/SDP_performance.tex data/SDP_performance.dat 
+	-rm tables/SDP_performance.tex
+	-rm data/SDP_performance.dat 
+	-rm macros/SDP_performance.tex 
 
 cleanData:
 	-rm data/SDP_matrices.mat data/SDP_timesPolyopt.mat data/SDP_timesSedumi.mat data/SDP_timesMosek.mat

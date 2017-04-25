@@ -22,6 +22,7 @@ if __name__ == '__main__':
   matrices = matData['matrices'][0]
   
   timesAll = np.zeros(len(dims), dtype=np.object)
+  resultsAll = np.zeros(len(dims), dtype=np.object)
 
   for dimIdx in range(len(dims)):
     dim = dims[dimIdx]
@@ -30,15 +31,18 @@ if __name__ == '__main__':
     objective = np.ones((dim, 1))
     startPoint = np.zeros((dim, 1))
     times = np.empty((unique, repeat))
+    results = np.empty((unique, repeat), dtype=np.object)
     for j in range(unique):
       for i in range(repeat):
         problem = polyopt.SDPSolver(objective, [matricesDim[:, j]])
         problem.bound(bound)
         timeStart = timeit.default_timer()
-        problem.solve(startPoint, problem.dampedNewton)
+        r = problem.solve(startPoint, problem.dampedNewton)
         times[j, i] = timeit.default_timer() - timeStart
-        print('.', end='', flush=True)
+        results[j, i] = r
+      print('.', end='', flush=True)
     print()
     timesAll[dimIdx] = times
+    resultsAll[dimIdx] = results
 
-  scipy.io.savemat('data/SDP_timesPolyopt.mat', {'times': timesAll})
+  scipy.io.savemat('data/SDP_timesPolyopt.mat', {'times': timesAll, 'results': resultsAll})

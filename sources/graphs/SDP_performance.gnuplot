@@ -4,7 +4,7 @@ set output "graphs/SDP_performance.tex"
 set grid
 set key top left
 set title ""
-set xlabel "Dimension"
+set xlabel "Problem size"
 set ylabel "Execution time [s]"
 set samples 100000
 
