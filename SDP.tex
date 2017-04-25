@@ -523,7 +523,7 @@ To avoid the computation of eigenvalues, the function $F(X)$ can be also express
   \begin{figure}[ht]
     \centering
     \resizebox{0.95\textwidth}{!}{\input{graphs/SDP_barrier}}
-    \caption{Illustration of the barrier function for different values of $t$.}
+    \caption{Illustration of the logarithmic barrier function for different values of $t$.}
     \labelfig{SDP:bf:barrier}
   \end{figure}
 \end{example}
@@ -594,7 +594,7 @@ The most expensive parts requires $mn^3$ and $m^2n^2$ arithmetic operations on e
 Typically, the value $k$, the number of constraints, is small and it keeps constant, when the semidefinite programs are generated as subproblems, when solving more complex problems, e.g.\ polynomial optimization. Therefore, we can say, that $k$ is constant and we can omit it from the complexity estimation.
 To sum up, one step of \refalg{SDP:scb:ac} and \refalg{SDP:scb:pf} requires
 \begin{eqnarray}
-  \mathcal{O}\big(m(m+n)n^2\big)
+  \mathcal{O}\big(m(m+n)n^2\big)\labeleq{SDP:bf:O}
 \end{eqnarray}
 arithmetic operations.
 
@@ -612,14 +612,14 @@ The incorrect setting of these libraries causes significant drop of the performa
 Other Python packages are required as well, e.g.\ SymPy and SciPy, but theirs settings are not so crucial for the performance of this implementation.
 
 \subsection{Package installation}
-The package with implementation of \refalg{SDP:scb:ac} and \refalg{SDP:scb:pf} is named polyopt, as the semidefinite programming part of this package is only a tool, which is  used for polynomial optimization, which will be described in \refsec{poly}.
+The package with implementation of \refalg{SDP:scb:ac} and \refalg{SDP:scb:pf} is named Polyopt, as the semidefinite programming part of this package is only a tool, which is  used for polynomial optimization, which will be described in \refsec{poly}.
 %TODO: ref to polymonial optimization section
 The newest version of the package is available at \url{http://cmp.felk.cvut.cz/~trutmpav/master-thesis/polyopt/}.
 To install the package on your system, you have to clone and checkout the Git repository with the source codes of the package.
 To install other packages that are required, the preferred way is to use the pip\footnote{The PyPA recommended tool for installing Python packages. See \url{https://pip.pypa.io}.} installer. The required packages are listed in the \texttt{requirements.txt} file.
 Then, install the package using the script \texttt{setup.py}.
 For the exact commands for the whole installation process please see \reflis{SDP:imp:install}.
-\begin{lstlisting}[language=bash, caption={Installation of the package polyopt.}, labellis={SDP:imp:install}]
+\begin{lstlisting}[language=bash, caption={Installation of the package Polyopt.}, labellis={SDP:imp:install}]
 git clone https://github.com/PavelTrutman/polyopt.git
 cd polyopt
 pip3 install -r requirements.txt
@@ -629,7 +629,7 @@ To check, whether the installation was successful, run command \texttt{python3 s
 If no error emerges, then the package is installed and ready to use.
 
 \subsection{Usage}
-The polyopt package is created to be able to solve semidefinite programs in a form
+The Polyopt package is created to be able to solve semidefinite programs in a form
 \begin{eqnarray}
   \begin{array}{rclrrclcll}
     y^* &=& \displaystyle \arg\min_{y\in\R^m} & \multicolumn{3}{l}{c^\top y} \\
@@ -645,7 +645,7 @@ A choice from two methods is available, firstly, the method \texttt{dampedNewton
 However, the \texttt{auxFollow} method is unstable and it fails in some cases, and therefore it is not recommended to use.
 The function \texttt{solve} returns the optimal solution $y^*$.
 The minimal working example is shown in \reflis{SDP:imp:usage}.
-\begin{lstlisting}[language=python, caption={Typical use of the class \texttt{SDPSolver} of the polyopt package.}, labellis={SDP:imp:usage}]
+\begin{lstlisting}[language=python, caption={Typical use of the class \texttt{SDPSolver} of the Polyopt package.}, labellis={SDP:imp:usage}]
 import polyopt
 
 # supposing the matrices Aij and the vectors c and y0 are already defined
@@ -694,7 +694,7 @@ In our implementation, the artificial bounding constraint \refeqb{SDP:imp:bound}
 When the problem is solved, we can list the eigenvalues of $X_{k+1}(y^*)$ by the function \texttt{problem.eigenvalues('bounded')}.
 
 \begin{example}\labelex{SDP:imp:demo}
-  Let us present a simple example to show a detailed usage of the package polyopt.
+  Let us present a simple example to show a detailed usage of the package Polyopt.
   Let us have semidefinite program in a form
   \begin{eqnarray}
     \begin{array}{rclrrclcll}
@@ -768,16 +768,79 @@ print(problem.eigenvalues())
 \end{example}
 
 \section{Comparison with the state of the art methods}
+\input{macros/SDP_performance}
+Because a new implementation of a well-known algorithm was made, one should compare many properties of this implementation with the contemporary state of the art methods.
+For that reason, we have generated some random instances of semidefinite problems.
+We have solved these problems by our implementation from the Polyopt package and by selected the state of the art toolboxes, namely SeDuMi \cite{sedumi} and MOSEK \cite{mosek}.
+Firstly, we have verified the correctness of the implementation by checking that the optimal solution is the same as the solution obtained by SeDuMi and MOSEK for each instance of data.
+We have also measured execution times of all three libraries and compared them in \reftab{SDP:perf:times} and \reffig{SDP:perf:times}.
+
+Now, let us describe, how the random instances of the semidefinite problems were generated.
+From \refeqb{SDP:bf:O} we know that each step of \refalg{SDP:scb:ac} and \refalg{SDP:scb:pf} requires $m(m+n)n^2$ arithmetic operations, where $m$ is the size of the matrices in the LMI constraint and $n$ is the number of variables.
+Since in typical applications of SDP, the size of the matrices grows with the number of variables, we have set $m = n$ to have just single parameter, which we call size of the problem.
+In our experiment, we have generated \importSDPPerformanceUnique{} unique LMI constraints for each size of the problem from \importSDPPerformanceDimMin{} to \importSDPPerformanceDimMax{}.
+Each unique constraint has form
+\begin{eqnarray}
+  X_{k,l}(y) &=& \Iden k + \sum_{i=1}^k A_{k,l,i} y\ind i
+\end{eqnarray}
+for $k = \importSDPPerformanceDimMin, \ldots, \importSDPPerformanceDimMax$ and $l = 1,\ldots, \importSDPPerformanceUnique$, where $A_{k,l,i}\in\Sym^k$.
+The matrices $A_{k,l,i}$ are filled by random numbers from uniform distribution $(-1;1)$ with symmetricity of the matrices preserved.
+However, since the LMI constraints were randomly generated, there is no guarantee that the sets, which they define, are bounded.
+Therefore, we add constraint \refeqb{SDP:imp:bound} for $R = \importSDPPerformanceBound$, which will guarantee that we will optimize over bounded set.
+The objective function of the problem is generated randomly too.
+For each unique instance, we have generated random vector $r\in\R^n$ from uniform distribution $(-1;1)$.
+Then, the objective function to minimize is $r^\top y$.
+The final generated problem denoted $P_{k,l}$ looks like
+\begin{eqnarray}
+  \begin{array}{rclrrclcll}
+    && \displaystyle \min_{y\in\R^k} & \multicolumn{3}{l}{r_{k,l}^\top y} \\
+    && \text{s.t.} & \displaystyle \Iden k + \sum_{i=1}^k A_{k,l,i} y\ind i &\succeq& 0 \\
+    &&& \bmB R^2 & y\ind1 & y\ind2 & \cdots & y\ind k\\
+          y\ind1 & 1 & 0 & \cdots & 0\\
+          y\ind2 & 0 & 1 & \cdots & 0\\
+          \vdots & \vdots & \vdots & \ddots & \vdots\\
+          y\ind k & 0 & 0 & \cdots & 1\bmE &\succeq& 0.
+ \end{array}
+\end{eqnarray}
+
+To eliminate influences that negatively affect the execution times on CPU, such as other processes competing for the same CPU core, processor caching, data loading delays, we have executed each problem $P_{k,l}$ \importSDPPerformanceRepeat{} times.
+So, for each problem $P_{k,l}$ we have obtained execution times $\tau_{k,l,s}$ for $s = 1,\ldots,\importSDPPerformanceRepeat$.
+Because the influences mentioned above can only prolong the execution times, we have selected minimum of $\tau_{k,l,s}$ for each $P_{k,l}$
+\begin{eqnarray}
+  \tau_{k,l} &=& \min_{s=1}^{\importSDPPerformanceRepeat} \tau_{k,l,s}.
+\end{eqnarray}
+Since the execution times of problems of the same sizes should be more or less the same, we have computed the average execution time $\tau_k$ for each problem size.
+\begin{eqnarray}
+  \tau_k &=& \frac{1}{\importSDPPerformanceUnique}\sum_{l=1}^{\importSDPPerformanceUnique} \tau_{k,l}
+\end{eqnarray}
+These execution times $\tau_k$ were measured and computed separately for the Polyopt, SeDuMi and MOSEK toolboxes and are shown in \reftab{SDP:perf:times} and \reffig{SDP:perf:times}, where $k$ is the size of the problem.
+
 \begin{table}[ht]
   \centering
   \input{tables/SDP_performance.tex}
-  \caption{TODO}
-  \label{SDP:perf:times}
+  \caption{Execution times of different sizes of semidefinite problems solved by selected toolboxes.}
+  \labeltab{SDP:perf:times}
 \end{table}
 
 \begin{figure}[ht]
   \centering
   \resizebox{0.95\textwidth}{!}{\input{graphs/SDP_performance}}
-  \caption{TODO}
+  \caption{Graph of execution times based on the size of semidefinite problems solved by selected toolboxes.}
   \labelfig{SDP:perf:times}
 \end{figure}
+
+It has to be mentioned, that the Polyopt toolbox is implemented in Python, but the toolboxes SeDuMi and MOSEK were run from MATLAB with precompiled MEX files (compiled C, \CC{} or Fortran code) and therefore the execution times are not readily comparable.
+On the other side, the Python package NumPy uses common linear algebra libraries, like LAPACK \cite{lapack}, ATLAS \cite{atlas} and BLAS \cite{blas} and we can presume that SeDuMi and MOSEK use them too.
+
+Our intention was to measure only the execution time of the solving phase, not of the preparation time.
+In case of the Polyopt package, we measured the execution time of the function \texttt{solve()}.
+For SeDuMi and MOSEK, we have used MATLAB framework YALMIP \cite{yalmip} for defining the semidefinite programs and calling the solvers.
+The execution time of the YALMIP code is quite long, because YALMIP makes an analysis of the problem and compiles it into a standard form.
+Only after that, an external solver (SeDuMi or MOSEK) is called to solve the problem.
+Fortunately, YALMIP measures the execution time of the solver, so we have used this time in our statistics.
+
+By the look of the graph in \reffig{SDP:perf:times}, we can see that the MOSEK toolbox totally wins.
+The SeDuMi toolbox seems to have some constant overhead, but the execution time grows slowly with the increasing size of the problem.
+The Polyopt package accomplishes quite bad results compared to SeDuMi and MOSEK, especially for large sizes of problems.
+But this behavior was expected, as we know that the execution time should be proportional to $k^4$, where $k$ is the size of the problem.
+However, due to SeDuMi overhead, the Polyopt package is faster than SeDuMi for problem sizes up to 8.
