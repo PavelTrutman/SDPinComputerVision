@@ -9,6 +9,7 @@
 \usepackage{textcomp}
 \usepackage{algorithm}
 \usepackage{algpseudocode}
+\usepackage{listings}
 \usepackage{amsmath}
 \usepackage{amssymb}
 \usepackage{amsthm}
@@ -27,8 +28,8 @@
 
 % list of symbols and abbreviations
 \usepackage[acronym,nonumberlist,style=long,sort=def]{glossaries}
-\setlength{\glsdescwidth}{0.6\linewidth}
-\setlength{\glspagelistwidth}{0.4\linewidth}
+\setlength{\glsdescwidth}{0.7\linewidth}
+\setlength{\glspagelistwidth}{0.3\linewidth}
 \renewcommand*{\glsgroupskip}{}
 \newcommand{\Acronym}[2]{\newacronym{#1}{#1}{#2}}
 \input{acronyms}
@@ -42,6 +43,54 @@
 \newcommand{\StatexIndent}[1][1]{
   \Statex\forloop{counter}{0}{\value{counter} < #1}{\hskip\algorithmicindent\hskip-0.25em}
 }
+\renewcommand{\thealgorithm}{\arabic{chapter}.\arabic{algorithm}}
+\DeclareCaptionFormat{algorithm}{#1#2#3}
+\captionsetup[algorithm]{format=algorithm, labelsep=period}
+
+% listings settings
+\makeatletter
+\def\lst@numbersymbol{}
+\lst@Key{numbersymbol}{}{\def\lst@numbersymbol{#1}}
+\lst@Key{numbers}{none}{%
+  \let\lst@PlaceNumber\@empty
+  \lstKV@SwitchCases{#1}%
+  {none&\\%
+  left&\def\lst@PlaceNumber{\llap{\normalfont
+      \lst@numberstyle{\thelstnumber\lst@numbersymbol}\kern\lst@numbersep}}\\%
+  right&\def\lst@PlaceNumber{\rlap{\normalfont
+      \kern\linewidth \kern\lst@numbersep
+      \lst@numberstyle{\lst@numbersymbol\thelstnumber}}}%
+  }{\PackageError{Listings}{Numbers #1 unknown}\@ehc}}
+\def\lst@labellis{}
+\lst@Key{labellis}{}{\def\lst@label{listing:#1}}
+\makeatother
+\lstset{basicstyle=\normalfont\ttfamily,
+  columns=fixed,
+  basewidth=0.5em,
+  showstringspaces=false,
+  breaklines=true,
+  commentstyle=\color{blue},
+  keywordstyle=\color{red},
+  numbers=left,
+  numberstyle=\footnotesize\normalfont,
+  numbersymbol=:,
+  captionpos=t,
+  frame=top,
+  frame=bottom,
+  xleftmargin=25pt,
+  framexleftmargin=25pt,
+}
+\DeclareCaptionFormat{listing}{\rule{\dimexpr\textwidth\relax}{1pt}\vskip-3pt\hspace{-10pt}#1#2#3}
+\captionsetup[lstlisting]{format=listing, singlelinecheck=false, labelsep=period}
+\renewcommand\lstlistlistingname{List of Listings}
+
+% hyphen - as active for hyphenation breaks cline command
+\usepackage{regexpatch}
+\makeatletter
+% Change the `-` delimiter to an active character
+\xpatchparametertext\@@@cmidrule{-}{\cA-}{}{}
+\xpatchparametertext\@cline{-}{\cA-}{}{}
+\makeatother
 
 \startThesisInfo
 \title{Semidefinite Programming for Geometric Problems in Computer Vision}
@@ -57,11 +106,58 @@
 % ============================== your definitions (abbreviations etc.)
 \newcommand{\eqB}{\begin{eqnarray}}
 \newcommand{\eqE}{\end{eqnarray}}
-\theoremstyle{definition}
+\newcommand{\bmB}{\begin{bmatrix}}
+\newcommand{\bmE}{\end{bmatrix}}
+\newcommand{\ind}[1]{\ensuremath{^{(#1)}}}
+\newcommand{\labeldef}[1]{\label{definition:#1}}
+\newcommand{\refdef}[1]{Definition~\ref{definition:#1}}
+\newcommand{\labelcol}[1]{\label{corollary:#1}}
+\newcommand{\refcol}[1]{Corollary~\ref{corollary:#1}}
+\newcommand{\labelthe}[1]{\label{theorem:#1}}
+\newcommand{\refthe}[1]{Theorem~\ref{theorem:#1}}
+\newcommand{\labelex}[1]{\label{example:#1}}
+\newcommand{\refex}[1]{Example~\ref{example:#1}}
+\newcommand{\labeleq}[1]{\label{equation:#1}}
+\newcommand{\refeq}[1]{Equation~(\ref{equation:#1})}
+\newcommand{\refeqb}[1]{(\ref{equation:#1})}
+\newcommand{\labelalg}[1]{\label{algorithm:#1}}
+\newcommand{\refalg}[1]{Algorithm~\ref{algorithm:#1}}
+\newcommand{\labelalgline}[1]{\label{algorithm:line:#1}}
+\newcommand{\refalgline}[1]{\ref{algorithm:line:#1}}
+\newcommand{\labelfig}[1]{\label{figure:#1}}
+\newcommand{\reffig}[1]{Figure~\ref{figure:#1}}
+\newcommand{\labeltab}[1]{\label{table:#1}}
+\newcommand{\reftab}[1]{Table~\ref{table:#1}}
+\newcommand{\labelsec}[1]{\label{section:#1}}
+\newcommand{\refsec}[1]{Section~\ref{section:#1}}
+\newcommand{\reflis}[1]{Listing~\ref{listing:#1}}
+\newtheoremstyle{definitionStyle}
+  {}
+  {}
+  {}
+  {}
+  {\bfseries}
+  {.}
+  { }
+  {\thmname{#1}\thmnumber{ #2}\thmnote{ (#3)}}
+\theoremstyle{definitionStyle}
 \newtheorem{definition}{Definition}[chapter]
+\newtheorem{theorem}{Theorem}[chapter]
+\newtheorem{example}{Example}[chapter]
+\newtheorem{corollary}{Corollary}[chapter]
 \newcommand{\R}{\mathbb{R}}
-\DeclareMathOperator{\Sym}{Sym}
+\newcommand{\Sym}{\mathcal{S}}
+\newcommand{\PSDCone}{\mathcal{P}}
+\newcommand{\Iden}[1]{\ensuremath{\mathcal{I}^{#1}}}
 \DeclareMathOperator{\rank}{rank}
+\DeclareMathOperator{\dom}{dom}
+\DeclareMathOperator{\Dom}{Dom}
+\DeclareMathOperator{\cl}{cl}
+\DeclareMathOperator{\inter}{int}
+\DeclareMathOperator{\tr}{tr}
+\DeclareMathOperator{\diag}{diag}
+
+\def\CC{{C\nolinebreak[4]\hspace{-.05em}\raisebox{.4ex}{\tiny\textbf{++}}}}
 
 \setitemize{noitemsep,topsep=0.2cm,parsep=0.2cm,partopsep=0pt,leftmargin=1cm}
 \setenumerate{noitemsep,topsep=0.2cm,parsep=0.2cm,partopsep=0pt,leftmargin=1cm}
@@ -86,12 +182,20 @@
 \clearpage
 \cleardoublepage\def\thepage{\arabic{page}}\setcounter{page}{1}
 \tableofcontents\pagestyle{headings}
+\listoffigures
+\begingroup
+\let\clearpage\relax
+\listoftables
 \listofalgorithms
+\lstlistoflistings
+\endgroup
 
 \glsaddall
 \printglossary[type=acronym,title=List of Symbols and Abbreviations]
 
 \input{introduction.tex}
+
+\input{SDP.tex}
 
 \input{conclusion.tex}
 

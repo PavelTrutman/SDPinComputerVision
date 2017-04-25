@@ -1,0 +1,26 @@
+\begin{algorithm}[ht]
+  \begin{algorithmic}[1]
+    \Require
+      \Statex $f$ a self-concordant function to minimize
+      \Statex $x_0 \in \dom f$ a starting point
+      \Statex $\beta \in (0,\bar{\lambda})$ a parameter of size of the region of quadratic convergence
+      \Statex $\varepsilon$ a precision
+    \Ensure
+      \Statex $x^*$ an optimal solution to the minimization problem \refeqb{SDP:scf:minProblem}
+      \Statex
+
+    \State $k \gets 0$
+    \While{$\|f'(x_k)\|_{x_k}^* \geq \beta$} \labelalgline{SDP:scf:w1b}
+      \State $x_{k+1} \gets x_k - \frac{1}{1+\|f'(x_k)\|_{x_k}^*}f''(x_k)^{-1}f'(x_k)$
+      \State $k \gets k + 1$
+    \EndWhile \labelalgline{SDP:scf:w1e}
+    \While{$\|f'(x_k)\|_{x_k}^* > \varepsilon$} \labelalgline{SDP:scf:w2b}
+      \State $x_{k+1} \gets x_k - f''(x_k)^{-1}f'(x_k)$
+      \State $k \gets k + 1$
+    \EndWhile \labelalgline{SDP:scf:w2e}
+    \State \Return $x^* \gets x_k$
+
+  \end{algorithmic}
+  \caption{Newton method for minimization of self-concordant functions.}
+  \labelalg{SDP:scf}
+\end{algorithm}

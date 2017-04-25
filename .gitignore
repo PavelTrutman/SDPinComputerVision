@@ -15,6 +15,7 @@
 *.ilg
 *.ind
 *.lof
+*.lol
 *.lot
 *.maf
 *.mtc
@@ -24,3 +25,10 @@
 *.brf
 *.loa
 *.swp
+
+__pycache__/
+
+/graphs/
+/data/SDP_performance.dat
+tables/SDP_performance.tex
+/macros/
