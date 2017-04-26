@@ -605,7 +605,7 @@ Instead of using some state of the art toolboxes for semidefinite programming, e
 Moreover, if we would like to create some specialized solver for some class of semidefinite problems, we can easily reuse the code, edit it as required and build the solver very quickly.
 On the other hand, we can not expect that our implementation will be as fast as the implementation of some state of the art toolboxes, as much more time and people was used to develop them.
 
-The implementation is compatible with Python version 3.6 and higher.
+The implementation is compatible with Python version 3.5 and higher.
 The package NumPy is used for linear algebra computations.
 Please refer to the installation guide of NumPy for your system to ensure, that it is correctly set to use the linear algebra libraries, e.g.\ LAPACK \cite{lapack}, ATLAS \cite{atlas} and BLAS \cite{blas}.
 The incorrect setting of these libraries causes significant drop of the performance.
@@ -793,6 +793,7 @@ But from the structure of the constraint \refeqb{SDP:perf:constr} we can see tha
   y_0 &=& \bmB 0 & \cdots & 0\bmE^\top
 \end{eqnarray}
 is a feasible point.
+We used the point $y_0$ to initialize problems for Polyopt package, but we have let SeDuMi and MOSEK use their own initialization process. 
 However, since the LMI constraints were randomly generated, there is no guarantee that the sets, which they define, are bounded.
 Therefore, we have added constraint \refeqb{SDP:imp:bound} for $R = \importSDPPerformanceBound$, which guarantees that we are optimizing over bounded sets.
 
@@ -850,7 +851,7 @@ Only after that, an external solver (SeDuMi or MOSEK) is called to solve the pro
 Fortunately, YALMIP internally measures the execution time of the solver, so we have used this time in our statistics.
 
 The experiments were executed on Intel Core i5-3210M CPU 2.50 GHz based computer with sufficient amount of free system memory.
-The installed version of Python was 3.6.1 and MATLAB R2016b 64-bit was used.
+The installed version of Python was 3.5.3 and MATLAB R2016b 64-bit was used.
 
 \subsection{Results}
 By the look of the graph in \reffig{SDP:perf:times}, we can see that the MOSEK toolbox totally wins.
