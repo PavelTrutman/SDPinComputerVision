@@ -9,8 +9,12 @@ However, this may be not the best idea to do as more efficient algorithms exist 
 On the other hand, there exist many useful applications of SDP, e.g.\ many NP-complete problems in combinatorial optimization can be approximated by semidefinite programs. 
 One of the combinatorial problem worth mentioning is the MAX CUT problem (one of the Karp's original NP-complete problems \cite{karp1972}), for which M. Goemans and D. P. Williamson created the first approximation algorithm based on SDP \cite{max-cut}.
 Also in control theory, there are many problems based on linear matrix inequalities, which are solvable by SDP.\@
+
 Special application of SDP comes from polynomial optimization since global solution of polynomial optimization problems can be found by hierarchies of semidefinite programs.
-We will focus in details on this application in \refsec{POP:POP}.
+Also systems of polynomial equations can be solved by hierarchies of semidefinite problems.
+This approach has the advantage that there exists a method, which allows us to compute real solutions only.
+Since in many applications, we are not interested in complex solutions, this method may be the right tool for polynomial systems solving.
+We will focus in details on SDP application on polynomial optimization and polynomial systems solving in \refcha{POP}.
 
 \section{Preliminaries on semidefinite programs}
 In this section, we introduce some notation and preliminaries about symmetric matrices and semidefinite programs.
@@ -611,7 +615,7 @@ The incorrect setting of these libraries causes significant drop of the performa
 Other Python packages are required as well, e.g.\ SymPy and SciPy, but theirs settings are not so crucial for the performance of this implementation.
 
 \subsection{Package installation}
-The package with implementation of \refalg{SDP:scb:ac} and \refalg{SDP:scb:pf} is named Polyopt, as the semidefinite programming part of this package is only a tool, which is  used for polynomial optimization, which will be described in \refsec{POP:POP}.
+The package with implementation of \refalg{SDP:scb:ac} and \refalg{SDP:scb:pf} is named Polyopt, as the semidefinite programming part of this package is only a tool, which is  used for polynomial optimization and polynomial systems solving, which will be described in \refcha{POP}.
 The newest version of the package is available at \url{http://cmp.felk.cvut.cz/~trutmpav/master-thesis/polyopt/}.
 To install the package on your system, you have to clone and checkout the Git repository with the source codes of the package.
 To install other packages that are required, the preferred way is to use the pip\footnote{The PyPA recommended tool for installing Python packages. See \url{https://pip.pypa.io}.} installer. The required packages are listed in the \texttt{requirements.txt} file.
