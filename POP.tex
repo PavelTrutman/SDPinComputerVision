@@ -13,7 +13,7 @@ A polynomial $p\in\R[x]$ can be written as
 \begin{eqnarray}
   p = \sum_{\alpha\in\N^n} p_\alpha x^\alpha
 \end{eqnarray}
-with total degree $\deg(p) = \max_{\alpha\in\N^n}|\alpha|$ and coefficients $p_\alpha\in\R$.
+with total degree $\deg(p) = \max_{\alpha\in\N^n}|\alpha|$ for non-zero coefficients $p_\alpha\in\R$.
 
 A linear subspace $I \subseteq \R[x]$ is an ideal if $p\in I$ and $q\in\R[x]$ implies $pq \in I$.
 Let $f_1, f_2, \ldots, f_m$ be polynomials in $\R[x]$. Then the set
@@ -74,7 +74,7 @@ Because $\R[x]/I$ is a ring, it is equipped with addition and multiplication on 
 \end{eqnarray}
 for $f, g\in\R[x]$.
 
-For an ideal $I$, there is a relation between the dimension of $\R[x]/I$ and the cardinality of the variety $V_\C(I)$: if $V_\C(I)$ a finite set, then
+For zero-dimensional ideal $I$, there is a relation between the dimension of $\R[x]/I$ and the cardinality of the variety $V_\C(I)$:
 \begin{eqnarray}
   |V_\C(I)| &\leq& \dim\big(\R[x]/I\big).
 \end{eqnarray}
@@ -90,8 +90,46 @@ Then every polynomial $f\in\R[x]$ can be written in unique way as
   f &=& \sum_{i=1}^Nc_ib_i + p,
 \end{eqnarray}
 where $c_i\in\R$ and $p\in I$.
+The normal form of the polynomial $f$ modulo $I$ with respect to the basis $\Base$ is the polynomial
+\begin{eqnarray}
+  \NF_\Base(f) &=& \sum_{i=1}^N c_ib_i.
+\end{eqnarray}
 
-\subsection{Companion matrices}
+\subsection{Solving systems of polynomial equations by multiplication matrices}
+Systems of polynomial equations can be solved by computing eigenvalues and eigenvectors of so called multiplication matrices.
+Given $f\in\R[x]$, we define the multiplication operator (by $f$) $\MM_f: \R[x]/I \rightarrow \R[x]/I$ as
+\begin{eqnarray}
+  \MM_f([g]) &=& [f][g]\ =\ [fg].
+\end{eqnarray}
+It can be shown that $\MM_f$ is a linear mapping, and therefore can be represented by its matrix with respect to the basis $\Base$ of $\R[x]/I$.
+For simplicity, we again denote this matrix $\MM_f$ and it is called the multiplication matrix by $f$.
+When $\Base = \{b_1, b_2, \ldots, b_N\}$ and we set $\NF_\Base(fb_j) = \sum_{i=1}^N a_{i,j}b_i$ for $a_{ij}\in\R$, then the multiplication matrix is
+\begin{eqnarray}
+  \MM_f &=& \bmB a_{1,1} & a_{1,2} & \cdots & a_{1,N}\\
+                 a_{2,1} & a_{2,2} & \cdots & a_{2,N}\\
+                 \vdots & \vdots & \ddots & \vdots\\
+                 a_{N,1} & a_{N,2} & \cdots & a_{N,N}\bmE.
+\end{eqnarray}
+
+\begin{theorem}[Stickelberger theorem]
+  Let $I$ be a zero-dimensional ideal in $\R[x]$, let $\Base = \{b_1, b_2, \dots, b_N\}$ be a basis of $\R[x]/I$, and let $f\in\R[x]$.
+  The eigenvalues of the multiplication matrix $\MM_f$ are the evaluations $f(v)$ of the polynomial $f$ at the points $v\in V_\C(I)$.
+  Moreover, for all $v\in V_\C(I)$,
+  \begin{eqnarray}
+    (\MM_f)^\top[v]_\Base &=& f(v)[v]_\Base,
+  \end{eqnarray}
+  setting $[v]_\Base = \bmB b_1(v) & b_2(v) & \cdots & b_N(v)\bmE^\top$; that is, the vector $[v]_\Base$ is a left eigenvector with eigenvalue $f(v)$ of the multiplication matrix $\MM_f$.
+\end{theorem}
+
+Therefore, we can create the multiplication matrix $\MM_{x_i}$ for the variable $x_i$ and then the eigenvalues of $\MM_{x_i}$ correspond to the $x_i$-coordinates of the points $V_\C(I)$.
+This means that the solutions of the whole system can be found by computing eigenvalues $\lambda_{x_i}$ of $\MM_{x_i}$ for all variables $x_i$.
+Then $V_\C(I)$ is a subset of the Cartesian product $\lambda_{x_1} \times \lambda_{x_2} \times \cdots \times \lambda_{x_n}$ and one has to select only the points that are solutions.
+However, this method becomes inefficient for large $n$, the number of variables, since $n$ multiplication matrices have to be constructed and their eigenvalues computed.
+
+For this reason, the second property of multiplication matrices is used.
+The roots can be recovered from left eigenvectors of $\MM_f$ when all eigenspaces of $\MM_f^\top$ have dimension one.
+This is the case when the values $f(v)$ for $v\in V_\C(I)$ are pairwise distinct and when the ideal $I$ is radical.
+In that case, each left eigenvector of $\MM_f$ corresponds to one solution $v\in V_\C(I)$ and the values of the eigenvectors are the evaluations $b_i(v)$ for $b_i\in\Base$, and therefore when the variable $x_i\in\Base$, we can readily obtain its value.
 
 \section{Moment matrices}
 
