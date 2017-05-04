@@ -59,6 +59,40 @@ The following two theorems are stating the relations between the vanishing and (
   \end{eqnarray}
 \end{theorem}
 
+The quotient ring $\R[x]/I$ is the set of all equivalence classes of polynomials in $\R[x]$ for congruence modulo ideal $I$
+\begin{eqnarray}
+  \R[x]/I &=& \big\{[f]\ |\ f\in\R[x]\big\},
+\end{eqnarray}
+where the equivalence class $[f]$ is
+\begin{eqnarray}
+  [f] &=& \big\{f+g\ |\ q\in I\big\}.
+\end{eqnarray}
+Because $\R[x]/I$ is a ring, it is equipped with addition and multiplication on the equivalence classes:
+\begin{eqnarray}
+  [f] + [g] &=& [f + g]\\
+  ~[f][g] &=& [fg]
+\end{eqnarray}
+for $f, g\in\R[x]$.
+
+For an ideal $I$, there is a relation between the dimension of $\R[x]/I$ and the cardinality of the variety $V_\C(I)$: if $V_\C(I)$ a finite set, then
+\begin{eqnarray}
+  |V_\C(I)| &\leq& \dim\big(\R[x]/I\big).
+\end{eqnarray}
+Moreover, if $I$ is a radical ideal, then
+\begin{eqnarray}
+  |V_\C(I)| &=& \dim\big(\R[x]/I\big).
+\end{eqnarray}
+
+Assume that the number of complex roots is finite and let $N = \dim\big(\R[x]/I\big)$, and therefore $|V_\C(I)|\leq N$.
+Consider a set $\Base = \{b_1, b_2, \ldots, b_N\} \subseteq \R[x]$ for which the equivalence classes $[b_1], [b_2], \ldots, [b_N]$ are pairwise distinct and $\big\{[b_1], [b_2], \ldots, [b_N]\big\}$ is a basis of $\R[x]/I$.
+Then every polynomial $f\in\R[x]$ can be written in unique way as
+\begin{eqnarray}
+  f &=& \sum_{i=1}^Nc_ib_i + p,
+\end{eqnarray}
+where $c_i\in\R$ and $p\in I$.
+
+\subsection{Companion matrices}
+
 \section{Moment matrices}
 
 \section{Polynomial optimization}
