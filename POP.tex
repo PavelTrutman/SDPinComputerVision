@@ -147,7 +147,7 @@ In that case, each left eigenvector of $\MM_f$ corresponds to one solution $v\in
     \labelfig{POP:mm:example}
   \end{figure}
 
-  First of all, we have to compute the Gr\"obner basis of the ideal.
+  First of all, we have to compute the Gr\"obner basis \cite{Becker93} of the ideal, for example using the $F_4$ Algorithm \cite{F4}.
   \begin{alignat}{9}
     164 & x^2 & {}+{}99 & y^2 & {}+{}126 & x & {}+{}15  & y & {}-{}404\\
     41  & xy  & {}+{}3  & y^2 & {}-{}16  & x & {}+{}34  & y & {}-{}52 \\
@@ -157,7 +157,21 @@ In that case, each left eigenvector of $\MM_f$ corresponds to one solution $v\in
   \begin{align}
     \Base = \bmB 1 & y & x & y^2 \bmE^\top
   \end{align}
-  and construct the multiplication matrices $\MM_x$ and $\MM_y$ accordingly
+  and construct the multiplication matrices $\MM_x$ and $\MM_y$ accordingly, knowing that
+  \begin{alignat}{12}
+    \MM_x\big([1]\big)   & {}={} & [x]    & {}={} &                     &       & 1                  & [x], &                     &     &                     &     \\
+    \MM_x\big([y]\big)   & {}={} & [xy]   & {}={} & {}-{}\frac{3}{41}   & [y^2] & {}+{}\frac{26}{41} & [x]  & {}-{}\frac{34}{41}  & [y] & {}+{}\frac{52}{41}  & [1],\\
+    \MM_x\big([x]\big)   & {}={} & [x^2]  & {}={} & {}-{}\frac{99}{164} & [y^2] & {}-{}\frac{63}{82} & [x]  & {}-{}\frac{15}{164} & [y] & {}+{}\frac{101}{41} & [1],\\
+    \MM_x\big([y^2]\big) & {}={} & [xy^2] & {}={} & {}-{}\frac{37}{41}  & [y^2] & {}+{}\frac{20}{41} & [x]  & {}+{}\frac{18}{41}  & [y] & {}+{}\frac{40}{41}  & [1],
+  \end{alignat}
+  and
+  \begin{alignat}{12}
+    \MM_y\big([1]\big)   & {}={} & [y]   & {}={} &                   &        &                    &     &                   1 & [y], &                    &    \\
+    \MM_y\big([y]\big)   & {}={} & [y^2] & {}={} &                 1 & [y^2], &                    &     &                     &      &                    &    \\
+    \MM_y\big([x]\big)   & {}={} & [xy]  & {}={} & {}-{}\frac{3}{41} & [y^2]  & {}+{}\frac{26}{41} & [x] & {}-{}\frac{34}{41}  & [y]  & {}+{}\frac{52}{41} & [1],\\
+    \MM_y\big([y^2]\big) & {}={} & [y^3] & {}={} & \frac{15}{41}     & [y^2]  & {}-{}\frac{48}{41} & [x] & {}+{}\frac{170}{41} & [y]  & {}-{}\frac{96}{41} & [1].
+  \end{alignat}
+  Then, the multiplication matrices are:
   \begin{align}
     \MM_x &= \bmB 0 & \frac{52}{41} & \frac{101}{41} & \frac{40}{41}\\
                   0 & -\frac{34}{41} & -\frac{15}{164} & \frac{18}{41}\\
@@ -178,7 +192,7 @@ In that case, each left eigenvector of $\MM_f$ corresponds to one solution $v\in
   These possible solutions are shown in \reffig{POP:mm:example} by the blue color.
 
   Secondly, we compute the left eigenvectors of the multiplication matrix $\MM_x$ such that their first coordinates are ones, as it corresponds to the constant polynomial $b_1 = 1$.
-  We obtain following four eigenvectors corresponding to four different solutions
+  We obtain following four eigenvectors corresponding to four different solutions:
   \begin{align}
     \bmB 1\\ 1\\ 1\\ 1 \bmE,\
     \bmB 1\\ 0\\ -2\\ 0 \bmE,\
