@@ -11,7 +11,7 @@ Firstly, the ring of multivariate polynomials in $n$ variables with coefficients
 For $\alpha_1, \alpha_2, \ldots, \alpha_n\in\N$, $x^\alpha$ denotes the monomial ${x_1}^{\alpha_1}\cdot{x_2}^{\alpha_2}\cdots{x_n}^{\alpha_n}$, with total degree $|\alpha| = \sum_{i=1}^n \alpha_i$, where $\alpha = \bmB \alpha_1 & \alpha_2 & \cdots & \alpha_n\bmE^\top$.
 A polynomial $p\in\R[x]$ can be written as
 \begin{align}
-  p &= \sum_{\alpha\in\N^n} p_\alpha x^\alpha
+  p &= \sum_{\alpha\in\N^n} p_\alpha x^\alpha \labeleq{POP:pal:pol}
 \end{align}
 with total degree $\deg(p) = \max_{\alpha\in\N^n}|\alpha|$ for non-zero coefficients $p_\alpha\in\R$.
 
@@ -212,6 +212,55 @@ In that case, each left eigenvector of $\MM_f$ corresponds to one solution $v\in
 \end{example}
 
 \section{Moment matrices}
+Polynomial optimization and solving systems of polynomial equations via hierarchies of semidefinite programs is based on the theory of measures and moments.
+But to keep the scope simple, we will avoid to introduce this theory.
+However, since it provides better understanding of the matter, interested reader may look into \cite{SOS}.
+Moreover, we will introduce the only minimal basics to be able to proceed with polynomial optimization and polynomial systems solving.
+More and detailed information can be found in \cite{SOS} too.
+
+Now, let us start with the theory about moment matrices, which are crucial for application of SDP on POP and polynomial systems solving.
+Recall that a polynomial has a form \refeqb{POP:pal:pol}.
+Since such a polynomial may have infinite number of coefficients, let us introduce a polynomial $p\in\R[x]$ of the degree $d\in\N$:
+\begin{align}
+  p(x) &= \sum_{\alpha\in\N_d^n}p_\alpha x^\alpha,
+\end{align}
+where $\N_d$ are natural numbers (including zero) up to the number $d$.
+We will use the notation $\vc(p)$ for the vector of the coefficients of the polynomial $p$ with respect to some monomial basis $\Base$:
+\begin{align}
+  \vc(p) &= (p_\alpha)_{|\alpha|\leq d}.
+\end{align}
+
+\begin{definition}[Riesz functional]
+  Given a sequence $y = (y_\alpha)_{\alpha\in\N^n}$, we define the Riesz linear functional $\ell_y: \R[x]\rightarrow\R$ such that
+  \begin{align}
+    \ell_y(x^\alpha) &= y_\alpha
+  \end{align}
+  for all $\alpha\in\N^n$.
+\end{definition}
+The linearity of the Riesz functional allows us to apply it on polynomials.
+\begin{align}
+  \ell_y\big(p(x)\big) = \ell_y\left(\sum_{\alpha\in\N_d^n}p_\alpha x^\alpha\right) = \sum_{\alpha\in\N_d^n}p_\alpha \ell_y(x^\alpha) = \sum_{\alpha\in\N_d^n}p_\alpha y_\alpha
+\end{align}
+From the equation above, we can see that Riesz functional substitutes a new variable $y_\alpha$ for each monomial $x^\alpha$, and therefore we can interpret the Riesz functional as an operator that linearizes polynomials. 
+
+\begin{example}
+  Given polynomial $p\in\R[x_1, x_2]$
+  \begin{align}
+    p(x) &= x_1^2 + 3x_1x_2 - 7x_2 + 9
+  \end{align}
+  with $\deg(p) = 2$, the vector of its coefficients with respect to monomial basis
+  \begin{align}
+    \Base &= \bmB x_1^2 & x_1x_2 & x_2^2 & x_1 & x_2 & 1\bmE^\top
+  \end{align}
+  is
+  \begin{align}
+    \vc(p) &= \bmB 1 & 3 & 0 & 0 & -7 & 9\bmE^\top.
+  \end{align}
+  The Riesz functional of $p(x)$ is
+  \begin{align}
+    \ell\big(p(x)\big) &= y_{20} + 3y_{11} -7y_{01} + 9y_{00}.
+  \end{align}
+\end{example}
 
 \section{Polynomial optimization}
 
