@@ -43,8 +43,8 @@ fast: Fast = TRUE
 fast: thesis.pdf
 
 thesis.pdf: $(TEXS) citations.bib $(TEMPLATE) $$(addprefix images/, $(IMAGES)) $$(addprefix alg/, $(ALGS)) $$(addprefix graphs/, $(GRAPHS)) $$(addprefix drawings/, $(DRAWINGS_PDF)) $$(addprefix tables/, $(TABLES_TEXS)) $$(addprefix macros/, $(MACROS_TEXS))
-	sed -i 's/\eqB/\begin{eqnarray}/g' !(thesis).tex
-	sed -i 's/\eqE/\end{eqnarray}/g' !(thesis).tex
+	sed -i 's/\eqB/\begin{align}/g' !(thesis).tex
+	sed -i 's/\eqE/\end{align}/g' !(thesis).tex
 	pdflatex thesis.tex
 	if [ "$(Fast)" = "FALSE" ]; then \
 		makeglossaries thesis; \

@@ -21,13 +21,13 @@ In this section, we introduce some notation and preliminaries about symmetric ma
 We will introduce further notation and preliminaries later on in the text when needed.
 
 At the beginning, let us denote the inner product for two vectors $x$, $y \in\R^n$
-\begin{eqnarray}
-  \langle x, y\rangle &=& \sum_{i=1}^n x\ind{i}y\ind{i}
-\end{eqnarray}
+\begin{align}
+  \langle x, y\rangle &= \sum_{i=1}^n x\ind{i}y\ind{i}
+\end{align}
 and the Frobenius inner product for two matrices $X$, $Y\in\R^{n\times m}$.
-\begin{eqnarray}
-  \langle X, Y\rangle &=& \sum_{i=1}^n \sum_{j=1}^m X\ind{i,j}Y\ind{i,j}
-\end{eqnarray}
+\begin{align}
+  \langle X, Y\rangle &= \sum_{i=1}^n \sum_{j=1}^m X\ind{i,j}Y\ind{i,j}
+\end{align}
 
 \subsection{Symmetric matrices}
 Let $\Sym^n$ denotes the space of $n\times n$ real symmetric matrices.
@@ -51,32 +51,34 @@ $M \succ 0$ if and only if any of the following equivalent properties holds.
 
 \subsection{Semidefinite programs}
 The standard (primal) form of a semidefinite program in variable $X\in\Sym^n$ is defined as follows:
-\begin{eqnarray}
-  \begin{array}{rclrrclcll}
+\begin{align}
+  \arraycolsep=1.4pt
+  \begin{array}{rclrcl@{\hskip0.5cm}l}
     p^* &=& \displaystyle \sup_{X\in\Sym^n} & \multicolumn{3}{l}{\langle C,X\rangle} \\
     && \text{s.t.} & \langle A_i, X\rangle &=& b\ind i & (i = 1,\ldots,m)\\
     &&& X &\succeq& 0
   \end{array}
-\end{eqnarray}
+\end{align}
 where $C$, $A_1$, \ldots, $A_m \in \Sym^n$ and $b\in\R^m$ are given.
 
 The dual form of the primal form is the following program in variable $y\in\R^m$.
-\begin{eqnarray}
-  \begin{array}{rclrrclcll}
+\begin{align}
+  \arraycolsep=1.4pt
+  \begin{array}{rclrcl@{\hskip0.5cm}l}
     d^* &=& \displaystyle \inf_{y\in\R^m} & \multicolumn{3}{l}{b^\top y} \\
     && \text{s.t.} & \displaystyle \sum_{i=1}^m A_iy\ind i - C &\succeq& 0
   \end{array}\labeleq{SDP:prelim:dual}
-\end{eqnarray}
+\end{align}
 The constraint 
-\begin{eqnarray}
-  F(y) &=& \sum_{i=1}^m A_iy\ind i - C\ \succeq\ 0
-\end{eqnarray}
+\begin{align}
+  F(y) &= \sum_{i=1}^m A_iy\ind i - C \succeq 0
+\end{align}
 of the problem \refeqb{SDP:prelim:dual} is called a linear matrix inequality (LMI) in the variable $y$.
 The feasible region defined by LMI is called a spectrahedron.
 It can be shown, that this constraint is convex since if $F(x) \succeq 0$ and $F(y) \succeq 0$, then $\forall \alpha: 0\leq  \alpha \leq 1$ holds
-\begin{eqnarray}
-  F\big(\alpha x + (1-\alpha)y\big) &=& \alpha F(x) + (1-\alpha)F(y)\ \succeq \ 0.
-\end{eqnarray}
+\begin{align}
+  F\big(\alpha x + (1-\alpha)y\big) &= \alpha F(x) + (1-\alpha)F(y) \succeq 0.
+\end{align}
 The objective function of the problem \refeqb{SDP:prelim:dual} is linear, and therefore convex too.
 Because the semidefinite program \refeqb{SDP:prelim:dual} has convex objective function and convex constraint, it is a convex optimization problem and can be solved by standard convex optimization methods.
 To get a general picture, how a simple semidefinite problem may look like, see \reffig{SDP:prelim:problem}.
@@ -94,18 +96,19 @@ The boundary of the feasible set is not smooth in general, but it is piecewise s
 \begin{example}[Linear programming]
   Semidefinite programming can be seen as an extension to the linear programming since the componentwise inequalities between vectors in linear programming can be replaced by LMI.
   Consider a linear program in a standard form
-  \begin{eqnarray}
-    \begin{array}{rclrrclcll}
+  \begin{align}
+    \arraycolsep=1.4pt
+    \begin{array}{rclrcl@{\hskip0.5cm}l}
       y^* &=& \displaystyle \arg\min_{y\in\R^m} & \multicolumn{3}{l}{b^\top y} \\
       && \text{s.t.} & \displaystyle Ay - c &\geq& 0
     \end{array}
-  \end{eqnarray}
+  \end{align}
   with $b\in\R^m$, $c\in\R^n$ and $A = \bmB a_1 & \cdots & a_m \bmE \in\R^{n\times m}$.
   This program can be transformed into the semidefinite program \refeqb{SDP:prelim:dual} by assigning
-  \begin{eqnarray}
-    C &=& \diag(c),\\
-    A_i &=& \diag(a_i).
-  \end{eqnarray}
+  \begin{align}
+    C &= \diag(c),\\
+    A_i &= \diag(a_i).
+  \end{align}
 \end{example}
 
 \section{State of the art review}
@@ -148,9 +151,9 @@ For the proofs and more details look into \cite{Nesterov-2004}.
 \subsection{Self-concordant functions}
 \begin{definition}[Self-concordant function in $\R$]
   A closed convex function $f: \R \mapsto \R$ is self-concordant if there exist a constant $M_f \geq 0$ such that the inequality
-  \begin{eqnarray}
-    |f'''(x)| &\leq& M_f f''(x)^{3/2}
-  \end{eqnarray}
+  \begin{align}
+    |f'''(x)| &\leq M_f f''(x)^{3/2}
+  \end{align}
   holds for all $x\in\dom f$.
 \end{definition}
 
@@ -159,35 +162,35 @@ For better understanding of self-concordant functions, we provide several exampl
 \begin{example}~
   \begin{enumerate}
     \item Linear and convex quadratic functions.
-      \begin{eqnarray}
-        f'''(x) &=& 0\ \text{ for all } x
-      \end{eqnarray}
+      \begin{align}
+        f'''(x) &= 0\ \text{ for all } x
+      \end{align}
       Linear and convex quadratic functions are self-concordant with constant $M_f = 0$.
     \item Negative logarithms.
-      \begin{eqnarray}
-        f(x) &=& -\ln(x)\ \text{ for } x>0\\
-        f'(x) &=& -\frac{1}{x}\\
-        f''(x) &=& \frac{1}{x^2}\\
-        f'''(x) &=& -\frac{2}{x^3}\\
-        \frac{|f'''(x)|}{f''(x)^{3/2}} &=& 2
-      \end{eqnarray}
+      \begin{align}
+        f(x) &= -\ln(x)\ \text{ for } x>0\\
+        f'(x) &= -\frac{1}{x}\\
+        f''(x) &= \frac{1}{x^2}\\
+        f'''(x) &= -\frac{2}{x^3}\\
+        \frac{|f'''(x)|}{f''(x)^{3/2}} &= 2
+      \end{align}
       Negative logarithms are self-concordant functions with constant $M_f = 2$.
 
     \item Exponential functions.
-      \begin{eqnarray}
-        f(x) &=& e^x\\
-        f''(x) \ =\ f'''(x) &=& e^x\\
-        \frac{|f'''(x)|}{f''(x)^{3/2}} &=& e^{-x/2} \rightarrow+\infty \ \text{ as } x\rightarrow-\infty
-      \end{eqnarray}
+      \begin{align}
+        f(x) &= e^x\\
+        f''(x) \ =\ f'''(x) &= e^x\\
+        \frac{|f'''(x)|}{f''(x)^{3/2}} &= e^{-x/2} \rightarrow+\infty \text{ as } x\rightarrow-\infty
+      \end{align}
       Exponential functions are not self-concordant functions.
   \end{enumerate}
 \end{example}
 
 \begin{definition}[Self-concordant function in $\R^n$]
   A closed convex function $f: \R^n \mapsto \R$ is self-concordant if function $g: \R \mapsto \R$
-  \begin{eqnarray}
-    g(t) &=& f(x + tv)
-  \end{eqnarray}
+  \begin{align}
+    g(t) &= f(x + tv)
+  \end{align}
   is self-concordant for all $x\in\dom f$ and all $v\in\R^n$.
 \end{definition}
 
@@ -195,17 +198,17 @@ Now, let us focus on the main properties of self-concordant functions.
 
 \begin{theorem}
   Let functions $f_i$ be self-concordant with constants $M_i$  and let $\alpha_i > 0$, $i = 1,2$. Then the function
- \begin{eqnarray}
-   f(x) &=& \alpha_1f_1(x) + \alpha_2f_2(x)
- \end{eqnarray}
+ \begin{align}
+   f(x) &= \alpha_1f_1(x) + \alpha_2f_2(x)
+ \end{align}
  is self-concordant with constant
- \begin{eqnarray}
-   M_f &=& \max \bigg\{\frac{1}{\sqrt{\alpha_1}}M_1, \frac{1}{\sqrt{\alpha_2}}M_2\bigg\}
- \end{eqnarray}
+ \begin{align}
+   M_f &= \max \bigg\{\frac{1}{\sqrt{\alpha_1}}M_1;\ \frac{1}{\sqrt{\alpha_2}}M_2\bigg\}
+ \end{align}
  and
- \begin{eqnarray}
-   \dom f &=& \dom f_1 \cap \dom f_2.
- \end{eqnarray}
+ \begin{align}
+   \dom f &= \dom f_1 \cap \dom f_2.
+ \end{align}
 \end{theorem}
 
 \begin{corollary}\labelcol{SDP:scf:scaling}
@@ -219,37 +222,37 @@ We call function $f(x)$ as the standard self-concordant function if $f(x)$ is so
 \end{theorem}
 
 For some self-concordant function $f(x)$, for which we assume, that $\dom f$ contains no straight line (which implies that all $f''(x)$ are nondegenerate, see \refthe{SDP:scf:hessian}), we denote two local norms as
-\begin{eqnarray}
-  \| u \|_x &=& \sqrt{u^\top f''(x) u}\\
-  \| u \|_x^* &=& \sqrt{u^\top f''(x)^{-1} u}.
-\end{eqnarray}
+\begin{align}
+  \| u \|_x &= \sqrt{u^\top f''(x) u}\\
+  \| u \|_x^* &= \sqrt{u^\top f''(x)^{-1} u}.
+\end{align}
 
 Consider following minimization problem
-\begin{eqnarray}
-  x^* &=& \arg\min_{x\in\dom f} f(x)\labeleq{SDP:scf:minProblem}
-\end{eqnarray}
+\begin{align}
+  x^* &= \arg\min_{x\in\dom f} f(x)\labeleq{SDP:scf:minProblem}
+\end{align}
 as the minimization of the self-concordant function $f(x)$.
 \refalg{SDP:scf} is describing the iterative process of solving the optimization problem \refeqb{SDP:scf:minProblem}.
 The algorithm is divided into two stages by the value of $\|f'(x_k)\|_{x_k}^*$.
 The splitting parameter $\beta$ guarantees quadratic convergence rate for the second part of the algorithm. The parameter $\beta$ is chosen from interval $(0, \bar{\lambda})$, where
-\begin{eqnarray}
-  \bar{\lambda} &=& \frac{3 - \sqrt{5}}{2},
-\end{eqnarray}
+\begin{align}
+  \bar{\lambda} &= \frac{3 - \sqrt{5}}{2},
+\end{align}
 which is a root of the equation
-\begin{eqnarray}
-  \frac{\lambda}{(1-\lambda)^2} &=& 1.
-\end{eqnarray}
+\begin{align}
+  \frac{\lambda}{(1-\lambda)^2} &= 1.
+\end{align}
 
 \input{alg/self-concordant-function.tex}
 
 The first while loop (lines \refalgline{SDP:scf:w1b} -- \refalgline{SDP:scf:w1e}) represents damped Newton method, where at each iteration we have
-\begin{eqnarray}
-  f(x_k) - f(x_{k+1}) &\geq& \beta - \ln(1+\beta) \text{ for } k \geq 0,
-\end{eqnarray}
+\begin{align}
+  f(x_k) - f(x_{k+1}) &\geq \beta - \ln(1+\beta) \text{ for } k \geq 0,
+\end{align}
 where
-\begin{eqnarray}
-  \beta - \ln(1+\beta) &>& 0 \text{ for } \beta > 0,
-\end{eqnarray}
+\begin{align}
+  \beta - \ln(1+\beta) &> 0 \text{ for } \beta > 0,
+\end{align}
 and therefore the global convergence of the algorithm is ensured.
 It can be shown that the local convergence rate of the damped Newton method is also quadratic, but the presented switching strategy is preferred as it gives better complexity bounds.
 
@@ -263,57 +266,57 @@ To be able to introduce self-concordant barriers, let us denote $\Dom f = \cl(\d
 
 \begin{definition}[Self-concordant barrier]\labeldef{SDP:scb:scb}
   Let $F(x)$ be a standard self-concordant function. We call it a $\nu$-self-concordant barrier for set $\Dom F$, if
-  \begin{eqnarray}
-    \sup_{u\in\R^n} \big(2u^\top F'(x) - u^\top F''(x) u\big) &\leq& \nu \labeleq{SDP:scb:def}
-  \end{eqnarray}
+  \begin{align}
+    \sup_{u\in\R^n} \big(2u^\top F'(x) - u^\top F''(x) u\big) &\leq \nu \labeleq{SDP:scb:def}
+  \end{align}
   for all $x\in\dom F$. The value $\nu$ is called the parameter of the barrier.
 \end{definition}
 
 The inequality \refeqb{SDP:scb:def} can be rewritten into the following equivalent matrix notation:
-\begin{eqnarray}
-  F''(x) &\succeq& \frac{1}{\nu}F'(x)F'(x)^\top.\labeleq{SDP:scb:def1}
-\end{eqnarray}
+\begin{align}
+  F''(x) &\succeq \frac{1}{\nu}F'(x)F'(x)^\top.\labeleq{SDP:scb:def1}
+\end{align}
 
 In \refdef{SDP:scb:scb}, the hessian $F''(x)$ is not required to be nondegenerate. However, in case that $F''(x)$ is nondegenerate, the inequality \refeqb{SDP:scb:def} is equivalent to
-\begin{eqnarray}
-  F'^\top(x)F''(x)^{-1}F'(x) &\leq& \nu.\labeleq{SDP:scb:def2}
-\end{eqnarray}
+\begin{align}
+  F'^\top(x)F''(x)^{-1}F'(x) &\leq \nu.\labeleq{SDP:scb:def2}
+\end{align}
 
 Let us explore, which basic functions are self-concordant barriers.
 
 \begin{example}~
   \begin{enumerate}
     \item Linear functions.
-      \begin{eqnarray}
-        F(x) &=& \alpha + a^\top x,\ \dom F = \R^n\\
-        F''(x) &=& 0
-      \end{eqnarray}
+      \begin{align}
+        F(x) &= \alpha + a^\top x,\ \dom F = \R^n\\
+        F''(x) &= 0
+      \end{align}
       From \refeqb{SDP:scb:def1} and for $a \neq 0$ follows, that linear functions are not self-concordant barriers.
 
     \item Convex quadratic functions.\\
       For $A = A^\top \succ 0$:
-      \begin{eqnarray}
-        F(x) &=& \alpha + a^\top x + \frac{1}{2} x^\top Ax,\ \dom F = \R^n\\
-        F'(x) &=& a + Ax\\
-        F''(x) &=& A
-      \end{eqnarray}
+      \begin{align}
+        F(x) &= \alpha + a^\top x + \frac{1}{2} x^\top Ax,\ \dom F = \R^n\\
+        F'(x) &= a + Ax\\
+        F''(x) &= A
+      \end{align}
       After substitution into \refeqb{SDP:scb:def2} we obtain
-      \begin{eqnarray}
-        (a + Ax)^\top A^{-1}(a + Ax) &=& a^\top A^{-1}a + 2a^\top x + x^\top Ax,
-      \end{eqnarray}
+      \begin{align}
+        (a + Ax)^\top A^{-1}(a + Ax) &= a^\top A^{-1}a + 2a^\top x + x^\top Ax,
+      \end{align}
       which is unbounded from above on $\R^n$. Therefore, quadratic functions are not self-concordant barriers.
       
 
     \item Logarithmic barrier for a ray.
-      \begin{eqnarray}
-        F(x) &=& -\ln x,\ \dom F = \big\{x\in\R\ |\ x > 0\big\}\\
-        F'(x) &=& -\frac{1}{x}\\
-        F''(x) &=& \frac{1}{x^2}
-      \end{eqnarray}
+      \begin{align}
+        F(x) &= -\ln x,\ \dom F = \big\{x\in\R\ |\ x > 0\big\}\\
+        F'(x) &= -\frac{1}{x}\\
+        F''(x) &= \frac{1}{x^2}
+      \end{align}
       From \refeqb{SDP:scb:def2}, when $F'(x)$ and $F''(x)$ are both scalars, we get
-      \begin{eqnarray}
-        \frac{F'(x)^2}{F''(x)} &=& \frac{x^2}{x^2}\ =\ 1.
-      \end{eqnarray}
+      \begin{align}
+        \frac{F'(x)^2}{F''(x)} &= \frac{x^2}{x^2} = 1.
+      \end{align}
       Therefore, the logarithmic barrier for a ray is a self-concordant barrier with parameter $\nu = 1$ on domain $\big\{x\in\R\ |\ x > 0\big\}$.
   \end{enumerate}
 \end{example}
@@ -326,28 +329,28 @@ Now, let us focus on the main properties of self-concordant barriers.
 
 \begin{theorem}
   Let $F_i$ be $\nu_i$-self-concordant barriers, $i = 1,2$. Then the function
-  \begin{eqnarray}
-    F(x) &=& F_1(x) + F_2(x)
-  \end{eqnarray}
+  \begin{align}
+    F(x) &= F_1(x) + F_2(x)
+  \end{align}
   is a self-concordant barrier for convex set
-  \begin{eqnarray}
-    \Dom F &=& \Dom F_1 \cap \Dom F_2
-  \end{eqnarray}
+  \begin{align}
+    \Dom F &= \Dom F_1 \cap \Dom F_2
+  \end{align}
   with the parameter
-  \begin{eqnarray}
-    \nu &=& \nu_1 + \nu_2.
-  \end{eqnarray}
+  \begin{align}
+    \nu &= \nu_1 + \nu_2.
+  \end{align}
 \end{theorem}
 
 \begin{theorem}\labelthe{SDP:scb:distance}
   Let $F(x)$ be a $\nu$-self-concordant barrier. Then for any $x\in\Dom F$ and $y\in\Dom F$ such that
-  \begin{eqnarray}
-    (y-x)^\top F'(x) &\geq& 0,
-  \end{eqnarray}
+  \begin{align}
+    (y-x)^\top F'(x) &\geq 0,
+  \end{align}
   we have
-  \begin{eqnarray}
-    \|y-x\|_x &\leq& \nu + 2\sqrt{\nu}.
-  \end{eqnarray}
+  \begin{align}
+    \|y-x\|_x &\leq \nu + 2\sqrt{\nu}.
+  \end{align}
 \end{theorem}
 
 There is one special point of convex set, which is important for solving convex minimization problem. 
@@ -355,17 +358,17 @@ It is called the analytic center of convex set and we will focus on its properti
 
 \begin{definition}
   Let $F(x)$ be a $\nu$-self-concordant barrier for the set $\Dom F$. The point
-  \begin{eqnarray}
-    x^*_F &=& \arg \min_{x\in\Dom F} F(x) \labeleq{SDP:scb:ac}
-  \end{eqnarray}
+  \begin{align}
+    x^*_F &= \arg \min_{x\in\Dom F} F(x) \labeleq{SDP:scb:ac}
+  \end{align}
   is called the analytic center of convex set $\Dom F$, generated by the barrier $F(x)$.
 \end{definition}
 
 \begin{theorem}
   Assume that the analytic center of a $\nu$-self-concordant barrier $F(x)$ exists. Then for any $x\in\Dom F$ we have
-  \begin{eqnarray}
-    \|x-x^*_F\|_{x^*_F} &\leq& \nu + 2\sqrt{\nu}.
-  \end{eqnarray}
+  \begin{align}
+    \|x-x^*_F\|_{x^*_F} &\leq \nu + 2\sqrt{\nu}.
+  \end{align}
 \end{theorem}
 
 This property clearly follows from \refthe{SDP:scb:distance} and the fact, that $F'(x^*_F) = 0$.
@@ -375,72 +378,72 @@ Thus, if $\Dom F$ contains no straight line, then the existence of $x^*_F$ (whic
 Now, we describe the algorithm and its properties for obtaining an approximation to the analytic center.
 To find the analytic center, we need to solve the minimization problem \refeqb{SDP:scb:ac}.
 For that, we will use the standard implementation of the damped Newton method with termination condition
-\begin{eqnarray}
-  \|F'(x_k)\|^*_{x_k} &\leq& \beta, \text{ for } \beta\in(0,1).
-\end{eqnarray}
+\begin{align}
+  \|F'(x_k)\|^*_{x_k} &\leq \beta, \text{ for } \beta\in(0,1).
+\end{align}
 The pseudocode of the whole minimization process is shown in \refalg{SDP:scb:ac}.
 
 \input{alg/analytic-center.tex}
 
 \begin{theorem}
   \refalg{SDP:scb:ac} terminates no later than after $N$ steps, where
-  \begin{eqnarray}
-    N &=& \frac{1}{\beta - \ln(1+\beta)}\big(F(x_0) - F(x^*_F)\big).
-  \end{eqnarray}
+  \begin{align}
+    N &= \frac{1}{\beta - \ln(1+\beta)}\big(F(x_0) - F(x^*_F)\big).
+  \end{align}
 \end{theorem}
 
 The knowledge of analytic center allows us to solve the standard minimization problem
-\begin{eqnarray}
-  x^* &=& \arg\min_{x\in Q} c^\top x \labeleq{SDP:scb:standardProblem}
-\end{eqnarray}
+\begin{align}
+  x^* &= \arg\min_{x\in Q} c^\top x \labeleq{SDP:scb:standardProblem}
+\end{align}
 with bounded closed convex set $Q \equiv \Dom F$, which has nonempty interior, and which is endowed with a $\nu$-self-concordant barrier $F(x)$.
 Denote
-\begin{eqnarray}
-  f(t,x) &=& tc^\top x + F(x), \text{ for } t \geq 0
-\end{eqnarray}
+\begin{align}
+  f(t,x) &= tc^\top x + F(x), \text{ for } t \geq 0
+\end{align}
 as a parametric penalty function.
 Using \refthe{SDP:scb:penaltyFunction} we can see, that $f(t,x)$ is self-concordant in $x$.
 Let us introduce new minimization problem using the parametric penalty function $f(t,x)$
-\begin{eqnarray}
-  x^*(t) &=& \arg\min_{x\in\dom F} f(t,x).\labeleq{SDP:scb:centralPath}
-\end{eqnarray}
+\begin{align}
+  x^*(t) &= \arg\min_{x\in\dom F} f(t,x).\labeleq{SDP:scb:centralPath}
+\end{align}
 This trajectory is called the central path of the problem \refeqb{SDP:scb:standardProblem}.
 We will reach the solution $x^*(t) \rightarrow x^*$ as $t \rightarrow +\infty$.
 Moreover, since the set $Q$ is bounded, the analytic center $x^*_F$ of this set exists and
-\begin{eqnarray}
-  x^*(0) &=& x^*_F.
-\end{eqnarray}
+\begin{align}
+  x^*(0) &= x^*_F.
+\end{align}
 From the first-order optimality condition, any point of the central path satisfies equation
-\begin{eqnarray}
-  tc + F'\big(x^*(t)\big) &=& 0
-\end{eqnarray}
+\begin{align}
+  tc + F'\big(x^*(t)\big) &= 0
+\end{align}
 Since the analytic center lies on the central path and can be found by \refalg{SDP:scb:ac}, all we have to do, to find the solution $x^*$, is to follow the central path. 
 This enables us an approximate centering condition:
-\begin{eqnarray}
-  \|f'(t,x)\|^*_x\ =\ \|tc + F'(x)\|^*_x &\leq& \beta, \labeleq{SDP:scb:cntrCondition}
-\end{eqnarray}
+\begin{align}
+  \|f'(t,x)\|^*_x = \|tc + F'(x)\|^*_x &\leq \beta, \labeleq{SDP:scb:cntrCondition}
+\end{align}
 where the centering parameter $\beta$ is small enough.
 
 Assuming $x\in\dom F$, one iteration of the path-following algorithm consists of two steps:
-\begin{eqnarray}
-  t_+ &=& t + \frac{\gamma}{\|c\|^*_x},\\
-  x_+ &=& x - F''(x)^{-1}\big(t_+c+F'(x)\big).
-\end{eqnarray}
+\begin{align}
+  t_+ &= t + \frac{\gamma}{\|c\|^*_x},\\
+  x_+ &= x - F''(x)^{-1}\big(t_+c+F'(x)\big).
+\end{align}
 
 \begin{theorem}
   Let $x$ satisfy the approximate centering condition \refeqb{SDP:scb:cntrCondition}
-  \begin{eqnarray}
-    \|tc + F'(x)\|^*_x &\leq& \beta
-  \end{eqnarray}
+  \begin{align}
+    \|tc + F'(x)\|^*_x &\leq \beta
+  \end{align}
   with $\beta < \bar{\lambda} = \frac{3-\sqrt{5}}{2}$.
   Then for $\gamma$, such that
-  \begin{eqnarray}
-    |\gamma| &\leq& \frac{\sqrt{\beta}}{1+\sqrt{\beta}} - \beta,
-  \end{eqnarray}
+  \begin{align}
+    |\gamma| &\leq \frac{\sqrt{\beta}}{1+\sqrt{\beta}} - \beta,
+  \end{align}
   we have again
-  \begin{eqnarray}
-    \|t_+c + F'(x_+)\|^*_{x_+} &\leq& \beta.
-  \end{eqnarray}
+  \begin{align}
+    \|t_+c + F'(x_+)\|^*_{x_+} &\leq \beta.
+  \end{align}
 \end{theorem}
 
 This theorem ensures the correctness of the presented iteration of the path-following algorithm.
@@ -450,16 +453,16 @@ For the whole description of the path-following algorithm please see \refalg{SDP
 
 \begin{theorem}
   \refalg{SDP:scb:pf} terminates no more than after $N$ steps, where
-  \begin{eqnarray}
-    N &\leq& \mathcal{O}\Bigg(\sqrt{\nu}\ln\frac{\nu \|c\|^*_{x^*_F}}{\varepsilon}\Bigg).
-  \end{eqnarray}
+  \begin{align}
+    N &\leq \mathcal{O}\Bigg(\sqrt{\nu}\ln\frac{\nu \|c\|^*_{x^*_F}}{\varepsilon}\Bigg).
+  \end{align}
 \end{theorem}
 
 The parameters $\beta$ and $\gamma$ in \refalg{SDP:scb:ac} and \refalg{SDP:scb:pf} can be fixed. The reasonable values are:
-\begin{eqnarray}
-  \beta &=& \frac{1}{9},\labeleq{SDP:scb:beta}\\
-  \gamma &=& \frac{\sqrt{\beta}}{1+\sqrt{\beta}} - \beta\ =\ \frac{5}{36}.\labeleq{SDP:scb:gamma}
-\end{eqnarray}
+\begin{align}
+  \beta &= \frac{1}{9},\labeleq{SDP:scb:beta}\\
+  \gamma &= \frac{\sqrt{\beta}}{1+\sqrt{\beta}} - \beta = \frac{5}{36}.\labeleq{SDP:scb:gamma}
+\end{align}
 
 The union of \refalg{SDP:scb:ac} and \refalg{SDP:scb:pf} can be easily used to solve the standard minimization problem \refeqb{SDP:scb:standardProblem}, supposing we have a feasible point $x_0\in Q$.
 
@@ -467,44 +470,44 @@ The union of \refalg{SDP:scb:ac} and \refalg{SDP:scb:pf} can be easily used to s
 In this section, we are going to show, how to find a self-concordant barrier for the semidefinite program \refeqb{SDP:prelim:dual}, so that we can use \refalg{SDP:scb:ac} and \refalg{SDP:scb:pf} to solve it.
 For the purpose of this section, we are interested only in the constrains of the problem.
 The constrains are defining us the feasibility set $Q$:
-\begin{eqnarray}
-  Q &=& \bigg\{y\in\R^m\ |\ A_0 + \sum_{i=1}^mA_iy\ind i \succeq 0\bigg\},
-\end{eqnarray}
+\begin{align}
+  Q &= \bigg\{y\in\R^m\ |\ A_0 + \sum_{i=1}^mA_iy\ind i \succeq 0\bigg\},
+\end{align}
 where $A_0, \ldots, A_m \in\Sym^n$.
 Let us denote $X(y) = A_0 + \sum_{i=1}^mA_iy\ind i$.
 If the matrix $X(y)$ is block diagonal
-\begin{eqnarray}
-  X(y) &=& \begin{bmatrix}
+\begin{align}
+  X(y) &= \begin{bmatrix}
           X_1(y) & 0      & \cdots & 0      \\
           0      & X_2(y) & \cdots & 0      \\
           \vdots & \vdots & \ddots & \vdots \\
           0      & 0      & \cdots & X_k(y)
         \end{bmatrix} \labeleq{SDP:bf:bd}
-\end{eqnarray}
+\end{align}
 with $X_j(y)\in\Sym^{n_j}$ for $j = 1, \ldots, k$ and $\sum_{j=1}^k n_j = n$, then the feasibility set $Q$ can be expressed as
-\begin{eqnarray}
-  Q &=& \big\{y\in\R^m\ |\ X_j(y) \succeq 0,\ j = 1,\ldots, k\big\}.
-\end{eqnarray}
+\begin{align}
+  Q &= \big\{y\in\R^m\ |\ X_j(y) \succeq 0,\ j = 1,\ldots, k\big\}.
+\end{align}
 This rule allows us to easily add or remove some constraints without touching the others and to keep the sizes of the used matrices small, which can significantly speed up the computation.
 
 Instead of the set $Q$, which is parametrized by $y$, we can directly optimize over the set of positive semidefinite matrices. This set $\PSDCone^n$ is defined as
-\begin{eqnarray}
-  \PSDCone^n &=& \big\{X\in\Sym^n\ |\ X\succeq0\big\}
-\end{eqnarray}
+\begin{align}
+  \PSDCone^n &= \big\{X\in\Sym^n\ |\ X\succeq0\big\}
+\end{align}
 and it is called the cone of positive semidefinite $n\times n$ matrices. This cone is a closed convex set, which interior is formed by positive definite matrices and on its boundary lie matrices, which have at least one eigenvalue equal to zero.
 
 Now, we are looking for a self-concordant barrier function, which will enable us to optimize over the cone $\PSDCone^n$.
 The domain of this function needs to contain the set $\PSDCone^n$ and the values of the function have to be growing to $+\infty$ as we are getting closer to the boundary of the set $\PSDCone^n$.
 This will create us a repelling force from the boundary of $\PSDCone^n$, when following the central path \refeqb{SDP:scb:centralPath}.
 Consider the function $F(X)$ as the self-concordant barrier function for the set $\PSDCone^n$:
-\begin{eqnarray}
-  F(X) &=& -\ln\prod_{i=1}^{n}\lambda_i(X),
-\end{eqnarray}
+\begin{align}
+  F(X) &= -\ln\prod_{i=1}^{n}\lambda_i(X),
+\end{align}
 where $X\in\inter\PSDCone^n$ and $\big\{\lambda_i(X)\big\}_{i=1}^n$ is the set of eigenvalues of the matrix $X$.
 To avoid the computation of eigenvalues, the function $F(X)$ can be also expressed as:
-\begin{eqnarray}
-  F(X) &=& -\ln\det(X).
-\end{eqnarray}
+\begin{align}
+  F(X) &= -\ln\det(X).
+\end{align}
 
 \begin{theorem}\labelthe{SDP:bf:nu}
   Function $F(X)$ is an $n$-self-concordant barrier for $\PSDCone^n$.
@@ -513,13 +516,13 @@ To avoid the computation of eigenvalues, the function $F(X)$ can be also express
 \begin{example}
   Consider one-dimensional problem with linear constraint $x \geq 0$.
   Then, the set $Q$ is
-  \begin{eqnarray}
-    Q &=& \{x\in\R\ |\ x \geq 0\}
-  \end{eqnarray}
+  \begin{align}
+    Q &= \{x\in\R\ |\ x \geq 0\}
+  \end{align}
   and one of the barrier functions for this set $Q$ is
-  \begin{eqnarray}
-    F(x) &=& -\ln(x).
-  \end{eqnarray}
+  \begin{align}
+    F(x) &= -\ln(x).
+  \end{align}
   Then, when following the central path \refeqb{SDP:scb:centralPath}, the function $F(x)$ allows us to reach the boundary of $Q$ as $t$ grows to $+\infty$.
   This situation is showed in \reffig{SDP:bf:barrier} for different values of $t$.
 
@@ -534,24 +537,24 @@ To avoid the computation of eigenvalues, the function $F(X)$ can be also express
 Note, that $\Dom F \supseteq \PSDCone^n$ because $\det(X) \geq 0$ when the number of negative eigenvalues of $X$ is even. Therefore, the set $\Dom F$ is made by disjoint subsets, which one of them is $\PSDCone^n$. As \refalg{SDP:scb:ac} and \refalg{SDP:scb:pf} are interior point algorithms, when the starting point is from $\inter\PSDCone^n$, then we never leave $\PSDCone^n$ during the execution of the algorithms and the optimal solution is found.
 
 Similarly, the self-concordant barrier function for the set $Q$ is a function 
-\begin{eqnarray}
-  F(y) &=& -\ln\det\big(X(y)\big). \labeleq{SDP:bf:bfy}
-\end{eqnarray}
+\begin{align}
+  F(y) &= -\ln\det\big(X(y)\big). \labeleq{SDP:bf:bfy}
+\end{align}
 
 \begin{example}
   To make it clearer, what is the difference between the set $Q$ and $\Dom F(y)$, we have prepared this example. Let
-  \begin{eqnarray}
-    X(y) &=& \bmB y_2 & y_1 \\ y_1 & y_2 \bmE,
-  \end{eqnarray}
+  \begin{align}
+    X(y) &= \bmB y_2 & y_1 \\ y_1 & y_2 \bmE,
+  \end{align}
   where $y = \bmB y_1 & y_2 \bmE^\top$. The equation
-  \begin{eqnarray}
-    z &=& \det(X(y))\ =\ y_2^2 - y_1^2
-  \end{eqnarray}
+  \begin{align}
+    z &= \det(X(y)) = y_2^2 - y_1^2
+  \end{align}
   represents a hyperbolic paraboloid, which you can see in \reffig{SDP:bf:hyperPar}.
   Therefore, the equation $z = 0$ is a slice of it, denoted by the purple color in \reffig{SDP:bf:hyperParSlice}. The domain of the self-concordant barrier function is
-  \begin{eqnarray}
-    \Dom F(y) &=& \Big\{y\ |\ \det\big(X(y)\big) \geq 0\Big\}\labeleq{SDP:bf:domF}
-  \end{eqnarray}
+  \begin{align}
+    \Dom F(y) &= \Big\{y\ |\ \det\big(X(y)\big) \geq 0\Big\}\labeleq{SDP:bf:domF}
+  \end{align}
   and is shaded by the blue color.
   We can see, that the set $\Dom F(y)$ consists of two disjoint parts. One of them is the set, where $X(y)\succeq0$ (denoted by the orange color) and the second part is an area, where both eigenvalues of $X(y)$ are negative.
   Therefore, one has to pick his starting point $x_0$ from the interior of the set $Q = \big\{y\in\R^2\ |\ X(y) \succeq 0\big\}$ to obtain the optimal solution from the set $Q$.
@@ -572,15 +575,15 @@ Similarly, the self-concordant barrier function for the set $Q$ is a function
 \end{example}
 
 When the matrix $X$ has the block diagonal form \refeqb{SDP:bf:bd}, we can rewrite the barrier function \refeqb{SDP:bf:bfy} into summation form
-\begin{eqnarray}
-  F(y) &=& -\sum_{j=1}^k \ln\det\big(X_j(y)\big).
-\end{eqnarray}
+\begin{align}
+  F(y) &= -\sum_{j=1}^k \ln\det\big(X_j(y)\big).
+\end{align}
 For the purposes of \refalg{SDP:scb:ac} and \refalg{SDP:scb:pf}, we need the first and the second partial derivatives of this function.
 Let us denote $X_j(y) = A_{j, 0} + \sum_{i=1}^mA_{j, i}y\ind i$ for $j = 1, \ldots, k$, then the derivatives are:
-\begin{eqnarray}
-  \frac{\partial F}{\partial y\ind u}\big(y\big) &=& -\sum_{j=1}^k \tr\big(X_j(y)^{-1}A_{j,u}\big),\\
-  \frac{\partial^2 F}{\partial y\ind u \partial y\ind v}\big(y\big) &=& \sum_{j=1}^k \tr\Big(\big(X_j(y)^{-1}A_{j,u}\big)\big(X_j(y)^{-1}A_{j,v}\big)\Big),
-\end{eqnarray}
+\begin{align}
+  \frac{\partial F}{\partial y\ind u}\big(y\big) &= -\sum_{j=1}^k \tr\big(X_j(y)^{-1}A_{j,u}\big),\\
+  \frac{\partial^2 F}{\partial y\ind u \partial y\ind v}\big(y\big) &= \sum_{j=1}^k \tr\Big(\big(X_j(y)^{-1}A_{j,u}\big)\big(X_j(y)^{-1}A_{j,v}\big)\Big),
+\end{align}
 for $u, v = 1,\ldots, m$.
 
 The computation of the derivatives is the most expensive part of each step of \refalg{SDP:scb:ac} and \refalg{SDP:scb:pf}.
@@ -596,9 +599,9 @@ The number of arithmetic operations for $j$-th constraint in form $\big\{y\ |\ X
 The most expensive parts requires $mn^3$ and $m^2n^2$ arithmetic operations on each constraint.
 Typically, the value $k$, the number of constraints, is small and it keeps constant, when the semidefinite programs are generated as subproblems, when solving more complex problems, e.g.\ polynomial optimization. Therefore, we can say, that $k$ is constant and we can omit it from the complexity estimation.
 To sum up, one step of \refalg{SDP:scb:ac} and \refalg{SDP:scb:pf} requires
-\begin{eqnarray}
+\begin{align}
   \mathcal{O}\big(m(m+n)n^2\big)\labeleq{SDP:bf:O}
-\end{eqnarray}
+\end{align}
 arithmetic operations.
 
 \section{Implementation details}
@@ -632,12 +635,13 @@ If no error emerges, then the package is installed and ready to use.
 
 \subsection{Usage}
 The Polyopt package is created to be able to solve semidefinite programs in a form
-\begin{eqnarray}
-  \begin{array}{rclrrclcll}
+\begin{align}
+  \arraycolsep=1.4pt
+  \begin{array}{rclrcl@{\hskip0.5cm}l}
     y^* &=& \displaystyle \arg\min_{y\in\R^m} & \multicolumn{3}{l}{c^\top y} \\
-    && \text{s.t.} & \displaystyle A_{j,0} + \sum_{i=1}^m A_{j,i}y\ind i &\succeq& 0 \text{ for } j = 1,\ldots,k,
+    && \text{s.t.} & \displaystyle A_{j,0} + \sum_{i=1}^m A_{j,i}y\ind i &\succeq& 0 & \text{ for } j = 1,\ldots,k,
   \end{array}
-\end{eqnarray}
+\end{align}
 where $A_{j,i}\in\Sym^{n_j}$ for $i = 0,\dots m$ and $j=1,\dots,k$, $c\in\R^m$ and $k$ is the number of constraints.
 In addition, a strictly feasible point $y_0\in\R^m$ must be given.
 
@@ -676,18 +680,18 @@ The zero eigenvalues mean, that we have reached the boundary of the set $Q$, bec
 It may happen, that the set $\Dom F$ is not bounded, but the optimal solution can be attained.
 In this case, the analytic center does not exists and the proposed algorithms can not be used. 
 By adding a constraint 
-\begin{eqnarray}
-  X_{k+1}(y) &=& \bmB R^2 & y\ind1 & y\ind2 & \cdots & y\ind m\\
+\begin{align}
+  X_{k+1}(y) &= \bmB R^2 & y\ind1 & y\ind2 & \cdots & y\ind m\\
                       y\ind1 & 1 & 0 & \cdots & 0\\
                       y\ind2 & 0 & 1 & \cdots & 0\\
                       \vdots & \vdots & \vdots & \ddots & \vdots\\
                       y\ind m & 0 & 0 & \cdots & 1\bmE \text{ for } R\in\R, \labeleq{SDP:imp:bound}
-\end{eqnarray}
+\end{align}
 we bound the set by the ball with radius $R$.
 The constraint \refeqb{SDP:imp:bound} is equivalent to
-\begin{eqnarray}
-  \|y\|_2^2 &\leq&R^2.
-\end{eqnarray}
+\begin{align}
+  \|y\|_2^2 &\leq R^2.
+\end{align}
 This will make the set $\Dom F$ bounded and the analytic center can by found in the standard way by \refalg{SDP:scb:ac}.
 When optimizing the linear function by \refalg{SDP:scb:pf}, the radius $R$ may be set too small and the optimum may be found on the boundary of the constraint \refeqb{SDP:imp:bound}.
 Then, the found optimum is not the solution to the original problem and the algorithm has to be run again with bigger value of $R$.
@@ -698,31 +702,32 @@ When the problem is solved, we can list the eigenvalues of $X_{k+1}(y^*)$ by the
 \begin{example}\labelex{SDP:imp:demo}
   Let us present a simple example to show a detailed usage of the package Polyopt.
   Let us have semidefinite program in a form
-  \begin{eqnarray}
-    \begin{array}{rclrrclcll}
+  \begin{align}
+    \arraycolsep=1.4pt
+    \begin{array}{rclrcl@{\hskip0.5cm}l}
       y^* &=& \displaystyle \arg\min_{y\in\R^2} & \multicolumn{3}{l}{y\ind1 + y\ind2} \\
       && \text{s.t.} & \displaystyle \bmB 1 +y\ind1 & y\ind2 & 0\\ y\ind2 & 1 -y\ind1& y\ind2\\ 0 & y\ind2 & 1-y\ind1 \bmE &\succeq& 0
     \end{array}
-    \end{eqnarray}
+  \end{align}
   with starting point
-  \begin{eqnarray}
-    y_0 &=& \bmB 0 & 0\bmE^\top.
-  \end{eqnarray}
+  \begin{align}
+    y_0 &= \bmB 0 & 0\bmE^\top.
+  \end{align}
   \reflis{SDP:imp:demo} shows the Python code used to solve the given problem.
   The graph of the problem is showed in \reffig{SDP:imp:demo}.
   The analytic center of the feasible region of the problem is
-  \begin{eqnarray}
-    y_F^* &=& \bmB -0.317 & 0\bmE^\top,
-  \end{eqnarray}
+  \begin{align}
+    y_F^* &= \bmB -0.317 & 0\bmE^\top,
+  \end{align}
   the optimal solution is attained at
-  \begin{eqnarray}
-    y^* &=& \bmB -0.778 & -0.592 \bmE^\top
-  \end{eqnarray}
+  \begin{align}
+    y^* &= \bmB -0.778 & -0.592 \bmE^\top
+  \end{align}
   and the objective function has value $-1.37$.
   The eigenvalues of $X(y^*)$ are
-  \begin{eqnarray}
-    \Big\{\lambda_i\big(X(y^*)\big)\Big\}_{i=1}^3 &=& \{2.32\cdot10^{-4};\ 1.32;\ 2.45\}.
-  \end{eqnarray}
+  \begin{align}
+    \Big\{\lambda_i\big(X(y^*)\big)\Big\}_{i=1}^3 &= \{2.32\cdot10^{-4};\ 1.32;\ 2.45\}.
+  \end{align}
 
   \begin{lstlisting}[float, language=python, caption={Code for solving semidefinite problem stated in \refex{SDP:imp:demo}.}, labellis={SDP:imp:demo}]
 from numpy import *
@@ -784,16 +789,16 @@ Since in typical applications of SDP, the size of the matrices grows with the nu
 
 In our experiment, we have generated \importSDPPerformanceUnique{} unique LMI constraints for each size of the problem from \importSDPPerformanceDimMin{} to \importSDPPerformanceDimMax{}.
 Each unique constraint has form
-\begin{eqnarray}
-  X_{k,l}(y) &=& \Iden k + \sum_{i=1}^k A_{k,l,i} y\ind i\labeleq{SDP:perf:constr}
-\end{eqnarray}
+\begin{align}
+  X_{k,l}(y) &= \Iden k + \sum_{i=1}^k A_{k,l,i} y\ind i\labeleq{SDP:perf:constr}
+\end{align}
 for the size of the problem $k = \importSDPPerformanceDimMin, \ldots, \importSDPPerformanceDimMax$ and unique LMI constraint $l = 1,\ldots, \importSDPPerformanceUnique$, where $A_{k,l,i}\in\Sym^k$.
 The matrices $A_{k,l,i}$ were filled with random numbers from uniform distribution $(-1;1)$ with symmetricity of the matrices preserved.
 The package Polyopt requires the starting point $y_0$ to be given by the user in advance.
 But from the structure of the constraint \refeqb{SDP:perf:constr} we can see that $y_0\in\R^k$
-\begin{eqnarray}
-  y_0 &=& \bmB 0 & \cdots & 0\bmE^\top
-\end{eqnarray}
+\begin{align}
+  y_0 &= \bmB 0 & \cdots & 0\bmE^\top
+\end{align}
 is a feasible point.
 We used the point $y_0$ to initialize problems for Polyopt package, but we have let SeDuMi and MOSEK use their own initialization process. 
 However, since the LMI constraints were randomly generated, there is no guarantee that the sets, which they define, are bounded.
@@ -803,8 +808,9 @@ The objective function of the problem is generated randomly too.
 For each unique instance, we have generated random vector $r\in\R^n$ from uniform distribution $(-1;1)$.
 Then, the objective function to minimize is $r^\top y$.
 The final generated problem denoted as $P_{k,l}$ looks like
-\begin{eqnarray}
-  \begin{array}{rclrrclcll}
+\begin{align}
+  \arraycolsep=1.4pt
+  \begin{array}{rclrcl@{\hskip0.5cm}l}
     && \displaystyle \min_{y\in\R^k} & \multicolumn{3}{l}{r_{k,l}^\top y} \\
     && \text{s.t.} & \displaystyle \Iden k + \sum_{i=1}^k A_{k,l,i} y\ind i &\succeq& 0 \\
     &&& \bmB R^2 & y\ind1 & y\ind2 & \cdots & y\ind k\\
@@ -813,19 +819,19 @@ The final generated problem denoted as $P_{k,l}$ looks like
           \vdots & \vdots & \vdots & \ddots & \vdots\\
           y\ind k & 0 & 0 & \cdots & 1\bmE &\succeq& 0.
  \end{array}
-\end{eqnarray}
+\end{align}
 
 \subsection{Time measuring}
 To eliminate influences that negatively affect the execution times on CPU, such as other processes competing for the same CPU core, processor caching, data loading delays, etc., we have executed each problem $P_{k,l}$ \importSDPPerformanceRepeat{} times.
 So, for each problem $P_{k,l}$ we have obtained execution times $\tau_{k,l,s}$ for $s = 1,\ldots,\importSDPPerformanceRepeat$.
 Because the influences mentioned above can only prolong the execution times, we have selected minimum of $\tau_{k,l,s}$ for each problem $P_{k,l}$.
-\begin{eqnarray}
-  \tau_{k,l} &=& \min_{s=1}^{\importSDPPerformanceRepeat} \tau_{k,l,s}
-\end{eqnarray}
+\begin{align}
+  \tau_{k,l} &= \min_{s=1}^{\importSDPPerformanceRepeat} \tau_{k,l,s}
+\end{align}
 Since the execution times of problems of the same sizes should be more or less the same, we have computed the average execution time $\tau_k$ for each size of the problem.
-\begin{eqnarray}
-  \tau_k &=& \frac{1}{\importSDPPerformanceUnique}\sum_{l=1}^{\importSDPPerformanceUnique} \tau_{k,l}
-\end{eqnarray}
+\begin{align}
+  \tau_k &= \frac{1}{\importSDPPerformanceUnique}\sum_{l=1}^{\importSDPPerformanceUnique} \tau_{k,l}
+\end{align}
 These execution times $\tau_k$, where $k$ is the size of the problem, were measured and computed separately for the Polyopt, SeDuMi and MOSEK toolboxes and are shown in \reftab{SDP:perf:times} and \reffig{SDP:perf:times}.
 
 \begin{table}[ht]
