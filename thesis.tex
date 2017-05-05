@@ -130,6 +130,8 @@
 \newcommand{\reftab}[1]{Table~\ref{table:#1}}
 \newcommand{\labelsec}[1]{\label{section:#1}}
 \newcommand{\refsec}[1]{Section~\ref{section:#1}}
+\newcommand{\labelcha}[1]{\label{chapter:#1}}
+\newcommand{\refcha}[1]{Chapter~\ref{chapter:#1}}
 \newcommand{\reflis}[1]{Listing~\ref{listing:#1}}
 \newtheoremstyle{definitionStyle}
   {}
@@ -146,9 +148,16 @@
 \newtheorem{example}{Example}[chapter]
 \newtheorem{corollary}{Corollary}[chapter]
 \newcommand{\R}{\mathbb{R}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\Z}{\mathbb{Z}}
 \newcommand{\Sym}{\mathcal{S}}
 \newcommand{\PSDCone}{\mathcal{P}}
 \newcommand{\Iden}[1]{\ensuremath{\mathcal{I}^{#1}}}
+\newcommand{\Ideal}{\mathcal{I}}
+\newcommand{\Base}{\mathcal{B}}
+\newcommand{\NF}{\mathcal{N}}
+\newcommand{\MM}{\mathcal{X}}
 \DeclareMathOperator{\rank}{rank}
 \DeclareMathOperator{\dom}{dom}
 \DeclareMathOperator{\Dom}{Dom}
@@ -196,6 +205,8 @@
 \input{introduction.tex}
 
 \input{SDP.tex}
+
+\input{POP.tex}
 
 \input{conclusion.tex}
 
