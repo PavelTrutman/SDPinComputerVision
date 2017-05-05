@@ -131,6 +131,72 @@ The roots can be recovered from left eigenvectors of $\MM_f$ when all eigenspace
 This is the case when the values $f(v)$ for $v\in V_\C(I)$ are pairwise distinct and when the ideal $I$ is radical.
 In that case, each left eigenvector of $\MM_f$ corresponds to one solution $v\in V_\C(I)$ and the values of the eigenvectors are the evaluations $b_i(v)$ for $b_i\in\Base$, and therefore when the variable $x_i\in\Base$, we can readily obtain its value.
 
+\begin{example}
+  Let us have a system of two polynomial equations.
+  \begin{alignat}{13}
+    {}-{}20 & x^2 & {}+{}   & xy & {}-{}12 & y^2 & {}-{}16 & x & {}-{}   & y & {}+{}48 & {}={} & 0 \labeleq{POP:mm:example1}\\
+    12      & x^2 & {}-{}58 & xy & {}+{}3  & y^2 & {}+{}46 & x & {}-{}47 & y & {}+{}44 & {}={} & 0 \labeleq{POP:mm:example2}
+  \end{alignat}
+  The first equation represents an ellipse and the second one a hyperbola as you can see in \reffig{POP:mm:example}.
+  Let us solve the system using multiplication matrices.
+
+  \begin{figure}[ht]
+    \centering
+    \resizebox{0.95\textwidth}{!}{\input{graphs/POP_multiplicationMatrices}}
+    \caption{The intersection of the ellipse \refeqb{POP:mm:example1} and the hyperbola \refeqb{POP:mm:example2} with solutions found by the eigenvalue and the eigenvectors methods using multiplication matrices.}
+    \labelfig{POP:mm:example}
+  \end{figure}
+
+  First of all, we have to compute the Gr\"obner basis of the ideal.
+  \begin{alignat}{9}
+    164 & x^2 & {}+{}99 & y^2 & {}+{}126 & x & {}+{}15  & y & {}-{}404\\
+    41  & xy  & {}+{}3  & y^2 & {}-{}16  & x & {}+{}34  & y & {}-{}52 \\
+    41  & y^3 & {}-{}15 & y^2 & {}+{}48  & x & {}-{}170 & y & {}+{}96
+  \end{alignat}
+  Now, we can select the basis $\Base$
+  \begin{align}
+    \Base = \bmB 1 & y & x & y^2 \bmE^\top
+  \end{align}
+  and construct the multiplication matrices $\MM_x$ and $\MM_y$ accordingly
+  \begin{align}
+    \MM_x &= \bmB 0 & \frac{52}{41} & \frac{101}{41} & \frac{40}{41}\\
+                  0 & -\frac{34}{41} & -\frac{15}{164} & \frac{18}{41}\\
+                  1 & \frac{26}{41} & -\frac{63}{82} & \frac{20}{41}\\
+                  0 & -\frac{3}{41} & -\frac{99}{164} & -\frac{37}{41}\bmE,\\
+    \MM_y &= \bmB 0 & 0 & \frac{52}{41} & -\frac{96}{41}\\
+                  1 & 0 & -\frac{34}{41} & \frac{170}{41}\\
+                  0 & 0 & \frac{26}{41} & -\frac{48}{41}\\
+                  0 & 1 & -\frac{3}{41} & \frac{15}{41}\bmE.
+  \end{align}
+  The eigenvalues of $\MM_x$ and $\MM_y$ are
+  \begin{align}
+    \big\{\lambda_i(\MM_x)\big\}_{i=1}^4 &= \left\{-2;\ -1;\ -\frac{1}{2};\ 1\right\},\\
+    \big\{\lambda_i(\MM_y)\big\}_{i=1}^4 &= \{-2;\ 0;\ 1;\ 2\}.
+  \end{align}
+  Therefore, there are $4\times4=16$ possible solutions to the system and we must verify, which of them are true solutions.
+  Let us denote the set of all possible solutions as $\tilde{V}_\C(I)$.
+  These possible solutions are shown in \reffig{POP:mm:example} by the blue color.
+
+  Secondly, we compute the left eigenvectors of the multiplication matrix $\MM_x$ such that their first coordinates are ones, as it corresponds to the constant polynomial $b_1 = 1$.
+  We obtain following four eigenvectors corresponding to four different solutions
+  \begin{align}
+    \bmB 1\\ 1\\ 1\\ 1 \bmE,\
+    \bmB 1\\ 0\\ -2\\ 0 \bmE,\
+    \bmB 1\\ 2\\ -\frac{1}{2}\\ 4 \bmE,\
+    \bmB 1\\ -2\\ -1\\ 4 \bmE.
+  \end{align}
+  Since the second and the third coordinate corresponds to $b_2 = y$ and $b_3 = x$ respectively, we have got four solutions to the system of polynomials \refeqb{POP:mm:example1} -- \refeqb{POP:mm:example2}:
+  \begin{align}
+    V_\C(I) &= \left\{
+        \bmB 1\\ 1 \bmE;\
+        \bmB -2\\ 0 \bmE;\
+        \bmB -\frac{1}{2}\\ 2 \bmE;\
+        \bmB -1\\ -2 \bmE
+      \right\}.
+  \end{align}
+  These solutions are shown by the orange color in \reffig{POP:mm:example}.
+\end{example}
+
 \section{Moment matrices}
 
 \section{Polynomial optimization}
