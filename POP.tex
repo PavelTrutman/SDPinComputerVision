@@ -227,11 +227,12 @@ Since such a polynomial may have infinite number of coefficients, let us introdu
 where $\N_d$ are natural numbers (including zero) up to the number $d$.
 We will use the notation $\vc(p)$ for the vector of the coefficients of the polynomial $p$ with respect to some monomial basis $\Base$:
 \begin{align}
-  \vc(p) &= (p_\alpha)_{|\alpha|\leq d}.
+  \vc(p)\ind{\alpha} &= p_\alpha
 \end{align}
+for $\alpha\in\N_d$.
 
 \begin{definition}[Riesz functional]
-  Given a sequence $y = (y_\alpha)_{\alpha\in\N^n}$, we define the Riesz linear functional $\ell_y: \R[x]\rightarrow\R$ such that
+  Given a sequence $y\ind\alpha = y_\alpha$ for $\alpha\in\N^n$, we define the Riesz linear functional $\ell_y: \R[x]\rightarrow\R$ such that
   \begin{align}
     \ell_y(x^\alpha) &= y_\alpha
   \end{align}
@@ -259,6 +260,80 @@ From the equation above, we can see that Riesz functional substitutes a new vari
   The Riesz functional of $p(x)$ is
   \begin{align}
     \ell\big(p(x)\big) &= y_{20} + 3y_{11} -7y_{01} + 9y_{00}.
+  \end{align}
+\end{example}
+
+\begin{definition}[Moment matrix]
+  A symmetric matrix $M$ indexed by $\N^n$ is said to be a moment matrix (or generalized Hankel matrix) if its $(\alpha, \beta)$-entry depends only on the sum $\alpha + \beta$ of the indices.
+  Given sequence $y\ind\alpha = y_\alpha$ for $\alpha\in\N^n$, the moment matrix $M(y)$ has form
+  \begin{align}
+    M(y)\ind{\alpha, \beta} &= y_{\alpha + \beta}
+  \end{align}
+  for $\alpha, \beta \in\N^n$.
+\end{definition}
+
+\begin{definition}[Truncated moment matrix]
+  Given sequence $y\ind\alpha = y_\alpha$ for $\alpha\in\N^n$, the truncated moment matrix $M_s(y)$ of order $s\in\N$ has form
+  \begin{align}
+    M_s(y)\ind{\alpha, \beta} &= y_{\alpha + \beta}
+  \end{align}
+  for $\alpha, \beta \in\N_s^n$.
+\end{definition}
+
+The moment matrices are linear in $y$ and symmetric, we can see that
+\begin{align}
+  M_s(y)\in\Sym^{\binom{n+s}{n}},
+\end{align}
+where $\binom{n+s}{n}$ is the number of monomials in $n$ variables up to degree $s$.
+
+\begin{example}
+  For $n=2$ the moment matrices for different orders are:
+  \begin{align}
+    M_0(y) &= \bmB y_{00} \bmE,\\
+    M_1(y) &= \left[\begin{array}{c:cc}
+                y_{00} & y_{10} & y_{01}\\\hdashline
+                y_{10} & y_{20} & y_{11}\\
+                y_{01} & y_{11} & y_{02}
+              \end{array}\right],\\
+    M_2(y) &= \left[\begin{array}{c:cc:ccc}
+                y_{00} & y_{10} & y_{01} & y_{20} & y_{11} & y_{02}\\\hdashline
+                y_{10} & y_{20} & y_{11} & y_{30} & y_{21} & y_{12}\\
+                y_{01} & y_{11} & y_{02} & y_{21} & y_{12} & y_{03}\\\hdashline
+                y_{20} & y_{30} & y_{21} & y_{40} & y_{31} & y_{22}\\
+                y_{11} & y_{21} & y_{12} & y_{31} & y_{22} & y_{13}\\
+                y_{02} & y_{12} & y_{03} & y_{22} & y_{13} & y_{04}.
+              \end{array}\right]
+  \end{align}
+  The blocks separated by the dashed lines are representing blocks, in which all the elements have the same degree.
+  Moreover, we can see that the matrices of smaller order are nothing more than submatrices of the matrices of bigger order.
+
+  And just one example for $n=3$:
+  \begin{align}
+    M_1(y) &= \left[\begin{array}{c:ccc}
+                y_{000} & y_{100} & y_{010} & y_{001}\\\hdashline
+                y_{100} & y_{200} & y_{110} & y_{101}\\
+                y_{010} & y_{110} & y_{020} & y_{011}\\
+                y_{001} & y_{101} & y_{011} & y_{002}
+              \end{array}\right].
+  \end{align}
+\end{example}
+
+\begin{definition}[Localizing matrix]
+  Given sequence $y\ind\alpha = y_\alpha$ for $\alpha\in\N^n$ and polynomial $q(x)\in\R[x]$, its localizing matrix $M_s(qy)$ of order $s$ has form
+  \begin{align}
+    M_s(qy)\ind{\alpha,\beta} &= \sum_\gamma q_\gamma y_{\alpha + \beta + \gamma}
+  \end{align}
+  for $\alpha, \beta \in\N_s^n$.
+\end{definition}
+
+Notation $M_s(qy)$ emphasis that the localizing matrix is bilinear in $q$ and $y$.
+
+\begin{example}
+  For $n = 2$ and a polynomial $q(x) = x_1x_2 + 2x_1 + 3$, the localizing matrix is
+  \begin{align}
+    M_1(qy) &= \bmB y_{11} +2y_{10} +3y_{00} & y_{21} +2y_{20} +3y_{10} & y_{12} +2y_{11} +3y_{01}\\
+                    y_{21} +2y_{20} +3y_{10} & y_{31} +2y_{30} +3y_{20} & y_{22} +2y_{21} +3y_{11}\\
+                    y_{12} +2y_{11} +3y_{01} & y_{22} +2y_{21} +3y_{11} & y_{13} +2y_{12} +3y_{02}\bmE.
   \end{align}
 \end{example}
 
