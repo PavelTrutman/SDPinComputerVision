@@ -1,6 +1,8 @@
 \chapter{Optimization over polynomials}\labelcha{POP}
+%TODO
 
 \section{State of the art review}
+%TODO
 
 \section{Algebraic preliminaries}
 In this whole chapter focused on polynomial optimization and polynomial systems solving, we will follow the notation from \cite{Cox-Little-Shea97}.
@@ -127,7 +129,7 @@ Then $V_\C(I)$ is a subset of the Cartesian product $\lambda_{x_1} \times \lambd
 However, this method becomes inefficient for large $n$, the number of variables, since $n$ multiplication matrices have to be constructed and their eigenvalues computed.
 
 For this reason, the second property of multiplication matrices is used.
-The roots can be recovered from left eigenvectors of $\MM_f$ when all eigenspaces of $\MM_f^\top$ have dimension one.
+The roots can be recovered from left eigenvectors of $\MM_f$ when all left eigenspaces of $\MM_f$ have dimension one.
 This is the case when the values $f(v)$ for $v\in V_\C(I)$ are pairwise distinct and when the ideal $I$ is radical.
 In that case, each left eigenvector of $\MM_f$ corresponds to one solution $v\in V_\C(I)$ and the values of the eigenvectors are the evaluations $b_i(v)$ for $b_i\in\Base$, and therefore when the variable $x_i\in\Base$, we can readily obtain its value.
 
@@ -143,17 +145,18 @@ In that case, each left eigenvector of $\MM_f$ corresponds to one solution $v\in
   \begin{figure}[ht]
     \centering
     \resizebox{0.95\textwidth}{!}{\input{graphs/POP_multiplicationMatrices}}
-    \caption{The intersection of the ellipse \refeqb{POP:mm:example1} and the hyperbola \refeqb{POP:mm:example2} with solutions found by the eigenvalue and the eigenvectors methods using multiplication matrices.}
+    \caption{The intersection of the ellipse \refeqb{POP:mm:example1} and the hyperbola \refeqb{POP:mm:example2} with solutions found by the eigenvalue and the eigenvector methods using multiplication matrices.}
     \labelfig{POP:mm:example}
   \end{figure}
 
   First of all, we have to compute the Gr\"obner basis \cite{Becker93} of the ideal, for example using the $F_4$ Algorithm \cite{F4}.
+  We have got the following basis:
   \begin{alignat}{5}
-    164 & x^2 & {}+{}99 & y^2 & {}+{}126 & x & {}+{}15  & y & {}-{}404\\
-    41  & xy  & {}+{}3  & y^2 & {}-{}16  & x & {}+{}34  & y & {}-{}52 \\
-    41  & y^3 & {}-{}15 & y^2 & {}+{}48  & x & {}-{}170 & y & {}+{}96
+    164 & x^2 & {}+{}99 & y^2 & {}+{}126 & x & {}+{}15  & y & {}-{}404,\\
+    41  & xy  & {}+{}3  & y^2 & {}-{}16  & x & {}+{}34  & y & {}-{}52, \\
+    41  & y^3 & {}-{}15 & y^2 & {}+{}48  & x & {}-{}170 & y & {}+{}96.
   \end{alignat}
-  Now, we can select the basis $\Base$
+  Now, we can select the monomial basis $\Base$
   \begin{align}
     \Base = \bmB 1 & y & x & y^2 \bmE^\top
   \end{align}
@@ -225,11 +228,12 @@ Since such a polynomial may have infinite number of coefficients, let us introdu
   p(x) &= \sum_{\alpha\in\N_d^n}p_\alpha x^\alpha,
 \end{align}
 where $\N_d$ are natural numbers (including zero) up to the number $d$.
+This polynomial has at most $\binom{n+d}{n}$ non-zero coefficients, since there are $\binom{n+d}{n}$ monomials in $n$ variables up to degree $d$.
 We will use the notation $\vc(p)$ for the vector of the coefficients of the polynomial $p$ with respect to some monomial basis $\Base$:
 \begin{align}
   \vc(p)\ind{\alpha} &= p_\alpha
 \end{align}
-for $\alpha\in\N_d$.
+for $\alpha\in\N_d^n$.
 
 \begin{definition}[Riesz functional]
   Given a sequence $y\ind\alpha = y_\alpha$ for $\alpha\in\N^n$, we define the Riesz linear functional $\ell_y: \R[x]\rightarrow\R$ such that
@@ -282,9 +286,9 @@ From the equation above, we can see that Riesz functional substitutes a new vari
 
 The moment matrices are linear in $y$ and symmetric, we can see that
 \begin{align}
-  M_s(y)\in\Sym^{\binom{n+s}{n}},
+  M_s(y)\in\Sym^{\binom{n+s}{n}}
 \end{align}
-where $\binom{n+s}{n}$ is the number of monomials in $n$ variables up to degree $s$.
+since $\binom{n+s}{n}$ is the number of monomials in $n$ variables up to degree $s$.
 
 \begin{example}
   For $n=2$ the moment matrices for different orders are:
@@ -304,8 +308,8 @@ where $\binom{n+s}{n}$ is the number of monomials in $n$ variables up to degree 
                 y_{02} & y_{12} & y_{03} & y_{22} & y_{13} & y_{04}.
               \end{array}\right]
   \end{align}
-  The blocks separated by the dashed lines are representing blocks, in which all the elements have the same degree.
-  Moreover, we can see that the matrices of smaller order are nothing more than submatrices of the matrices of bigger order.
+  In the blocks separated by the dashed lines all the elements have the same degree.
+  Moreover, we can see that the moment matrices of smaller order are nothing more than submatrices of the moment matrices of bigger order.
 
   And just one example for $n=3$:
   \begin{align}
