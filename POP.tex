@@ -10,7 +10,7 @@ Just to keep this chapter self-contained, we will recall some basics of polynomi
 
 \subsection{The polynomial ring, ideals and varieties}
 Firstly, the ring of multivariate polynomials in $n$ variables with coefficients in $\R$ is denoted as $\R[x]$, where $x = \bmB x_1 & x_2 & \cdots & x_n \bmE^\top$.
-For $\alpha_1, \alpha_2, \ldots, \alpha_n\in\N$, $x^\alpha$ denotes the monomial ${x_1}^{\alpha_1}\cdot{x_2}^{\alpha_2}\cdots{x_n}^{\alpha_n}$, with total degree $|\alpha| = \sum_{i=1}^n \alpha_i$, where $\alpha = \bmB \alpha_1 & \alpha_2 & \cdots & \alpha_n\bmE^\top$.
+For $\alpha_1, \alpha_2, \ldots, \alpha_n\in\N$, $x^\alpha$ denotes the monomial ${x_1}^{\alpha_1}\cdot{x_2}^{\alpha_2}\cdot\cdots\cdot{x_n}^{\alpha_n}$, with total degree $|\alpha| = \sum_{i=1}^n \alpha_i$, where $\alpha = \bmB \alpha_1 & \alpha_2 & \cdots & \alpha_n\bmE^\top$.
 A polynomial $p\in\R[x]$ can be written as
 \begin{align}
   p &= \sum_{\alpha\in\N^n} p_\alpha x^\alpha \labeleq{POP:pal:pol}
@@ -342,5 +342,42 @@ Notation $M_s(qy)$ emphasis that the localizing matrix is bilinear in $q$ and $y
 \end{example}
 
 \section{Polynomial optimization}
+%TODO
+\begin{align}
+  \arraycolsep=1.4pt
+  \begin{array}{rclrcl@{\hskip0.5cm}l}
+    p^* &=& \displaystyle \min_{x\in\R^n} & \multicolumn{3}{l}{p_0(x)} \\
+    && \text{s.t.} & p_k(x) &\geq& 0 & (k = 1,\ldots,m)
+  \end{array}\labeleq{POP:opt:polmin}
+\end{align}
+
+\subsection{Lassere's LMI hierarchy}
+\begin{align}
+  \arraycolsep=1.4pt
+  \begin{array}{rclrcl@{\hskip0.5cm}l}
+    p^* &=& \displaystyle \inf_{y\in\R^{\N^n}} & \multicolumn{3}{l}{\displaystyle \sum_{\alpha\in\N^n}{p_0}_\alpha y_\alpha} \\
+    && \text{s.t.} & y_0 &=& 0\\
+    &&& M(y) &\succeq& 0\\
+    &&& M(p_ky) &\succeq& 0 & (k = 1,\ldots,m)
+  \end{array}\labeleq{POP:opt:polmin}
+\end{align}
+
+\begin{align}
+  \arraycolsep=1.4pt
+  \begin{array}{rclrcl@{\hskip0.5cm}l}
+    p_r^* &=& \displaystyle \inf_{y\in\R^{\N^n_r}} & \multicolumn{2}{l}{\displaystyle \sum_{\alpha\in\N^n_{2r}}{p_0}_\alpha y_\alpha} \\
+    && \text{s.t.} & y_0 &=& 0\\
+    &&& M_r(y) &\succeq& 0\\
+    &&& M_{r-r_k}(p_ky) &\succeq& 0 & (k = 1,\ldots,m)
+  \end{array}\labeleq{POP:opt:polmin}
+\end{align}
+
+\begin{align}
+  n_r &= \binom{n+2r}{n}
+\end{align}
+
+\begin{align}
+  r_k &= \left\lfloor\frac{\deg(p_k)}{2}\right\rfloor
+\end{align}
 
 \section{Solving systems of polynomial equations}
