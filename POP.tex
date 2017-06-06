@@ -221,7 +221,7 @@ However, since it provides better understanding of the matter, interested reader
 Moreover, we will introduce the only minimal basics to be able to proceed with polynomial optimization and polynomial systems solving.
 More and detailed information can be found in \cite{SOS} too.
 
-Now, let us start with the theory about moment matrices, which are crucial for application of SDP on POP and polynomial systems solving.
+Now, let us start with the theory about moment matrices, which are crucial for application of SDP on polynomial optimization and polynomial systems solving.
 Recall that a polynomial has a form \refeqb{POP:pal:pol}.
 Since such a polynomial may have infinite number of coefficients, let us introduce a polynomial $p\in\R[x]$ of the degree $d\in\N$:
 \begin{align}
@@ -335,14 +335,17 @@ Notation $M_s(qy)$ emphasis that the localizing matrix is bilinear in $q$ and $y
 \begin{example}
   For $n = 2$ and a polynomial $q(x) = x_1x_2 + 2x_1 + 3$, the localizing matrix is
   \begin{align}
-    M_1(qy) &= \bmB y_{11} +2y_{10} +3y_{00} & y_{21} +2y_{20} +3y_{10} & y_{12} +2y_{11} +3y_{01}\\
+    M_1(qy) &= \left[\begin{array}{c:cc}
+                    y_{11} +2y_{10} +3y_{00} & y_{21} +2y_{20} +3y_{10} & y_{12} +2y_{11} +3y_{01}\\\hdashline
                     y_{21} +2y_{20} +3y_{10} & y_{31} +2y_{30} +3y_{20} & y_{22} +2y_{21} +3y_{11}\\
-                    y_{12} +2y_{11} +3y_{01} & y_{22} +2y_{21} +3y_{11} & y_{13} +2y_{12} +3y_{02}\bmE.
+                    y_{12} +2y_{11} +3y_{01} & y_{22} +2y_{21} +3y_{11} & y_{13} +2y_{12} +3y_{02}
+               \end{array}\right].
   \end{align}
 \end{example}
 
 \section{Polynomial optimization}
-%TODO
+The task of the polynomial optimization (POP) is to optimize a polynomial function on a set, which is given by a set of polynomial inequalities.
+For given polynomials $p_0, \ldots, p_m \in \R[x]$, we can define a standard polynomial optimization problem in a form \refeqb{POP:opt:polmin}.
 \begin{align}
   \arraycolsep=1.4pt
   \begin{array}{rclrcl@{\hskip0.5cm}l}
@@ -350,6 +353,15 @@ Notation $M_s(qy)$ emphasis that the localizing matrix is bilinear in $q$ and $y
     && \text{s.t.} & p_k(x) &\geq& 0 & (k = 1,\ldots,m)
   \end{array}\labeleq{POP:opt:polmin}
 \end{align}
+Let the set $P$, we are optimizing over, be compact (closed and bounded) basic semialgebraic set, defined as
+\begin{align}
+  P &= \big\{x\in\R^n\ |\ p_k(x)\geq0,\ k = 1,\ldots,m\big\}.
+\end{align}
+Since the set $P$ is compact, the minimum $p^*$ is attained at a point $x^*\in P$.
+On the other hand, we do not assume convexity of neither the polynomial $p_0$ nor the set $P$, and therefore the problem \refeqb{POP:opt:polmin} may have several local minima and several global minima in general case.
+We are, of course, interested in the global minimum only.
+
+%TODO History of POP
 
 \subsection{Lassere's LMI hierarchy}
 \begin{align}
@@ -359,7 +371,7 @@ Notation $M_s(qy)$ emphasis that the localizing matrix is bilinear in $q$ and $y
     && \text{s.t.} & y_0 &=& 0\\
     &&& M(y) &\succeq& 0\\
     &&& M(p_ky) &\succeq& 0 & (k = 1,\ldots,m)
-  \end{array}\labeleq{POP:opt:polmin}
+  \end{array}
 \end{align}
 
 \begin{align}
@@ -369,7 +381,7 @@ Notation $M_s(qy)$ emphasis that the localizing matrix is bilinear in $q$ and $y
     && \text{s.t.} & y_0 &=& 0\\
     &&& M_r(y) &\succeq& 0\\
     &&& M_{r-r_k}(p_ky) &\succeq& 0 & (k = 1,\ldots,m)
-  \end{array}\labeleq{POP:opt:polmin}
+  \end{array}
 \end{align}
 
 \begin{align}
