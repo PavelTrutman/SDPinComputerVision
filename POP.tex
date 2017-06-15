@@ -353,7 +353,7 @@ For given polynomials $p_0, \ldots, p_m \in \R[x]$, we can define a standard pol
     && \text{s.t.} & p_k(x) &\geq& 0 & (k = 1,\ldots,m)
   \end{array}\labeleq{POP:opt:polmin}
 \end{align}
-Let the set $P$, we are optimizing over, be compact (closed and bounded) basic semialgebraic set, defined as
+Let the feasibility set $P$ of the optimization problem \refeqb{POP:opt:polmin} be compact (closed and bounded) basic semialgebraic set, defined as
 \begin{align}
   P &= \big\{x\in\R^n\ |\ p_k(x)\geq0,\ k = 1,\ldots,m\big\}.
 \end{align}
@@ -361,35 +361,78 @@ Since the set $P$ is compact, the minimum $p^*$ is attained at a point $x^*\in P
 On the other hand, we do not assume convexity of neither the polynomial $p_0$ nor the set $P$, and therefore the problem \refeqb{POP:opt:polmin} may have several local minima and several global minima in general case.
 We are, of course, interested in the global minimum only.
 
-%TODO History of POP
+%TODO History of POP, or in state-of-the art review?
 
-\subsection{Lassere's LMI hierarchy}
+\subsection{Lasserre's LMI hierarchy}
+The global minimum can be found by hierarchies of semidefinite programs. This was introduced by J. B. Lasserre in \cite{Lasserre}. He has shown that the polynomial optimization problem \refeqb{POP:opt:polmin} can equivalently written as the following semidefinite program \refeqb{POP:opt:SDP}.
 \begin{align}
   \arraycolsep=1.4pt
   \begin{array}{rclrcl@{\hskip0.5cm}l}
     p^* &=& \displaystyle \inf_{y\in\R^{\N^n}} & \multicolumn{3}{l}{\displaystyle \sum_{\alpha\in\N^n}{p_0}_\alpha y_\alpha} \\
-    && \text{s.t.} & y_0 &=& 0\\
+    && \text{s.t.} & y_0 &=& 1\\
     &&& M(y) &\succeq& 0\\
     &&& M(p_ky) &\succeq& 0 & (k = 1,\ldots,m)
-  \end{array}
+  \end{array}\labeleq{POP:opt:SDP}
 \end{align}
-
+This infinite-dimensional semidefinite program is not solvable by computers, and therefore consider Lasserre's LMI hierarchy \refeqb{POP:opt:SDPr} for relaxation order $r\in\N$.
 \begin{align}
   \arraycolsep=1.4pt
   \begin{array}{rclrcl@{\hskip0.5cm}l}
-    p_r^* &=& \displaystyle \inf_{y\in\R^{\N^n_r}} & \multicolumn{2}{l}{\displaystyle \sum_{\alpha\in\N^n_{2r}}{p_0}_\alpha y_\alpha} \\
-    && \text{s.t.} & y_0 &=& 0\\
+    p_r^* &=& \displaystyle \inf_{y\in\R^{\N^n_{2r}}} & \multicolumn{2}{l}{\displaystyle \sum_{\alpha\in\N^n_{2r}}{p_0}_\alpha y_\alpha} \\
+    && \text{s.t.} & y_0 &=& 1\\
     &&& M_r(y) &\succeq& 0\\
     &&& M_{r-r_k}(p_ky) &\succeq& 0 & (k = 1,\ldots,m)
-  \end{array}
+  \end{array}\labeleq{POP:opt:SDPr}
 \end{align}
+Where $r_k = \left\lceil\frac{\deg(p_k)}{2}\right\rceil$ and $r\geq\max\{r_1, \ldots, r_m\}$.
+The semidefinite program \refeqb{POP:opt:SDPr} is a relaxed version of the program \refeqb{POP:opt:SDP} or of the initial polynomial optimization problem \refeqb{POP:opt:polmin}.
 
-\begin{align}
-  n_r &= \binom{n+2r}{n}
-\end{align}
+\begin{theorem}[Lassere's LMI hierarchy converges \cite{HenrionLectures}]
+  For $r\in\N$ holds
+  \begin{align}
+    p^* \leq p^*_{r+1} \leq p^*
+  \end{align}
+  and
+  \begin{align}
+    \lim_{r\rightarrow+\infty}p^*_r &= p^*.
+  \end{align}
+\end{theorem}
 
+The semidefinite program \refeqb{POP:opt:SDPr} can be solved by state of the art semidefinite program solvers or by the Polyopt package as described in \refsec{SDP:impl}.
+Solving the relaxed semidefinite programs for increasing relaxation order $r$ gives us tighter and tighter lower bounds on the global minimum of the original problem \refeqb{POP:opt:polmin}.
+
+\begin{theorem}[Generic finite convergence \cite{HenrionLectures}]\labelthe{POP:opt:convergence}
+  In the finite-dimensional space of coefficients of polynomials $p_k$, $k = 0, 1, \ldots, m$, defining problem \refeqb{POP:opt:polmin}, there is a low-dimensional algebraic set, which is such that if we choose an instance of the problem \refeqb{POP:opt:polmin} outside of this set, the Lasserre's LMI relaxations have finite convergence, i.e.\ there exists a finite $r^*\in\N$ such that $p^*_r=p^*$ for all $r\in\N: r\geq r^*$.
+\end{theorem}
+
+This means that in general it is enough to compute one finite relaxed semidefinite program \refeqb{POP:opt:SDPr} of the relaxation order big enough to obtain the global optimum of the polynomial optimization problem \refeqb{POP:opt:polmin}.
+Only in some exceptional and somewhat degenerate problems the finite convergence does not occur and the optimum can not be obtained by computing finite-dimensional semidefinite program in the form \refeqb{POP:opt:SDPr}.
+
+From \refthe{POP:opt:convergence} we know, that the finite convergence of Lasserre's LMI hierarchy is ensured generically for some relaxation order $r$, which is a priory not known to us.
+The verification that the finite convergence occurred provides us the following theorem.
+
+\begin{theorem}[Certificate of finite convergence \cite{HenrionLectures}]\labelthe{POP:opt:certConv}
+  Let $y^*$ be the solution of the problem \refeqb{POP:opt:SDPr} at a given relaxation order $r > \max\{r_1,\ldots,r_m\}$.
+  If
+  \begin{align}
+    \rank M_{r-\max\{r_1,\ldots,r_m\}}(y^*) &= \rank M_r(y^*)
+  \end{align}
+  then $p^*_r = p^*$.
+\end{theorem}
+
+So when we find relaxation order $r$ big enough for which \refthe{POP:opt:certConv} is satisfied, we know, we are done and we can extract the global optimum.
+However, in practise another condition is checked.
+
+\begin{theorem}[Rank-one moment matrix \cite{HenrionLectures}]\labelthe{POP:opt:rank1}
+  The condition of \refthe{POP:opt:certConv} is satisfied if
+  \begin{align}
+    \rank M_r(y^*) &= 1.
+  \end{align}
+\end{theorem}
+
+If the condition of \refthe{POP:opt:rank1} holds, the global optimum of the problem \refeqb{POP:opt:polmin} can be easily recovered as
 \begin{align}
-  r_k &= \left\lfloor\frac{\deg(p_k)}{2}\right\rfloor
+  x^* &= \bmB y_{10\ldots0} & y_{01\ldots0} & \cdots & y_{00\ldots1}\bmE^\top.
 \end{align}
 
 \section{Solving systems of polynomial equations}
