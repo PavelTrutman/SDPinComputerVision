@@ -133,7 +133,7 @@ The roots can be recovered from left eigenvectors of $\MM_f$ when all left eigen
 This is the case when the values $f(v)$ for $v\in V_\C(I)$ are pairwise distinct and when the ideal $I$ is radical.
 In that case, each left eigenvector of $\MM_f$ corresponds to one solution $v\in V_\C(I)$ and the values of the eigenvectors are the evaluations $b_i(v)$ for $b_i\in\Base$, and therefore when the variable $x_i\in\Base$, we can readily obtain its value.
 
-\begin{example}
+\begin{example}\labelex{POP:mm:ellhyp}
   Let us have a system of two polynomial equations.
   \begin{alignat}{7}
     {}-{}20 & x^2 & {}+{}   & xy & {}-{}12 & y^2 & {}-{}16 & x & {}-{}   & y & {}+{}48 & {}={} & 0 \labeleq{POP:mm:example1}\\
@@ -387,10 +387,10 @@ This infinite-dimensional semidefinite program is not solvable by computers, and
 Where $r_k = \left\lceil\frac{\deg(p_k)}{2}\right\rceil$ and $r\geq\max\{r_1, \ldots, r_m\}$.
 The semidefinite program \refeqb{POP:opt:SDPr} is a relaxed version of the program \refeqb{POP:opt:SDP} or of the initial polynomial optimization problem \refeqb{POP:opt:polmin}.
 
-\begin{theorem}[Lassere's LMI hierarchy converges \cite{HenrionLectures}]
+\begin{theorem}[Lassere's LMI hierarchy converges \cite{HenrionLectures}]\labelthe{POP:opt:hierConv}
   For $r\in\N$ holds
   \begin{align}
-    p^* \leq p^*_{r+1} \leq p^*
+    p^*_r \leq p^*_{r+1} \leq p^*
   \end{align}
   and
   \begin{align}
@@ -434,5 +434,86 @@ If the condition of \refthe{POP:opt:rank1} holds, the global optimum of the prob
 \begin{align}
   x^* &= \bmB y_{10\ldots0} & y_{01\ldots0} & \cdots & y_{00\ldots1}\bmE^\top.
 \end{align}
+ 
+\begin{example}
+  Let us set up some polynomial optimization problem for demonstration purposes.
+  We use the same ellipse and hyperbola from \refex{POP:mm:ellhyp} to define us the feasible set, while minimizing the objective function $-x_1-\frac{3}{2}x_2$.
+  \begin{align}
+    \arraycolsep=1.4pt
+    \begin{array}{rclrcl@{\hskip0.5cm}l}
+      p^* &=& \displaystyle \min_{x\in\R^2} & \multicolumn{3}{l}{-x_1 -\frac{3}{2}x_2} \\
+      && \text{s.t.} & -20x^2 + xy -12y^2 -16x -y +48 &\geq& 0\\
+      &&& 12x^2 -58xy +3y^2 +46x -47y +44 &\geq& 0
+    \end{array}\labeleq{POP:opt:exPol}
+  \end{align}
+  We expect that the problem has two global optima attained at
+  \begin{align}
+    \bmB x^*_1\\x^*_2\bmE &= \left\{\bmB -\frac{1}{2}\\ 2\bmE;\ \bmB 1\\ 1\bmE\right\}
+  \end{align}
+  with value of the objective function
+  \begin{align}
+    p^* &=-2.5.
+  \end{align}
+  The illustration of the problem is depicted in \reffig{POP:opt:example}.
+
+  \begin{figure}[ht]
+    \centering
+    \resizebox{0.95\textwidth}{!}{\input{graphs/POP_Lasserre}}
+    \caption{Feasible region and the expected global minima of the problem \refeqb{POP:opt:exPol}.}
+    \labelfig{POP:opt:example}
+  \end{figure}
+
+  Firstly, we start with the relaxation order $r = 1$. The relaxed semidefinite problem is following.
+  \begin{align}
+    \arraycolsep=1.4pt
+    \begin{array}{rclrcl@{\hskip0.5cm}l}
+      p_1^* &=& \displaystyle \min_{y\in\R^{\N^2_2}} & \multicolumn{3}{l}{-y_{10}-\frac{3}{2}y_{01}} \\
+      && \text{s.t.} & y_{00} &=& 1\\
+      &&& \bmB y_{00} & y_{10} & y_{01}\\ y_{10} & y_{20} & y_{11}\\ y_{01} & y_{11} & y_{02}\bmE &\succeq& 0\\
+      &&& \bmB -20y_{20} +y_{11} -12y_{02} -16y_{10} -y_{01} + 48y_{00}\bmE &\succeq& 0\\
+      &&& \bmB 12y_{20} -58y_{11} +3y_{02} +46y_{10} -47y_{01} + 44y_{00}\bmE &\succeq& 0
+    \end{array}\labeleq{POP:opt:exSDP1}
+  \end{align}
+  By solving this problem, we obtain a possible solution
+  \begin{align}
+    \bmB x_1^*\\ x_2^*\bmE &= \bmB 0.20\\ 1.56\bmE,\\
+    p_1^* &= -2.54,
+  \end{align}
+  which is not feasible.
+  The moment matrix has rank
+  \begin{align}
+    \rank M_1(y^*) &= 2.
+  \end{align}
+  Since the condition of \refthe{POP:opt:rank1} is not satisfied, we continue with the second relaxation.
+
+  The second relaxation for $r = 2$ is below.
+  \begin{align}
+    \arraycolsep=1.4pt
+    \begin{array}{rclrcl@{\hskip0.5cm}l}
+      p_2^* &=& \displaystyle \min_{y\in\R^{\N^2_4}} & \multicolumn{3}{l}{-y_{10}-\frac{3}{2}y_{01}} \\
+      && \text{s.t.} & y_{00} &=& 1\\
+      &&& \bmB y_{00} & y_{10} & y_{01} & y_{20} & y_{11} & y_{02}\\ y_{10} & y_{20} & y_{11} & y_{30} & y_{21} & y_{12}\\ y_{01} & y_{11} & y_{02} & y_{21} & y_{12} & y_{03} \\ y_{20} & y_{30} & y_{21} & y_{40} & y_{31} & y_{22}\\ y_{11} & y_{21} & y_{12} & y_{31} & y_{22} & y_{13}\\ y_{02} & y_{12} & y_{03} & y_{22} & y_{13} & y_{04}\bmE &\succeq& 0\\
+      \multicolumn{4}{r}{\resizebox{11.5cm}{!}{$\bmB -20y_{20} +y_{11} -12y_{02} -16y_{10} -y_{01} + 48y_{00} & -20y_{30} +y_{21} -12y_{12} -16y_{20} -y_{11} + 48y_{10} & -20y_{21} +y_{12} -12y_{03} -16y_{11} -y_{02} + 48y_{01}\\ -20y_{30} +y_{21} -12y_{12} -16y_{20} -y_{11} + 48y_{10} & -20y_{40} +y_{31} -12y_{22} -16y_{30} -y_{21} + 48y_{20} & -20y_{31} +y_{22} -12y_{13} -16y_{21} -y_{12} + 48y_{11}\\ -20y_{21} +y_{12} -12y_{03} -16y_{11} -y_{02} + 48y_{01} & -20y_{31} +y_{22} -12y_{13} -16y_{21} -y_{12} + 48y_{11} & -20y_{22} +y_{13} -12y_{04} -16y_{12} -y_{03} + 48y_{02}\bmE$}} &\succeq& 0\\
+      \multicolumn{4}{r}{\resizebox{11.5cm}{!}{$\bmB 12y_{20} -58y_{11} +3y_{02} +46y_{10} -47y_{01} + 44y_{00} & 12y_{30} -58y_{21} +3y_{12} +46y_{20} -47y_{11} + 44y_{10} & 12y_{21} -58y_{12} +3y_{03} +46y_{11} -47y_{02} + 44y_{01}\\ 12y_{30} -58y_{21} +3y_{12} +46y_{20} -47y_{11} + 44y_{10} & 12y_{40} -58y_{31} +3y_{22} +46y_{30} -47y_{21} + 44y_{20} & 12y_{31} -58y_{22} +3y_{13} +46y_{21} -47y_{12} + 44y_{11}\\ 12y_{21} -58y_{12} +3y_{03} +46y_{11} -47y_{02} + 44y_{01} & 12y_{31} -58y_{22} +3y_{13} +46y_{21} -47y_{12} + 44y_{11} & 12y_{22} -58y_{13} +3y_{04} +46y_{12} -47y_{03} + 44y_{02}\bmE$}} &\succeq& 0
+    \end{array}\labeleq{POP:opt:exSDP2}
+  \end{align}
+  This problem has two minima
+  \begin{align}
+    \bmB x^*_1\\x^*_2\bmE &= \left\{\bmB -\frac{1}{2}\\ 2\bmE;\ \bmB 1\\ 1\bmE\right\},\\
+    p^*_2 &= -2.5.
+  \end{align}
+  They are the same as the minima of the original problem \refeqb{POP:opt:exPol} and it depends on the iterative algorithm and the chosen starting point in which of these minima we end up.
+  The moment matrix has rank
+  \begin{align}
+    \rank M_2(y^*) &= 1,
+  \end{align}
+  and therefore the global optimum has been found and we do not have to continue with the next relaxation.
+  At the end, we verify that \refthe{POP:opt:hierConv} holds.
+  \begin{alignat}{2}
+    p_1^* \leq{} && p_2^* & \leq p^*\\
+    -2.54 \leq{} && -2.5  & \leq -2.5
+  \end{alignat}
+
+\end{example}
 
 \section{Solving systems of polynomial equations}

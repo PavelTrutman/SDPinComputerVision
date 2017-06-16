@@ -109,7 +109,7 @@
 % ============================== your definitions (abbreviations etc.)
 \newcommand{\eqB}{\begin{align}}
 \newcommand{\eqE}{\end{align}}
-\newcommand{\bmB}{\begin{bmatrix}}
+\newcommand{\bmB}{\arraycolsep=\arraycolsepdef\begin{bmatrix}}
 \newcommand{\bmE}{\end{bmatrix}}
 \newcommand{\ind}[1]{\ensuremath{^{(#1)}}}
 \newcommand{\labeldef}[1]{\label{definition:#1}}
@@ -169,6 +169,9 @@
 \DeclareMathOperator{\tr}{tr}
 \DeclareMathOperator{\diag}{diag}
 \DeclareMathOperator{\vc}{vec}
+
+\newlength{\arraycolsepdef}
+\setlength{\arraycolsepdef}{\arraycolsep}
 
 \def\CC{{C\nolinebreak[4]\hspace{-.05em}\raisebox{.4ex}{\tiny\textbf{++}}}}
 
