@@ -51,15 +51,15 @@ if __name__ == '__main__':
 
   # export to LaTeX
   with open('tables/SDP_performance.tex', 'wt') as fTable, open('data/SDP_performance.dat', 'wt') as fGraph:
-    fTable.write('\\begin{tabular}{|c||ccc|}\n')
+    fTable.write('\\begin{tabular}{|c||r@{.}lr@{.}lr@{.}l|}\n')
     fTable.write('  \\hline\n')
-    fTable.write('  \\textbf{Problem} & \\multicolumn{3}{c|}{\\textbf{Toolbox}}\\\\\n')
-    fTable.write('  \\cline{2-4}\n')
-    fTable.write('  \\textbf{size} & \\textbf{Polyopt} & \\textbf{SeDuMi} \\cite{sedumi} & \\textbf{MOSEK} \\cite{mosek}\\\\\n')
+    fTable.write('  \\textbf{Problem} & \\multicolumn{6}{c|}{\\textbf{Toolbox}}\\\\\n')
+    fTable.write('  \\cline{2-7}\n')
+    fTable.write('  \\textbf{size} & \\multicolumn{2}{c}{\\textbf{Polyopt}} & \\multicolumn{2}{c}{\\textbf{SeDuMi} \\cite{sedumi}} & \\multicolumn{2}{c|}{\\textbf{MOSEK} \\cite{mosek}}\\\\\n')
     fTable.write('  \hline\hline\n')
     for dimIdx in range(len(dims)):
       dim = dims[dimIdx]
-      fTable.write('  {dim:d} & {polyopt:#.3g} s & {sedumi:#.3g} s & {mosek:#.3g} s\\\\\n'.format(dim=dim, polyopt=avgPolyopt[dimIdx], sedumi=avgSedumi[dimIdx], mosek=avgMosek[dimIdx]))
+      fTable.write('  {dim:d} & {polyopt:#.3g} s & {sedumi:#.3g} s & {mosek:#.3g} s\\\\\n'.format(dim=dim, polyopt=avgPolyopt[dimIdx], sedumi=avgSedumi[dimIdx], mosek=avgMosek[dimIdx]).replace('.', '&'))
       fGraph.write('{dim:d} {polyopt} {sedumi} {mosek}\n'.format(dim=dim, polyopt=avgPolyopt[dimIdx], sedumi=avgSedumi[dimIdx], mosek=avgMosek[dimIdx]))
     fTable.write('  \\hline')
     fTable.write('\\end{tabular}\n')
