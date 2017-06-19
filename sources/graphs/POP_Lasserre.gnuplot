@@ -37,4 +37,4 @@ plot[-5:4][-3:3] E1(x) title "Ellipse \\refeqb{POP:mm:example1}" linecolor 1 lw 
                  '+' using 1:(H2(filter($1, -2, -1))) title "" with filledcurves y1=0 linecolor 3 fillstyle pattern 5 transparent,\
                  '+' using 1:(E2(filter($1, -1, 1.2))) title "" with filledcurves y1=0 linecolor 3 fillstyle pattern 5 transparent,\
                  "$opt" title "Global optima" pointtype 7 linecolor 4 pointsize 2,\
-                 "$r1" title "Optimum from the first relaxation" pointtype 7 linecolor 7 pointsize 2
+                 "$r1" title "Optimum of the first relaxation" pointtype 7 linecolor 7 pointsize 2

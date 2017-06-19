@@ -434,6 +434,12 @@ If the condition of \refthe{POP:opt:rank1} holds, the global optimum of the prob
 \begin{align}
   x^* &= \bmB y_{10\ldots0} & y_{01\ldots0} & \cdots & y_{00\ldots1}\bmE^\top.
 \end{align}
+
+As usual, we are interested in the complexity estimation.
+Given the polynomial optimization problem \refeqb{POP:opt:polmin} in $n$ variables, we obtain a relaxed semidefinite program \refeqb{POP:opt:SDPr} for a relation order $r$.
+This program is in $N = {\binom{n+2r}{n}}$ variables, which is equal to the number of monomials in $n$ variables up to degree $2r$.
+If $n$ is fixed, for example when solving given polynomial optimization problem, then $N$ grows in $\mathcal{O}(r^n)$, that is polynomially in $r$.
+If the relaxation order $r$ is fixed then $N$ grows in $\mathcal{O}(n^r)$, that is polynomially in the number of variables $n$.
  
 \begin{example}
   Let us set up some polynomial optimization problem for demonstration purposes.
@@ -493,8 +499,8 @@ If the condition of \refthe{POP:opt:rank1} holds, the global optimum of the prob
       p_2^* &=& \displaystyle \min_{y\in\R^{\N^2_4}} & \multicolumn{3}{l}{-y_{10}-\frac{3}{2}y_{01}} \\
       && \text{s.t.} & y_{00} &=& 1\\
       &&& \bmB y_{00} & y_{10} & y_{01} & y_{20} & y_{11} & y_{02}\\ y_{10} & y_{20} & y_{11} & y_{30} & y_{21} & y_{12}\\ y_{01} & y_{11} & y_{02} & y_{21} & y_{12} & y_{03} \\ y_{20} & y_{30} & y_{21} & y_{40} & y_{31} & y_{22}\\ y_{11} & y_{21} & y_{12} & y_{31} & y_{22} & y_{13}\\ y_{02} & y_{12} & y_{03} & y_{22} & y_{13} & y_{04}\bmE &\succeq& 0\\
-      \multicolumn{4}{r}{\resizebox{11.5cm}{!}{$\bmB -20y_{20} +y_{11} -12y_{02} -16y_{10} -y_{01} + 48y_{00} & -20y_{30} +y_{21} -12y_{12} -16y_{20} -y_{11} + 48y_{10} & -20y_{21} +y_{12} -12y_{03} -16y_{11} -y_{02} + 48y_{01}\\ -20y_{30} +y_{21} -12y_{12} -16y_{20} -y_{11} + 48y_{10} & -20y_{40} +y_{31} -12y_{22} -16y_{30} -y_{21} + 48y_{20} & -20y_{31} +y_{22} -12y_{13} -16y_{21} -y_{12} + 48y_{11}\\ -20y_{21} +y_{12} -12y_{03} -16y_{11} -y_{02} + 48y_{01} & -20y_{31} +y_{22} -12y_{13} -16y_{21} -y_{12} + 48y_{11} & -20y_{22} +y_{13} -12y_{04} -16y_{12} -y_{03} + 48y_{02}\bmE$}} &\succeq& 0\\
-      \multicolumn{4}{r}{\resizebox{11.5cm}{!}{$\bmB 12y_{20} -58y_{11} +3y_{02} +46y_{10} -47y_{01} + 44y_{00} & 12y_{30} -58y_{21} +3y_{12} +46y_{20} -47y_{11} + 44y_{10} & 12y_{21} -58y_{12} +3y_{03} +46y_{11} -47y_{02} + 44y_{01}\\ 12y_{30} -58y_{21} +3y_{12} +46y_{20} -47y_{11} + 44y_{10} & 12y_{40} -58y_{31} +3y_{22} +46y_{30} -47y_{21} + 44y_{20} & 12y_{31} -58y_{22} +3y_{13} +46y_{21} -47y_{12} + 44y_{11}\\ 12y_{21} -58y_{12} +3y_{03} +46y_{11} -47y_{02} + 44y_{01} & 12y_{31} -58y_{22} +3y_{13} +46y_{21} -47y_{12} + 44y_{11} & 12y_{22} -58y_{13} +3y_{04} +46y_{12} -47y_{03} + 44y_{02}\bmE$}} &\succeq& 0
+      \multicolumn{4}{r}{\resizebox{11.9cm}{!}{$\bmB -20y_{20} +y_{11} -12y_{02} -16y_{10} -y_{01} + 48y_{00} & -20y_{30} +y_{21} -12y_{12} -16y_{20} -y_{11} + 48y_{10} & -20y_{21} +y_{12} -12y_{03} -16y_{11} -y_{02} + 48y_{01}\\ -20y_{30} +y_{21} -12y_{12} -16y_{20} -y_{11} + 48y_{10} & -20y_{40} +y_{31} -12y_{22} -16y_{30} -y_{21} + 48y_{20} & -20y_{31} +y_{22} -12y_{13} -16y_{21} -y_{12} + 48y_{11}\\ -20y_{21} +y_{12} -12y_{03} -16y_{11} -y_{02} + 48y_{01} & -20y_{31} +y_{22} -12y_{13} -16y_{21} -y_{12} + 48y_{11} & -20y_{22} +y_{13} -12y_{04} -16y_{12} -y_{03} + 48y_{02}\bmE$}} &\succeq& 0\\
+      \multicolumn{4}{r}{\resizebox{11.9cm}{!}{$\bmB 12y_{20} -58y_{11} +3y_{02} +46y_{10} -47y_{01} + 44y_{00} & 12y_{30} -58y_{21} +3y_{12} +46y_{20} -47y_{11} + 44y_{10} & 12y_{21} -58y_{12} +3y_{03} +46y_{11} -47y_{02} + 44y_{01}\\ 12y_{30} -58y_{21} +3y_{12} +46y_{20} -47y_{11} + 44y_{10} & 12y_{40} -58y_{31} +3y_{22} +46y_{30} -47y_{21} + 44y_{20} & 12y_{31} -58y_{22} +3y_{13} +46y_{21} -47y_{12} + 44y_{11}\\ 12y_{21} -58y_{12} +3y_{03} +46y_{11} -47y_{02} + 44y_{01} & 12y_{31} -58y_{22} +3y_{13} +46y_{21} -47y_{12} + 44y_{11} & 12y_{22} -58y_{13} +3y_{04} +46y_{12} -47y_{03} + 44y_{02}\bmE$}} &\succeq& 0
     \end{array}\labeleq{POP:opt:exSDP2}
   \end{align}
   This problem has two minima
@@ -514,6 +520,8 @@ If the condition of \refthe{POP:opt:rank1} holds, the global optimum of the prob
     -2.54 \leq{} && -2.5  & \leq -2.5
   \end{alignat}
 
+  %TODO: images of shadows of the spectrahedrons
 \end{example}
+
 
 \section{Solving systems of polynomial equations}
