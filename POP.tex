@@ -448,8 +448,8 @@ If the relaxation order $r$ is fixed then $N$ grows in $\mathcal{O}(n^r)$, that 
     \arraycolsep=1.4pt
     \begin{array}{rclrcl@{\hskip0.5cm}l}
       p^* &=& \displaystyle \min_{x\in\R^2} & \multicolumn{3}{l}{-x_1 -\frac{3}{2}x_2} \\
-      && \text{s.t.} & -20x^2 + xy -12y^2 -16x -y +48 &\geq& 0\\
-      &&& 12x^2 -58xy +3y^2 +46x -47y +44 &\geq& 0
+      && \text{s.t.} & -20x_1^2 + x_1x_2 -12x_2^2 -16x_1 -x_2 +48 &\geq& 0\\
+      &&& 12x_1^2 -58x_1x_2 +3x_2^2 +46x_1 -47x_2 +44 &\geq& 0
     \end{array}\labeleq{POP:opt:exPol}
   \end{align}
   We expect that the problem has two global optima attained at
@@ -503,10 +503,13 @@ If the relaxation order $r$ is fixed then $N$ grows in $\mathcal{O}(n^r)$, that 
       \multicolumn{4}{r}{\resizebox{11.9cm}{!}{$\bmB 12y_{20} -58y_{11} +3y_{02} +46y_{10} -47y_{01} + 44y_{00} & 12y_{30} -58y_{21} +3y_{12} +46y_{20} -47y_{11} + 44y_{10} & 12y_{21} -58y_{12} +3y_{03} +46y_{11} -47y_{02} + 44y_{01}\\ 12y_{30} -58y_{21} +3y_{12} +46y_{20} -47y_{11} + 44y_{10} & 12y_{40} -58y_{31} +3y_{22} +46y_{30} -47y_{21} + 44y_{20} & 12y_{31} -58y_{22} +3y_{13} +46y_{21} -47y_{12} + 44y_{11}\\ 12y_{21} -58y_{12} +3y_{03} +46y_{11} -47y_{02} + 44y_{01} & 12y_{31} -58y_{22} +3y_{13} +46y_{21} -47y_{12} + 44y_{11} & 12y_{22} -58y_{13} +3y_{04} +46y_{12} -47y_{03} + 44y_{02}\bmE$}} &\succeq& 0
     \end{array}\labeleq{POP:opt:exSDP2}
   \end{align}
-  This problem has two minima
+  The minimum of the problem is
   \begin{align}
-    \bmB x^*_1\\x^*_2\bmE &= \left\{\bmB -\frac{1}{2}\\ 2\bmE;\ \bmB 1\\ 1\bmE\right\},\\
-    p^*_2 &= -2.5.
+    p^*_2 &= -2.5,
+  \end{align}
+  which is in correspondence with the optimum points
+  \begin{align}
+    \bmB x^*_1\\x^*_2\bmE &= \left\{\bmB -\frac{1}{2}\\ 2\bmE;\ \bmB 1\\ 1\bmE\right\}.
   \end{align}
   They are the same as the minima of the original problem \refeqb{POP:opt:exPol} and it depends on the iterative algorithm and the chosen starting point in which of these minima we end up.
   The moment matrix has rank
@@ -551,6 +554,7 @@ and then the moment matrix is
 \begin{align}
    M_r(y) &= \frac{1}{N} \sum_{i=1}^N \zeta_i\zeta_i^\top,
 \end{align}
-which has full rank if $N$ is big enough and $x_i$ are pairwise different.
+where $\zeta_i$ are linearly independent, if $x_i$ are pairwise different.
+Then $M_r(y)$ has full rank if $N$ is bigger than the number of rows or columns of $M_r(y)$, which is ${\binom{n+r}{n}}$.
 
 \section{Solving systems of polynomial equations}
