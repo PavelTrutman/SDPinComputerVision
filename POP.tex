@@ -355,7 +355,7 @@ For given polynomials $p_0, \ldots, p_m \in \R[x]$, we can define a standard pol
 \end{align}
 Let the feasibility set $P$ of the optimization problem \refeqb{POP:opt:polmin} be compact (closed and bounded) basic semialgebraic set, defined as
 \begin{align}
-  P &= \big\{x\in\R^n\ |\ p_k(x)\geq0,\ k = 1,\ldots,m\big\}.
+  P &= \big\{x\in\R^n\ |\ p_k(x)\geq0,\ k = 1,\ldots,m\big\}.\labeleq{POP:opt:polfea}
 \end{align}
 Since the set $P$ is compact, the minimum $p^*$ is attained at a point $x^*\in P$.
 On the other hand, we do not assume convexity of neither the polynomial $p_0$ nor the set $P$, and therefore the problem \refeqb{POP:opt:polmin} may have several local minima and several global minima in general case.
@@ -387,7 +387,7 @@ This infinite-dimensional semidefinite program is not solvable by computers, and
 Where $r_k = \left\lceil\frac{\deg(p_k)}{2}\right\rceil$ and $r\geq\max\{r_1, \ldots, r_m\}$.
 The semidefinite program \refeqb{POP:opt:SDPr} is a relaxed version of the program \refeqb{POP:opt:SDP} or of the initial polynomial optimization problem \refeqb{POP:opt:polmin}.
 
-\begin{theorem}[Lassere's LMI hierarchy converges \cite{HenrionLectures}]\labelthe{POP:opt:hierConv}
+\begin{theorem}[Lasserre's LMI hierarchy converges \cite{HenrionLectures}]\labelthe{POP:opt:hierConv}
   For $r\in\N$ holds
   \begin{align}
     p^*_r \leq p^*_{r+1} \leq p^*
@@ -523,5 +523,34 @@ If the relaxation order $r$ is fixed then $N$ grows in $\mathcal{O}(n^r)$, that 
   %TODO: images of shadows of the spectrahedrons
 \end{example}
 
+\subsection{Implementation details}
+To verify and for better understanding of the Lasserre's LMI hierarchies, we have implemented the approach described in the previous section into the package Polyopt.
+More information and how to install the Polyopt package are in \refsec{SDP:install}.
+
+For solving the semidefinite programs \refeqb{POP:opt:SDPr} as proposed by Lasserre, we can use the interior-point algorithm as described in \refsec{SDP:nesterov} and implemented in the Polyopt package.
+All we have to do is to construct the moment matrix and the localizing matrices from the polynomial constrains for a given relaxation order, which is quite easy.
+
+What may be slightly complicated is, how to find the initial feasible point for the interior-point algorithm.
+The vector $y$ of the semidefinite program \refeqb{POP:opt:SDPr} can be constructed from a vector $x$ of the polynomial optimization problem \refeqb{POP:opt:polmin} followingly:
+\begin{align}
+  y_\alpha &= x^\alpha
+\end{align}
+for $\alpha \in \N^n_{2r}$.
+If $x$ is from the feasible region $P$ as stated in \refeqb{POP:opt:polfea}, then $y$ is a feasible point of \refeqb{POP:opt:SDPr}.
+Then the moment matrix $M_r(y)$ has rank one, since
+\begin{align}
+  M_r(y) &= \zeta\zeta^\top,
+\end{align}
+and therefore $y$ is not strictly feasible point, as it is required by \refalg{SDP:scb:ac}.
+Hence, we construct $N$ feasible points $y_i$ from $N$ different feasible points $x_i$ for $N \geq {\binom{n+r}{n}}$.
+Then the strictly feasible point $y$ can be constructed as
+\begin{align}
+  y &= \frac{1}{N}\sum_{i=1}^Ny_i
+\end{align}
+and then the moment matrix is
+\begin{align}
+   M_r(y) &= \frac{1}{N} \sum_{i=1}^N \zeta_i\zeta_i^\top,
+\end{align}
+which has full rank if $N$ is big enough and $x_i$ are pairwise different.
 
 \section{Solving systems of polynomial equations}
