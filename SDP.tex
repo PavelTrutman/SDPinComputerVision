@@ -651,7 +651,7 @@ A choice from two methods is available, firstly, the method \texttt{dampedNewton
 However, the \texttt{auxFollow} method is unstable and it fails in some cases, and therefore it is not recommended to use.
 The function \texttt{solve} returns the optimal solution $y^*$.
 The minimal working example is shown in \reflis{SDP:imp:usage}.
-\begin{lstlisting}[language=python, caption={Typical use of the class \texttt{SDPSolver} of the Polyopt package.}, labellis={SDP:imp:usage}]
+\begin{lstlisting}[language=python, caption={Typical usage of the class \texttt{SDPSolver} of the Polyopt package.}, labellis={SDP:imp:usage}]
 import polyopt
 
 # supposing the matrices Aij and the vectors c and y0 are already defined
@@ -659,7 +659,7 @@ problem = polyopt.SDPSolver(c, [[A10, A11, ..., A1m], ..., [Ak0, Ak1, ..., Akm]]
 yStar = problem.solve(y0, problem.dampedNewton)
 \end{lstlisting}
 
-Detailed info can be printed out during the execution of the algorithm.
+Detailed information can be printed out during the execution of the algorithm.
 This option can be set by \texttt{problem.setPrintOutput(True)}.
 Then, in each iteration of \refalg{SDP:scb:ac} and \refalg{SDP:scb:pf}, the values $k$, $x_k$ and eigenvalues of $X_j(x_k)$ are printed.
 

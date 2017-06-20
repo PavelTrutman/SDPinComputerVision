@@ -441,7 +441,7 @@ This program is in $N = {\binom{n+2r}{n}}$ variables, which is equal to the numb
 If $n$ is fixed, for example when solving given polynomial optimization problem, then $N$ grows in $\mathcal{O}(r^n)$, that is polynomially in $r$.
 If the relaxation order $r$ is fixed then $N$ grows in $\mathcal{O}(n^r)$, that is polynomially in the number of variables $n$.
  
-\begin{example}
+\begin{example}\labelex{POP:opt:ex}
   Let us set up some polynomial optimization problem for demonstration purposes.
   We use the same ellipse and hyperbola from \refex{POP:mm:ellhyp} to define us the feasible set, while minimizing the objective function $-x_1-\frac{3}{2}x_2$.
   \begin{align}
@@ -556,5 +556,82 @@ and then the moment matrix is
 \end{align}
 where $\zeta_i$ are linearly independent, if $x_i$ are pairwise different.
 Then $M_r(y)$ has full rank if $N$ is bigger than the number of rows or columns of $M_r(y)$, which is ${\binom{n+r}{n}}$.
+
+The polynomial optimization solver is implemented in the class \texttt{POPSolver} of the Polyopt package.
+This solver can solve polynomial problem in form \refeqb{POP:opt:polmin} for relaxation order $r$ and with given strictly feasible points $x_1, \ldots, x_N$ of the polynomial optimization problem \refeqb{POP:opt:polmin}.
+Firstly, we initialize the problem with the objective function $p_0$, the constraining polynomials $p_1, \ldots, p_m$ and with the relaxation order $r$.
+Then a strictly feasible point $y_0$ of the semidefinite problem is computed by the function \texttt{getFeasiblePoint} from the strictly feasible points $x_1, \ldots, x_N$ of the polynomial optimization problem \refeqb{POP:opt:polmin}.
+Finally, the problem is solved by the function \texttt{solve}, which returns the optimal point $x^*$.
+The minimal working example is shown in \reflis{POP:opt:usage}.
+For the purpose of the Polyopt package, the polynomials in $n$ variables are represented by dictionaries in Python.
+The values are the coefficients and the keys are $n$-tuples of integers, where each tuple represents the corresponding monomial and the integers represent the degrees of each variable of the monomial.
+
+\begin{example}
+  For $x\in\R^2$ the polynomial
+  \begin{align}
+    p(x) &= -20x_1^2 + x_1x_2 -12x_2^2 -16x_1 -x_2 +48
+  \end{align}
+  is represented in Python as variable \texttt{p} in a following way.
+\begin{verbatim}
+    p = {(2, 0): -20, (1, 1): 1, (0, 2): -12, (1, 0): -16, (0, 1): -1,
+      (0, 0): 48}
+\end{verbatim}
+  Variable \texttt{p} is a dictionary indexed by tuples.
+  The first integer in each tuple represents the degree of the variable $x_1$ in the given monomial and the second integer represents the degree of the variable $x_2$.
+\end{example}
+
+\begin{lstlisting}[language=python, caption={Typical usage of the class \texttt{POPSolver} of the Polyopt package.}, labellis={POP:opt:usage}]
+import polyopt
+
+# supposing the polynomials pi and the vectors xi are already defined
+problem = polyopt.POPSolver(p0, [p1, ..., pm], r)
+y0 = problem.getFeasiblePoint([x1, ..., xN])
+xStar = problem.solve(y0)
+\end{lstlisting}
+
+Detailed information about the execution of the SDP solver can be printed out by setting \texttt{problem.setPrintOutput(True)}.
+The function \texttt{problem.getFeasiblePoint(xs)} computes the feasible point $y$ from the feasible points $x_i$ stored in the list \texttt{xs}.
+If the feasible points $x_i$ are not know, they can be generated randomly from ball with radius \texttt{R} by the function \texttt{problem.getFeasiblePointFromRadius(R)}.
+When the polynomial problem is solved, the rank of the moment matrix can be obtained by calling \texttt{problem.momentMatrixRank()}.
+
+\begin{example}
+The Python code for the polynomial optimization problem \refeqb{POP:opt:exPol} from \refex{POP:opt:ex} is shown in \reflis{POP:opt:ex}.
+  \begin{lstlisting}[float, language=python, caption={Code for solving polynomial optimization problem stated in \refex{POP:opt:ex}}, labellis={POP:opt:ex}]
+from numpy import *
+import polyopt
+
+# objective function
+p0 = {(1, 0): -1, (0, 1): -3/2}
+
+# constraint functions
+p1 =  {(2, 0): -20, (1, 1): 1, (0, 2): -12, (1, 0): -16, (0, 1): -1, (0, 0): 48}
+p2 =  {(2, 0): 12, (1, 1): -58, (0, 2): 3, (1, 0): 46, (0, 1): -47, (0, 0): 44}
+
+# feasible points of the polynomial problem
+x1 = array([[1], [1]])
+x2 = array([[2], [2]])
+x3 = array([[-1], [-1]])
+x4 = array([[-2], [1]])
+x5 = array([[1], [2]])
+x6 = array([[0], [2]])
+
+# degree of the relaxation
+r = 2
+
+# initialize the solver
+problem = polyopt.POPSolver(p0, [p1, p2], r)
+
+# obtain a feasible point of the SDP problem from the feasible points of the polynomial problem
+y0 = problem.getFeasiblePoint([x1, x2, x3, x4, x5, x6])
+
+# enable outputs
+problem.setPrintOutput(True)
+
+#solve!
+xStar = problem.solve(y0)
+\end{lstlisting}
+\end{example}
+
+\subsection{Comparision with the state of the art methods}
 
 \section{Solving systems of polynomial equations}
