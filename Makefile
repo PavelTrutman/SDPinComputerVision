@@ -14,7 +14,7 @@ IMAGES = cmp.png lev.png
 
 ALGS = self-concordant-function.tex analytic-center.tex path-follow.tex
 
-GRAPHS_FILES = SDP_hyperPar SDP_hyperParSlice SDP_demo SDP_barrier SDP_performance POP_multiplicationMatrices POP_Lasserre
+GRAPHS_FILES = SDP_hyperPar SDP_hyperParSlice SDP_demo SDP_barrier SDP_performance POP_multiplicationMatrices POP_Lasserre POP_dim_performance
 GRAPHS_PDF = $(addsuffix .pdf, $(GRAPHS_FILES))
 GRAPHS_TEX = $(addsuffix .tex, $(GRAPHS_FILES))
 GRAPHS_EPS = $(addsuffix .eps, $(GRAPHS_FILES))
@@ -23,10 +23,10 @@ GRAPHS = $(GRAPHS_TEX) $(GRAPHS_PDF)
 DRAWINGS_FILES = SDP_problem
 DRAWINGS_PDF = $(addsuffix .pdf, $(DRAWINGS_FILES))
 
-TABLES_FILES = SDP_performance
+TABLES_FILES = SDP_performance POP_dim_performance
 TABLES_TEXS = $(addsuffix .tex, $(TABLES_FILES))
 
-MACROS_FILES = SDP_performance
+MACROS_FILES = SDP_performance POP_dim_performance
 MACROS_TEXS = $(addsuffix .tex, $(MACROS_FILES))
 
 INTER = $(addprefix graphs/, $(GRAPHS_EPS))
@@ -69,15 +69,19 @@ graphs/%.tex graphs/%.eps: sources/graphs/%.gnuplot
 tables/SDP_performance.tex macros/SDP_performance.tex data/SDP_performance.dat: data/SDP_matrices.mat data/SDP_timesPolyopt.mat data/SDP_timesSedumi.mat data/SDP_timesMosek.mat sources/scripts/SDP_timesLaTeX.py
 	PYTHONPATH=sources/scripts/ python3 -m SDP_timesLaTeX
 
+tables/POP_dim_performance.tex macros/POP_dim_performance.tex data/POP_dim_performance.dat: data/POP_dim_coefs.mat data/POP_dim_timesPolyopt.mat data/POP_dim_timesGloptipoly.mat sources/scripts/POP_dim_timesLaTeX.py
+	PYTHONPATH=sources/scripts/ python3 -m POP_dim_timesLaTeX
+
 clean:
 	-rm thesis.!(tex)
 	-rm $(addprefix graphs/, $(GRAPHS)) $(addprefix graphs/, $(GRAPHS_EPS))
-	-rm tables/SDP_performance.tex
-	-rm data/SDP_performance.dat 
-	-rm macros/SDP_performance.tex 
+	-rm tables/SDP_performance.tex tables/POP_dim_performance.tex
+	-rm data/SDP_performance.dat data/POP_dim_performance.dat
+	-rm macros/SDP_performance.tex macros/POP_dim_performance.tex
 
 cleanData:
 	-rm data/SDP_matrices.mat data/SDP_timesPolyopt.mat data/SDP_timesSedumi.mat data/SDP_timesMosek.mat
+	-rm data/POP_dim_coefs.mat data/POP_dim_timesPolyopt.mat data/POP_dim_timesGloptipoly.mat
 
 cleanAll: clean cleanData
 
@@ -108,4 +112,25 @@ data/SDP_matrices.mat: sources/scripts/SDP_generateData.py
 		touch $@; \
 	else \
 		PYTHONPATH=sources/scripts/ python3 -m SDP_generateData; \
+	fi;
+
+data/POP_dim_timesPolyopt.mat: data/POP_dim_coefs.mat sources/scripts/POP_dim_polyopt.py
+	if [ -e $@ ] && [ "$(AllowGenerateData)" != "TRUE" ]; then \
+		touch $@; \
+	else \
+		PYTHONPATH=sources/scripts/ python3 -m POP_dim_polyopt; \
+	fi;
+
+data/POP_dim_timesGloptipoly.mat: data/POP_dim_coefs.mat sources/scripts/POP_dim_gloptipoly.m
+	if [ -e $@ ] && [ "$(AllowGenerateData)" != "TRUE" ]; then \
+		touch $@; \
+	else \
+		matlab -nodesktop -nosplash -nojvm -r "addpath sources/scripts/; POP_dim_sedumi;exit;"; \
+	fi;
+
+data/POP_dim_coefs.mat: sources/scripts/POP_dim_generateData.py
+	if [ -e $@ ] && [ "$(AllowGenerateData)" != "TRUE" ]; then \
+		touch $@; \
+	else \
+		PYTHONPATH=sources/scripts/ python3 -m POP_dim_generateData; \
 	fi;

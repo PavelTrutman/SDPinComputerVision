@@ -536,7 +536,7 @@ All we have to do is to construct the moment matrix and the localizing matrices 
 What may be slightly complicated is, how to find the initial feasible point for the interior-point algorithm.
 The vector $y$ of the semidefinite program \refeqb{POP:opt:SDPr} can be constructed from a vector $x$ of the polynomial optimization problem \refeqb{POP:opt:polmin} followingly:
 \begin{align}
-  y_\alpha &= x^\alpha
+  y\ind\alpha &= x^\alpha
 \end{align}
 for $\alpha \in \N^n_{2r}$.
 If $x$ is from the feasible region $P$ as stated in \refeqb{POP:opt:polfea}, then $y$ is a feasible point of \refeqb{POP:opt:SDPr}.
@@ -544,8 +544,12 @@ Then the moment matrix $M_r(y)$ has rank one, since
 \begin{align}
   M_r(y) &= \zeta\zeta^\top,
 \end{align}
-and therefore $y$ is not strictly feasible point, as it is required by \refalg{SDP:scb:ac}.
-Hence, we construct $N$ feasible points $y_i$ from $N$ different feasible points $x_i$ for $N \geq {\binom{n+r}{n}}$.
+and therefore $y$ is not strictly feasible point, as it is required by the \texttt{SDPSolver} class.
+Hence, we construct $N$ feasible points $y_i$ from $N$ different feasible points $x_i$ for $N \geq {\binom{n+r}{n}}$ followingly:
+\begin{align}
+  y_i\ind\alpha &= x_i^\alpha,
+\end{align}
+for $i = 1,\ldots,N$ and $\alpha\in\N_{2r}^n$.
 Then the strictly feasible point $y$ can be constructed as
 \begin{align}
   y &= \frac{1}{N}\sum_{i=1}^Ny_i
@@ -560,8 +564,8 @@ Then $M_r(y)$ has full rank if $N$ is bigger than the number of rows or columns 
 The polynomial optimization solver is implemented in the class \texttt{POPSolver} of the Polyopt package.
 This solver can solve polynomial problem in form \refeqb{POP:opt:polmin} for relaxation order $r$ and with given strictly feasible points $x_1, \ldots, x_N$ of the polynomial optimization problem \refeqb{POP:opt:polmin}.
 Firstly, we initialize the problem with the objective function $p_0$, the constraining polynomials $p_1, \ldots, p_m$ and with the relaxation order $r$.
-Then a strictly feasible point $y_0$ of the semidefinite problem is computed by the function \texttt{getFeasiblePoint} from the strictly feasible points $x_1, \ldots, x_N$ of the polynomial optimization problem \refeqb{POP:opt:polmin}.
-Finally, the problem is solved by the function \texttt{solve}, which returns the optimal point $x^*$.
+Then a strictly feasible point $y_0$ of the semidefinite problem is computed by the function \texttt{getFeasiblePoint()} from the strictly feasible points $x_1, \ldots, x_N$ of the polynomial optimization problem \refeqb{POP:opt:polmin}.
+Finally, the problem is solved by the function \texttt{solve()}, which returns the optimal point $x^*$.
 The minimal working example is shown in \reflis{POP:opt:usage}.
 For the purpose of the Polyopt package, the polynomials in $n$ variables are represented by dictionaries in Python.
 The values are the coefficients and the keys are $n$-tuples of integers, where each tuple represents the corresponding monomial and the integers represent the degrees of each variable of the monomial.
@@ -633,5 +637,21 @@ xStar = problem.solve(y0)
 \end{example}
 
 \subsection{Comparision with the state of the art methods}
+\input{macros/POP_dim_performance}
+
+\begin{table}[ht]
+  \centering
+  \input{tables/POP_dim_performance.tex}
+  \caption{TODO}
+  \labeltab{POP:perf:dimTimes}
+\end{table}
+
+\begin{figure}[ht]
+  \centering
+  \resizebox{0.95\textwidth}{!}{\input{graphs/POP_dim_performance}}
+  \caption{TODO}
+  \labelfig{POP:perf:dimTimes}
+\end{figure}
+
 
 \section{Solving systems of polynomial equations}

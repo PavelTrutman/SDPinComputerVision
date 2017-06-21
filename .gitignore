@@ -30,5 +30,7 @@ __pycache__/
 
 /graphs/
 /data/SDP_performance.dat
+/data/POP_dim_performance.dat
 tables/SDP_performance.tex
+tables/POP_dim_performance.tex
 /macros/
