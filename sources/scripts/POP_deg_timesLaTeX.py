@@ -36,16 +36,16 @@ if __name__ == '__main__':
 
   # export to LaTeX
   with open('tables/POP_deg_performance.tex', 'wt') as fTable, open('data/POP_deg_performance.dat', 'wt') as fGraph:
-    fTable.write('\\begin{tabular}{|c||c|r@{.}lr@{.}l|}\n')
+    fTable.write('\\begin{tabular}{|c|c||c|r@{.}lr@{.}l|}\n')
     fTable.write('  \\hline\n')
-    fTable.write('  \\textbf{Problem} & \\textbf{Dimension of} & \\multicolumn{4}{c|}{\\textbf{Toolbox}}\\\\\n')
-    fTable.write('  \\cline{3-6}\n')
-    fTable.write('  \\textbf{size} & \\textbf{the SDP} & \\multicolumn{2}{c}{\\textbf{Polyopt}} & \\multicolumn{2}{c|}{\\textbf{Gloptipoly} \\cite{gloptipoly}}\\\\\n')
+    fTable.write('  \\multirow{2}{*}{\\textbf{Degree}} & \\textbf{Relaxation} & \\textbf{Dimension of} & \\multicolumn{4}{c|}{\\textbf{Toolbox}}\\\\\n')
+    fTable.write('  \\cline{4-7}\n')
+    fTable.write('  & \\textbf{order} & \\textbf{the SDP} & \\multicolumn{2}{c}{\\textbf{Polyopt}} & \\multicolumn{2}{c|}{\\textbf{Gloptipoly} \\cite{gloptipoly}}\\\\\n')
     fTable.write('  \hline\hline\n')
     for degIdx in range(len(degs)):
       deg = degs[degIdx]
       r = rs[degIdx]
-      fTable.write('  {deg:d} & {sdp:d} & {polyopt:#.3g} s & {gloptipoly:#.3g} s\\\\\n'.format(deg=deg, sdp=SDPSize[degIdx], polyopt=avgPolyopt[degIdx], gloptipoly=avgGloptipoly[degIdx]).replace('.', '&'))
+      fTable.write('  {deg:d} & {r:d} & {sdp:d} & {polyopt:#.3g} s & {gloptipoly:#.3g} s\\\\\n'.format(deg=deg, r=r, sdp=SDPSize[degIdx], polyopt=avgPolyopt[degIdx], gloptipoly=avgGloptipoly[degIdx]).replace('.', '&'))
       fGraph.write('{deg:d} {polyopt} {gloptipoly}\n'.format(deg=deg, polyopt=avgPolyopt[degIdx], gloptipoly=avgGloptipoly[degIdx]))
     fTable.write('  \\hline')
     fTable.write('\\end{tabular}\n')
@@ -55,3 +55,4 @@ if __name__ == '__main__':
     f.write('\\newcommand{{\\importPOPDegPerformanceRepeat}}{{{0:d}}}\n'.format(repeat))
     f.write('\\newcommand{{\\importPOPDegPerformanceDegMin}}{{{0:d}}}\n'.format(min(degs)))
     f.write('\\newcommand{{\\importPOPDegPerformanceDegMax}}{{{0:d}}}\n'.format(max(degs)))
+    f.write('\\newcommand{{\\importPOPDegPerformanceDim}}{{{0:d}}}\n'.format(dim))

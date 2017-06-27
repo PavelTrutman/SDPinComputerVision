@@ -37,9 +37,9 @@ if __name__ == '__main__':
   with open('tables/POP_dim_performance.tex', 'wt') as fTable, open('data/POP_dim_performance.dat', 'wt') as fGraph:
     fTable.write('\\begin{tabular}{|c||c|r@{.}lr@{.}l|}\n')
     fTable.write('  \\hline\n')
-    fTable.write('  \\textbf{Problem} & \\textbf{Dimension of} & \\multicolumn{4}{c|}{\\textbf{Toolbox}}\\\\\n')
+    fTable.write('  \\textbf{Number of} & \\textbf{Dimension of} & \\multicolumn{4}{c|}{\\textbf{Toolbox}}\\\\\n')
     fTable.write('  \\cline{3-6}\n')
-    fTable.write('  \\textbf{size} & \\textbf{the SDP} & \\multicolumn{2}{c}{\\textbf{Polyopt}} & \\multicolumn{2}{c|}{\\textbf{Gloptipoly} \\cite{gloptipoly}}\\\\\n')
+    fTable.write('  \\textbf{variables} & \\textbf{the SDP} & \\multicolumn{2}{c}{\\textbf{Polyopt}} & \\multicolumn{2}{c|}{\\textbf{Gloptipoly} \\cite{gloptipoly}}\\\\\n')
     fTable.write('  \hline\hline\n')
     for dimIdx in range(len(dims)):
       dim = dims[dimIdx]
@@ -53,3 +53,5 @@ if __name__ == '__main__':
     f.write('\\newcommand{{\\importPOPDimPerformanceRepeat}}{{{0:d}}}\n'.format(repeat))
     f.write('\\newcommand{{\\importPOPDimPerformanceDimMin}}{{{0:d}}}\n'.format(min(dims)))
     f.write('\\newcommand{{\\importPOPDimPerformanceDimMax}}{{{0:d}}}\n'.format(max(dims)))
+    f.write('\\newcommand{{\\importPOPDimPerformanceD}}{{{0:d}}}\n'.format(d))
+    f.write('\\newcommand{{\\importPOPDimPerformanceR}}{{{0:d}}}\n'.format(r))

@@ -4,7 +4,7 @@ set output "graphs/POP_dim_performance.tex"
 set grid
 set key top left
 set title ""
-set xlabel "Problem size"
+set xlabel "Number of variables"
 set ylabel "Execution time [s]"
 set samples 100000
 

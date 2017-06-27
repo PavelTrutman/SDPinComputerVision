@@ -4,7 +4,7 @@ set output "graphs/POP_deg_performance.tex"
 set grid
 set key top left
 set title ""
-set xlabel "Problem size"
+set xlabel "Degree of the polynomial in the objective function"
 set ylabel "Execution time [s]"
 set samples 100000
 
