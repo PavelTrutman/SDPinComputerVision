@@ -713,5 +713,11 @@ These execution times $\tau_d$ were measured and computed separately for the Pol
   \labelfig{POP:opt:perf:degTimes}
 \end{figure}
 
+The experiments were executed on Intel Core i5-3210M CPU 2.50 GHz based computer with sufficient amount of free system memory.
+The installed version of Python was 3.5.3 and MATLAB R2016b 64-bit was used.
+
+From the graphs we can see that the Polyopt package is not comparable with Gloptipoly for high dimensions of the generated semidefinite program. This is in accordance with the results of \refsec{SDP:comparision}, since the semidefinite programs solver is the most expensive part in the polynomial optimization.
+On the other hand, for really small polynomial optimization problems, the execution times of the Polyopt package are  similar to the Gloptipoly execution times.
+
 
 \section{Solving systems of polynomial equations}
