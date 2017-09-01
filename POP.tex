@@ -720,4 +720,26 @@ From the graphs we can see that the Polyopt package is not comparable with Glopt
 On the other hand, for really small polynomial optimization problems, the execution times of the Polyopt package are  similar to the Gloptipoly execution times.
 
 
-\section{Solving systems of polynomial equations}
+\section{Solving systems of polynomial equations over the real numbers}
+Solving polynomial equations efficiently is a key element in computer vision geometry.
+For this reason, specialized solvers are constructed for the most common geometry problems to make the solvers efficient and numerically stable.
+Previously, these solvers were handcrafted, then the process was automated using automatic generators \cite{autogen}.
+These automatic generators are based on Gr\"obner basis \cite{becker93} and on computation of  eigenvectors of multiplication matrices.
+The disadvantage of this approach is that non-real solutions appear, and such solutions have no sense in geometry point of view and are discarded in the end.
+In the case that many non-real solutions are present and only few real solutions are obtained, the time consumed by computing the non-real solutions is much bigger than the time needed to compute the real solutions, which we are interested in.
+
+Therefore, one should be interested in a method, which would solve the polynomial system over the real numbers only.
+One of the method is the moment method introduced in \cite{momentMethodReal} and extended to the complex numbers in \cite{momentMethodComplex} both by J. B. Lasserre, M. Laurent and P. Rostalski.
+The moment method is summarized and enriched with examples in \cite{momentMethod}, which we will follow in this section.
+
+The goal of this section is to solve the system of polynomial equations \refeqb{POP:sol:system} without computation of the non-real solutions, where $x\in\R^n$ and $f_1,f_2,\ldots,f_m\in\R[x]$.
+\begin{align}
+  \arraycolsep=1.4pt
+  \begin{array}{rl}
+    f_1(x) &= 0\\
+    f_2(x) &= 0\\
+    &\vdots\\
+    f_m(x) &= 0
+  \end{array}\labeleq{POP:sol:system}
+\end{align}
+
