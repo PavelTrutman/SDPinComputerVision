@@ -111,6 +111,8 @@
 \newcommand{\eqE}{\end{align}}
 \newcommand{\bmB}{\arraycolsep=\arraycolsepdef\begin{bmatrix}}
 \newcommand{\bmE}{\end{bmatrix}}
+\newcommand{\bmdB}[1]{\left[\arraycolsep=\arraycolsepdef\begin{array}{@{}#1@{}}}
+\newcommand{\bmdE}{\end{array}\right]}
 \newcommand{\ind}[1]{\ensuremath{^{(#1)}}}
 \newcommand{\labeldef}[1]{\label{definition:#1}}
 \newcommand{\refdef}[1]{Definition~\ref{definition:#1}}
@@ -158,9 +160,13 @@
 \newcommand{\PSDCone}{\mathcal{P}}
 \newcommand{\Iden}[1]{\ensuremath{\mathcal{I}^{#1}}}
 \newcommand{\Ideal}{\mathcal{I}}
-\newcommand{\Base}{\mathcal{B}}
+\newcommand{\Base}{\ensuremath{\mathcal{B}}}
 \newcommand{\NF}{\mathcal{N}}
 \newcommand{\MM}{\mathcal{X}}
+\newcommand{\K}{\mathcal{K}}
+\newcommand{\ML}{\ensuremath{M(\Lambda)}}
+\newcommand{\KerML}{\ensuremath{\ker\!\big(M(\Lambda)\big)}}
+\newcommand{\RRI}{\ensuremath{\sqrt[\R]{I}}}
 \DeclareMathOperator{\rank}{rank}
 \DeclareMathOperator{\dom}{dom}
 \DeclareMathOperator{\Dom}{Dom}
@@ -169,6 +175,7 @@
 \DeclareMathOperator{\tr}{tr}
 \DeclareMathOperator{\diag}{diag}
 \DeclareMathOperator{\vc}{vec}
+\let\ker\relax\DeclareMathOperator{\ker}{ker}
 
 \newlength{\arraycolsepdef}
 \setlength{\arraycolsepdef}{\arraycolsep}

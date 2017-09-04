@@ -63,6 +63,12 @@ graphs/SDP_demo.tex graphs/SDP_demo.eps: sources/graphs/SDP_demo.gnuplot sources
 graphs/SDP_performance.tex graphs/SDP_performance.eps: sources/graphs/SDP_performance.gnuplot data/SDP_performance.dat
 	gnuplot sources/graphs/SDP_performance.gnuplot
 
+graphs/POP_dim_performance.tex graphs/POP_dim_performance.eps: sources/graphs/POP_dim_performance.gnuplot data/POP_dim_performance.dat
+	gnuplot sources/graphs/POP_dim_performance.gnuplot
+
+graphs/POP_deg_performance.tex graphs/POP_deg_performance.eps: sources/graphs/POP_deg_performance.gnuplot data/POP_deg_performance.dat
+	gnuplot sources/graphs/POP_deg_performance.gnuplot
+
 graphs/%.tex graphs/%.eps: sources/graphs/%.gnuplot
 	gnuplot sources/graphs/$*.gnuplot
 

@@ -63,7 +63,7 @@ The following two theorems are stating the relations between the vanishing and (
 
 The quotient ring $\R[x]/I$ is the set of all equivalence classes of polynomials in $\R[x]$ for congruence modulo ideal $I$
 \begin{align}
-  \R[x]/I &= \big\{[f]\ |\ f\in\R[x]\big\},
+  \R[x]/I &= \big\{\![f]\ |\ f\in\R[x]\!\big\},
 \end{align}
 where the equivalence class $[f]$ is
 \begin{align}
@@ -86,7 +86,7 @@ Moreover, if $I$ is a radical ideal, then
 \end{align}
 
 Assume that the number of complex roots is finite and let $N = \dim\big(\R[x]/I\big)$, and therefore $|V_\C(I)|\leq N$.
-Consider a set $\Base = \{b_1, b_2, \ldots, b_N\} \subseteq \R[x]$ for which the equivalence classes $[b_1], [b_2], \ldots, [b_N]$ are pairwise distinct and $\big\{[b_1], [b_2], \ldots, [b_N]\big\}$ is a basis of $\R[x]/I$.
+Consider a set $\Base = \{b_1, b_2, \ldots, b_N\} \subseteq \R[x]$ for which the equivalence classes $[b_1], [b_2], \ldots, [b_N]$ are pairwise distinct and $\big\{\![b_1], [b_2], \ldots, [b_N]\!\big\}$ is a basis of $\R[x]/I$.
 Then every polynomial $f\in\R[x]$ can be written in unique way as
 \begin{align}
   f &= \sum_{i=1}^Nc_ib_i + p,
@@ -162,17 +162,17 @@ In that case, each left eigenvector of $\MM_f$ corresponds to one solution $v\in
   \end{align}
   and construct the multiplication matrices $\MM_x$ and $\MM_y$ accordingly, knowing that
   \begin{alignat}{6}
-    \MM_x\Big(\big[1\big]\Big)   & {}={} & \big[x\big]    & {}={} &                     &               & 1                  & \big[x\big], &                     &             &                     &            \\
-    \MM_x\Big(\big[y\big]\Big)   & {}={} & \big[xy\big]   & {}={} & {}-{}\frac{3}{41}   & \big[y^2\big] & {}+{}\frac{26}{41} & \big[x\big]  & {}-{}\frac{34}{41}  & \big[y\big] & {}+{}\frac{52}{41}  & \big[1\big],\\
-    \MM_x\Big(\big[x\big]\Big)   & {}={} & \big[x^2\big]  & {}={} & {}-{}\frac{99}{164} & \big[y^2\big] & {}-{}\frac{63}{82} & \big[x\big]  & {}-{}\frac{15}{164} & \big[y\big] & {}+{}\frac{101}{41} & \big[1\big],\\
-    \MM_x\Big(\big[y^2\big]\Big) & {}={} & \big[xy^2\big] & {}={} & {}-{}\frac{37}{41}  & \big[y^2\big] & {}+{}\frac{20}{41} & \big[x\big]  & {}+{}\frac{18}{41}  & \big[y\big] & {}+{}\frac{40}{41}  & \big[1\big],
+    \MM_x\Big(\!\big[1\big]\!\Big)   & {}={} & \big[x\big]    & {}={} &                     &               & 1                  & \big[x\big], &                     &             &                     &            \\
+    \MM_x\Big(\!\big[y\big]\!\Big)   & {}={} & \big[xy\big]   & {}={} & {}-{}\frac{3}{41}   & \big[y^2\big] & {}+{}\frac{26}{41} & \big[x\big]  & {}-{}\frac{34}{41}  & \big[y\big] & {}+{}\frac{52}{41}  & \big[1\big],\\
+    \MM_x\Big(\!\big[x\big]\!\Big)   & {}={} & \big[x^2\big]  & {}={} & {}-{}\frac{99}{164} & \big[y^2\big] & {}-{}\frac{63}{82} & \big[x\big]  & {}-{}\frac{15}{164} & \big[y\big] & {}+{}\frac{101}{41} & \big[1\big],\\
+    \MM_x\Big(\!\big[y^2\big]\!\Big) & {}={} & \big[xy^2\big] & {}={} & {}-{}\frac{37}{41}  & \big[y^2\big] & {}+{}\frac{20}{41} & \big[x\big]  & {}+{}\frac{18}{41}  & \big[y\big] & {}+{}\frac{40}{41}  & \big[1\big],
   \end{alignat}
   and
   \begin{alignat}{6}
-    \MM_y\Big(\big[1\big]\Big)   & {}={} & \big[y\big]   & {}={} &                   &                &                    &             &                   1 & \big[y\big], &                    &            \\
-    \MM_y\Big(\big[y\big]\Big)   & {}={} & \big[y^2\big] & {}={} &                 1 & \big[y^2\big], &                    &             &                     &              &                    &            \\
-    \MM_y\Big(\big[x\big]\Big)   & {}={} & \big[xy\big]  & {}={} & {}-{}\frac{3}{41} & \big[y^2\big]  & {}+{}\frac{26}{41} & \big[x\big] & {}-{}\frac{34}{41}  & \big[y\big]  & {}+{}\frac{52}{41} & \big[1\big],\\
-    \MM_y\Big(\big[y^2\big]\Big) & {}={} & \big[y^3\big] & {}={} & \frac{15}{41}     & \big[y^2\big]  & {}-{}\frac{48}{41} & \big[x\big] & {}+{}\frac{170}{41} & \big[y\big]  & {}-{}\frac{96}{41} & \big[1\big].
+    \MM_y\Big(\!\big[1\big]\!\Big)   & {}={} & \big[y\big]   & {}={} &                   &                &                    &             &                   1 & \big[y\big], &                    &            \\
+    \MM_y\Big(\!\big[y\big]\!\Big)   & {}={} & \big[y^2\big] & {}={} &                 1 & \big[y^2\big], &                    &             &                     &              &                    &            \\
+    \MM_y\Big(\!\big[x\big]\!\Big)   & {}={} & \big[xy\big]  & {}={} & {}-{}\frac{3}{41} & \big[y^2\big]  & {}+{}\frac{26}{41} & \big[x\big] & {}-{}\frac{34}{41}  & \big[y\big]  & {}+{}\frac{52}{41} & \big[1\big],\\
+    \MM_y\Big(\!\big[y^2\big]\!\Big) & {}={} & \big[y^3\big] & {}={} & \frac{15}{41}     & \big[y^2\big]  & {}-{}\frac{48}{41} & \big[x\big] & {}+{}\frac{170}{41} & \big[y\big]  & {}-{}\frac{96}{41} & \big[1\big].
   \end{alignat}
   Then, the multiplication matrices are:
   \begin{align}
@@ -204,17 +204,17 @@ In that case, each left eigenvector of $\MM_f$ corresponds to one solution $v\in
   \end{align}
   Since the second and the third coordinate corresponds to $b_2 = y$ and $b_3 = x$ respectively, we have got four solutions to the system of polynomials \refeqb{POP:mm:example1} and \refeqb{POP:mm:example2}:
   \begin{align}
-    V_\C(I) &= \left\{
+    V_\C(I) &= \left\{\!
         \bmB 1\\ 1 \bmE;\
         \bmB -2\\ 0 \bmE;\
         \bmB -\frac{1}{2}\\ 2 \bmE;\
         \bmB -1\\ -2 \bmE
-      \right\}.
+      \!\right\}.
   \end{align}
   These solutions are shown by the orange color in \reffig{POP:mm:example}.
 \end{example}
 
-\section{Moment matrices}
+\section{Moment matrices}\labelsec{POP:MM}
 Polynomial optimization and solving systems of polynomial equations via hierarchies of semidefinite programs is based on the theory of measures and moments.
 But to keep the scope simple, we will avoid to introduce this theory.
 However, since it provides better understanding of the matter, interested reader may look into \cite{SOS}.
@@ -244,7 +244,7 @@ for $\alpha\in\N_d^n$.
 \end{definition}
 The linearity of the Riesz functional allows us to apply it on polynomials.
 \begin{align}
-  \ell_y\big(p(x)\big) = \ell_y\left(\sum_{\alpha\in\N_d^n}p_\alpha x^\alpha\right) = \sum_{\alpha\in\N_d^n}p_\alpha \ell_y(x^\alpha) = \sum_{\alpha\in\N_d^n}p_\alpha y_\alpha
+  \ell_y\big(p(x)\big) = \ell_y\!\left(\sum_{\alpha\in\N_d^n}p_\alpha x^\alpha\!\right) = \sum_{\alpha\in\N_d^n}p_\alpha \ell_y(x^\alpha) = \sum_{\alpha\in\N_d^n}p_\alpha y_\alpha
 \end{align}
 From the equation above, we can see that Riesz functional substitutes a new variable $y_\alpha$ for each monomial $x^\alpha$, and therefore we can interpret the Riesz functional as an operator that linearizes polynomials. 
 
@@ -267,7 +267,7 @@ From the equation above, we can see that Riesz functional substitutes a new vari
   \end{align}
 \end{example}
 
-\begin{definition}[Moment matrix]
+\begin{definition}[Moment matrix]\labeldef{POP:MM}
   A symmetric matrix $M$ indexed by $\N^n$ is said to be a moment matrix (or generalized Hankel matrix) if its $(\alpha, \beta)$-entry depends only on the sum $\alpha + \beta$ of the indices.
   Given sequence $y\ind\alpha = y_\alpha$ for $\alpha\in\N^n$, the moment matrix $M(y)$ has form
   \begin{align}
@@ -291,34 +291,34 @@ The moment matrices are linear in $y$ and symmetric, we can see that
 since $\binom{n+s}{n}$ is the number of monomials in $n$ variables up to degree $s$.
 
 \begin{example}
-  For $n=2$ the moment matrices for different orders are:
+  For $n=2$, the moment matrices for different orders are:
   \begin{align}
     M_0(y) &= \bmB y_{00} \bmE,\\
-    M_1(y) &= \left[\begin{array}{c:cc}
+    M_1(y) &= \bmdB{c:cc}
                 y_{00} & y_{10} & y_{01}\\\hdashline
                 y_{10} & y_{20} & y_{11}\\
                 y_{01} & y_{11} & y_{02}
-              \end{array}\right],\\
-    M_2(y) &= \left[\begin{array}{c:cc:ccc}
+              \bmdE,\\
+    M_2(y) &= \bmdB{c:cc:ccc}
                 y_{00} & y_{10} & y_{01} & y_{20} & y_{11} & y_{02}\\\hdashline
                 y_{10} & y_{20} & y_{11} & y_{30} & y_{21} & y_{12}\\
                 y_{01} & y_{11} & y_{02} & y_{21} & y_{12} & y_{03}\\\hdashline
                 y_{20} & y_{30} & y_{21} & y_{40} & y_{31} & y_{22}\\
                 y_{11} & y_{21} & y_{12} & y_{31} & y_{22} & y_{13}\\
-                y_{02} & y_{12} & y_{03} & y_{22} & y_{13} & y_{04}.
-              \end{array}\right]
+                y_{02} & y_{12} & y_{03} & y_{22} & y_{13} & y_{04}
+              \bmdE.
   \end{align}
   All the elements in the blocks separated by the dashed lines have the same degree.
   Moreover, we can see that the moment matrices of smaller order are nothing more than submatrices of the moment matrices of bigger order.
 
   And just one example for $n=3$:
   \begin{align}
-    M_1(y) &= \left[\begin{array}{c:ccc}
+    M_1(y) &= \bmdB{c:ccc}
                 y_{000} & y_{100} & y_{010} & y_{001}\\\hdashline
                 y_{100} & y_{200} & y_{110} & y_{101}\\
                 y_{010} & y_{110} & y_{020} & y_{011}\\
                 y_{001} & y_{101} & y_{011} & y_{002}
-              \end{array}\right].
+              \bmdE.
   \end{align}
 \end{example}
 
@@ -335,11 +335,11 @@ Notation $M_s(qy)$ emphasis that the localizing matrix is bilinear in $q$ and $y
 \begin{example}
   For $n = 2$ and a polynomial $q(x) = x_1x_2 + 2x_1 + 3$, the localizing matrix is
   \begin{align}
-    M_1(qy) &= \left[\begin{array}{c:cc}
+    M_1(qy) &= \bmdB{c:cc}
                     y_{11} +2y_{10} +3y_{00} & y_{21} +2y_{20} +3y_{10} & y_{12} +2y_{11} +3y_{01}\\\hdashline
                     y_{21} +2y_{20} +3y_{10} & y_{31} +2y_{30} +3y_{20} & y_{22} +2y_{21} +3y_{11}\\
                     y_{12} +2y_{11} +3y_{01} & y_{22} +2y_{21} +3y_{11} & y_{13} +2y_{12} +3y_{02}
-               \end{array}\right].
+               \bmdE.
   \end{align}
 \end{example}
 
@@ -454,7 +454,7 @@ If the relaxation order $r$ is fixed then $N$ grows in $\mathcal{O}(n^r)$, that 
   \end{align}
   We expect that the problem has two global optima attained at
   \begin{align}
-    \bmB x^*_1\\x^*_2\bmE &= \left\{\bmB -\frac{1}{2}\\ 2\bmE;\ \bmB 1\\ 1\bmE\right\}
+    \bmB x^*_1\\x^*_2\bmE &= \left\{\!\bmB -\frac{1}{2}\\ 2\bmE;\ \bmB 1\\ 1\bmE\!\right\}
   \end{align}
   with value of the objective function
   \begin{align}
@@ -475,7 +475,7 @@ If the relaxation order $r$ is fixed then $N$ grows in $\mathcal{O}(n^r)$, that 
     \begin{array}{rclrcl@{\hskip0.5cm}l}
       p_1^* &=& \displaystyle \min_{y\in\R^{\N^2_2}} & \multicolumn{3}{l}{-y_{10}-\frac{3}{2}y_{01}} \\
       && \text{s.t.} & y_{00} &=& 1\\
-      &&& \bmB y_{00} & y_{10} & y_{01}\\ y_{10} & y_{20} & y_{11}\\ y_{01} & y_{11} & y_{02}\bmE &\succeq& 0\\
+      &&& \bmdB{c:cc} y_{00} & y_{10} & y_{01}\\\hdashline y_{10} & y_{20} & y_{11}\\ y_{01} & y_{11} & y_{02}\bmdE &\succeq& 0\\
       &&& \bmB -20y_{20} +y_{11} -12y_{02} -16y_{10} -y_{01} + 48y_{00}\bmE &\succeq& 0\\
       &&& \bmB 12y_{20} -58y_{11} +3y_{02} +46y_{10} -47y_{01} + 44y_{00}\bmE &\succeq& 0
     \end{array}\labeleq{POP:opt:exSDP1}
@@ -498,9 +498,9 @@ If the relaxation order $r$ is fixed then $N$ grows in $\mathcal{O}(n^r)$, that 
     \begin{array}{rclrcl@{\hskip0.5cm}l}
       p_2^* &=& \displaystyle \min_{y\in\R^{\N^2_4}} & \multicolumn{3}{l}{-y_{10}-\frac{3}{2}y_{01}} \\
       && \text{s.t.} & y_{00} &=& 1\\
-      &&& \bmB y_{00} & y_{10} & y_{01} & y_{20} & y_{11} & y_{02}\\ y_{10} & y_{20} & y_{11} & y_{30} & y_{21} & y_{12}\\ y_{01} & y_{11} & y_{02} & y_{21} & y_{12} & y_{03} \\ y_{20} & y_{30} & y_{21} & y_{40} & y_{31} & y_{22}\\ y_{11} & y_{21} & y_{12} & y_{31} & y_{22} & y_{13}\\ y_{02} & y_{12} & y_{03} & y_{22} & y_{13} & y_{04}\bmE &\succeq& 0\\
-      \multicolumn{4}{r}{\resizebox{11.9cm}{!}{$\bmB -20y_{20} +y_{11} -12y_{02} -16y_{10} -y_{01} + 48y_{00} & -20y_{30} +y_{21} -12y_{12} -16y_{20} -y_{11} + 48y_{10} & -20y_{21} +y_{12} -12y_{03} -16y_{11} -y_{02} + 48y_{01}\\ -20y_{30} +y_{21} -12y_{12} -16y_{20} -y_{11} + 48y_{10} & -20y_{40} +y_{31} -12y_{22} -16y_{30} -y_{21} + 48y_{20} & -20y_{31} +y_{22} -12y_{13} -16y_{21} -y_{12} + 48y_{11}\\ -20y_{21} +y_{12} -12y_{03} -16y_{11} -y_{02} + 48y_{01} & -20y_{31} +y_{22} -12y_{13} -16y_{21} -y_{12} + 48y_{11} & -20y_{22} +y_{13} -12y_{04} -16y_{12} -y_{03} + 48y_{02}\bmE$}} &\succeq& 0\\
-      \multicolumn{4}{r}{\resizebox{11.9cm}{!}{$\bmB 12y_{20} -58y_{11} +3y_{02} +46y_{10} -47y_{01} + 44y_{00} & 12y_{30} -58y_{21} +3y_{12} +46y_{20} -47y_{11} + 44y_{10} & 12y_{21} -58y_{12} +3y_{03} +46y_{11} -47y_{02} + 44y_{01}\\ 12y_{30} -58y_{21} +3y_{12} +46y_{20} -47y_{11} + 44y_{10} & 12y_{40} -58y_{31} +3y_{22} +46y_{30} -47y_{21} + 44y_{20} & 12y_{31} -58y_{22} +3y_{13} +46y_{21} -47y_{12} + 44y_{11}\\ 12y_{21} -58y_{12} +3y_{03} +46y_{11} -47y_{02} + 44y_{01} & 12y_{31} -58y_{22} +3y_{13} +46y_{21} -47y_{12} + 44y_{11} & 12y_{22} -58y_{13} +3y_{04} +46y_{12} -47y_{03} + 44y_{02}\bmE$}} &\succeq& 0
+      &&& \bmdB{c:cc:ccc} y_{00} & y_{10} & y_{01} & y_{20} & y_{11} & y_{02}\\\hdashline y_{10} & y_{20} & y_{11} & y_{30} & y_{21} & y_{12}\\ y_{01} & y_{11} & y_{02} & y_{21} & y_{12} & y_{03} \\\hdashline y_{20} & y_{30} & y_{21} & y_{40} & y_{31} & y_{22}\\ y_{11} & y_{21} & y_{12} & y_{31} & y_{22} & y_{13}\\ y_{02} & y_{12} & y_{03} & y_{22} & y_{13} & y_{04}\bmdE &\succeq& 0\\
+      \multicolumn{4}{r}{\resizebox{11.9cm}{!}{$\bmdB{c:cc} -20y_{20} +y_{11} -12y_{02} -16y_{10} -y_{01} + 48y_{00} & -20y_{30} +y_{21} -12y_{12} -16y_{20} -y_{11} + 48y_{10} & -20y_{21} +y_{12} -12y_{03} -16y_{11} -y_{02} + 48y_{01}\\\hdashline -20y_{30} +y_{21} -12y_{12} -16y_{20} -y_{11} + 48y_{10} & -20y_{40} +y_{31} -12y_{22} -16y_{30} -y_{21} + 48y_{20} & -20y_{31} +y_{22} -12y_{13} -16y_{21} -y_{12} + 48y_{11}\\ -20y_{21} +y_{12} -12y_{03} -16y_{11} -y_{02} + 48y_{01} & -20y_{31} +y_{22} -12y_{13} -16y_{21} -y_{12} + 48y_{11} & -20y_{22} +y_{13} -12y_{04} -16y_{12} -y_{03} + 48y_{02}\bmdE$}} &\succeq& 0\\
+      \multicolumn{4}{r}{\resizebox{11.9cm}{!}{$\bmdB{c:cc} 12y_{20} -58y_{11} +3y_{02} +46y_{10} -47y_{01} + 44y_{00} & 12y_{30} -58y_{21} +3y_{12} +46y_{20} -47y_{11} + 44y_{10} & 12y_{21} -58y_{12} +3y_{03} +46y_{11} -47y_{02} + 44y_{01}\\\hdashline 12y_{30} -58y_{21} +3y_{12} +46y_{20} -47y_{11} + 44y_{10} & 12y_{40} -58y_{31} +3y_{22} +46y_{30} -47y_{21} + 44y_{20} & 12y_{31} -58y_{22} +3y_{13} +46y_{21} -47y_{12} + 44y_{11}\\ 12y_{21} -58y_{12} +3y_{03} +46y_{11} -47y_{02} + 44y_{01} & 12y_{31} -58y_{22} +3y_{13} +46y_{21} -47y_{12} + 44y_{11} & 12y_{22} -58y_{13} +3y_{04} +46y_{12} -47y_{03} + 44y_{02}\bmdE$}} &\succeq& 0
     \end{array}\labeleq{POP:opt:exSDP2}
   \end{align}
   The minimum of the problem is
@@ -509,7 +509,7 @@ If the relaxation order $r$ is fixed then $N$ grows in $\mathcal{O}(n^r)$, that 
   \end{align}
   which is in correspondence with the optimum points
   \begin{align}
-    \bmB x^*_1\\x^*_2\bmE &= \left\{\bmB -\frac{1}{2}\\ 2\bmE;\ \bmB 1\\ 1\bmE\right\}.
+    \bmB x^*_1\\x^*_2\bmE &= \left\{\!\bmB -\frac{1}{2}\\ 2\bmE;\ \bmB 1\\ 1\bmE\!\right\}.
   \end{align}
   They are the same as the minima of the original problem \refeqb{POP:opt:exPol} and it depends on the iterative algorithm and the chosen starting point in which of these minima we end up.
   The moment matrix has rank
@@ -724,8 +724,8 @@ On the other hand, for really small polynomial optimization problems, the execut
 Solving polynomial equations efficiently is a key element in computer vision geometry.
 For this reason, specialized solvers are constructed for the most common geometry problems to make the solvers efficient and numerically stable.
 Previously, these solvers were handcrafted, then the process was automated using automatic generators \cite{autogen}.
-These automatic generators are based on Gr\"obner basis \cite{becker93} and on computation of  eigenvectors of multiplication matrices.
-The disadvantage of this approach is that non-real solutions appear, and such solutions have no sense in geometry point of view and are discarded in the end.
+These automatic generators are based on Gr\"obner basis \cite{Becker93} and on eigenvalue computation of multiplication matrices.
+The disadvantage of this approach is that non-real solutions appear, which  have no sense in geometry point of view and are discarded in the end.
 In the case that many non-real solutions are present and only few real solutions are obtained, the time consumed by computing the non-real solutions is much bigger than the time needed to compute the real solutions, which we are interested in.
 
 Therefore, one should be interested in a method, which would solve the polynomial system over the real numbers only.
@@ -743,3 +743,142 @@ The goal of this section is to solve the system of polynomial equations \refeqb{
   \end{array}\labeleq{POP:sol:system}
 \end{align}
 
+\subsection{The moment method}
+The moment method is based on positive linear forms and real radical ideals.
+Thus, let us introduce some basics of the positive linear forms and their connection to the real radical ideals.
+
+\subsubsection{Positive linear forms}
+Let the dual vector space of the polynomial ring $\R[x]$ is denoted $\R[x]^*$.
+Given a linear form $\Lambda\in\R[x]^*$, consider the quadratic form $Q_\Lambda : \R[x]\mapsto\R$ such that
+\begin{align}
+  Q_\Lambda(f) &= \Lambda\big(f^2\big)
+\end{align}
+with kernel
+\begin{align}
+  \ker(Q_\Lambda) &= \big\{f\in\R[x]\ |\ \Lambda(fg)=0\ \forall q\in\R[x]\big\}.
+\end{align}
+
+\begin{definition}[Positivity]
+  Linear form $\Lambda\in\R[x]^*$ is said to be positive if $\Lambda\big(f^2\big) \geq 0$ for all $f\in\R[x]$, i.e., if the quadratic form $Q_\Lambda$ is positive semidefinite.
+\end{definition}
+
+How the positive linear forms are connected to real radical ideals shows the following theorem.
+
+\begin{theorem}\labelthe{POP:sol:ker}
+  Let $\Lambda\in\R[x]^*$. Then $\ker(Q_\Lambda)$ is an ideal in $\R[x]$, which is real radical ideal when $\Lambda$ is positive.
+\end{theorem}
+
+We need to extend the theory about moments and moment matrices introduced in \refsec{POP:MM} and apply it to the linear forms. Therefore, we create new definition of the moment matrix, which is equivalent to \refdef{POP:MM}.
+
+\begin{definition}[Moment matrix]
+  A symmetric matrix $M$ indexed by $\N^n$ is said to be a moment matrix (or generalized Hankel matrix) if its $(\alpha, \beta)$-entry depends only on the sum $\alpha + \beta$ of the indices.
+  Given linear form $\Lambda\in\R[x]^*$, the moment matrix $\ML$ has form
+  \begin{align}
+    \ML\ind{\alpha, \beta} &= \Lambda\big(x^\alpha x^\beta\big)
+  \end{align}
+  for $\alpha, \beta \in\N^n$.
+\end{definition}
+
+The moment matrix $\ML$ has some interesting properties. For $p\in\R[x]$ the equation
+\begin{align}
+  Q_\Lambda(p) = \Lambda\big(p^2\big) &= \vc(p)^\top\ML\vc(p)
+\end{align}
+holds, and therefore $\ML$ is the matrix of the quadratic form $Q_\Lambda$ in some monomial base.
+This concludes that $\Lambda$ is positive if and only if $\ML\succeq 0$.
+
+Second interesting property is that a polynomial $p$ is from $\ker(Q_\Lambda)$ if and only if its coefficient vector $\vc(p)$ is from $\KerML$.
+Therefore, we identify both $\ker(Q_\Lambda)$ and $\KerML$ with set of polynomials hereafter.
+Thus by \refthe{POP:sol:ker}, $\KerML$ is an ideal, which is real radical ideal when $\ML\succeq0$.
+
+\begin{example}
+  For $n = 2$, let us have the linear form $\Lambda\in\R[x]^*$ defined by
+  \begin{align}
+    \Lambda(1) &= 1,\\
+    \Lambda(x_1x_2) &= 1,\\
+    \Lambda\big(x_1^{\alpha_1}x_2^{\alpha^2}\big) &= 0\text{ for all other monomials.}
+  \end{align}
+  Then moment matrix $\ML$ (rows and columns indexed by $1$, $x_1$, $x_2$, $x_1^2$, $x_1x_2$, $x_2^2$, $\ldots$) is
+  \begin{align}
+    \ML &= \bmdB{c:cc:ccc:c}
+      1 & 0 & 0 & 0 & 1 & 0 & \cdots\\\hdashline
+      0 & 0 & 1 & 0 & 0 & 0 & \cdots\\
+      0 & 1 & 0 & 0 & 0 & 0 & \cdots\\\hdashline
+      0 & 0 & 0 & 0 & 0 & 0 & \cdots\\
+      1 & 0 & 0 & 0 & 0 & 0 & \cdots\\
+      0 & 0 & 0 & 0 & 0 & 0 & \cdots\\\hdashline
+      \vdots & \vdots & \vdots & \vdots & \vdots & \vdots & \ddots
+    \bmdE
+  \end{align}
+  with $\rank\ML = 4$ and with kernel
+  \begin{align}
+    \KerML &= \left<x_1^2, x_2^2, 1-x_1x_2\right>.
+  \end{align}
+  Since the kernel is not a radical ideal, $\Lambda$ is not positive.
+\end{example}
+
+\begin{theorem}
+  Let $\Lambda\in\R[x]^*$ and let $\Base$  be a set of monomials.
+  Then, $\Base$ indexes a maximal linearly independent set of columns of $\ML$ if and only if $\Base$ corresponds to a basis of $\R[x]/\KerML$.
+  That is,
+  \begin{align}
+    \rank\ML &= \dim\!\Big(\R[x]/\KerML\!\Big).
+  \end{align}
+\end{theorem}
+
+Which means that the monomial basis $\Base$ of the quotient ring $\R[x]/\KerML$ can be selected by looking at the maximal linearly independent set of columns of $\ML$.
+
+Following theorem shows, how to construct linear form $\Lambda$, such that its kernel of its moment matrix $\KerML$ is a vanishing ideal of some selected points from $\R^n$.
+
+\begin{theorem}\labelthe{POP:sol:eval}
+  Let $\Lambda_{v_i}\in\R[x]^*$ is the evaluation at $v_i\in\R^n$.
+  Let $\Base_\infty$ is monomial basis containing all monomials, $\Base_\infty\ind\alpha = x^\alpha$ for all $\alpha\in\N^n$.
+  If $\Lambda$ is a conic combination of evaluations at real points,
+  \begin{align}
+    \Lambda &= \sum_{i=1}^r \lambda_i\Lambda_{v_i}
+  \end{align}
+  where $\lambda_i>0$ and $v_i$ are pairwise distinct, then moment matrix constructed followingly
+  \begin{align}
+    \ML &=\sum_{i=1}^r \lambda_i[v_i]_{\Base_\infty}[v_i]_{\Base_\infty}^\top
+  \end{align}
+  has $\rank\ML = r$ and $\KerML = \Ideal(v_1, v_2, \ldots, v_r)$.
+\end{theorem}
+
+Next theorem shows the converse implication to \refthe{POP:sol:eval} so there is an equivalence in the end.
+
+\begin{theorem}[Finite rank moment matrix theorem]
+  Assume that $\Lambda\in\R[x]^*$ is positive with $\rank\ML = r < \infty$.
+  Then,
+  \begin{align}
+    \Lambda &= \sum_{i=1}^r\lambda_i\Lambda_{v_i}
+  \end{align}
+  for some distinct $v_1, v_2, \ldots, v_r\in\R^n$ and some scalars $\lambda_i > 0$.
+  Moreover, $\{v_1, v_2, \ldots, v_r\}=V_\C\Big(\!\KerML\!\Big)$.
+\end{theorem}
+
+Now, we create a semidefinite characterization of real radical ideals using positive linear forms.
+For that, we define the convex set
+\begin{align}
+  \K &= \big\{\Lambda\in\R[x]^*\ |\ \Lambda(1) = 1, \ML \succeq 0, \Lambda(p) = 0\ \forall p\in I\big\}.\labeleq{POP:sol:K}
+\end{align}
+For any $\Lambda\in\K$, $\KerML$ is a real radical ideal, which contains $I$, and therefore its real radical ideal $\sqrt[\R]{I}$, which implies
+\begin{align}
+  \dim\!\Big(\R[x]/\KerML\!\Big) &\leq \dim\!\Big(\R[x]/\RRI\Big).
+\end{align}
+When the real variety $V_\R(I)$ is finite, then $\KerML$ is zero-dimensional and
+\begin{align}
+  \rank\ML &\leq |V_\R(I)|.
+\end{align}
+The equaility holds only for special elements $\Lambda\in\K$ named generic linear forms, which describes the following definition.
+
+\begin{definition}[Generic linear forms]
+  Let $\K$ be defined as in \refeqb{POP:sol:K} and assume $|V_\R(I)|<\infty$.
+  A linear form $\Lambda\in\K$ is said to be generic if $\ML$ has maximum rank, i.e., if $\rank\ML = |V_\R(I)|$.
+\end{definition}
+
+The last theorem in this part is about equivalent condition on generic linear forms, which is crucial for computation of $\RRI$ using linear forms.
+
+\begin{theorem}
+  Assume $|V_\R(I)|<\infty$.
+  An element $\Lambda\in\K$ is generic linear form if and only if $\KerML\subseteq \ker\!\big(M(\Lambda^\prime)\big)$ for all $\Lambda^\prime\in\K$.
+  Moreover, $\KerML = \RRI$ for all generic linear forms $\Lambda\in\K$.
+\end{theorem}
