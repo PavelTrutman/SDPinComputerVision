@@ -770,7 +770,7 @@ How the positive linear forms are connected to real radical ideals shows the fol
 
 We need to extend the theory about moments and moment matrices introduced in \refsec{POP:MM} and apply it to the linear forms. Therefore, we create new definition of the moment matrix, which is equivalent to \refdef{POP:MM}.
 
-\begin{definition}[Moment matrix]
+\begin{definition}[Moment matrix of $\Lambda$]
   A symmetric matrix $M$ indexed by $\N^n$ is said to be a moment matrix (or generalized Hankel matrix) if its $(\alpha, \beta)$-entry depends only on the sum $\alpha + \beta$ of the indices.
   Given linear form $\Lambda\in\R[x]^*$, the moment matrix $\ML$ has form
   \begin{align}
@@ -816,7 +816,7 @@ Thus by \refthe{POP:sol:ker}, $\KerML$ is an ideal, which is real radical ideal 
   Since the kernel is not a radical ideal, $\Lambda$ is not positive.
 \end{example}
 
-\begin{theorem}
+\begin{theorem}\labelthe{POP:sol:monbase}
   Let $\Lambda\in\R[x]^*$ and let $\Base$  be a set of monomials.
   Then, $\Base$ indexes a maximal linearly independent set of columns of $\ML$ if and only if $\Base$ corresponds to a basis of $\R[x]/\KerML$.
   That is,
@@ -870,15 +870,122 @@ When the real variety $V_\R(I)$ is finite, then $\KerML$ is zero-dimensional and
 \end{align}
 The equaility holds only for special elements $\Lambda\in\K$ named generic linear forms, which describes the following definition.
 
-\begin{definition}[Generic linear forms]
+\begin{definition}[Generic linear forms]\labeldef{POP:sol:genlinform}
   Let $\K$ be defined as in \refeqb{POP:sol:K} and assume $|V_\R(I)|<\infty$.
   A linear form $\Lambda\in\K$ is said to be generic if $\ML$ has maximum rank, i.e., if $\rank\ML = |V_\R(I)|$.
 \end{definition}
 
 The last theorem in this part is about equivalent condition on generic linear forms, which is crucial for computation of $\RRI$ using linear forms.
 
-\begin{theorem}
+\begin{theorem}\labelthe{POP:sol:ridealFromGenlinform}
   Assume $|V_\R(I)|<\infty$.
   An element $\Lambda\in\K$ is generic linear form if and only if $\KerML\subseteq \ker\!\big(M(\Lambda^\prime)\big)$ for all $\Lambda^\prime\in\K$.
   Moreover, $\KerML = \RRI$ for all generic linear forms $\Lambda\in\K$.
+\end{theorem}
+
+\subsubsection{Truncated positive linear forms}
+Using the results of the previous section, we should be able to solve any system of polynomial equations with finite number of real solutions.
+From the given polynomial system \refeqb{POP:sol:system} generating ideal $I$ we construct the set $\K$ \refeqb{POP:sol:K}, from which we find a generic linear form $\Lambda$ (\refdef{POP:sol:genlinform}).
+Then by \refthe{POP:sol:ridealFromGenlinform}, we find the real radical ideal $\RRI = \KerML$.
+Next, monomial basis $\Base$ of the quotient ring $R[x]/\RRI$ is found using \refthe{POP:sol:monbase}.
+In the end, the multiplication matrices are obtained and from their eigenvectors the real solutions of \refeqb{POP:sol:system} are found.
+
+However, since we deal with infinite-dimensional space $\R[x]$ and $\R[x]^*$, this method is not applicable computationally.
+Therefore, we restrict ourselves to the finite-dimensional subspaces $\R[x]_s$ and $\Rss$, where $[x]_s$ denotes the vectors of all monomials up to degree $s\in\N$.
+Again we define the quadratic form $Q_\Lambda:\R[x]_s\mapsto\R$ of the linear form $\Lambda\in\Rss$ such that
+\begin{align}
+  Q_\Lambda(f) &= \Lambda\big(f^2\big)
+\end{align}
+with matrix $\MLs$ denoted as truncated moment matrix of order $s$ of $\Lambda$ defined below.
+
+\begin{definition}[Truncated moment matrix of $\Lambda$]
+  Given linear form $\Lambda\in\Rss$, the truncated moment matrix $\MLs$ of order $s\in\N$ has form
+  \begin{align}
+    \MLs\ind{\alpha, \beta} &= \Lambda\big(x^\alpha x^\beta\big)
+  \end{align}
+  for $\alpha, \beta \in\N_s^n$.
+\end{definition}
+
+$\Lambda$ is positive if and only if $\Lambda\big(f^2\big)\geq0$ for all $f\in\Rs$, which is equivalent to the condition $\MLs\succeq0$.
+As before, we identify $\ker Q_\Lambda$ and $\KerMLs$ as a subset of $\Rs$.
+
+\begin{theorem}[Flat extension theorem]
+  Let $\Lambda\in\Rss$ and assume that $\MLs$ is a flat extension of $M_{s-1}(\Lambda)$, i.e.
+  \begin{align}
+    \rank\MLs &= \rank M_{s-1}(\Lambda).\labeleq{POP:sol:flat}
+  \end{align}
+  Then one can extend (uniquely) $\Lambda$ to $\tilde{\Lambda}\in\big(\R[x]_{2s+2}\big)^*$ is such a way that $M_{s+1}(\tilde{\Lambda})$ is a flat extension of $\MLs$, thus $\rank M_{s+1}(\tilde{\Lambda})=\rank\MLs$.
+\end{theorem}
+
+This theorem is a crucial one for the moment method, since is allows to conclude information about the infinite moment matrix $\ML$ from its finite part $\MLs$.
+How this can be done describes the following theorem.
+
+\begin{theorem}
+  Let $\Lambda\in\Rss$ and assume \refeqb{POP:sol:flat} holds.
+  Then one can extend $\Lambda$ to $\tilde{\Lambda}\in\R[x]^*$ in such a way that $M(\tilde{\Lambda})$ is a flat extension of $\MLs$, and the ideal $\ker\!\big(M(\tilde{\Lambda})\big)$ is generated by the polynomials in $\KerMLs$, i.e.,
+  \begin{align}
+    \rank M(\tilde{\Lambda}) &= \rank \MLs,\\
+    \ker\!\big(M(\tilde{\Lambda})\big) &= \left<\KerMLs \right> .
+  \end{align}
+  Moreover, any monomial set $\Base$ indexing a basis of the column scale of $M_{s-1}(\Lambda)$ is a basis of the quotient space $\R[x]/\ker\!\big(M(\tilde{\Lambda})\big)$. If, moreover, $\MLs \succeq 0$, then the ideal $\left<\KerMLs \right>$ is real radical ideal and $\Lambda$ is of the form
+  \begin{align}
+    \Lambda &= \sum_{i=1}^r \lambda_i \Lambda_{v_i},
+  \end{align}
+  where $\lambda_i>0$ and $\{v_1, v_2, \ldots, v_r\}=V_\C\Big(\!\KerMLs\!\Big)\subseteq\R^n$.
+\end{theorem}
+
+This result allows as to represent a real radical ideal $\RRI$ (infinite set of polynomials) by a finite truncated moment matrix $\MLs$.
+Moreover, the monomial basis $\Base$ of the quotient ring $R[x]/\RRI$ can be readily obtained from it.
+
+Now, the theory about positive linear forms and flat extensions of truncated moment matrices can be used to construct an algorithm for computing $\RRI$ from generators of $I$ operating on finite-dimensional subspaces $\R[x]_t$ only.
+Given $\left<f_1, f_2, \ldots, f_m\right> = I$ from the polynomial system \refeqb{POP:sol:system} to solve and $t\in\N$, we define the set
+\begin{align}
+  \F_t &= \big\{f_ix^\alpha\ |\ i = 1, 2, \ldots, m, |\alpha|\leq t-\deg(f_i)\big\}
+\end{align}
+of prolongations up to degree $t$ of the polynomials $f_i$.
+The truncated analogue of the set $\K$ is defined
+\begin{align}
+  \K_t &= \Big\{\Lambda\in\Rts\ |\ \Lambda(1) = 1, \MLt \succeq 0, \Lambda(f) = 0 \ \forall f\in\F_t\Big\}.
+\end{align}
+Since it is an intersection of a cone of positive semidefinite matrices with an affine space, the set is a spectrahedron.
+This property allows us to use a SDP solver to find an element of this set, named generic truncated linear form.
+The required properties describes the following theorem, which is the truncated analogue of \refthe{POP:sol:ridealFromGenlinform}.
+
+\begin{theorem}[Generic truncated linear forms]
+  The following assertions are equivalent for $\Lambda\in\Rts$:
+  \begin{enumerate}
+    \item $\rank\MLt \geq \rank M_{\lfloor t/2\rfloor}(\Lambda')$ for all $\Lambda'\in\K_t$.
+    \item $\KerMLt \subseteq \Ker{M_{\lfloor t/2\rfloor}(\Lambda')}$ for all $\Lambda'\in\K_t$.
+    \item The linear form $\Lambda$ lies in the relative interior of the convex set $\K_t$.
+  \end{enumerate}
+  Then $\Lambda$ is called a generic element of $\K_t$ and the kernel $\NF = \KerMLt$ is independent of the particular choice of the generic element $\Lambda\in\K_t$.
+\end{theorem}
+
+\begin{theorem}
+  We have
+  \begin{align}
+    \NF_t \subseteq \NF_{t+1} \subseteq \ldots \subseteq \RRI,
+  \end{align}
+  with equality $\RRI = \left<\NF_t\right>$ for $t$ large enough.
+\end{theorem}
+
+Now, we are almost ready to write down the algorithm, which will be described in the following section.
+All we need is the stopping criterion, which will describe \refthe{POP:sol:stop} and the certificate of termination, which ensures \refthe{POP:sol:term}.
+
+\begin{theorem}\labelthe{POP:sol:stop}
+  Let $I = \left<f_1, f_2, \ldots, f_m\right>$ be an ideal in $\R[x]$, $D = \max_{i=1}^m\deg(f_i)$, and $d = \Big\lceil \frac{D}{2} \Big\rceil$.
+  Let $\Lambda\in\K_t$ be a generic element and assume that at least one of the following two conditions holds:
+  \begin{align}
+    \rank\MLs &= \rank M_{s-1}(\Lambda) \text{ for some } D\leq s \leq \bigg\lfloor \frac{t}{2} \bigg\rfloor,\labeleq{POP:sol:stop1}\\
+    \rank\MLs &= \rank M_{s-d}(\Lambda) \text{ for some } d\leq s \leq \bigg\lfloor \frac{t}{2} \bigg\rfloor.\labeleq{POP:sol:stop2}
+  \end{align}
+\end{theorem}
+Then, $\RRI=\left<\KerMLs\right>$, and any basis of the column space of $M_{s-1}(\Lambda)$ is a basis of the quotient space $\R[x]/\RRI$.
+
+\begin{theorem}\labelthe{POP:sol:term}
+  Let $I$ be an ideal in $\R[x]$.
+  \begin{enumerate}
+    \item If $V_\R(I)=\emptyset$, then $\K_t=\emptyset$ for $t$ large enough.
+    \item If $1\leq|V_\R(I)|<\infty$ then, for $t$ large enough, there exists an integer $s$ for which \refeqb{POP:sol:stop2} holds for all $\Lambda\in\K_t$.
+  \end{enumerate}
 \end{theorem}
