@@ -12,7 +12,7 @@ TEMPLATE = cmpthesis.cls cmpcover.sty
 
 IMAGES = cmp.png lev.png
 
-ALGS = self-concordant-function.tex analytic-center.tex path-follow.tex
+ALGS = self-concordant-function.tex analytic-center.tex path-follow.tex moment-matrix.tex
 
 GRAPHS_FILES = SDP_hyperPar SDP_hyperParSlice SDP_demo SDP_barrier SDP_performance POP_multiplicationMatrices POP_Lasserre POP_dim_performance POP_deg_performance
 GRAPHS_PDF = $(addsuffix .pdf, $(GRAPHS_FILES))

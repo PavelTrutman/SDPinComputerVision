@@ -42,6 +42,16 @@
 \newcounter{counter}
 \renewcommand{\algorithmicrequire}{\textbf{Input:}}
 \renewcommand{\algorithmicensure}{\textbf{Output:}}
+\algnewcommand{\algorithmicor}{\textbf{or}}
+\algnewcommand{\Or}{\algorithmicor}
+\algnewcommand{\algorithmicand}{\textbf{and}}
+\algnewcommand{\And}{\algorithmicand}
+\algnewcommand{\algorithmictrue}{\textbf{true}}
+\algnewcommand{\True}{\algorithmictrue}
+\algnewcommand{\algorithmicfalse}{\textbf{false}}
+\algnewcommand{\False}{\algorithmicfalse}
+\algnewcommand{\algorithmicbreak}{\textbf{break}}
+\algnewcommand{\Break}{\algorithmicbreak}
 \algdef{S}[IF]{IfML}[1]{\algorithmicif\ #1}
 \newcommand{\StatexIndent}[1][1]{
   \Statex\forloop{counter}{0}{\value{counter} < #1}{\hskip\algorithmicindent\hskip-0.25em}
