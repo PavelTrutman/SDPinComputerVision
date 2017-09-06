@@ -726,7 +726,7 @@ For this reason, specialized solvers are constructed for the most common geometr
 Previously, these solvers were handcrafted, then the process was automated using automatic generators \cite{autogen}.
 These automatic generators are based on Gr\"obner basis \cite{Becker93} and on eigenvalue computation of multiplication matrices.
 The disadvantage of this approach is that non-real solutions appear, which  have no sense in the geometry point of view and are discarded in the end.
-In the case that many non-real solutions are present and only few real solutions are obtained, the time consumed by computing the non-real solutions is much bigger than the time needed to compute the real solutions, which we are interested in.
+In case that many non-real solutions are present and only few real solutions are obtained, the time consumed by computing the non-real solutions is much bigger than the time needed to compute the real solutions, which we are interested in.
 
 Therefore, one should be interested in a method, which would solve the polynomial system over the real numbers only.
 One of the methods is the moment method introduced in \cite{momentMethodReal} and extended to the complex numbers in \cite{momentMethodComplex} both by J. B. Lasserre, M. Laurent and P. Rostalski.
@@ -1013,7 +1013,7 @@ The following semidefinite program \refeqb{POP:sol:SDP} fulfils all our requirem
   \end{array}\labeleq{POP:sol:SDP}
 \end{align}
 
-Given the linear form $\Lambda$, ranks of its moment matrices $\MLs$ for many values of $s$ have to be computed in order to check the stopping conditions $\refeqb{POP:sol:stop1}$ and \refeqb{POP:sol:stop2}.
+Given the linear form $\Lambda$, ranks of its moment matrices $\MLs$ for many values of $s$ have to be computed in order to check the stopping conditions \refeqb{POP:sol:stop1} and \refeqb{POP:sol:stop2}.
 This may become very challenging task, since we need to compute ranks of matrices consisting of numerical values.
 This is typically done by singular values computation, but is has to be treated very carefully.
 
@@ -1023,8 +1023,42 @@ We select the monomials indexing these columns and they form the basis $\Base$ o
 Then we select any variable $x_i$, for which we construct the multiplication matrix $\MM_{x_i}$.
 For the construction, the polynomials from $\KerMLs$ are used, since for each $b\in\Base$ the monomial $bx_i$ can be rewritten as
 \begin{align}
-  bx_i &= \sum_j \lambda_jb_j + q,
+  bx_i &= \sum_j \lambda_jb_j + q,\labeleq{POP:sol:baseFromKernel}
 \end{align}
 where $b_j\in\Base$, $\lambda_j\in\R$ and $q\in\KerMLs$.
 
-Having the multiplication matrix $\MM_{x_i}$ contructed, the real solutions of the polynomial system \refeqb{POP:sol:system} are found by the eigenvectors computation.
+Having the multiplication matrix $\MM_{x_i}$ constructed, the real solutions of the polynomial system \refeqb{POP:sol:system} are found by the eigenvectors computation.
+
+\subsection{Implementation details}
+To understand \refalg{POP:sol:alg} and the theory behind deeply, we have decided to write our own implementation of the algorithm.
+Firstly, just to verify our understanding of the algorithm, we have implemented it in MATLAB using optimization toolbox YALMIP \cite{yalmip} in conjunction with the state of the art SDP solver MOSEK \cite{mosek}.
+Secondly, to be able to use our own SDP solver from the Polyopt package, presented in \refsec{SDP:impl}, we have implemented \refalg{POP:sol:alg} in Python into the Polyopt package.
+Both implementations are described below.
+
+\subsubsection{Implementation in MATLAB with MOSEK toolbox}
+The implementation in MATLAB is quite straightforward.
+In each iteration over $t$, the set $\F_t$ is extended with new polynomials of higher degree.
+Then the semidefinite program is \refeqb{POP:sol:SDP} is built.
+To avoid the notation of linear forms, the program can be rewritten into notation of moment matrices as know from \refsec{POP:MM} using LMI and affine constraints only.
+The fact that $M_{\lfloor t/2\rfloor}(y)$ is a moment matrix is implied by its structure.
+Using this, we get a equivalent semidefinite program \refeqb{POP:sol:SDP_MM}.
+\begin{align}
+  \arraycolsep=1.4pt
+  \begin{array}{lrcl@{\hskip0.5cm}l}
+    \displaystyle \min_{y\in\R^{\N^n_t}} & \multicolumn{3}{l}{0} \\
+    \text{s.t.} & y_0 &=& 1\\
+    & M_{\lfloor t/2\rfloor}(y)&\succeq& 0\\
+    & \vc\big(f_ix^\alpha\big)^\top y &=& 0 & \forall i\ \forall|\alpha| \leq t - \deg(f_i)
+  \end{array}\labeleq{POP:sol:SDP_MM}
+\end{align}
+This program is solved by MOSEK \cite{mosek} using the YALMIP \cite{yalmip} toolbox as an interface.
+The result from MOSEK is the moment matrix $M_{\lfloor t/2\rfloor}$, since we are not really interested in the $y$ values.
+Then if the stopping condition \refeqb{POP:sol:stop1} or \refeqb{POP:sol:stop2} holds for some $s$, we are ready to construct the multiplication matrix.
+Since $M_s$ is a matrix of numerical values, we firstly impose its rank, which we have computed when checking the stopping conditions.
+This is done via the singular value decomposition (SVD) by annulling the singular values close to zero.
+We construct the basis $\Base$ by selecting the pivot columns of the Gauss-Jordan (G-J) elimination of the matrix $M_{s-1}$.
+Because we have the SVD computed already, we use it to compute $\ker M_s$.
+We perform the G-J elimination on it with columns indexed by $\Base$ permuted to the rightmost side.
+By this we have all required monomials expressed in terms of linear combinations of the monomials from $\Base$ as stated in \refeqb{POP:sol:baseFromKernel}.
+Finally, the multiplication matrix is constructed and the solutions are extracted via eigenvectors computation.
+In case that some variable is not present in $\Base$ and can not be read directly from the eigenvectors, it can computed easily by substituting $\Base$ into the eliminated version of $\ker M_s$.
