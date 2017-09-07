@@ -6,7 +6,7 @@ AllowGenerateData ?= FALSE
 # fast compiling
 Fast ?= FALSE
 
-TEXS = thesis.tex abstract.tex acknowledgement.tex acronyms.tex CD.tex conclusion.tex declaration.tex introduction.tex SDP.tex POP.tex
+TEXS = thesis.tex abstract.tex acknowledgement.tex acronyms.tex CD.tex conclusion.tex declaration.tex introduction.tex SDP.tex POP.tex application.tex
 
 TEMPLATE = cmpthesis.cls cmpcover.sty
 
