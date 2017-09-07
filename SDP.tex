@@ -141,7 +141,7 @@ Another type of methods used in SDP are the first-order methods.
 They avoid storing and factorizing Hessian matrices, and therefore they are able to solve much larger problems than interior-point methods, but at some cost in accuracy.
 This method is implemented, for instance, in the SCS solver \cite{scs}.
 
-\section{Nesterov's approach}
+\section{Nesterov's approach}\labelsec{SDP:nesterov}
 In this section, we will follow Chapter 4 of \cite{Nesterov-2004} by Y. Nesterov, which is devoted to the convex optimization problems.
 This chapter describes the state of the art interior-point methods for solving convex optimization problems.
 We will extract from it the only minimum, just to be able to introduce an algorithm for semidefinite programs solving.
@@ -538,7 +538,7 @@ Note, that $\Dom F \supseteq \PSDCone^n$ because $\det(X) \geq 0$ when the numbe
 
 Similarly, the self-concordant barrier function for the set $Q$ is a function 
 \begin{align}
-  F(y) &= -\ln\det\big(X(y)\big). \labeleq{SDP:bf:bfy}
+  F(y) &= -\ln\det\!\big(X(y)\big). \labeleq{SDP:bf:bfy}
 \end{align}
 
 \begin{example}
@@ -548,12 +548,12 @@ Similarly, the self-concordant barrier function for the set $Q$ is a function
   \end{align}
   where $y = \bmB y_1 & y_2 \bmE^\top$. The equation
   \begin{align}
-    z &= \det(X(y)) = y_2^2 - y_1^2
+    z &= \det\!\big(X(y)\big) = y_2^2 - y_1^2
   \end{align}
   represents a hyperbolic paraboloid, which you can see in \reffig{SDP:bf:hyperPar}.
   Therefore, the equation $z = 0$ is a slice of it, denoted by the purple color in \reffig{SDP:bf:hyperParSlice}. The domain of the self-concordant barrier function is
   \begin{align}
-    \Dom F(y) &= \Big\{y\ |\ \det\big(X(y)\big) \geq 0\Big\}\labeleq{SDP:bf:domF}
+    \Dom F(y) &= \Big\{y\ |\ \det\!\big(X(y)\big) \geq 0\Big\}\labeleq{SDP:bf:domF}
   \end{align}
   and is shaded by the blue color.
   We can see, that the set $\Dom F(y)$ consists of two disjoint parts. One of them is the set, where $X(y)\succeq0$ (denoted by the orange color) and the second part is an area, where both eigenvalues of $X(y)$ are negative.
@@ -576,13 +576,13 @@ Similarly, the self-concordant barrier function for the set $Q$ is a function
 
 When the matrix $X$ has the block diagonal form \refeqb{SDP:bf:bd}, we can rewrite the barrier function \refeqb{SDP:bf:bfy} into summation form
 \begin{align}
-  F(y) &= -\sum_{j=1}^k \ln\det\big(X_j(y)\big).
+  F(y) &= -\sum_{j=1}^k \ln\det\!\big(X_j(y)\big).
 \end{align}
 For the purposes of \refalg{SDP:scb:ac} and \refalg{SDP:scb:pf}, we need the first and the second partial derivatives of this function.
 Let us denote $X_j(y) = A_{j, 0} + \sum_{i=1}^mA_{j, i}y\ind i$ for $j = 1, \ldots, k$, then the derivatives are:
 \begin{align}
-  \frac{\partial F}{\partial y\ind u}\big(y\big) &= -\sum_{j=1}^k \tr\big(X_j(y)^{-1}A_{j,u}\big),\\
-  \frac{\partial^2 F}{\partial y\ind u \partial y\ind v}\big(y\big) &= \sum_{j=1}^k \tr\Big(\big(X_j(y)^{-1}A_{j,u}\big)\big(X_j(y)^{-1}A_{j,v}\big)\Big),
+  \frac{\partial F}{\partial y\ind u}\big(y\big) &= -\sum_{j=1}^k \tr\!\big(X_j(y)^{-1}A_{j,u}\big),\\
+  \frac{\partial^2 F}{\partial y\ind u \partial y\ind v}\big(y\big) &= \sum_{j=1}^k \tr\!\Big(\!\big(X_j(y)^{-1}A_{j,u}\big)\big(X_j(y)^{-1}A_{j,v}\big)\!\Big),
 \end{align}
 for $u, v = 1,\ldots, m$.
 
@@ -593,8 +593,8 @@ The number of arithmetic operations for $j$-th constraint in form $\big\{y\ |\ X
   \item the computation of $X_j(y) = A_{j,0} + \sum_{i=1}^mA_{j,i}y\ind i$ needs $mn^2$ operations,
   \item the computation of the inversion $X_j(y)^{-1}$ needs $n^3$ operations,
   \item to compute all matrices $X_j(y)^{-1}A_{j,u}$ for $u = 1,\ldots,m$ is needed $mn^3$ operations,
-  \item to compute $\tr\big(X_j(y)^{-1}A_{j,u}\big)$ for $u = 1,\ldots,m$ is needed $mn$ operations,
-  \item the computation of $\tr\Big(\big(X_j(y)^{-1}A_{j,u}\big)\big(X_j(y)^{-1}A_{j,v}\big)\Big)$ for $u, v = 1,\ldots, m$ needs $m^2n^2$ operations.
+  \item to compute $\tr\!\big(X_j(y)^{-1}A_{j,u}\big)$ for $u = 1,\ldots,m$ is needed $mn$ operations,
+  \item the computation of $\tr\!\Big(\!\big(X_j(y)^{-1}A_{j,u}\big)\big(X_j(y)^{-1}A_{j,v}\big)\!\Big)$ for $u, v = 1,\ldots, m$ needs $m^2n^2$ operations.
 \end{itemize}
 The most expensive parts requires $mn^3$ and $m^2n^2$ arithmetic operations on each constraint.
 Typically, the value $k$, the number of constraints, is small and it keeps constant, when the semidefinite programs are generated as subproblems, when solving more complex problems, e.g.\ polynomial optimization. Therefore, we can say, that $k$ is constant and we can omit it from the complexity estimation.
@@ -604,7 +604,7 @@ To sum up, one step of \refalg{SDP:scb:ac} and \refalg{SDP:scb:pf} requires
 \end{align}
 arithmetic operations.
 
-\section{Implementation details}
+\section{Implementation details}\labelsec{SDP:impl}
 To be able to study the algorithms described previously in this section, we have implemented them in the programming language Python \cite{python}.
 The full knowledge of the code allows us to trace the algorithms step by step and inspect their behaviors.
 Instead of using some state of the art toolboxes for semidefinite programming, e.g.\ SeDuMi \cite{sedumi} and MOSEK \cite{mosek}, which are more or less black boxes for us, the knowledge of the used algorithms allows us to decide, if the chosen algorithm is suitable for the given semidefinite problem or not.
@@ -617,7 +617,7 @@ Please refer to the installation guide of NumPy for your system to ensure, that 
 The incorrect setting of these libraries causes significant drop of the performance.
 Other Python packages are required as well, e.g.\ SymPy and SciPy, but theirs settings are not so crucial for the performance of this implementation.
 
-\subsection{Package installation}
+\subsection{Package installation}\labelsec{SDP:install}
 The package with implementation of \refalg{SDP:scb:ac} and \refalg{SDP:scb:pf} is named Polyopt, as the semidefinite programming part of this package is only a tool, which is  used for polynomial optimization and polynomial systems solving, which will be described in \refcha{POP}.
 The newest version of the package is available at \url{http://cmp.felk.cvut.cz/~trutmpav/master-thesis/polyopt/}.
 To install the package on your system, you have to clone and checkout the Git repository with the source codes of the package.
@@ -640,7 +640,7 @@ The Polyopt package is created to be able to solve semidefinite programs in a fo
   \begin{array}{rclrcl@{\hskip0.5cm}l}
     y^* &=& \displaystyle \arg\min_{y\in\R^m} & \multicolumn{3}{l}{c^\top y} \\
     && \text{s.t.} & \displaystyle A_{j,0} + \sum_{i=1}^m A_{j,i}y\ind i &\succeq& 0 & \text{ for } j = 1,\ldots,k,
-  \end{array}
+  \end{array}\labeleq{SDP:imp:problem}
 \end{align}
 where $A_{j,i}\in\Sym^{n_j}$ for $i = 0,\dots m$ and $j=1,\dots,k$, $c\in\R^m$ and $k$ is the number of constraints.
 In addition, a strictly feasible point $y_0\in\R^m$ must be given.
@@ -651,7 +651,7 @@ A choice from two methods is available, firstly, the method \texttt{dampedNewton
 However, the \texttt{auxFollow} method is unstable and it fails in some cases, and therefore it is not recommended to use.
 The function \texttt{solve} returns the optimal solution $y^*$.
 The minimal working example is shown in \reflis{SDP:imp:usage}.
-\begin{lstlisting}[language=python, caption={Typical use of the class \texttt{SDPSolver} of the Polyopt package.}, labellis={SDP:imp:usage}]
+\begin{lstlisting}[language=python, caption={Typical usage of the class \texttt{SDPSolver} of the Polyopt package.}, labellis={SDP:imp:usage}]
 import polyopt
 
 # supposing the matrices Aij and the vectors c and y0 are already defined
@@ -659,7 +659,7 @@ problem = polyopt.SDPSolver(c, [[A10, A11, ..., A1m], ..., [Ak0, Ak1, ..., Akm]]
 yStar = problem.solve(y0, problem.dampedNewton)
 \end{lstlisting}
 
-Detailed info can be printed out during the execution of the algorithm.
+Detailed information can be printed out during the execution of the algorithm.
 This option can be set by \texttt{problem.setPrintOutput(True)}.
 Then, in each iteration of \refalg{SDP:scb:ac} and \refalg{SDP:scb:pf}, the values $k$, $x_k$ and eigenvalues of $X_j(x_k)$ are printed.
 
@@ -774,7 +774,7 @@ print(problem.eigenvalues())
   \end{figure}
 \end{example}
 
-\section{Comparison with the state of the art methods}
+\section{Comparison with the state of the art methods}\labelsec{SDP:comparision}
 \input{macros/SDP_performance}
 Because a new implementation of a well-known algorithm was made, one should compare many properties of this implementation with the contemporary state of the art methods.
 For that reason, we have generated some random instances of semidefinite problems.

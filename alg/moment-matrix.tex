@@ -1,0 +1,33 @@
+\begin{algorithm}[ht]
+  \begin{algorithmic}[1]
+    \Require
+      \Statex $f_1, f_2, \ldots, f_m$ generators of an ideal $I = \left<f_1, f_2, \ldots, f_m\right>$ with $|V_\R(I)|<\infty$
+    \Ensure
+      \Statex $V_\R(I)$ a set of real solutions
+      \Statex
+
+    \State $D \gets \max_{i=1}^m\deg(f_i)$
+    \State $d \gets \Big\lceil \frac{D}{2} \Big\rceil$
+    \State $t \gets D$
+    \State $done \gets$ \False
+    \While{\Not\ $done$}
+    \State $\F_t \gets \big\{f_ix^\alpha\ |\ i = 1, 2, \ldots, m, |\alpha|\leq t-\deg(f_i)\big\}$
+    \State $\Lambda \gets$ any generic element of the set $\K_t = \Big\{\Lambda\in\Rts\ |\ \Lambda(1) = 1, \MLt \succeq 0, \Lambda(f) = 0 \ \forall f\in\F_t\Big\}$
+    \IfML{$\rank\MLs=\rank M_{s-1}(\Lambda)$ for some $D \leq s \leq \big\lfloor \frac{t}{2} \big\rfloor$ \Or}
+      \StatexIndent[1]$\rank\MLs=\rank M_{s-d}(\Lambda)$ for some $d \leq s \leq \big\lfloor\frac{t}{2}\big\rfloor$ \algorithmicthen
+      \State $J \gets \left<\KerMLs\right>$
+      \State $\Base \gets$ a monomial set indexing a basis of the column space of $M_{s-1}(\Lambda)$
+      \State $G \gets$ a basis of the ideal $J$
+      \State $\MM \gets$ a multiplication matrix (computed using $\Base$ and $G$)
+      \State $V_\R(I) \gets V_\C(J)$ (computed via the eigenvectors of $\MM$)
+      \State $done \gets$ \True
+    \Else
+      \State $t \gets t + 1$
+    \EndIf
+    \EndWhile
+    \State \Return $V_\R(I)$
+
+  \end{algorithmic}
+  \caption{The moment matrix algorithm for computing real roots.}
+  \labelalg{POP:sol:alg}
+\end{algorithm}

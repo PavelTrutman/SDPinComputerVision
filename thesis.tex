@@ -35,10 +35,25 @@
 \input{acronyms}
 \makeglossaries
 
+% dashed lines in arrays
+\usepackage{arydshln}
+
 % algorithmic macros and settings
 \newcounter{counter}
 \renewcommand{\algorithmicrequire}{\textbf{Input:}}
 \renewcommand{\algorithmicensure}{\textbf{Output:}}
+\algnewcommand{\algorithmicor}{\textbf{or}}
+\algnewcommand{\Or}{\algorithmicor}
+\algnewcommand{\algorithmicand}{\textbf{and}}
+\algnewcommand{\And}{\algorithmicand}
+\algnewcommand{\algorithmicnot}{\textbf{not}}
+\algnewcommand{\Not}{\algorithmicnot}
+\algnewcommand{\algorithmictrue}{\textbf{true}}
+\algnewcommand{\True}{\algorithmictrue}
+\algnewcommand{\algorithmicfalse}{\textbf{false}}
+\algnewcommand{\False}{\algorithmicfalse}
+\algnewcommand{\algorithmicbreak}{\textbf{break}}
+\algnewcommand{\Break}{\algorithmicbreak}
 \algdef{S}[IF]{IfML}[1]{\algorithmicif\ #1}
 \newcommand{\StatexIndent}[1][1]{
   \Statex\forloop{counter}{0}{\value{counter} < #1}{\hskip\algorithmicindent\hskip-0.25em}
@@ -106,8 +121,10 @@
 % ============================== your definitions (abbreviations etc.)
 \newcommand{\eqB}{\begin{align}}
 \newcommand{\eqE}{\end{align}}
-\newcommand{\bmB}{\begin{bmatrix}}
+\newcommand{\bmB}{\arraycolsep=\arraycolsepdef\begin{bmatrix}}
 \newcommand{\bmE}{\end{bmatrix}}
+\newcommand{\bmdB}[1]{\left[\arraycolsep=\arraycolsepdef\begin{array}{@{}#1@{}}}
+\newcommand{\bmdE}{\end{array}\right]}
 \newcommand{\ind}[1]{\ensuremath{^{(#1)}}}
 \newcommand{\labeldef}[1]{\label{definition:#1}}
 \newcommand{\refdef}[1]{Definition~\ref{definition:#1}}
@@ -155,9 +172,22 @@
 \newcommand{\PSDCone}{\mathcal{P}}
 \newcommand{\Iden}[1]{\ensuremath{\mathcal{I}^{#1}}}
 \newcommand{\Ideal}{\mathcal{I}}
-\newcommand{\Base}{\mathcal{B}}
+\newcommand{\Base}{\ensuremath{\mathcal{B}}}
 \newcommand{\NF}{\mathcal{N}}
 \newcommand{\MM}{\mathcal{X}}
+\newcommand{\K}{\mathcal{K}}
+\newcommand{\F}{\mathcal{F}}
+\newcommand{\ML}{\ensuremath{M(\Lambda)}}
+\newcommand{\MLs}{\ensuremath{M_s(\Lambda)}}
+\newcommand{\MLt}{\ensuremath{M_{\lfloor t/2\rfloor}(\Lambda)}}
+\newcommand{\Ker}[1]{\ensuremath{\ker\!\big(#1\big)}}
+\newcommand{\KerML}{\ensuremath{\ker\!\big(M(\Lambda)\big)}}
+\newcommand{\KerMLs}{\ensuremath{\ker\!\big(M_s(\Lambda)\big)}}
+\newcommand{\KerMLt}{\ensuremath{\Ker{\MLt}}}
+\newcommand{\RRI}{\ensuremath{\sqrt[\R]{I}}}
+\newcommand{\Rs}{\ensuremath{\R[x]_s}}
+\newcommand{\Rts}{\ensuremath{\big(\R[x]_{t}\big)^*}}
+\newcommand{\Rss}{\ensuremath{\big(\R[x]_{2s}\big)^*}}
 \DeclareMathOperator{\rank}{rank}
 \DeclareMathOperator{\dom}{dom}
 \DeclareMathOperator{\Dom}{Dom}
@@ -165,6 +195,11 @@
 \DeclareMathOperator{\inter}{int}
 \DeclareMathOperator{\tr}{tr}
 \DeclareMathOperator{\diag}{diag}
+\DeclareMathOperator{\vc}{vec}
+\let\ker\relax\DeclareMathOperator{\ker}{ker}
+
+\newlength{\arraycolsepdef}
+\setlength{\arraycolsepdef}{\arraycolsep}
 
 \def\CC{{C\nolinebreak[4]\hspace{-.05em}\raisebox{.4ex}{\tiny\textbf{++}}}}
 
@@ -194,6 +229,10 @@
 \begingroup
 \let\clearpage\relax
 \listoftables
+\endgroup
+\clearpage
+\begingroup
+\let\clearpage\relax
 \listofalgorithms
 \lstlistoflistings
 \endgroup
