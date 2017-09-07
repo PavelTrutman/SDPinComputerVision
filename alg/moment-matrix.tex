@@ -7,9 +7,10 @@
       \Statex
 
     \State $D \gets \max_{i=1}^m\deg(f_i)$
-    \State $d \gets \big\lfloor \frac{D}{2} \big\rfloor$
+    \State $d \gets \Big\lceil \frac{D}{2} \Big\rceil$
     \State $t \gets D$
-    \While{\True}
+    \State $done \gets$ \False
+    \While{\Not\ $done$}
     \State $\F_t \gets \big\{f_ix^\alpha\ |\ i = 1, 2, \ldots, m, |\alpha|\leq t-\deg(f_i)\big\}$
     \State $\Lambda \gets$ any generic element of the set $\K_t = \Big\{\Lambda\in\Rts\ |\ \Lambda(1) = 1, \MLt \succeq 0, \Lambda(f) = 0 \ \forall f\in\F_t\Big\}$
     \IfML{$\rank\MLs=\rank M_{s-1}(\Lambda)$ for some $D \leq s \leq \big\lfloor \frac{t}{2} \big\rfloor$ \Or}
@@ -19,7 +20,7 @@
       \State $G \gets$ a basis of the ideal $J$
       \State $\MM \gets$ a multiplication matrix (computed using $\Base$ and $G$)
       \State $V_\R(I) \gets V_\C(J)$ (computed via the eigenvectors of $\MM$)
-      \State \Break
+      \State $done \gets$ \True
     \Else
       \State $t \gets t + 1$
     \EndIf
