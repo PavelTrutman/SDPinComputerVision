@@ -640,7 +640,7 @@ The Polyopt package is created to be able to solve semidefinite programs in a fo
   \begin{array}{rclrcl@{\hskip0.5cm}l}
     y^* &=& \displaystyle \arg\min_{y\in\R^m} & \multicolumn{3}{l}{c^\top y} \\
     && \text{s.t.} & \displaystyle A_{j,0} + \sum_{i=1}^m A_{j,i}y\ind i &\succeq& 0 & \text{ for } j = 1,\ldots,k,
-  \end{array}
+  \end{array}\labeleq{SDP:imp:problem}
 \end{align}
 where $A_{j,i}\in\Sym^{n_j}$ for $i = 0,\dots m$ and $j=1,\dots,k$, $c\in\R^m$ and $k$ is the number of constraints.
 In addition, a strictly feasible point $y_0\in\R^m$ must be given.

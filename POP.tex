@@ -1044,15 +1044,15 @@ The fact that $M_{\lfloor t/2\rfloor}(y)$ is a moment matrix is implied by its s
 Using this, we get a equivalent semidefinite program \refeqb{POP:sol:SDP_MM}.
 \begin{align}
   \arraycolsep=1.4pt
-  \begin{array}{lrcl@{\hskip0.5cm}l}
-    \displaystyle \min_{y\in\R^{\N^n_t}} & \multicolumn{3}{l}{0} \\
-    \text{s.t.} & y_0 &=& 1\\
-    & M_{\lfloor t/2\rfloor}(y)&\succeq& 0\\
-    & \vc\big(f_ix^\alpha\big)^\top y &=& 0 & \forall i\ \forall|\alpha| \leq t - \deg(f_i)
+  \begin{array}{rclrcl@{\hskip0.5cm}l}
+    y^* &=& \displaystyle \arg\min_{y\in\R^{\N^n_t}} & \multicolumn{3}{l}{0} \\
+    && \text{s.t.} & y_0 &=& 1\\
+    &&& M_{\lfloor t/2\rfloor}(y)&\succeq& 0\\
+    &&& \vc\big(f_ix^\alpha\big)^\top y &=& 0 & \forall i\ \forall|\alpha| \leq t - \deg(f_i)
   \end{array}\labeleq{POP:sol:SDP_MM}
 \end{align}
 This program is solved by MOSEK \cite{mosek} using the YALMIP \cite{yalmip} toolbox as an interface.
-The result from MOSEK is the moment matrix $M_{\lfloor t/2\rfloor}$, since we are not really interested in the $y$ values.
+The result from MOSEK is the moment matrix $M_{\lfloor t/2\rfloor}(y^*)$, since we are not really interested in the $y^*$ values.
 Then if the stopping condition \refeqb{POP:sol:stop1} or \refeqb{POP:sol:stop2} holds for some $s$, we are ready to construct the multiplication matrix.
 Since $M_s$ is a matrix of numerical values, we firstly impose its rank, which we have computed when checking the stopping conditions.
 This is done via the singular value decomposition (SVD) by annulling the singular values close to zero.
@@ -1062,3 +1062,51 @@ We perform the G-J elimination on it with columns indexed by $\Base$ permuted to
 By this we have all required monomials expressed in terms of linear combinations of the monomials from $\Base$ as stated in \refeqb{POP:sol:baseFromKernel}.
 Finally, the multiplication matrix is constructed and the solutions are extracted via eigenvectors computation.
 In case that some variable is not present in $\Base$ and can not be read directly from the eigenvectors, it can computed easily by substituting $\Base$ into the eliminated version of $\ker M_s$.
+
+\subsubsection{Polyopt package implementation}
+The implementation from the Polyopt package follows the implementation in MATLAB.
+The part where they differ is, how to solve the semidefinite program, which is in a form \refeqb{POP:sol:SDP_MM}.
+Because the SDP solver from the Polyopt package is able to solve only semidefinite programs with LMI constraints as stated in \refeqb{SDP:imp:problem}, we need to eliminate the affine constraints.
+We use these affine constraints to eliminate as much variables as possible, so only the LMI constraints remain.
+The new equivalent semidefinite program has form \refeqb{POP:sol:SDP_LMI}.
+\begin{align}
+  \arraycolsep=1.4pt
+  \begin{array}{rclrcl@{\hskip0.5cm}l}
+    \bar{y}^* &=& \displaystyle \arg\min_{\bar{y}\in\R^m} & \multicolumn{3}{l}{0} \\
+    && \text{s.t.} & \displaystyle A_{0} + \sum_{i=1}^m A_{i}\bar{y}\ind i &\succeq& 0
+  \end{array}\labeleq{POP:sol:SDP_LMI}
+\end{align}
+This problem should be now easily solved by the SDP solver from the Polyopt package as presented in \refsec{SDP:impl}.
+
+Unfortunately, since we lowered the dimension of the semidefinite problem by elimination of some variables, the size $r=\binom{n+t}{n}$ of the matrix $A(\bar{y})$
+\begin{align}
+  A(\bar{y}) &= A_{0} + \sum_{i=1}^m A_{i}\bar{y}\ind i
+\end{align}
+from the LMI constraint stayed the same as before the elimination.
+This causes that $A(\bar{y})$ is singular never the less the values of $\bar{y}$.
+Therefore, for each value of $\bar{y}$ there is at least one eigenvalue of $A(\bar{y})$ zero, and thus there is no interior point of the feasible region of the problem \refeqb{POP:sol:SDP_LMI}.
+This is no problem for the moment method algorithm, because we are looking for a point from its relative interior.
+But since the SDP solver from the Polyopt package is an interior-point method, it can not solve a problem, which has no feasible strictly interior point.
+This issue can be solved by a method called facial reduction, which shrinks the matrix $A(\bar{y})$  and removes the superfluous dimensions so that there will be interior points in the feasible region.
+%TODO: cite facial reductions
+However, we did not implemented this method, but it may be a possible improvement to this implementation.
+Instead of this, we have constructed new semidefinite program \refeqb{POP:sol:SDP_tau}.
+\begin{align}
+  \arraycolsep=1.4pt
+  \begin{array}{rclrcl@{\hskip0.5cm}l}
+    \tau^*, \bar{y}^* &=& \displaystyle \arg\min_{\tau\in\R,\bar{y}\in\R^m} & \multicolumn{3}{l}{\tau} \\
+    && \text{s.t.} & \displaystyle A_{0} + \sum_{i=1}^m A_{i}\bar{y}\ind i + \Iden r \tau&\succeq& 0\\
+    &&& \tau &\geq& 0
+  \end{array}\labeleq{POP:sol:SDP_tau}
+\end{align}
+Feasible region of this problem has strictly interior points, since pro each value of $\bar{y}$ we can find $\tau$ large enough that $A(\bar{y}) + \Iden r \tau$ has all eigenvalues positive.
+Moreover, we can easily find a starting point for the SDP solver, for example when fixing $\bar{y}_0 = \bmB 0 & 0 & \cdots & 0 \bmE^\top$, any
+\begin{align}
+  \tau_0 &> \min\bigg\{\Big\{\lambda_i\big(A(\bar{y}_0)\big)\Big\}_{i=1}^r; 0\bigg\}
+\end{align}
+is suitable starting point for the algorithm.
+
+When we apply the Polyopt SDP solver on the program \refeqb{POP:sol:SDP_tau}, be obtain some optimal $\tau^*$.
+If $\tau^*$ is zero up to numerical precision, we recover $y^*$ from $\bar{y}^*$ by back substitution.
+Then the moment matrix $M_{\lfloor t/2\rfloor}(y^*)$ is reconstructed and the solutions are computed in similar way as in the MATLAB implementation.
+If $\tau^*$ is not zero, then the semidefinite program \refeqb{POP:sol:SDP_MM} has empty feasible region, which means that the original polynomial system \refeqb{POP:sol:system} has no real solutions.
