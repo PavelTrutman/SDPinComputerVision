@@ -10,7 +10,7 @@ TEXS = thesis.tex abstract.tex acknowledgement.tex acronyms.tex CD.tex conclusio
 
 TEMPLATE = cmpthesis.cls cmpcover.sty
 
-IMAGES = cmp.png lev.png
+IMAGES = cmp.png lev.png LADIO_01.png LADIO_02.png
 
 ALGS = self-concordant-function.tex analytic-center.tex path-follow.tex moment-matrix.tex
 
@@ -20,13 +20,13 @@ GRAPHS_TEX = $(addsuffix .tex, $(GRAPHS_FILES))
 GRAPHS_EPS = $(addsuffix .eps, $(GRAPHS_FILES))
 GRAPHS = $(GRAPHS_TEX) $(GRAPHS_PDF)
 
-DRAWINGS_FILES = SDP_problem
+DRAWINGS_FILES = SDP_problem P3P
 DRAWINGS_PDF = $(addsuffix .pdf, $(DRAWINGS_FILES))
 
 TABLES_FILES = SDP_performance POP_dim_performance POP_deg_performance
 TABLES_TEXS = $(addsuffix .tex, $(TABLES_FILES))
 
-MACROS_FILES = SDP_performance POP_dim_performance POP_deg_performance
+MACROS_FILES = SDP_performance POP_dim_performance POP_deg_performance app_LADIO
 MACROS_TEXS = $(addsuffix .tex, $(MACROS_FILES))
 
 INTER = $(addprefix graphs/, $(GRAPHS_EPS))
@@ -81,12 +81,15 @@ tables/POP_dim_performance.tex macros/POP_dim_performance.tex data/POP_dim_perfo
 tables/POP_deg_performance.tex macros/POP_deg_performance.tex data/POP_deg_performance.dat: data/POP_deg_coefs.mat data/POP_deg_timesPolyopt.mat data/POP_deg_timesGloptipoly.mat sources/scripts/POP_deg_timesLaTeX.py
 	PYTHONPATH=sources/scripts/ python3 -m POP_deg_timesLaTeX
 
+macros/app_LADIO.tex: data/app_LADIO.mat sources/scripts/app_LADIO_macrosgenerator.py
+	PYTHONPATH=sources/scripts/ python3 -m app_LADIO_macrosgenerator
+
 clean:
 	-rm thesis.!(tex)
 	-rm $(addprefix graphs/, $(GRAPHS)) $(addprefix graphs/, $(GRAPHS_EPS))
 	-rm tables/SDP_performance.tex tables/POP_dim_performance.tex tables/POP_deg_performance.tex
 	-rm data/SDP_performance.dat data/POP_dim_performance.dat data/POP_deg_performance.tex
-	-rm macros/SDP_performance.tex macros/POP_dim_performance.tex macros/POP_deg_performance.tex
+	-rm macros/SDP_performance.tex macros/POP_dim_performance.tex macros/POP_deg_performance.tex macros/app_LADIO.tex
 
 cleanData:
 	-rm data/SDP_matrices.mat data/SDP_timesPolyopt.mat data/SDP_timesSedumi.mat data/SDP_timesMosek.mat

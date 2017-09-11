@@ -20,6 +20,9 @@
 \usepackage{multirow}
 \usepackage{dirtree}
 
+% number formatting
+\usepackage[exponent-product=\cdot]{siunitx}
+
 % for better verbatim environment
 \usepackage{fancyvrb}
 
@@ -177,6 +180,7 @@
 \newcommand{\MM}{\mathcal{X}}
 \newcommand{\K}{\mathcal{K}}
 \newcommand{\F}{\mathcal{F}}
+\newcommand{\SO}{\ensuremath{SO(3)}}
 \newcommand{\ML}{\ensuremath{M(\Lambda)}}
 \newcommand{\MLs}{\ensuremath{M_s(\Lambda)}}
 \newcommand{\MLt}{\ensuremath{M_{\lfloor t/2\rfloor}(\Lambda)}}
@@ -216,6 +220,7 @@
 
 % thesis assignment as required by FEE, CTU
 \includepdf[pages={1}]{pdfs/assignment-ENG.pdf}
+\cleardoublepage
 
 \input{acknowledgement}
 \clearpage
@@ -224,21 +229,23 @@
 \input{abstract}
 \clearpage
 \cleardoublepage\def\thepage{\arabic{page}}\setcounter{page}{1}
-\tableofcontents\pagestyle{headings}
-\listoffigures
 \begingroup
 \let\clearpage\relax
-\listoftables
+\tableofcontents
+\listoffigures
 \endgroup
 \clearpage
 \begingroup
 \let\clearpage\relax
+\listoftables
 \listofalgorithms
 \lstlistoflistings
 \endgroup
 
 \glsaddall
 \printglossary[type=acronym,title=List of Symbols and Abbreviations]
+
+\pagestyle{headings}
 
 \input{introduction.tex}
 
