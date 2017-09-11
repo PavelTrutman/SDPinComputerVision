@@ -82,7 +82,12 @@ and the coefficients $c_{12}$, $c_{23}$ and $c_{13}$ are cosines of angles betwe
   c_{13} &= \frac{x_1^\top K^{-\top} K^{-1}x_3}{\|K^{-1}x_1\|\|K^{-1}x_3\|}
 \end{align}
 
-The equation \refeqb{app:P3P:4} may have zero, two or four real roots, but some of them are discarded by checking three polynomial equations, that the law of cosines has to hold in triangles $Cx_iX_i$ for $i=1,2,3$.
+The equation \refeqb{app:P3P:4} may have zero, two or four real roots, but some of them are discarded by checking three polynomial equations, that the law of cosines has to hold up to some numerical precision in triangles $\triangle\big(CX_iX_j\big)$ for $i,j=1,2,3$ and $i\neq j$, i.e.
+\begin{align}
+  d_{12}^2 &= \|X_1-C\|^2 + \|X_2-C\|^2 - 2c_{12}\|X_1-C\|\|X_2-C\|,\\
+  d_{23}^2 &= \|X_2-C\|^2 + \|X_3-C\|^2 - 2c_{23}\|X_2-C\|\|X_3-C\|,\\
+  d_{13}^2 &= \|X_1-C\|^2 + \|X_3-C\|^2 - 2c_{13}\|X_1-C\|\|X_3-C\|.
+\end{align}
 The camera pose ($C$ and $R$) is computed from each of the remaining solutions.
 
 The P3P problem is probably the simplest problem, which could be chosen from the computer vision geometry for comparison of the polynomial systems solvers, since only one polynomial of degree four in one variable is given.
