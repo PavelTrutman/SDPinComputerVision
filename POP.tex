@@ -1111,6 +1111,9 @@ If $\tau^*$ is zero up to the numerical precision, we recover $y^*$ from $\bar{y
 Then the moment matrix $M_{\lfloor t/2\rfloor}(y^*)$ is reconstructed and the solutions are computed in similar way as in the MATLAB implementation.
 If $\tau^*$ is not zero, then the semidefinite program \refeqb{POP:sol:SDP_MM} has empty feasible region, which means that the original polynomial system \refeqb{POP:sol:system} has no real solutions.
 
+\subsection{Usage}
+%TODO: write usage section
+
 \subsection{Comparison with the state of the art methods}
 Efficiency and numerical stability of the new algorithm implementations should be compared to the contemporary state of the art implementations.
 We would like to compare our implementation with another implementations of the moment method. A MATLAB toolbox called Bermeja should use this method as mentioned in \cite{momentMethod}, however we were unable to find it despite the provided link.
@@ -1120,4 +1123,3 @@ The most challenging will probably be the comparison with solvers specialized fo
 
 To compare these solvers in general, one would generate random polynomial systems, solve them by selected solvers and compare their results and computational times.
 But in the end, we are interested in performance on real geometric problems from computer vision computed on data captured from real 3D scenes, and therefore we skip these random polynomial system experiments and refer to the experiments on real geometric problems performed in \refcha{app}.
-%TODO: fill section reference

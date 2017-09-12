@@ -17,7 +17,7 @@ First of all, we describe the scene, which we have chosen for our experiments.
 It is a real scene of a sculpture of Buddha head taken for the LADIO \cite{ladio} experiments.
 %TODO: cite Ladio experiments
 The reconstructed surface of the sculpture can be seen in \reffig{app:LADIO}.
-There are \importAppLADIONumCameras{} taken images of the sculpture, from which \importAppLADIONumPoints{} 3D points were reconstructed using a scene reconstruction pipeline including ...
+There are \importAppLADIONumCameras{} taken images of the sculpture, from which \importAppLADIONumPoints{} spatial points were reconstructed using a scene reconstruction pipeline including ...
 %TODO: fill missing part of the pipeline
 
 \begin{figure}[ht]
@@ -88,6 +88,11 @@ The equation \refeqb{app:P3P:4} may have zero, two or four real roots, but some 
   d_{23}^2 &= \|X_2-C\|^2 + \|X_3-C\|^2 - 2c_{23}\|X_2-C\|\|X_3-C\|,\\
   d_{13}^2 &= \|X_1-C\|^2 + \|X_3-C\|^2 - 2c_{13}\|X_1-C\|\|X_3-C\|.
 \end{align}
-The camera pose ($C$ and $R$) is computed from each of the remaining solutions.
+The camera pose ($C$ and $R$) is then computed from each of the remaining solutions.
 
 The P3P problem is probably the simplest problem, which could be chosen from the computer vision geometry for comparison of the polynomial systems solvers, since only one polynomial of degree four in one variable is given.
+
+\input{macros/app_P3P.tex}
+In the experiment, we have randomly selected \importAppPPPNumCameras{} cameras, for each of them \importAppPPPNumPoints{} triplets of 2D--to-3D correspondences has been randomly chosen.
+compute the coefficients $a_0, a_1, a_2, a_3, a_4$.
+Then we use the selected polynomial solvers to
