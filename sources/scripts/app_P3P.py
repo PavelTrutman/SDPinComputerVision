@@ -20,11 +20,13 @@ tripletsSelNum = 100
 pointSelNum = 3
 
 # file paths
+fileMacrosPath = 'macros/app_P3P.tex'
 fileLadioPath = 'data/app_LADIO.mat'
 fileCamsPath = 'data/app_P3P_cams.mat'
 fileSolAGPath = 'data/app_P3P_solAG.mat'
 fileSolPolyoptPath = 'data/app_P3P_solPolyopt.mat'
 fileResultsPath = 'data/app_P3P_results.mat'
+fileGnuplotErrPath = 'data/app_P3P_err.dat'
 
 # command line arguments parsing
 @click.group()
@@ -42,7 +44,7 @@ def generateLatexMacros():
   """
 
   # export to LaTeX
-  with open('macros/app_P3P.tex', 'wt') as f:
+  with open(fileMacrosPath, 'wt') as f:
     f.write('\\newcommand{{\\importAppPPPNumCameras}}{{\\num{{{0:d}}}}}'.format(camSelNum))
     f.write('\\newcommand{{\\importAppPPPNumPoints}}{{\\num{{{0:d}}}}}'.format(tripletsSelNum))
 
@@ -200,6 +202,27 @@ def processData(case=['AG', 'Polyopt', 'Mosek', 'Gloptipoly']):
     saveobj[c] = {'CDist': resCDist[c], 'RAngle': resRAngle[c], 'err': resErr[c], 'errAll': resErrAll[c]}
   saveobj['GT'] = {'err': errGT}
   scipy.io.savemat(fileResultsPath, saveobj)
+
+
+@cli.command()
+def generateGnuplot(case=['GT', 'AG', 'Polyopt', 'Mosek', 'Gloptipoly']):
+  """
+  Generates data for gnuplot graphs.
+
+  Args:
+    case (list): list of names of the toolboxes
+
+  Reurns:
+    None
+  """
+
+  results = scipy.io.loadmat(fileResultsPath, struct_as_record=False, squeeze_me=True)
+
+  with open(fileGnuplotErrPath, 'wt') as f:
+    for cam in range(camSelNum):
+      for c in case:
+        f.write('{} '.format(np.log10(results[c].err[cam])))
+      f.write('\n')
 
 
 @cli.command()

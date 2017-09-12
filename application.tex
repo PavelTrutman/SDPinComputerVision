@@ -93,6 +93,17 @@ The camera pose ($C$ and $R$) is then computed from each of the remaining soluti
 The P3P problem is probably the simplest problem, which could be chosen from the computer vision geometry for comparison of the polynomial systems solvers, since only one polynomial of degree four in one variable is given.
 
 \input{macros/app_P3P.tex}
-In the experiment, we have randomly selected \importAppPPPNumCameras{} cameras, for each of them \importAppPPPNumPoints{} triplets of 2D--to-3D correspondences has been randomly chosen.
-compute the coefficients $a_0, a_1, a_2, a_3, a_4$.
-Then we use the selected polynomial solvers to
+In the experiment, we have randomly selected \importAppPPPNumCameras{} cameras, for each of them \importAppPPPNumPoints{} triplets of 2D--to--3D correspondences has been randomly chosen.
+For each triplet, the coefficients $a_0, a_1, a_2, a_3, a_4$ of the equation \refeqb{app:P3P:4} has been precomputed.
+Then the real roots $\xi$  of the equation \refeqb{app:P3P:4} has been found by the selected polynomial solvers.
+From $\xi$ the camera location $C$ and rotation $R$ has been computed in a standard way.
+Then the best tuple $C$ and $R$ minimizing the maximal reprojection error on all correspondences in the image for each camera and solver has been selected.
+
+The histogram of the reprojection errors for the selected tuples of $C$ and $R$ for each polynomial solver can be seen in \reffig{app:P3P:histErr}.
+
+\begin{figure}[ht]
+  \centering
+  \resizebox{0.95\textwidth}{!}{\input{graphs/app_P3P_err}}
+  \caption{}
+  \labelfig{app:P3P:histErr}
+\end{figure}

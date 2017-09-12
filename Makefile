@@ -14,7 +14,7 @@ IMAGES = cmp.png lev.png LADIO_01.png LADIO_02.png
 
 ALGS = self-concordant-function.tex analytic-center.tex path-follow.tex moment-matrix.tex
 
-GRAPHS_FILES = SDP_hyperPar SDP_hyperParSlice SDP_demo SDP_barrier SDP_performance POP_multiplicationMatrices POP_Lasserre POP_dim_performance POP_deg_performance
+GRAPHS_FILES = SDP_hyperPar SDP_hyperParSlice SDP_demo SDP_barrier SDP_performance POP_multiplicationMatrices POP_Lasserre POP_dim_performance POP_deg_performance app_P3P_err
 GRAPHS_PDF = $(addsuffix .pdf, $(GRAPHS_FILES))
 GRAPHS_TEX = $(addsuffix .tex, $(GRAPHS_FILES))
 GRAPHS_EPS = $(addsuffix .eps, $(GRAPHS_FILES))
@@ -69,6 +69,9 @@ graphs/POP_dim_performance.tex graphs/POP_dim_performance.eps: sources/graphs/PO
 graphs/POP_deg_performance.tex graphs/POP_deg_performance.eps: sources/graphs/POP_deg_performance.gnuplot data/POP_deg_performance.dat
 	gnuplot sources/graphs/POP_deg_performance.gnuplot
 
+graphs/app_P3P_err.tex graphs/app_P3P_err.eps: sources/graphs/app_P3P_err.gnuplot data/app_P3P_err.dat
+	gnuplot sources/graphs/app_P3P_err.gnuplot
+
 graphs/%.tex graphs/%.eps: sources/graphs/%.gnuplot
 	gnuplot sources/graphs/$*.gnuplot
 
@@ -86,6 +89,9 @@ macros/app_LADIO.tex: data/app_LADIO.mat sources/scripts/app_LADIO_macrosgenerat
 
 macros/app_P3P.tex: sources/scripts/app_P3P.py
 	PYTHONPATH=sources/scripts/ python3 -m app_P3P generatelatexmacros
+
+data/app_P3P_err.dat: data/app_P3P_results.mat sources/scripts/app_P3P.py
+	PYTHONPATH=sources/scripts/ python3 -m app_P3P generategnuplot
 
 clean:
 	-rm thesis.!(tex)
