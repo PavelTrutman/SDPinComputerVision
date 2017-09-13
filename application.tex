@@ -17,7 +17,7 @@ First of all, we describe the scene, which we have chosen for our experiments.
 It is a real scene of a sculpture of Buddha head taken for the LADIO \cite{ladio} experiments.
 %TODO: cite Ladio experiments
 The reconstructed surface of the sculpture can be seen in \reffig{app:LADIO}.
-There are \importAppLADIONumCameras{} taken images of the sculpture, from which \importAppLADIONumPoints{} spatial points were reconstructed using a scene reconstruction pipeline including ...
+There are \importAppLADIONumCameras{} taken images of the sculpture, from which \importAppLADIONumPoints{} spatial points were reconstructed using a scene reconstruction pipeline including ..., on outliers
 %TODO: fill missing part of the pipeline
 
 \begin{figure}[ht]
@@ -99,11 +99,37 @@ Then the real roots $\xi$  of the equation \refeqb{app:P3P:4} has been found by 
 From $\xi$ the camera location $C$ and rotation $R$ has been computed in a standard way.
 Then the best tuple $C$ and $R$ minimizing the maximal reprojection error on all correspondences in the image for each camera and solver has been selected.
 
-The histogram of the reprojection errors for the selected tuples of $C$ and $R$ for each polynomial solver can be seen in \reffig{app:P3P:histErr}.
+The histograms of the maximal reprojection errors for the selected tuples of $C$ and $R$ for each polynomial solver can be seen in \reffig{app:P3P:histErr}.
+For each estimated camera center position $C$ we have computed the error $e_C$ of the camera position compared to the ground truth values
+\begin{align}
+  e_C &= \|C-C_{GT}\|,
+\end{align}
+i.e.\ the distance of the estimated camera position to the ground truth position.
+The histograms of these position errors for each polynomial solver are in \reffig{app:P3P:histCDist}.
+For each estimated camera rotation $R$ we have computed the residual rotation to the ground truth camera rotation and computed the angle $e_R$ of these residual rotations as
+\begin{align}
+  e_R &= \arccos\bigg(\frac{1}{2}\Big(\tr\!\big(R_{GT}^{-1}R\big)-1\Big)\!\bigg).
+\end{align}
+The histograms of these angles of residual rotations for each polynomial solver are in \reffig{app:P3P:histRAngle}.
 
 \begin{figure}[ht]
   \centering
   \resizebox{0.95\textwidth}{!}{\input{graphs/app_P3P_err}}
-  \caption{}
+  \caption{Histogram of the maximal reprojection errors of all correspondences in the image for the best camera positions and rotations estimated by the selected polynomial solvers compared to the maximal reprojection errors computed for the ground truth camera positions and rotations.}
   \labelfig{app:P3P:histErr}
+\end{figure}
+
+\begin{figure}[ht]
+  \centering
+  \resizebox{0.95\textwidth}{!}{\input{graphs/app_P3P_cdist}}
+  \caption{Histogram of the errors in estimated camera positions computed by the selected polynomial solvers with respect to the ground truth camera positions.}
+  \labelfig{app:P3P:histCDist}
+\end{figure}
+
+\begin{figure}[ht]
+  \centering
+  \resizebox{0.95\textwidth}{!}{\input{graphs/app_P3P_rangle}}
+  \caption{Histogram of the errors in rotation angles computed by the selected polynomial solvers with respect to the ground truth camera rotations.}
+  \labelfig{app:P3P:histRAngle}
+  %TODO: what about arccos(>1)
 \end{figure}

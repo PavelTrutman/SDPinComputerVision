@@ -27,6 +27,8 @@ fileSolAGPath = 'data/app_P3P_solAG.mat'
 fileSolPolyoptPath = 'data/app_P3P_solPolyopt.mat'
 fileResultsPath = 'data/app_P3P_results.mat'
 fileGnuplotErrPath = 'data/app_P3P_err.dat'
+fileGnuplotCDistPath = 'data/app_P3P_cdist.dat'
+fileGnuplotRAnglePath = 'data/app_P3P_rangle.dat'
 
 # command line arguments parsing
 @click.group()
@@ -183,8 +185,7 @@ def processData(case=['AG', 'Polyopt', 'Mosek', 'Gloptipoly']):
         camMin = np.argmin(err)
         resErr[c].append(err[camMin])
         resCDist[c].append(np.linalg.norm(CAll[camMin] - CGT))
-        resRAngle[c].append(np.arccos((np.trace(np.linalg.inv(RGT).dot(RAll[camMin]))-1)/2))
-        print((np.trace(np.linalg.inv(RGT).dot(RAll[camMin]))-1)/2)
+        resRAngle[c].append(np.arccos((np.trace(np.linalg.solve(RGT, RAll[camMin]))-1)/2))
       resErrAll[c].append(err)
 
     # compute ground truth
@@ -218,11 +219,19 @@ def generateGnuplot(case=['GT', 'AG', 'Polyopt', 'Mosek', 'Gloptipoly']):
 
   results = scipy.io.loadmat(fileResultsPath, struct_as_record=False, squeeze_me=True)
 
-  with open(fileGnuplotErrPath, 'wt') as f:
+  with open(fileGnuplotErrPath, 'wt') as fErr, open(fileGnuplotCDistPath, 'wt') as fCDist, open(fileGnuplotRAnglePath, 'wt') as fRAngle:
     for cam in range(camSelNum):
       for c in case:
-        f.write('{} '.format(np.log10(results[c].err[cam])))
-      f.write('\n')
+        fErr.write('{} '.format(np.log10(results[c].err[cam])))
+        if c is not 'GT':
+          fCDist.write('{} '.format(np.log10(results[c].CDist[cam])))
+          if np.isnan(results[c].RAngle[cam]):
+            fRAngle.write('0 ')
+          else:
+            fRAngle.write('{} '.format(np.log10(results[c].RAngle[cam])))
+      fErr.write('\n')
+      fCDist.write('\n')
+      fRAngle.write('\n')
 
 
 @cli.command()
