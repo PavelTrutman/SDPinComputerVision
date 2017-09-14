@@ -19,6 +19,8 @@ mset('yalmip', true);
 mset(sdpsettings('verbose', 0, 'solver', 'mosek'));
 mset('verbose', false);
 
+relaxOrder = 4;
+
 for j = 1:camNum
   cam = cams{j};
   for i = 1:n
@@ -26,7 +28,7 @@ for j = 1:camNum
     
     mpol('x', 1);
     I = [a(1) + a(2)*x + a(3)*x^2 + a(4)*x^3 + a(5)*x^4];
-    P = msdp(min(mpol(0)), I == 0, 4);
+    P = msdp(min(mpol(0)), I == 0, relaxOrder);
     [status, ~] = msol(P);
     
     if status == 1

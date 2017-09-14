@@ -2,7 +2,7 @@ set terminal epslatex size 6,4
 set output "graphs/app_P3P_err.tex"
 
 set grid
-set key top right
+set key tmargin right
 set title ""
 set xlabel "Logarithm of the reprojection error [px]"
 set ylabel "Frequency"

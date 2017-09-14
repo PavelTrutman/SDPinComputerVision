@@ -45,7 +45,7 @@ if __name__ == '__main__':
     for degIdx in range(len(degs)):
       deg = degs[degIdx]
       r = rs[degIdx]
-      fTable.write('  {deg:d} & {r:d} & {sdp:d} & {polyopt:#.3g} s & {gloptipoly:#.3g} s\\\\\n'.format(deg=deg, r=r, sdp=SDPSize[degIdx], polyopt=avgPolyopt[degIdx], gloptipoly=avgGloptipoly[degIdx]).replace('.', '&'))
+      fTable.write('  {deg:d} & {r:d} & {sdp:d} & \\hspace{{1mm}} {polyopt:#.3g} s & \\hspace{{11mm}} {gloptipoly:#.3g} s\\\\\n'.format(deg=deg, r=r, sdp=SDPSize[degIdx], polyopt=avgPolyopt[degIdx], gloptipoly=avgGloptipoly[degIdx]).replace('.', '&'))
       fGraph.write('{deg:d} {polyopt} {gloptipoly}\n'.format(deg=deg, polyopt=avgPolyopt[degIdx], gloptipoly=avgGloptipoly[degIdx]))
     fTable.write('  \\hline')
     fTable.write('\\end{tabular}\n')

@@ -23,7 +23,7 @@ GRAPHS = $(GRAPHS_TEX) $(GRAPHS_PDF)
 DRAWINGS_FILES = SDP_problem P3P
 DRAWINGS_PDF = $(addsuffix .pdf, $(DRAWINGS_FILES))
 
-TABLES_FILES = SDP_performance POP_dim_performance POP_deg_performance
+TABLES_FILES = SDP_performance POP_dim_performance POP_deg_performance app_P3P_numberSolutions
 TABLES_TEXS = $(addsuffix .tex, $(TABLES_FILES))
 
 MACROS_FILES = SDP_performance POP_dim_performance POP_deg_performance app_LADIO app_P3P
@@ -99,10 +99,13 @@ macros/app_P3P.tex: sources/scripts/app_P3P.py
 data/app_P3P_err.dat data/app_P3P_cdist.dat data/app_P3P_rangle.dat: data/app_P3P_results.mat sources/scripts/app_P3P.py
 	PYTHONPATH=sources/scripts/ python3 -m app_P3P generategnuplot
 
+tables/app_P3P_numberSolutions.tex: data/app_P3P_cams.mat data/app_P3P_results.mat sources/scripts/app_P3P.py
+	PYTHONPATH=sources/scripts/ python3 -m app_P3P generatetable
+
 clean:
 	-rm thesis.!(tex)
 	-rm $(addprefix graphs/, $(GRAPHS)) $(addprefix graphs/, $(GRAPHS_EPS))
-	-rm tables/SDP_performance.tex tables/POP_dim_performance.tex tables/POP_deg_performance.tex
+	-rm tables/SDP_performance.tex tables/POP_dim_performance.tex tables/POP_deg_performance.tex tables/app_P3P_numberSolutions.tex
 	-rm data/SDP_performance.dat data/POP_dim_performance.dat data/POP_deg_performance.tex
 	-rm macros/SDP_performance.tex macros/POP_dim_performance.tex macros/POP_deg_performance.tex macros/app_LADIO.tex macros/app_P3P.tex
 

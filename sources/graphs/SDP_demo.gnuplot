@@ -1,9 +1,9 @@
-set terminal epslatex size 6,4
+set terminal epslatex size 6,4.5
 set output "graphs/SDP_demo.tex"
 
 set size ratio -1
 set grid
-set key top right
+set key tmargin right
 set title ""
 set xlabel "$y\\ind1$"
 set ylabel "$y\\ind2$"

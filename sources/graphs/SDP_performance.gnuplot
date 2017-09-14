@@ -2,7 +2,7 @@ set terminal epslatex size 6,4
 set output "graphs/SDP_performance.tex"
 
 set grid
-set key top left
+set key tmargin right
 set title ""
 set xlabel "Problem size"
 set ylabel "Execution time [s]"

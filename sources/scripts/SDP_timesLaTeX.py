@@ -59,7 +59,7 @@ if __name__ == '__main__':
     fTable.write('  \hline\hline\n')
     for dimIdx in range(len(dims)):
       dim = dims[dimIdx]
-      fTable.write('  {dim:d} & {polyopt:#.3g} s & {sedumi:#.3g} s & {mosek:#.3g} s\\\\\n'.format(dim=dim, polyopt=avgPolyopt[dimIdx], sedumi=avgSedumi[dimIdx], mosek=avgMosek[dimIdx]).replace('.', '&'))
+      fTable.write('  {dim:d} & \\hspace{{1mm}} {polyopt:#.3g} s & \\hspace{{6mm}} {sedumi:#.3g} s & \\hspace{{6mm}} {mosek:#.3g} s\\\\\n'.format(dim=dim, polyopt=avgPolyopt[dimIdx], sedumi=avgSedumi[dimIdx], mosek=avgMosek[dimIdx]).replace('.', '&'))
       fGraph.write('{dim:d} {polyopt} {sedumi} {mosek}\n'.format(dim=dim, polyopt=avgPolyopt[dimIdx], sedumi=avgSedumi[dimIdx], mosek=avgMosek[dimIdx]))
     fTable.write('  \\hline')
     fTable.write('\\end{tabular}\n')

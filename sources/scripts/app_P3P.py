@@ -235,6 +235,46 @@ def generateGnuplot(case=['GT', 'AG', 'Polyopt', 'Mosek', 'Gloptipoly']):
 
 
 @cli.command()
+def generateTable(case=['AG', 'Polyopt', 'Mosek', 'Gloptipoly']):
+  """
+  Exports table of numbers of real solution into LaTeX.
+
+  Args:
+    case (list): list of names of the toolboxes
+
+  Returns:
+    None
+  """
+
+  results = scipy.io.loadmat(fileResultsPath, struct_as_record=False, squeeze_me=True)
+  cams = scipy.io.loadmat(fileCamsPath, struct_as_record=False, squeeze_me=True)['cams']
+
+  solCNum = cams.shape[0]*cams[0].a.shape[0]*4
+
+  solNums = {}
+  for c in case:
+    solNums[c] = sum(np.vectorize(lambda x: x.shape[0])(results[c].errAll))
+
+  # export to LaTeX
+  with open('tables/app_P3P_numberSolutions.tex', 'wt') as fTable:
+    fTable.write('\\begin{tabular}{|c||r|r|}\n')
+    fTable.write('  \\hline\n')
+    fTable.write('  \\textbf{Polynomial} & \\multicolumn{1}{c|}{\\textbf{Number of found}} & \\multicolumn{1}{c|}{\\textbf{Percent of found}}\\\\\n')
+    fTable.write('  \\textbf{solver} & \\multicolumn{1}{c|}{\\textbf{real solutions}} & \\multicolumn{1}{c|}{\\textbf{real solutions}}\\\\\n')
+    fTable.write('  \\hline\\hline\n')
+    fTable.write('  Automatic generator \\cite{{autogen}} & \\num{{{}}} & \\num{{{}}} \%\\\\\n'.format(solNums['AG'], solNums['AG']/solNums['AG']*100))
+    fTable.write('  Polyopt & \\num{{{}}} & \\num{{{:#.1f}}} \%\\\\\n'.format(solNums['Polyopt'], solNums['Polyopt']/solNums['AG']*100))
+    fTable.write('  MATLAB implementation & \\multirow{{2}}{{*}}{{\\num{{{}}}}} & \\multirow{{2}}{{*}}{{\\num{{{:#.1f}}} \%}}\\\\\n'.format(solNums['Mosek'], solNums['Mosek']/solNums['AG']*100))
+    fTable.write('  with MOSEK \\cite{{mosek}} & & \\\\\n')
+    fTable.write('  Gloptipoly \\cite{{gloptipoly}} & \\num{{{}}} & \\num{{{:#.1f}}} \%\\\\\n'.format(solNums['Gloptipoly'], solNums['Gloptipoly']/solNums['AG']*100))
+    fTable.write('  \\hline\n')
+    fTable.write('\\end{tabular}\\\\[1em]\n')
+
+    fTable.write('Number of all complex solutions is \\num{{{}}}.\\\\\n'.format(solCNum))
+    fTable.write('Number of all real solutions is \\num{{{}}}, which is \\num{{{:#.1f}}} \% of all complex solutions.\n'.format(solNums['AG'], solNums['AG']/solCNum*100))
+
+
+@cli.command()
 def solveAG():
   """
   Solves thr P3P polynomial using companion matrix and eigenvalues computation.

@@ -2,7 +2,7 @@ set terminal epslatex size 6,4
 set output "graphs/POP_deg_performance.tex"
 
 set grid
-set key top left
+set key tmargin right
 set title ""
 set xlabel "Degree of the polynomial in the objective function"
 set ylabel "Execution time [s]"
