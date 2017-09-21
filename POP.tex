@@ -631,7 +631,7 @@ y0 = problem.getFeasiblePoint([x1, x2, x3, x4, x5, x6])
 # enable outputs
 problem.setPrintOutput(True)
 
-#solve!
+# solve!
 xStar = problem.solve(y0)
 \end{lstlisting}
 \end{example}
@@ -1111,8 +1111,42 @@ If $\tau^*$ is zero up to the numerical precision, we recover $y^*$ from $\bar{y
 Then the moment matrix $M_{\lfloor t/2\rfloor}(y^*)$ is reconstructed and the solutions are computed in similar way as in the MATLAB implementation.
 If $\tau^*$ is not zero, then the semidefinite program \refeqb{POP:sol:SDP_MM} has empty feasible region, which means that the original polynomial system \refeqb{POP:sol:system} has no real solutions.
 
-\subsection{Usage}
-%TODO: write usage section
+\subsubsection{Usage}
+The class \texttt{PSSolver} from from the Polyopt package provides Python implementation of the polynomial solver using the moment method.
+The class method \texttt{solve()} finds the real solutions of the polynomial system \refeqb{POP:sol:system}.
+Minimal working example provides \reflis{POP:sol:usage}.
+Detailed information about the execution can be enabled by setting \texttt{problem.setPrintOutput(True)}.
+
+\begin{lstlisting}[language=python, caption={Typical usage of the class \texttt{PSSolver} of the Polyopt package.}, labellis={POP:sol:usage}]
+import polyopt
+
+# supposing the polynomials fi are already defined
+problem = polyopt.PSSolver([f1, ..., fm])
+solution = problem.solve()
+\end{lstlisting}
+
+\begin{example}\labelex{POP:sol:example}
+The Python code solving the system of polynomial equations \refeqb{POP:mm:example1} and \refeqb{POP:mm:example2} from \refex{POP:mm:ellhyp} is shown in \reflis{POP:sol:example}.
+
+  \begin{lstlisting}[language=python, caption={Code for solving system of polynomial equations stated in \refex{POP:sol:example}}, labellis={POP:sol:example}]
+import polyopt
+
+# polynomials of the system
+f1 = {(0, 0): 48, (1, 0): -16, (2, 0): -20, (1, 1): 1, (0, 1): -1, (0, 2): -12}
+f2 = {(0, 0): 44, (1, 0): 46, (2, 0): 12, (1, 1): -58, (0, 1): -47, (0, 2): 3}
+
+# initialize the solver
+problem = polyopt.PSSolver([f1, f2])
+
+# enable outputs
+problem.setPrintOutput(True)
+
+# solve!
+solution = problem.solve()
+
+  \end{lstlisting}
+
+\end{example}
 
 \subsection{Comparison with the state of the art methods}
 Efficiency and numerical stability of the new algorithm implementations should be compared to the contemporary state of the art implementations.
