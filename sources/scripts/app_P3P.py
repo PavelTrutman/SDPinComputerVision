@@ -8,6 +8,7 @@ by Pavel Trutman, pavel.trutman@fel.cvut.cz
 
 import click
 import random
+import timeit
 import scipy.io
 import itertools
 import numpy as np
@@ -29,6 +30,7 @@ fileResultsPath = 'data/app_P3P_results.mat'
 fileGnuplotErrPath = 'data/app_P3P_err.dat'
 fileGnuplotCDistPath = 'data/app_P3P_cdist.dat'
 fileGnuplotRAnglePath = 'data/app_P3P_rangle.dat'
+fileGnuplotTimesPath = 'data/app_P3P_times.dat'
 
 # command line arguments parsing
 @click.group()
@@ -118,16 +120,21 @@ def processData(case=['AG', 'Polyopt', 'Mosek', 'Gloptipoly']):
   data = scipy.io.loadmat(fileLadioPath, struct_as_record=False, squeeze_me=True)['data']
 
   sol = {}
+  times = {}
   resErr = {}
   resCDist = {}
   resRAngle = {}
   resErrAll = {}
+  resTimes = {}
   for c in case:
-    sol[c] = scipy.io.loadmat('data/app_P3P_sol' + c + '.mat', struct_as_record=False, squeeze_me=True)['sol']
+    d = scipy.io.loadmat('data/app_P3P_sol' + c + '.mat', struct_as_record=False, squeeze_me=True)
+    sol[c] = d['sol']
+    times[c] = d['times']
     resErr[c] = []
     resCDist[c] = []
     resRAngle[c] = []
     resErrAll[c] = []
+    resTimes[c] = []
   errGT = []
 
   camNum = cams.shape[0]
@@ -185,8 +192,10 @@ def processData(case=['AG', 'Polyopt', 'Mosek', 'Gloptipoly']):
         camMin = np.argmin(err)
         resErr[c].append(err[camMin])
         resCDist[c].append(np.linalg.norm(CAll[camMin] - CGT))
-        resRAngle[c].append(np.arccos((np.trace(np.linalg.solve(RGT, RAll[camMin]))-1)/2))
+        acos = (np.trace(np.linalg.solve(RGT, RAll[camMin]))-1)/2
+        resRAngle[c].append(np.arccos(1 - np.linalg.norm(acos - 1)))
       resErrAll[c].append(err)
+      resTimes[c].extend(times[c][k, :].tolist())
 
     # compute ground truth
     K = data.K[camId]
@@ -200,7 +209,7 @@ def processData(case=['AG', 'Polyopt', 'Mosek', 'Gloptipoly']):
 
   saveobj = {}
   for c in case:
-    saveobj[c] = {'CDist': resCDist[c], 'RAngle': resRAngle[c], 'err': resErr[c], 'errAll': resErrAll[c]}
+    saveobj[c] = {'CDist': resCDist[c], 'RAngle': resRAngle[c], 'err': resErr[c], 'errAll': resErrAll[c], 'times': resTimes[c]}
   saveobj['GT'] = {'err': errGT}
   scipy.io.savemat(fileResultsPath, saveobj)
 
@@ -232,6 +241,11 @@ def generateGnuplot(case=['GT', 'AG', 'Polyopt', 'Mosek', 'Gloptipoly']):
       fErr.write('\n')
       fCDist.write('\n')
       fRAngle.write('\n')
+  with open(fileGnuplotTimesPath, 'wt') as fTimes:
+    for i in range(len(results['AG'].times)):
+      for c in [d for d in case if d not in 'GT']:
+        fTimes.write('{} '.format(np.log10(results[c].times[i])))
+      fTimes.write('\n')
 
 
 @cli.command()
@@ -287,15 +301,18 @@ def solveAG():
   cams = scipy.io.loadmat(fileCamsPath, struct_as_record=False, squeeze_me=True)['cams']
   n = cams[0].a.shape[0]
   saveobj = np.zeros((cams.shape[0], n), dtype=np.object)
+  times = np.zeros((cams.shape[0], n))
 
   for cam, j in zip(cams, range(cams.shape[0])):
     for i in range(n):
       a = cam.a[i]
+      timeStart = timeit.default_timer()
       comp = scipy.linalg.companion(a[::-1])
       eigs = np.linalg.eigvals(comp)
       sol = np.real(eigs[np.isreal(eigs)])
+      times[j, i] = timeit.default_timer() - timeStart
       saveobj[j, i] = sol
-  scipy.io.savemat(fileSolAGPath, {'sol': saveobj})
+  scipy.io.savemat(fileSolAGPath, {'sol': saveobj, 'times': times})
 
 
 @cli.command()
@@ -307,22 +324,24 @@ def solvePolyopt():
     None
   """
 
-  import sys
-  sys.path.append('/media/SSD/Dokumenty/Skola/CMP/moment method for real roots finding')
-  from solve import solve
+  import polyopt
 
   cams = scipy.io.loadmat(fileCamsPath, struct_as_record=False, squeeze_me=True)['cams']
   n = cams[0].a.shape[0]
   saveobj = np.zeros((cams.shape[0], n), dtype=np.object)
+  times = np.zeros((cams.shape[0], n))
 
   for cam, j in zip(cams, range(cams.shape[0])):
     for i in range(n):
       a = cam.a[i]
       I = [{(0, ): a[0], (1, ): a[1], (2, ): a[2], (3, ): a[3], (4, ): a[4]}]
-      sol = solve(I)
+      timeStart = timeit.default_timer()
+      problem = polyopt.PSSolver(I)
+      sol = problem.solve()
+      times[j, i] = timeit.default_timer() - timeStart
       print(sol)
       saveobj[j, i] = sol
-  scipy.io.savemat(fileSolPolyoptPath, {'sol': saveobj})
+  scipy.io.savemat(fileSolPolyoptPath, {'sol': saveobj, 'times': times})
 
 
 def P3PPol(K, x1, x2, x3, u1, u2, u3):

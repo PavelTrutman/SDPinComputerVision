@@ -36,6 +36,7 @@ __pycache__/
 /data/app_P3P_err.dat
 /data/app_P3P_cdist.dat
 /data/app_P3P_rangle.dat
+/data/app_P3P_times.dat
 
 /tables/SDP_performance.tex
 /tables/POP_dim_performance.tex
