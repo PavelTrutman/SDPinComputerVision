@@ -10,12 +10,12 @@ Just to keep this chapter self-contained, we will recall some basics of polynomi
 
 \subsection{The polynomial ring, ideals and varieties}
 Firstly, the ring of multivariate polynomials in $n$ variables with coefficients in $\R$ is denoted as $\R[x]$, where $x = \bmB x_1 & x_2 & \cdots & x_n \bmE^\top$.
-For $\alpha_1, \alpha_2, \ldots, \alpha_n\in\N$, $x^\alpha$ denotes the monomial ${x_1}^{\alpha_1}\cdot{x_2}^{\alpha_2}\cdot\cdots\cdot{x_n}^{\alpha_n}$, with total degree $|\alpha| = \sum_{i=1}^n \alpha_i$, where $\alpha = \bmB \alpha_1 & \alpha_2 & \cdots & \alpha_n\bmE^\top$.
+For $\alpha_1, \alpha_2, \ldots, \alpha_n\in\N$, $x^\alpha$ denotes the monomial ${x_1}^{\alpha_1}\cdot{x_2}^{\alpha_2}\cdot\cdots\cdot{x_n}^{\alpha_n}$, with a total degree $|\alpha| = \sum_{i=1}^n \alpha_i$, where $\alpha = \bmB \alpha_1 & \alpha_2 & \cdots & \alpha_n\bmE^\top$.
 A polynomial $p\in\R[x]$ can be written as
 \begin{align}
   p &= \sum_{\alpha\in\N^n} p_\alpha x^\alpha \labeleq{POP:pal:pol}
 \end{align}
-with total degree $\deg(p) = \max_{\alpha\in\N^n}|\alpha|$ for non-zero coefficients $p_\alpha\in\R$.
+with a total degree $\deg(p) = \max_{\alpha\in\N^n}|\alpha|$ for non-zero coefficients $p_\alpha\in\R$.
 
 A linear subspace $I \subseteq \R[x]$ is an ideal if $p\in I$ and $q\in\R[x]$ implies $pq \in I$.
 Let $f_1, f_2, \ldots, f_m$ be polynomials in $\R[x]$. Then the set
@@ -67,25 +67,25 @@ The quotient ring $\R[x]/I$ is the set of all equivalence classes of polynomials
 \end{align}
 where the equivalence class $[f]$ is
 \begin{align}
-  [f] &= \big\{f+g\ |\ q\in I\big\}.
+  [f] &= \big\{f+g\ |\ g\in I\big\}.
 \end{align}
 Because $\R[x]/I$ is a ring, it is equipped with addition and multiplication on the equivalence classes:
 \begin{align}
-  [f] + [g] &= [f + g]\\
+  [f] + [g] &= [f + g],\\
   ~[f][g] &= [fg]
 \end{align}
 for $f, g\in\R[x]$.
 
 For zero-dimensional ideal $I$, there is a relation between the dimension of $\R[x]/I$ and the cardinality of the variety $V_\C(I)$:
 \begin{align}
-  |V_\C(I)| &\leq \dim\big(\R[x]/I\big).
+  |V_\C(I)| &\leq \dim\!\big(\R[x]/I\big).
 \end{align}
 Moreover, if $I$ is a radical ideal, then
 \begin{align}
-  |V_\C(I)| &= \dim\big(\R[x]/I\big).
+  |V_\C(I)| &= \dim\!\big(\R[x]/I\big).
 \end{align}
 
-Assume that the number of complex roots is finite and let $N = \dim\big(\R[x]/I\big)$, and therefore $|V_\C(I)|\leq N$.
+Assume that the number of complex roots is finite and let $N = \dim\!\big(\R[x]/I\big)$, and therefore $|V_\C(I)|\leq N$.
 Consider a set $\Base = \{b_1, b_2, \ldots, b_N\} \subseteq \R[x]$ for which the equivalence classes $[b_1], [b_2], \ldots, [b_N]$ are pairwise distinct and $\big\{\![b_1], [b_2], \ldots, [b_N]\!\big\}$ is a basis of $\R[x]/I$.
 Then every polynomial $f\in\R[x]$ can be written in unique way as
 \begin{align}
@@ -129,8 +129,8 @@ Then $V_\C(I)$ is a subset of the Cartesian product $\lambda_{x_1} \times \lambd
 However, this method becomes inefficient for large $n$, the number of variables, since $n$ multiplication matrices have to be constructed and their eigenvalues computed.
 
 For this reason, the second property of multiplication matrices is used.
-The roots can be recovered from left eigenvectors of $\MM_f$ when all left eigenspaces of $\MM_f$ have dimension one.
-This is the case when the values $f(v)$ for $v\in V_\C(I)$ are pairwise distinct and when the ideal $I$ is radical.
+The roots can be recovered from the left eigenvectors of $\MM_f$, when all left eigenspaces of $\MM_f$ have dimension one.
+This is the case, when the values $f(v)$ for $v\in V_\C(I)$ are pairwise distinct and when the ideal $I$ is radical.
 In that case, each left eigenvector of $\MM_f$ corresponds to one solution $v\in V_\C(I)$ and the values of the eigenvectors are the evaluations $b_i(v)$ for $b_i\in\Base$, and therefore when the variable $x_i\in\Base$, we can readily obtain its value.
 
 \begin{example}\labelex{POP:mm:ellhyp}
@@ -221,7 +221,7 @@ However, since it provides better understanding of the matter, interested reader
 Moreover, we will introduce the only minimal basics to be able to proceed with polynomial optimization and polynomial systems solving.
 More and detailed information can be found in \cite{SOS} too.
 
-Now, let us start with the theory about moment matrices, which are crucial for application of SDP on polynomial optimization and polynomial systems solving.
+Now, let us start with the theory about moment matrices, which are crucial for the application of SDP on polynomial optimization and polynomial systems solving.
 Recall that a polynomial has a form \refeqb{POP:pal:pol}.
 Since such a polynomial may have infinite number of coefficients, let us introduce a polynomial $p\in\R[x]$ of the degree $d\in\N$:
 \begin{align}
@@ -353,7 +353,7 @@ For given polynomials $p_0, \ldots, p_m \in \R[x]$, we can define a standard pol
     && \text{s.t.} & p_k(x) &\geq& 0 & (k = 1,\ldots,m)
   \end{array}\labeleq{POP:opt:polmin}
 \end{align}
-Let the feasibility set $P$ of the optimization problem \refeqb{POP:opt:polmin} be compact (closed and bounded) basic semialgebraic set, defined as
+Let the feasibility set $P$ of the optimization problem \refeqb{POP:opt:polmin} be a compact (closed and bounded) basic semialgebraic set, defined as
 \begin{align}
   P &= \big\{x\in\R^n\ |\ p_k(x)\geq0,\ k = 1,\ldots,m\big\}.\labeleq{POP:opt:polfea}
 \end{align}
@@ -364,7 +364,9 @@ We are, of course, interested in the global minimum only.
 %TODO History of POP, or in state-of-the art review?
 
 \subsection{Lasserre's LMI hierarchy}
-The global minimum can be found by hierarchies of semidefinite programs. This was introduced by J. B. Lasserre in \cite{Lasserre}. He has shown that the polynomial optimization problem \refeqb{POP:opt:polmin} can equivalently written as the following semidefinite program \refeqb{POP:opt:SDP}.
+The global minimum can be found by hierarchies of semidefinite programs.
+This was introduced by J. B. Lasserre in \cite{Lasserre}.
+He has shown that the polynomial optimization problem \refeqb{POP:opt:polmin} can be equivalently written as the following semidefinite program \refeqb{POP:opt:SDP}.
 \begin{align}
   \arraycolsep=1.4pt
   \begin{array}{rclrcl@{\hskip0.5cm}l}
@@ -374,7 +376,7 @@ The global minimum can be found by hierarchies of semidefinite programs. This wa
     &&& M(p_ky) &\succeq& 0 & (k = 1,\ldots,m)
   \end{array}\labeleq{POP:opt:SDP}
 \end{align}
-This infinite-dimensional semidefinite program is not solvable by computers, and therefore consider Lasserre's LMI hierarchy \refeqb{POP:opt:SDPr} for relaxation order $r\in\N$.
+This infinite-dimensional semidefinite program is not solvable by computers, and therefore consider Lasserre's LMI hierarchy \refeqb{POP:opt:SDPr} for a relaxation order $r\in\N$.
 \begin{align}
   \arraycolsep=1.4pt
   \begin{array}{rclrcl@{\hskip0.5cm}l}
@@ -402,13 +404,13 @@ The semidefinite program \refeqb{POP:opt:SDPr} can be solved by the state of the
 Solving the relaxed semidefinite programs for increasing relaxation order $r$ gives us tighter and tighter lower bounds on the global minimum of the original problem \refeqb{POP:opt:polmin}.
 
 \begin{theorem}[Generic finite convergence \cite{HenrionLectures}]\labelthe{POP:opt:convergence}
-  In the finite-dimensional space of coefficients of polynomials $p_k$, $k = 0, 1, \ldots, m$, defining problem \refeqb{POP:opt:polmin}, there is a low-dimensional algebraic set, which is such that if we choose an instance of the problem \refeqb{POP:opt:polmin} outside of this set, the Lasserre's LMI relaxations have finite convergence, i.e.\ there exists a finite $r^*\in\N$ such that $p^*_r=p^*$ for all $r\in\N: r\geq r^*$.
+  In the finite-dimensional space of coefficients of the polynomials $p_k$, $k = 0, 1, \ldots, m$, defining the problem \refeqb{POP:opt:polmin}, there is a low-dimensional algebraic set, which is such that if we choose an instance of the problem \refeqb{POP:opt:polmin} outside of this set, the Lasserre's LMI relaxations have finite convergence, i.e.\ there exists a finite $r^*\in\N$ such that $p^*_r=p^*$ for all $r\in\N: r\geq r^*$.
 \end{theorem}
 
 This means that in general it is enough to compute one finite relaxed semidefinite program \refeqb{POP:opt:SDPr} of the relaxation order big enough to obtain the global optimum of the polynomial optimization problem \refeqb{POP:opt:polmin}.
 Only in some exceptional and somewhat degenerate problems the finite convergence does not occur and the optimum can not be obtained by computing finite-dimensional semidefinite program in the form \refeqb{POP:opt:SDPr}.
 
-From \refthe{POP:opt:convergence} we know, that the finite convergence of Lasserre's LMI hierarchy is ensured generically for some relaxation order $r$, which is a priory not known to us.
+From \refthe{POP:opt:convergence} we know that the finite convergence of the Lasserre's LMI hierarchy is ensured generically for some relaxation order $r$, which is a priory not known to us.
 The verification that the finite convergence occurred provides us the following theorem.
 
 \begin{theorem}[Certificate of finite convergence \cite{HenrionLectures}]\labelthe{POP:opt:certConv}
@@ -420,7 +422,7 @@ The verification that the finite convergence occurred provides us the following 
   then $p^*_r = p^*$.
 \end{theorem}
 
-So when we find relaxation order $r$ big enough for which \refthe{POP:opt:certConv} is satisfied, we know, we are done and we can extract the global optimum.
+So when we find a relaxation order $r$ big enough, for which \refthe{POP:opt:certConv} is satisfied, we know, we have finished and we can extract the global optimum.
 However, in practise another condition is checked.
 
 \begin{theorem}[Rank-one moment matrix \cite{HenrionLectures}]\labelthe{POP:opt:rank1}
@@ -436,7 +438,7 @@ If the condition of \refthe{POP:opt:rank1} holds, the global optimum of the prob
 \end{align}
 
 As usual, we are interested in the complexity estimation.
-Given the polynomial optimization problem \refeqb{POP:opt:polmin} in $n$ variables, we obtain a relaxed semidefinite program \refeqb{POP:opt:SDPr} for a relation order $r$.
+Given the polynomial optimization problem \refeqb{POP:opt:polmin} in $n$ variables, we obtain a relaxed semidefinite program \refeqb{POP:opt:SDPr} for a relaxation order $r$.
 This program is in $N = {\binom{n+2r}{n}}$ variables, which is equal to the number of monomials in $n$ variables up to degree $2r$.
 If $n$ is fixed, for example when solving given polynomial optimization problem, then $N$ grows in $\mathcal{O}(r^n)$, that is polynomially in $r$.
 If the relaxation order $r$ is fixed then $N$ grows in $\mathcal{O}(n^r)$, that is polynomially in the number of variables $n$.
@@ -531,7 +533,7 @@ To verify and for better understanding of the Lasserre's LMI hierarchies, we hav
 More information about the Polyopt package and how to install it are in \refsec{SDP:install}.
 
 For solving the semidefinite programs \refeqb{POP:opt:SDPr} as proposed by Lasserre, we can use the interior-point algorithm as described in \refsec{SDP:nesterov} and implemented in the Polyopt package.
-All we have to do is to construct the moment matrix and the localizing matrices from the polynomial constrains for a given relaxation order, which is quite easy.
+All we have to do is to construct the moment matrix and the localizing matrices from the polynomial constrains for a given relaxation order, which is quite straightforward.
 
 What may be slightly complicated is, how to find the initial feasible point for the interior-point algorithm.
 The vector $y$ of the semidefinite program \refeqb{POP:opt:SDPr} can be constructed from a vector $x$ of the polynomial optimization problem \refeqb{POP:opt:polmin} followingly:
@@ -562,7 +564,7 @@ where $\zeta_i$ are linearly independent, if $x_i$ are pairwise different.
 Then $M_r(y)$ has full rank if $N$ is bigger or equal to the number of rows or columns of $M_r(y)$, which is ${\binom{n+r}{n}}$.
 
 The polynomial optimization solver is implemented in the class \texttt{POPSolver} of the Polyopt package.
-This solver can solve polynomial problem in form \refeqb{POP:opt:polmin} for relaxation order $r$ and with given strictly feasible points $x_1, \ldots, x_N$ of the polynomial optimization problem \refeqb{POP:opt:polmin}.
+This solver can solve polynomial problem in the form \refeqb{POP:opt:polmin} for relaxation order $r$ and with given strictly feasible points $x_1, \ldots, x_N$ of the polynomial optimization problem \refeqb{POP:opt:polmin}.
 Firstly, we initialize the problem with the objective function $p_0$, the constraining polynomials $p_1, \ldots, p_m$ and with the relaxation order $r$.
 Then a strictly feasible point $y_0$ of the semidefinite problem is computed by the function \texttt{getFeasiblePoint()} from the strictly feasible points $x_1, \ldots, x_N$ of the polynomial optimization problem \refeqb{POP:opt:polmin}.
 Finally, the problem is solved by the function \texttt{solve()}, which returns the optimal point $x^*$.
@@ -575,12 +577,12 @@ The values are the coefficients and the keys are $n$-tuples of integers, where e
   \begin{align}
     p(x) &= -20x_1^2 + x_1x_2 -12x_2^2 -16x_1 -x_2 +48
   \end{align}
-  is represented in Python as variable \texttt{p} in a following way.
+  is represented in Python as a variable \texttt{p} in a following way.
 \begin{verbatim}
     p = {(2, 0): -20, (1, 1): 1, (0, 2): -12, (1, 0): -16, (0, 1): -1,
       (0, 0): 48}
 \end{verbatim}
-  Variable \texttt{p} is a dictionary indexed by tuples.
+  The variable \texttt{p} is a dictionary indexed by tuples.
   The first integer in each tuple represents the degree of the variable $x_1$ in the given monomial and the second integer represents the degree of the variable $x_2$.
 \end{example}
 
@@ -593,9 +595,9 @@ y0 = problem.getFeasiblePoint([x1, ..., xN])
 xStar = problem.solve(y0)
 \end{lstlisting}
 
-Detailed information about the execution of the SDP solver can be printed out by setting \texttt{problem.setPrintOutput(True)}.
-The function \texttt{problem.getFeasiblePoint(xs)} computes the feasible point $y$ from the feasible points $x_i$ stored in the list \texttt{xs}.
-If the feasible points $x_i$ are not know, they can be generated randomly from ball with radius \texttt{R} by the function \texttt{problem.getFeasiblePointFromRadius(R)}.
+Detailed information about the execution of the SDP solver can be printed out to the terminal by setting \texttt{problem.setPrintOutput(True)}.
+By calling of the function \texttt{problem.getFeasiblePoint(xs)} we obtain the feasible point $y$ from the feasible points $x_i$ stored in the list \texttt{xs}.
+If the feasible points $x_i$ are not know, they can be generated randomly from a ball with radius \texttt{R} by calling \texttt{problem.getFeasiblePointFromRadius(R)}.
 When the polynomial problem is solved, the rank of the moment matrix can be obtained by calling \texttt{problem.momentMatrixRank()}.
 
 \begin{example}
@@ -677,14 +679,14 @@ These execution times $\tau_n$ were measured and computed separately for the Pol
 \begin{table}[ht]
   \centering
   \input{tables/POP_dim_performance.tex}
-  \caption{Execution times of polynomial optimization problems in different number of variables with relaxation order $r = \importPOPDimPerformanceR$ solved by selected toolboxes.}
+  \caption{Execution times of the polynomial optimization problems in different number of variables with the relaxation order $r = \importPOPDimPerformanceR$ solved by the selected toolboxes.}
   \labeltab{POP:opt:perf:dimTimes}
 \end{table}
 
 \begin{figure}[ht]
   \centering
   \resizebox{0.95\textwidth}{!}{\input{graphs/POP_dim_performance}}
-  \caption{Graph of execution times of polynomial optimization problems with relaxation order $r = \importPOPDimPerformanceR$ based on the number of variables solved by selected toolboxes.}
+  \caption{Graph of execution times of the polynomial optimization problems with the relaxation order $r = \importPOPDimPerformanceR$ based on the number of variables solved by the selected toolboxes.}
   \labelfig{POP:opt:perf:dimTimes}
 \end{figure}
 
@@ -702,14 +704,14 @@ These execution times $\tau_d$ were measured and computed separately for the Pol
 \begin{table}[ht]
   \centering
   \input{tables/POP_deg_performance.tex}
-  \caption{Execution times of polynomial optimization problems for different degrees of the polynomial in the objective function in $n = \importPOPDegPerformanceDim$ variables solved by selected toolboxes.}
+  \caption{Execution times of the polynomial optimization problems for different degrees of the polynomial in the objective function in $n = \importPOPDegPerformanceDim$ variables solved by the selected toolboxes.}
   \labeltab{POP:opt:perf:degTimes}
 \end{table}
 
 \begin{figure}[ht]
   \centering
   \resizebox{0.95\textwidth}{!}{\input{graphs/POP_deg_performance}}
-  \caption{Graph of execution times of polynomial optimization problems in $n = \importPOPDegPerformanceDim$ variables based on the degree of the polynomial in the objective function solved by selected toolboxes.}
+  \caption{Graph of execution times of the polynomial optimization problems in $n = \importPOPDegPerformanceDim$ variables based on the degree of the polynomial in the objective function solved by the selected toolboxes.}
   \labelfig{POP:opt:perf:degTimes}
 \end{figure}
 
@@ -749,7 +751,7 @@ The moment method is based on positive linear forms and real radical ideals.
 Thus, let us introduce some basics from the theory about positive linear forms and their connection to the real radical ideals.
 
 \subsubsection{Positive linear forms}
-Let the dual vector space of the polynomial ring $\R[x]$ is denoted $\R[x]^*$.
+Let the dual vector space of the polynomial ring $\R[x]$ is denoted as $\R[x]^*$.
 Given a linear form $\Lambda\in\R[x]^*$, consider the quadratic form $Q_\Lambda : \R[x]\mapsto\R$ such that
 
 \begin{align}
@@ -757,11 +759,11 @@ Given a linear form $\Lambda\in\R[x]^*$, consider the quadratic form $Q_\Lambda 
 \end{align}
 with kernel
 \begin{align}
-  \ker(Q_\Lambda) &= \big\{f\in\R[x]\ |\ \Lambda(fg)=0\ \forall q\in\R[x]\big\}.
+  \ker(Q_\Lambda) &= \big\{f\in\R[x]\ |\ \Lambda(fg)=0\ \forall g\in\R[x]\big\}.
 \end{align}
 
 \begin{definition}[Positivity]
-  Linear form $\Lambda\in\R[x]^*$ is said to be positive if $\Lambda\big(f^2\big) \geq 0$ for all $f\in\R[x]$, i.e., if the quadratic form $Q_\Lambda$ is positive semidefinite.
+  Linear form $\Lambda\in\R[x]^*$ is said to be positive if $\Lambda\big(f^2\big) \geq 0$ for all $f\in\R[x]$, i.e. if the quadratic form $Q_\Lambda$ is positive semidefinite.
 \end{definition}
 
 How the positive linear forms are connected to real radical ideals shows the following theorem.
@@ -871,18 +873,18 @@ When the real variety $V_\R(I)$ is finite, then $\KerML$ is zero-dimensional and
 \begin{align}
   \rank\ML &\leq |V_\R(I)|.
 \end{align}
-The equaility holds only for special elements $\Lambda\in\K$ named generic linear forms, which describes the following definition.
+The equaility holds only for special elements $\Lambda\in\K$ named generic linear forms, which are described by the following definition.
 
 \begin{definition}[Generic linear forms]\labeldef{POP:sol:genlinform}
   Let $\K$ be defined as in \refeqb{POP:sol:K} and assume $|V_\R(I)|<\infty$.
-  A linear form $\Lambda\in\K$ is said to be generic if $\ML$ has maximum rank, i.e., if $\rank\ML = |V_\R(I)|$.
+  A linear form $\Lambda\in\K$ is said to be generic if $\ML$ has maximum rank, i.e. if $\rank\ML = |V_\R(I)|$.
 \end{definition}
 
 The last theorem in this part is about equivalent condition on generic linear forms, which is crucial for computation of $\RRI$ using linear forms.
 
 \begin{theorem}\labelthe{POP:sol:ridealFromGenlinform}
   Assume $|V_\R(I)|<\infty$.
-  An element $\Lambda\in\K$ is generic linear form if and only if $\KerML\subseteq \ker\!\big(M(\Lambda^\prime)\big)$ for all $\Lambda^\prime\in\K$.
+  An element $\Lambda\in\K$ is a generic linear form if and only if $\KerML\subseteq \ker\!\big(M(\Lambda^\prime)\big)$ for all $\Lambda^\prime\in\K$.
   Moreover, $\KerML = \RRI$ for all generic linear forms $\Lambda\in\K$.
 \end{theorem}
 
@@ -925,7 +927,7 @@ How this can be done describes the following theorem.
 
 \begin{theorem}
   Let $\Lambda\in\Rss$ and assume \refeqb{POP:sol:flat} holds.
-  Then one can extend $\Lambda$ to $\tilde{\Lambda}\in\R[x]^*$ in such a way that $M(\tilde{\Lambda})$ is a flat extension of $\MLs$, and the ideal $\ker\!\big(M(\tilde{\Lambda})\big)$ is generated by the polynomials in $\KerMLs$, i.e.,
+  Then one can extend $\Lambda$ to $\tilde{\Lambda}\in\R[x]^*$ in such a way that $M(\tilde{\Lambda})$ is a flat extension of $\MLs$, and the ideal $\ker\!\big(M(\tilde{\Lambda})\big)$ is generated by the polynomials in $\KerMLs$, i.e.
   \begin{align}
     \rank M(\tilde{\Lambda}) &= \rank \MLs,\\
     \ker\!\big(M(\tilde{\Lambda})\big) &= \left<\KerMLs \right> .
@@ -940,7 +942,7 @@ How this can be done describes the following theorem.
 This result allows as to represent a real radical ideal $\RRI$ (infinite set of polynomials) by a finite truncated moment matrix $\MLs$.
 Moreover, the monomial basis $\Base$ of the quotient ring $R[x]/\RRI$ can be readily obtained from it.
 
-Now, the theory about positive linear forms and flat extensions of truncated moment matrices can be used to construct an algorithm for computing $\RRI$ from generators of an ideal $I$ operating on finite-dimensional subspaces $\R[x]_t$ only.
+Now, the theory about positive linear forms and flat extensions of truncated moment matrices can be used to construct an algorithm for computing $\RRI$ from the generators of an ideal $I$ operating on finite-dimensional subspaces $\R[x]_t$ only.
 Given $\left<f_1, f_2, \ldots, f_m\right> = I$ from the polynomial system \refeqb{POP:sol:system} to solve and $t\in\N$, we define the set
 \begin{align}
   \F_t &= \big\{f_ix^\alpha\ |\ i = 1, 2, \ldots, m, |\alpha|\leq t-\deg(f_i)\big\}
@@ -1057,11 +1059,11 @@ Then if the stopping condition \refeqb{POP:sol:stop1} or \refeqb{POP:sol:stop2} 
 Since $M_s$ is a matrix of numerical values, we firstly impose its rank, which we have computed when checking the stopping conditions.
 This is done via the singular value decomposition (SVD) by annulling the singular values close to zero.
 We construct the basis $\Base$ by selecting the pivot columns of the Gauss-Jordan (G-J) elimination of the matrix $M_{s-1}$.
-Because we have the SVD computed already, we use it to compute $\ker M_s$.
+Because we have the SVD computed already, we use it to compute $\ker(M_s)$.
 We perform the G-J elimination on it with columns indexed by $\Base$ permuted to the rightmost side.
 By this we have all required monomials expressed in terms of linear combinations of the monomials from $\Base$ as stated in \refeqb{POP:sol:baseFromKernel}.
 Finally, the multiplication matrix is constructed and the solutions are extracted via eigenvectors computation.
-In case that some variable is not present in $\Base$ and can not be read directly from the eigenvectors, it can computed easily by substituting $\Base$ into the eliminated version of $\ker M_s$.
+In case that some variable is not present in $\Base$ and can not be read directly from the eigenvectors, it can computed easily by substituting $\Base$ into the eliminated version of $\ker(M_s)$.
 
 \subsubsection{Polyopt package implementation}
 The implementation from the Polyopt package follows the implementation in MATLAB.
@@ -1106,7 +1108,7 @@ Moreover, we can easily find a starting point for the SDP solver, for example wh
 \end{align}
 is suitable starting point for the algorithm.
 
-When we apply the Polyopt SDP solver on the program \refeqb{POP:sol:SDP_tau}, be obtain some optimal $\tau^*$.
+When we apply the Polyopt SDP solver on the program \refeqb{POP:sol:SDP_tau}, we obtain some optimal $\tau^*$.
 If $\tau^*$ is zero up to the numerical precision, we recover $y^*$ from $\bar{y}^*$ by back substitution.
 Then the moment matrix $M_{\lfloor t/2\rfloor}(y^*)$ is reconstructed and the solutions are computed in similar way as in the MATLAB implementation.
 If $\tau^*$ is not zero, then the semidefinite program \refeqb{POP:sol:SDP_MM} has empty feasible region, which means that the original polynomial system \refeqb{POP:sol:system} has no real solutions.
@@ -1126,7 +1128,7 @@ solution = problem.solve()
 \end{lstlisting}
 
 \begin{example}\labelex{POP:sol:example}
-The Python code solving the system of polynomial equations \refeqb{POP:mm:example1} and \refeqb{POP:mm:example2} from \refex{POP:mm:ellhyp} is shown in \reflis{POP:sol:example}.
+The Python code solving the system of polynomial equations consisting of equation \refeqb{POP:mm:example1} and \refeqb{POP:mm:example2} from \refex{POP:mm:ellhyp} is shown in \reflis{POP:sol:example}.
 
   \begin{lstlisting}[language=python, caption={Code for solving system of polynomial equations stated in \refex{POP:sol:example}}, labellis={POP:sol:example}]
 import polyopt
@@ -1151,9 +1153,9 @@ solution = problem.solve()
 \subsection{Comparison with the state of the art methods}
 Efficiency and numerical stability of the new algorithm implementations should be compared to the contemporary state of the art implementations.
 We would like to compare our implementation with another implementations of the moment method. A MATLAB toolbox called Bermeja should use this method as mentioned in \cite{momentMethod}, however we were unable to find it despite the provided link.
-Different, but still on moment matrices and SDP solvers built, algorithm uses MATLAB toolbox Gloptipoly \cite{gloptipoly}.
-Then there are polynomial system solvers based on Gr\"obner basis computations, e.g.\ the $F_4$ algorithm \cite{F4}, which compute all complex solutions.
-The most challenging will probably be the comparison with solvers specialized for given task, for example generated by some automatic generator \cite{autogen}.
+Different, but still on moment matrices and SDP solvers built, algorithm uses the MATLAB toolbox Gloptipoly \cite{gloptipoly}.
+Then there are polynomial system solvers based on the Gr\"obner basis computations, e.g.\ the $F_4$ algorithm \cite{F4}, which compute all complex solutions.
+The most challenging will probably be the comparison with solvers specialized for the given task, for example generated by some automatic generator \cite{autogen}.
 
-To compare these solvers in general, one would generate random polynomial systems, solve them by selected solvers and compare their results and computational times.
+To compare these solvers in general, one would generate random polynomial systems, solve them by the selected solvers and compare their results and computational times.
 But in the end, we are interested in performance on real geometric problems from computer vision computed on data captured from real 3D scenes, and therefore we skip these random polynomial system experiments and refer to the experiments on real geometric problems performed in \refcha{app}.

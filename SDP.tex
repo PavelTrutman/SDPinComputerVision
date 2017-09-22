@@ -13,7 +13,7 @@ Also in control theory, there are many problems based on linear matrix inequalit
 Special application of SDP comes from polynomial optimization since global solution of polynomial optimization problems can be found by hierarchies of semidefinite programs.
 Also systems of polynomial equations can be solved by hierarchies of semidefinite problems.
 This approach has the advantage that there exists a method, which allows us to compute real solutions only.
-Since in many applications, we are not interested in complex solutions, this method may be the right tool for polynomial systems solving.
+Since in many applications, we are not interested in non-real solutions, this method may be the right tool for polynomial systems solving.
 We will focus in details on SDP application on polynomial optimization and polynomial systems solving in \refcha{POP}.
 
 \section{Preliminaries on semidefinite programs}
@@ -157,7 +157,7 @@ For the proofs and more details look into \cite{Nesterov-2004}.
   holds for all $x\in\dom f$.
 \end{definition}
 
-For better understanding of self-concordant functions, we provide several examples.
+For better understanding of the self-concordant functions, we provide several examples.
 
 \begin{example}~
   \begin{enumerate}
@@ -194,7 +194,7 @@ For better understanding of self-concordant functions, we provide several exampl
   is self-concordant for all $x\in\dom f$ and all $v\in\R^n$.
 \end{definition}
 
-Now, let us focus on the main properties of self-concordant functions.
+Now, let us focus on the main properties of the self-concordant functions.
 
 \begin{theorem}
   Let functions $f_i$ be self-concordant with constants $M_i$  and let $\alpha_i > 0$, $i = 1,2$. Then the function
@@ -223,16 +223,16 @@ We call function $f(x)$ as the standard self-concordant function if $f(x)$ is so
 
 For some self-concordant function $f(x)$, for which we assume, that $\dom f$ contains no straight line (which implies that all $f''(x)$ are nondegenerate, see \refthe{SDP:scf:hessian}), we denote two local norms as
 \begin{align}
-  \| u \|_x &= \sqrt{u^\top f''(x) u}\\
+  \| u \|_x &= \sqrt{u^\top f''(x) u},\\
   \| u \|_x^* &= \sqrt{u^\top f''(x)^{-1} u}.
 \end{align}
 
-Consider following minimization problem
+Consider minimization problem
 \begin{align}
   x^* &= \arg\min_{x\in\dom f} f(x)\labeleq{SDP:scf:minProblem}
 \end{align}
 as the minimization of the self-concordant function $f(x)$.
-\refalg{SDP:scf} is describing the iterative process of solving the optimization problem \refeqb{SDP:scf:minProblem}.
+\refalg{SDP:scf} describes the iterative process of solving the optimization problem \refeqb{SDP:scf:minProblem}.
 The algorithm is divided into two stages by the value of $\|f'(x_k)\|_{x_k}^*$.
 The splitting parameter $\beta$ guarantees quadratic convergence rate for the second part of the algorithm. The parameter $\beta$ is chosen from interval $(0, \bar{\lambda})$, where
 \begin{align}
@@ -321,14 +321,14 @@ Let us explore, which basic functions are self-concordant barriers.
   \end{enumerate}
 \end{example}
 
-Now, let us focus on the main properties of self-concordant barriers.
+Now, let us focus on the main properties of the self-concordant barriers.
 
 \begin{theorem}\labelthe{SDP:scb:penaltyFunction}
   Let $F(x)$ be a self-concordant barrier. Then the function $c^\top x + F(x)$ is a self-concordant function on $\dom F$.
 \end{theorem}
 
 \begin{theorem}
-  Let $F_i$ be $\nu_i$-self-concordant barriers, $i = 1,2$. Then the function
+  Let $F_i$ be a $\nu_i$-self-concordant barriers, $i = 1,2$. Then the function
   \begin{align}
     F(x) &= F_1(x) + F_2(x)
   \end{align}
@@ -353,7 +353,7 @@ Now, let us focus on the main properties of self-concordant barriers.
   \end{align}
 \end{theorem}
 
-There is one special point of convex set, which is important for solving convex minimization problem. 
+There is one special point of convex set, which is important for solving convex minimization problems.
 It is called the analytic center of convex set and we will focus on its properties.
 
 \begin{definition}
@@ -371,15 +371,15 @@ It is called the analytic center of convex set and we will focus on its properti
   \end{align}
 \end{theorem}
 
-This property clearly follows from \refthe{SDP:scb:distance} and the fact, that $F'(x^*_F) = 0$.
+This property clearly follows from \refthe{SDP:scb:distance} and the fact that $F'(x^*_F) = 0$.
 
-Thus, if $\Dom F$ contains no straight line, then the existence of $x^*_F$ (which leads to nondegenerate $F''(x^*_F)$) implies, that the set $\Dom F$ is bounded.
+Thus, if $\Dom F$ contains no straight line, then the existence of $x^*_F$ (which leads to nondegenerate $F''(x^*_F)$) implies that the set $\Dom F$ is bounded.
 
 Now, we describe the algorithm and its properties for obtaining an approximation to the analytic center.
 To find the analytic center, we need to solve the minimization problem \refeqb{SDP:scb:ac}.
-For that, we will use the standard implementation of the damped Newton method with termination condition
+For that, we will use the standard implementation of the damped Newton method with a termination condition
 \begin{align}
-  \|F'(x_k)\|^*_{x_k} &\leq \beta, \text{ for } \beta\in(0,1).
+  \|F'(x_k)\|^*_{x_k} &\leq \beta \text{ for } \beta\in(0,1).
 \end{align}
 The pseudocode of the whole minimization process is shown in \refalg{SDP:scb:ac}.
 
@@ -392,17 +392,17 @@ The pseudocode of the whole minimization process is shown in \refalg{SDP:scb:ac}
   \end{align}
 \end{theorem}
 
-The knowledge of analytic center allows us to solve the standard minimization problem
+The knowledge of the analytic center allows us to solve the standard minimization problem
 \begin{align}
   x^* &= \arg\min_{x\in Q} c^\top x \labeleq{SDP:scb:standardProblem}
 \end{align}
 with bounded closed convex set $Q \equiv \Dom F$, which has nonempty interior, and which is endowed with a $\nu$-self-concordant barrier $F(x)$.
 Denote
 \begin{align}
-  f(t,x) &= tc^\top x + F(x), \text{ for } t \geq 0
+  f(t,x) &= tc^\top x + F(x) \text{ for } t \geq 0
 \end{align}
 as a parametric penalty function.
-Using \refthe{SDP:scb:penaltyFunction} we can see, that $f(t,x)$ is self-concordant in $x$.
+Using \refthe{SDP:scb:penaltyFunction} we can see that $f(t,x)$ is self-concordant in $x$.
 Let us introduce new minimization problem using the parametric penalty function $f(t,x)$
 \begin{align}
   x^*(t) &= \arg\min_{x\in\dom F} f(t,x).\labeleq{SDP:scb:centralPath}
@@ -415,7 +415,7 @@ Moreover, since the set $Q$ is bounded, the analytic center $x^*_F$ of this set 
 \end{align}
 From the first-order optimality condition, any point of the central path satisfies equation
 \begin{align}
-  tc + F'\big(x^*(t)\big) &= 0
+  tc + F'\big(x^*(t)\big) &= 0.
 \end{align}
 Since the analytic center lies on the central path and can be found by \refalg{SDP:scb:ac}, all we have to do, to find the solution $x^*$, is to follow the central path. 
 This enables us an approximate centering condition:
@@ -497,7 +497,7 @@ Instead of the set $Q$, which is parametrized by $y$, we can directly optimize o
 and it is called the cone of positive semidefinite $n\times n$ matrices. This cone is a closed convex set, which interior is formed by positive definite matrices and on its boundary lie matrices, which have at least one eigenvalue equal to zero.
 
 Now, we are looking for a self-concordant barrier function, which will enable us to optimize over the cone $\PSDCone^n$.
-The domain of this function needs to contain the set $\PSDCone^n$ and the values of the function have to be growing to $+\infty$ as we are getting closer to the boundary of the set $\PSDCone^n$.
+The domain of this function needs to contain the set $\PSDCone^n$ and the values of the function have to be growing to $+\infty$ as getting closer to the boundary of the set $\PSDCone^n$.
 This will create us a repelling force from the boundary of $\PSDCone^n$, when following the central path \refeqb{SDP:scb:centralPath}.
 Consider the function $F(X)$ as the self-concordant barrier function for the set $\PSDCone^n$:
 \begin{align}
@@ -661,7 +661,7 @@ yStar = problem.solve(y0, problem.dampedNewton)
 
 Detailed information can be printed out during the execution of the algorithm.
 This option can be set by \texttt{problem.setPrintOutput(True)}.
-Then, in each iteration of \refalg{SDP:scb:ac} and \refalg{SDP:scb:pf}, the values $k$, $x_k$ and eigenvalues of $X_j(x_k)$ are printed.
+Then, in each iteration of \refalg{SDP:scb:ac} and \refalg{SDP:scb:pf}, the values $k$, $x_k$ and eigenvalues of $X_j(x_k)$ are printed to the terminal.
 
 If $n$, the dimension of the problem, is equal to 2, boundary of the set $\Dom F$ \refeqb{SDP:bf:domF} and all intermediate points $x_k$ can be plotted.
 This can be enabled by setting \texttt{problem.setDrawPlot(True)}.
@@ -687,7 +687,7 @@ By adding a constraint
                       \vdots & \vdots & \vdots & \ddots & \vdots\\
                       y\ind m & 0 & 0 & \cdots & 1\bmE \text{ for } R\in\R, \labeleq{SDP:imp:bound}
 \end{align}
-we bound the set by the ball with radius $R$.
+we bound the set by a ball with radius $R$.
 The constraint \refeqb{SDP:imp:bound} is equivalent to
 \begin{align}
   \|y\|_2^2 &\leq R^2.
@@ -837,14 +837,14 @@ These execution times $\tau_k$, where $k$ is the size of the problem, were measu
 \begin{table}[ht]
   \centering
   \input{tables/SDP_performance.tex}
-  \caption{Execution times of different sizes of semidefinite problems solved by selected toolboxes.}
+  \caption{Execution times of different sizes of semidefinite problems solved by the selected toolboxes.}
   \labeltab{SDP:perf:times}
 \end{table}
 
 \begin{figure}[ht]
   \centering
   \resizebox{0.95\textwidth}{!}{\input{graphs/SDP_performance}}
-  \caption{Graph of execution times based on the size of semidefinite problems solved by selected toolboxes.}
+  \caption{Graph of execution times based on the size of semidefinite problems solved by the selected toolboxes.}
   \labelfig{SDP:perf:times}
 \end{figure}
 

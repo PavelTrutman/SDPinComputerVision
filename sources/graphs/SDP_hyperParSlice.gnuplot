@@ -23,5 +23,5 @@ EOD
 plot[-2:2][-2:2] "$above" using 1:2 title "$\\Dom F(y)$" with filledcurves below y lc 3 fillstyle pattern 4 transparent ,\
                  "$below" using 1:2 title "" with filledcurves below y lc 3 fillstyle pattern 4 transparent,\
                  "$above" using 1:2 title "$\\big\\{y\\ |\\ X(y) \\succeq 0\\big\\}$" with filledcurves below y lc 4 fillstyle pattern 5 transparent ,\
-                  x title "$\\det\\big(X(y)\\big) = 0$" linecolor 1 lw 5 ,\
+                  x title "$\\det\\!\\big(X(y)\\big) = 0$" linecolor 1 lw 5 ,\
                  -x title "" linecolor 1 lw 5
