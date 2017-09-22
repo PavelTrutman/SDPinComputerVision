@@ -2,7 +2,7 @@ set terminal epslatex size 6,4
 set output "graphs/SDP_hyperPar.tex"
 
 set grid
-set key right top
+set key tmargin right
 set title ""
 set xlabel "$y_1$"
 set ylabel "$y_2$"

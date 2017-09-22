@@ -29,10 +29,18 @@
 __pycache__/
 
 /graphs/
+
 /data/SDP_performance.dat
 /data/POP_dim_performance.dat
 /data/POP_deg_performance.dat
-tables/SDP_performance.tex
-tables/POP_dim_performance.tex
-tables/POP_deg_performance.tex
+/data/app_P3P_err.dat
+/data/app_P3P_cdist.dat
+/data/app_P3P_rangle.dat
+/data/app_P3P_times.dat
+
+/tables/SDP_performance.tex
+/tables/POP_dim_performance.tex
+/tables/POP_deg_performance.tex
+/tables/app_P3P_numberSolutions.tex
+
 /macros/

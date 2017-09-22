@@ -1,9 +1,9 @@
-set terminal epslatex size 6,4
+set terminal epslatex size 6,5
 set output "graphs/POP_multiplicationMatrices.tex"
 
 set size ratio -1
 set grid
-set key top right
+set key tmargin right
 set title ""
 set xlabel "$x$"
 set ylabel "$y$"

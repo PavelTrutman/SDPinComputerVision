@@ -43,7 +43,7 @@ if __name__ == '__main__':
     fTable.write('  \hline\hline\n')
     for dimIdx in range(len(dims)):
       dim = dims[dimIdx]
-      fTable.write('  {dim:d} & {sdp:d} & {polyopt:#.3g} s & {gloptipoly:#.3g} s\\\\\n'.format(dim=dim, sdp=SDPSize[dimIdx], polyopt=avgPolyopt[dimIdx], gloptipoly=avgGloptipoly[dimIdx]).replace('.', '&'))
+      fTable.write('  {dim:d} & {sdp:d} & \\hspace{{1mm}} {polyopt:#.3g} s & \\hspace{{11mm}} {gloptipoly:#.3g} s\\\\\n'.format(dim=dim, sdp=SDPSize[dimIdx], polyopt=avgPolyopt[dimIdx], gloptipoly=avgGloptipoly[dimIdx]).replace('.', '&'))
       fGraph.write('{dim:d} {polyopt} {gloptipoly}\n'.format(dim=dim, polyopt=avgPolyopt[dimIdx], gloptipoly=avgGloptipoly[dimIdx]))
     fTable.write('  \\hline')
     fTable.write('\\end{tabular}\n')

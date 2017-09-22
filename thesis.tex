@@ -20,6 +20,9 @@
 \usepackage{multirow}
 \usepackage{dirtree}
 
+% number formatting
+\usepackage[exponent-product=\cdot]{siunitx}
+
 % for better verbatim environment
 \usepackage{fancyvrb}
 
@@ -143,6 +146,7 @@
 \newcommand{\refalgline}[1]{\ref{algorithm:line:#1}}
 \newcommand{\labelfig}[1]{\label{figure:#1}}
 \newcommand{\reffig}[1]{Figure~\ref{figure:#1}}
+\newcommand{\reffignum}[1]{\ref{figure:#1}}
 \newcommand{\labeltab}[1]{\label{table:#1}}
 \newcommand{\reftab}[1]{Table~\ref{table:#1}}
 \newcommand{\labelsec}[1]{\label{section:#1}}
@@ -177,6 +181,7 @@
 \newcommand{\MM}{\mathcal{X}}
 \newcommand{\K}{\mathcal{K}}
 \newcommand{\F}{\mathcal{F}}
+\newcommand{\SO}{\ensuremath{SO(3)}}
 \newcommand{\ML}{\ensuremath{M(\Lambda)}}
 \newcommand{\MLs}{\ensuremath{M_s(\Lambda)}}
 \newcommand{\MLt}{\ensuremath{M_{\lfloor t/2\rfloor}(\Lambda)}}
@@ -216,6 +221,7 @@
 
 % thesis assignment as required by FEE, CTU
 \includepdf[pages={1}]{pdfs/assignment-ENG.pdf}
+\cleardoublepage
 
 \input{acknowledgement}
 \clearpage
@@ -224,15 +230,11 @@
 \input{abstract}
 \clearpage
 \cleardoublepage\def\thepage{\arabic{page}}\setcounter{page}{1}
-\tableofcontents\pagestyle{headings}
+\tableofcontents
 \listoffigures
 \begingroup
 \let\clearpage\relax
 \listoftables
-\endgroup
-\clearpage
-\begingroup
-\let\clearpage\relax
 \listofalgorithms
 \lstlistoflistings
 \endgroup
@@ -240,11 +242,15 @@
 \glsaddall
 \printglossary[type=acronym,title=List of Symbols and Abbreviations]
 
+\pagestyle{headings}
+
 \input{introduction.tex}
 
 \input{SDP.tex}
 
 \input{POP.tex}
+
+\input{application.tex}
 
 \input{conclusion.tex}
 

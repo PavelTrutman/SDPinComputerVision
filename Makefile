@@ -6,27 +6,27 @@ AllowGenerateData ?= FALSE
 # fast compiling
 Fast ?= FALSE
 
-TEXS = thesis.tex abstract.tex acknowledgement.tex acronyms.tex CD.tex conclusion.tex declaration.tex introduction.tex SDP.tex POP.tex
+TEXS = thesis.tex abstract.tex acknowledgement.tex acronyms.tex CD.tex conclusion.tex declaration.tex introduction.tex SDP.tex POP.tex application.tex
 
 TEMPLATE = cmpthesis.cls cmpcover.sty
 
-IMAGES = cmp.png lev.png
+IMAGES = cmp.png lev.png LADIO_01.png LADIO_02.png
 
 ALGS = self-concordant-function.tex analytic-center.tex path-follow.tex moment-matrix.tex
 
-GRAPHS_FILES = SDP_hyperPar SDP_hyperParSlice SDP_demo SDP_barrier SDP_performance POP_multiplicationMatrices POP_Lasserre POP_dim_performance POP_deg_performance
+GRAPHS_FILES = SDP_hyperPar SDP_hyperParSlice SDP_demo SDP_barrier SDP_performance POP_multiplicationMatrices POP_Lasserre POP_dim_performance POP_deg_performance app_P3P_err app_P3P_cdist app_P3P_rangle app_P3P_times
 GRAPHS_PDF = $(addsuffix .pdf, $(GRAPHS_FILES))
 GRAPHS_TEX = $(addsuffix .tex, $(GRAPHS_FILES))
 GRAPHS_EPS = $(addsuffix .eps, $(GRAPHS_FILES))
 GRAPHS = $(GRAPHS_TEX) $(GRAPHS_PDF)
 
-DRAWINGS_FILES = SDP_problem
+DRAWINGS_FILES = SDP_problem P3P
 DRAWINGS_PDF = $(addsuffix .pdf, $(DRAWINGS_FILES))
 
-TABLES_FILES = SDP_performance POP_dim_performance POP_deg_performance
+TABLES_FILES = SDP_performance POP_dim_performance POP_deg_performance app_P3P_numberSolutions
 TABLES_TEXS = $(addsuffix .tex, $(TABLES_FILES))
 
-MACROS_FILES = SDP_performance POP_dim_performance POP_deg_performance
+MACROS_FILES = SDP_performance POP_dim_performance POP_deg_performance app_LADIO app_P3P
 MACROS_TEXS = $(addsuffix .tex, $(MACROS_FILES))
 
 INTER = $(addprefix graphs/, $(GRAPHS_EPS))
@@ -69,6 +69,18 @@ graphs/POP_dim_performance.tex graphs/POP_dim_performance.eps: sources/graphs/PO
 graphs/POP_deg_performance.tex graphs/POP_deg_performance.eps: sources/graphs/POP_deg_performance.gnuplot data/POP_deg_performance.dat
 	gnuplot sources/graphs/POP_deg_performance.gnuplot
 
+graphs/app_P3P_err.tex graphs/app_P3P_err.eps: sources/graphs/app_P3P_err.gnuplot data/app_P3P_err.dat
+	gnuplot sources/graphs/app_P3P_err.gnuplot
+
+graphs/app_P3P_cdist.tex graphs/app_P3P_cdist.eps: sources/graphs/app_P3P_cdist.gnuplot data/app_P3P_cdist.dat
+	gnuplot sources/graphs/app_P3P_cdist.gnuplot
+
+graphs/app_P3P_rangle.tex graphs/app_P3P_rangle.eps: sources/graphs/app_P3P_rangle.gnuplot data/app_P3P_rangle.dat
+	gnuplot sources/graphs/app_P3P_rangle.gnuplot
+
+graphs/app_P3P_times.tex graphs/app_P3P_times.eps: sources/graphs/app_P3P_times.gnuplot data/app_P3P_times.dat
+	gnuplot sources/graphs/app_P3P_times.gnuplot
+
 graphs/%.tex graphs/%.eps: sources/graphs/%.gnuplot
 	gnuplot sources/graphs/$*.gnuplot
 
@@ -81,17 +93,30 @@ tables/POP_dim_performance.tex macros/POP_dim_performance.tex data/POP_dim_perfo
 tables/POP_deg_performance.tex macros/POP_deg_performance.tex data/POP_deg_performance.dat: data/POP_deg_coefs.mat data/POP_deg_timesPolyopt.mat data/POP_deg_timesGloptipoly.mat sources/scripts/POP_deg_timesLaTeX.py
 	PYTHONPATH=sources/scripts/ python3 -m POP_deg_timesLaTeX
 
+macros/app_LADIO.tex: data/app_LADIO.mat sources/scripts/app_LADIO_macrosgenerator.py
+	PYTHONPATH=sources/scripts/ python3 -m app_LADIO_macrosgenerator
+
+macros/app_P3P.tex: sources/scripts/app_P3P.py
+	PYTHONPATH=sources/scripts/ python3 -m app_P3P generatelatexmacros
+
+data/app_P3P_err.dat data/app_P3P_cdist.dat data/app_P3P_rangle.dat data/app_P3P_times.dat: data/app_P3P_results.mat sources/scripts/app_P3P.py
+	PYTHONPATH=sources/scripts/ python3 -m app_P3P generategnuplot
+
+tables/app_P3P_numberSolutions.tex: data/app_P3P_cams.mat data/app_P3P_results.mat sources/scripts/app_P3P.py
+	PYTHONPATH=sources/scripts/ python3 -m app_P3P generatetable
+
 clean:
 	-rm thesis.!(tex)
 	-rm $(addprefix graphs/, $(GRAPHS)) $(addprefix graphs/, $(GRAPHS_EPS))
-	-rm tables/SDP_performance.tex tables/POP_dim_performance.tex tables/POP_deg_performance.tex
-	-rm data/SDP_performance.dat data/POP_dim_performance.dat data/POP_deg_performance.tex
-	-rm macros/SDP_performance.tex macros/POP_dim_performance.tex macros/POP_deg_performance.tex
+	-rm tables/SDP_performance.tex tables/POP_dim_performance.tex tables/POP_deg_performance.tex tables/app_P3P_numberSolutions.tex
+	-rm data/SDP_performance.dat data/POP_dim_performance.dat data/POP_deg_performance.dat data/app_P3P_err.dat data/app_P3P_cdist.dat data/app_P3P_rangle.dat data/app_P3P_times.dat
+	-rm macros/SDP_performance.tex macros/POP_dim_performance.tex macros/POP_deg_performance.tex macros/app_LADIO.tex macros/app_P3P.tex
 
 cleanData:
 	-rm data/SDP_matrices.mat data/SDP_timesPolyopt.mat data/SDP_timesSedumi.mat data/SDP_timesMosek.mat
 	-rm data/POP_dim_coefs.mat data/POP_dim_timesPolyopt.mat data/POP_dim_timesGloptipoly.mat
 	-rm data/POP_deg_coefs.mat data/POP_deg_timesPolyopt.mat data/POP_deg_timesGloptipoly.mat
+	-rm data/app_P3P_cams.mat data/app_P3P_solAG.mat data/app_P3P_solPolyopt.mat data/app_P3P_solGloptipoly.mat data/app_P3P_solMosek.mat data/app_P3P_results.mat
 
 cleanAll: clean cleanData
 
@@ -164,4 +189,46 @@ data/POP_deg_coefs.mat: sources/scripts/POP_deg_generateData.py
 		touch $@; \
 	else \
 		PYTHONPATH=sources/scripts/ python3 -m POP_deg_generateData; \
+	fi;
+
+data/app_P3P_cams.mat: data/app_LADIO.mat sources/scripts/app_P3P.py
+	if [ -e $@ ] && [ "$(AllowGenerateData)" != "TRUE" ]; then \
+		touch $@; \
+	else \
+		PYTHONPATH=sources/scripts/ python3 -m app_P3P preparedata; \
+	fi;
+
+data/app_P3P_solAG.mat: data/app_P3P_cams.mat sources/scripts/app_P3P.py
+	if [ -e $@ ] && [ "$(AllowGenerateData)" != "TRUE" ]; then \
+		touch $@; \
+	else \
+		PYTHONPATH=sources/scripts/ python3 -m app_P3P solveag; \
+	fi;
+
+data/app_P3P_solPolyopt.mat: data/app_P3P_cams.mat sources/scripts/app_P3P.py
+	if [ -e $@ ] && [ "$(AllowGenerateData)" != "TRUE" ]; then \
+		touch $@; \
+	else \
+		PYTHONPATH=sources/scripts/ python3 -m app_P3P solvepolyopt; \
+	fi;
+
+data/app_P3P_solGloptipoly.mat: data/app_P3P_cams.mat sources/scripts/app_P3P_solveGloptipoly.m
+	if [ -e $@ ] && [ "$(AllowGenerateData)" != "TRUE" ]; then \
+		touch $@; \
+	else \
+		matlab -nodesktop -nosplash -nojvm -r "addpath sources/scripts/; app_P3P_solveGloptipoly;exit;"; \
+	fi;
+
+data/app_P3P_solMosek.mat: data/app_P3P_cams.mat sources/scripts/app_P3P_solveMosek.m
+	if [ -e $@ ] && [ "$(AllowGenerateData)" != "TRUE" ]; then \
+		touch $@; \
+	else \
+		matlab -nodesktop -nosplash -nojvm -r "addpath sources/scripts/; app_P3P_solveMosek;exit;"; \
+	fi;
+
+data/app_P3P_results.mat: data/app_P3P_cams.mat data/app_LADIO.mat data/app_P3P_solAG.mat data/app_P3P_solPolyopt.mat data/app_P3P_solGloptipoly.mat data/app_P3P_solMosek.mat  sources/scripts/app_P3P.py
+	if [ -e $@ ] && [ "$(AllowGenerateData)" != "TRUE" ]; then \
+		touch $@; \
+	else \
+		PYTHONPATH=sources/scripts/ python3 -m app_P3P processdata; \
 	fi;
