@@ -1,8 +1,13 @@
 \chapter{Optimization over polynomials}\labelcha{POP}
-%TODO
-
-\section{State of the art review}
-%TODO
+This chapter is devoted to the application of semidefinite programming in polynomial algebra.
+Firstly, we introduce basic notation from the polynomial algebra and the state of the art method for solving systems of polynomial equations using so called multiplication matrices.
+Then we introduce the theory of moment matrices, since moment matrices will be used to relax the polynomial problems into the semidefinite ones.
+After that, we will focus on polynomial optimization, i.e.\ optimizing a polynomial function given polynomial constrains.
+We will present a method, how to use hierarchies of semidefinite problems to solve a polynomial optimization problem.
+We implement this method and compare it to the state of the art optimization toolboxes.
+In the last section of this chapter, we will introduce the moment method for polynomial systems solving.
+This method also uses hierarchies of semidefinite problems to solve the polynomial systems with the advantage that only real solutions are found.
+Since when solving polynomial systems arisen from computer vision geometry, we are typically interested only in the real solutions, this method may prove to be a useful tool to eliminate the non-real solutions.
 
 \section{Algebraic preliminaries}
 In this whole chapter focused on polynomial optimization and polynomial systems solving, we will follow the notation from \cite{Cox-Little-Shea97}.
@@ -361,7 +366,8 @@ Since the set $P$ is compact, the minimum $p^*$ is attained at a point $x^*\in P
 On the other hand, we do not assume convexity of neither the polynomial $p_0$ nor the set $P$, and therefore the problem \refeqb{POP:opt:polmin} may have several local minima and several global minima in general case.
 We are, of course, interested in the global minimum only.
 
-%TODO History of POP, or in state-of-the art review?
+\subsection{State of the art review}
+%TODO
 
 \subsection{Lasserre's LMI hierarchy}
 The global minimum can be found by hierarchies of semidefinite programs.
@@ -745,6 +751,9 @@ Let $x\in\R^n$ and $f_1,f_2,\ldots,f_m\in\R[x]$.
     f_m(x) &= 0
   \end{array}\labeleq{POP:sol:system}
 \end{align}
+
+\subsection{State of the art review}
+%TODO
 
 \subsection{The moment method}
 The moment method is based on positive linear forms and real radical ideals.
