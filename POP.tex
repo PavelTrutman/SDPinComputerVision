@@ -809,7 +809,7 @@ Thus by \refthe{POP:sol:ker}, $\KerML$ is an ideal, which is real radical ideal 
   \begin{align}
     \Lambda(1) &= 1,\\
     \Lambda(x_1x_2) &= 1,\\
-    \Lambda\big(x_1^{\alpha_1}x_2^{\alpha^2}\big) &= 0\text{ for all other monomials.}
+    \Lambda\big(x_1^{\alpha_1}x_2^{\alpha_2}\big) &= 0\text{ for all other monomials.}
   \end{align}
   Then the moment matrix $\ML$ (rows and columns indexed by $1$, $x_1$, $x_2$, $x_1^2$, $x_1x_2$, $x_2^2$, $\ldots$) is
   \begin{align}
@@ -1059,7 +1059,7 @@ Using this, we get a equivalent semidefinite program \refeqb{POP:sol:SDP_MM}.
     y^* &=& \displaystyle \arg\min_{y\in\R^{\N^n_t}} & \multicolumn{3}{l}{0} \\
     && \text{s.t.} & y_0 &=& 1\\
     &&& M_{\lfloor t/2\rfloor}(y)&\succeq& 0\\
-    &&& \vc\big(f_ix^\alpha\big)^\top y &=& 0 & \forall i\ \forall|\alpha| \leq t - \deg(f_i)
+    &&& \vc\!\big(f_ix^\alpha\big)^\top y &=& 0 & \forall i\ \forall|\alpha| \leq t - \deg(f_i)
   \end{array}\labeleq{POP:sol:SDP_MM}
 \end{align}
 This program is solved by MOSEK \cite{mosek} using the YALMIP \cite{yalmip} toolbox as an interface.
