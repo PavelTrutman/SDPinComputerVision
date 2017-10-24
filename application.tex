@@ -202,6 +202,66 @@ The scheme of the problem geometry can be seen in \reffig{app:P35Pf}.
   \labelfig{app:P35Pf}
 \end{figure}
 
+The solution of the P3.5Pf problem comes from the projection equation
+\begin{align}
+  \lambda_i \bmB x_i\\ 1\bmE &= K_{known}K_f \bmB R & -RC\bmE \bmB X_i\\ 1 \bmE \labeleq{app:P35Pf:projection}
+\end{align}
+for $i = 1,2,3,4$ and $\lambda_i \in \R/\{0\}$, where $K_{known}\in\R^{3\times 3}$ is the known calibration matrix up to the focal length, which is stored in the matrix $K_f = \diag\Big(\bmB f & f & 1\bmE^\top\Big)$.
+The matrix $R\in\SO$ is the rotation matrix and the vector $C\in\R^3$ is the projection centre of the camera.
+The 3D coordinates are given in vectors $X_i$ and their projections in vectors $x_i$.
+We remove the known calibration matrix from the equation \refeqb{app:P35Pf:projection} by pre-calibrating of the images coordinates.
+\begin{align}
+  \tilde{x}_i &= K_{known}^{-1}x_i
+\end{align}
+We group the unknowns $f$, $R$ and $C$ into one camera projection matrix $P\in\R^{3\times4}$ as follows:
+\begin{align}
+  K_f \bmB R & -RC\bmE = P &= \bmB P_1^\top\\ P_2^\top\\ P_3^\top \bmE = \bmB p_{11} & p_{12} & p_{13} & p_{14}\\ p_{21} & p_{22} & p_{23} & p_{24}\\ p_{31} & p_{32} & p_{33} & p_{34}\bmE.\labeleq{app:P35Pf:P}
+\end{align}
+Then the projection equation \refeqb{app:P35Pf:projection} is transformed into
+\begin{align}
+  \lambda_i \bmB \tilde{x}_i\\ 1\bmE &= P \bmB X_i\\ 1 \bmE.
+\end{align}
+Each 2D--to--3D correspondence gives us two linearly independent equations in the camera matrix.
+\begin{align}
+  P_1^\top \bmB X_i\\ 1\bmE - \tilde{x}_i\ind 1 P_3^\top \bmB X_i\\ 1 \bmE &= 0\\
+  P_2^\top \bmB X_i\\ 1\bmE - \tilde{x}_i\ind 2 P_3^\top \bmB X_i\\ 1 \bmE &= 0
+\end{align}
+That gives us eight linearly independent equations and by ignoring one of them we get a minimal problem.
+To fix the scale we add one additional equation
+\begin{align}
+  P_3^\top \bmB X_1\\ 1 \bmE &= 1.
+\end{align}
+These eight equations can be written in a matrix form
+\begin{align}
+  A \bmB P_1\\ P_2\\ P_3 \bmE = Ap &=b
+\end{align}
+with coefficient matrix $A \in\R^{8\times 12}$.
+Then the problem is parametrized only by four unknowns using the nullspace of $A$.
+\begin{align}
+  p &= p_0 + \xi_1p_1 + \xi_2p_2 + \xi_3p_3 + \xi_4p_4 \labeleq{app:P35Pf:subst}
+\end{align}
+
+To ensure that the camera projection matrix $P$ can be decomposed to $K_f$, $R$ and $C$ as stated in the equation \refeqb{app:P35Pf:P} we need to introduce next nine polynomomial equations on $P$.
+\begin{align}
+  p_{21}p_{31} + p_{22}p_{32} + p_{23}p_{33} &= 0 \labeleq{app:P35Pf:eqs1}\\
+  p_{11}p_{31} + p_{12}p_{32} + p_{13}p_{33} &= 0\\
+  p_{11}p_{21} + p_{12}p_{22} + p_{13}p_{23} &= 0\\
+  p_{11}^2 + p_{12}^2 + p_{13}^2 - p_{21}^2 - p_{22}^2 - p_{23} &= 0\\
+  p_{13}^2p_{32} - p_{21}^2p_{32} - p_{22}^2p_{32} - p_{12}p_{13}p_{33} - p_{22}p_{23}p_{33} &= 0\\
+  p_{12}p_{13}p_{32} + p_{22}p_{23}p_{32} - p_{12}^2p_{33} + p_{21}^2p_{33} + p_{23}^2p_{33} &= 0\\
+  p_{11}p_{13}p_{32} + p_{21}p_{23}p_{32} - p_{11}p_{12}p_{33} - p_{21}p_{22}p_{33} &= 0\\
+  p_{13}^2p_{31} - p_{22}^2p_{31} + p_{21}p_{22}p_{32} - p_{11}p_{13}p_{33} &= 0\\
+  p_{12}p_{13}p_{31} + p_{22}p_{23}p_{31} - p_{11}p_{21}p_{33} - p_{21}p_{22}p_{33} &= 0 \labeleq{app:P35Pf:eqs9}
+\end{align}
+By solving these equations we obtain the unknowns $\xi_1, \xi_2, \xi_3, \xi_4$ from which we recover the projection matrix $P$, which we decompose by standard methods to $K_f$, $R$ and $C$.
+In general the system of equations has 10 complex solutions.
+
+In the experiment, we have randomly selected \importAppPPPfNumCameras{} cameras, for each of them \importAppPPPfNumPoints{} quadruples of 2D--to--3D correspondences has been randomly chosen.
+For each quadruple, the coefficient vectors $p_0, p_1, p_2, p_3, p_4$ of the equation \refeqb{app:P35Pf:subst} has been precomputed.
+Then the real roots $\xi_1, \xi_2, \xi_3, \xi_4$ of the equations \refeqb{app:P35Pf:eqs1} -- \refeqb{app:P35Pf:eqs9} has been found by the selected polynomial solvers.
+From the solutions the focal length $f$, the camera location $C$ and the camera rotation $R$ has been computed in a standard way.
+Then the best triple $f$, $C$ and $R$ minimizing the maximal reprojection error on all correspondences in the images for each camera and solver has been selected.
+
 \begin{figure}[ht]
   \centering
   \resizebox{0.95\textwidth}{!}{\input{graphs/app_P35Pf_err}}
