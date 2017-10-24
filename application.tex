@@ -186,6 +186,21 @@ The best results from the moment method based solvers shows the Gloptipoly \cite
 
 \section{Calibrated camera pose with unknown focal length}
 \input{macros/app_P35Pf.tex}
+A computer vision problem slightly more complicated than the P3P problem is the calibrated camera pose estimation with unknown focal length.
+In this problem the pose and focal length of a calibrated camera is estimated from four known 2D--to--3D correspondences.
+This problem has seven degrees of freedom, and therefore is overconstrained with four points.
+A minimal solver for this problem has been presented by C. Wu in \cite{P35PfWu} using 3.5 points, i.e.\ ignoring one of the image coordinates for one of the points.
+Since then the problem is called the P3.5Pf problem.
+However, this representation contains a degeneracy, which has been removed in \cite{P35Pf} by application of clever parametrization and clever elimination techniques.
+We use this representation to test our implementations of the moment method.
+The scheme of the problem geometry can be seen in \reffig{app:P35Pf}.
+
+\begin{figure}[ht]
+  \centering
+  \includegraphics[width=0.5\textwidth]{drawings/P35Pf.pdf}
+  \caption{Scheme of the P3.5Pf problem. A pose of a calibrated camera with unknown focal length can be computed from four known 3D points $X_1$, $X_2$, $X_3$, $X_4$ and their projections $x_1$, $x_2$, $x_3$, $x_4$ into the image plane $\pi$. The camera projection center is denoted as $C$.}
+  \labelfig{app:P35Pf}
+\end{figure}
 
 \begin{figure}[ht]
   \centering
