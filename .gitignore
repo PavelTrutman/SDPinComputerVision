@@ -37,10 +37,18 @@ __pycache__/
 /data/app_P3P_cdist.dat
 /data/app_P3P_rangle.dat
 /data/app_P3P_times.dat
+/data/app_P3P_relax.dat
+/data/app_P35Pf_err.dat
+/data/app_P35Pf_cdist.dat
+/data/app_P35Pf_rangle.dat
+/data/app_P35Pf_frel.dat
+/data/app_P35Pf_times.dat
+/data/app_P35Pf_relax.dat
 
 /tables/SDP_performance.tex
 /tables/POP_dim_performance.tex
 /tables/POP_deg_performance.tex
 /tables/app_P3P_numberSolutions.tex
+/tables/app_P35Pf_numberSolutions.tex
 
 /macros/

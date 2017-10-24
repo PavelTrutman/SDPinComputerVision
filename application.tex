@@ -150,6 +150,13 @@ We have also measured the execution time required to solve each instance of the 
   \labelfig{app:P3P:histTimes}
 \end{figure}
 
+\begin{figure}[ht]
+  \centering
+  \resizebox{0.95\textwidth}{!}{\input{graphs/app_P3P_relax}}
+  \caption{Histogram of maximal degrees of relaxed monomials of the P3P problem. It corresponds to value of variable $t$ in the last iteration of \refalg{POP:sol:alg} for the Polyopt package and MATLAB with MOSEK implementation. For the Gloptipoly toolbox it corresponds to two times the relaxation order.}
+  \labelfig{app:P3P:histRelax}
+\end{figure}
+
 Further off, we are interested in the number of real solutions found by the polynomial solvers.
 Since the algebraic solver computes all complex solutions first and then the non-real filters out, we are sure that this solver finds all real solutions.
 On the other hand, given our observation, the methods based on optimization do not recover all real solutions, despite the theory.
@@ -176,3 +183,56 @@ Very poor results performed the Gloptipoly toolbox, but they can be probably imp
 On the other hand, from the histograms in Figures \reffignum{app:P3P:histErr}, \reffignum{app:P3P:histCDist}, \reffignum{app:P3P:histRAngle} we can see that the overall results for the P3P problem of the Polyopt implementation and the MATLAB implementation are comparable to the purely algebraic solver, despite they did not find all the real solutions.
 Regarding the computation times showed in \reffig{app:P3P:histTimes}, we see that the moment method based implementations are significantly slower than the  pure algebraic solver.
 The best results from the moment method based solvers shows the Gloptipoly \cite{gloptipoly} toolbox, but note that we have set the relaxation order in advance, and therefore only one semidefinite program was solved for each instance.
+
+\section{Calibrated camera pose with unknown focal length}
+\input{macros/app_P35Pf.tex}
+
+\begin{figure}[ht]
+  \centering
+  \resizebox{0.95\textwidth}{!}{\input{graphs/app_P35Pf_err}}
+  \caption{Histogram of the maximal reprojection errors of all correspondences in the image for the best camera positions and rotations estimated by the selected polynomial solvers for the P3.5Pf problem compared to the maximal reprojection errors computed for the ground truth camera positions and rotations.}
+  \labelfig{app:P35Pf:histErr}
+\end{figure}
+
+\begin{figure}[ht]
+  \centering
+  \resizebox{0.95\textwidth}{!}{\input{graphs/app_P35Pf_frel}}
+  \caption{Histogram of the relative focal length errors computed by the selected polynomial solvers for the P3.5Pf problem with respect to the ground truth focal lengths.}
+  \labelfig{app:P35Pf:histFRel}
+\end{figure}
+
+\begin{figure}[ht]
+  \centering
+  \resizebox{0.95\textwidth}{!}{\input{graphs/app_P35Pf_cdist}}
+  \caption{Histogram of the errors in estimated camera positions computed by the selected polynomial solvers for the P3.5Pf problem with respect to the ground truth camera positions.}
+  \labelfig{app:P35Pf:histCDist}
+\end{figure}
+
+\begin{figure}[ht]
+  \centering
+  \resizebox{0.95\textwidth}{!}{\input{graphs/app_P35Pf_rangle}}
+  \caption{Histogram of the errors in rotation angles computed by the selected polynomial solvers for the P3.5Pf problem with respect to the ground truth camera rotations.}
+  \labelfig{app:P35Pf:histRAngle}
+  %TODO: what about arccos(>1)
+\end{figure}
+
+\begin{figure}[ht]
+  \centering
+  \resizebox{0.95\textwidth}{!}{\input{graphs/app_P35Pf_times}}
+  \caption{Histogram of the execution times required to compute the P3.5Pf problem by the selected polynomial solvers.}
+  \labelfig{app:P35Pf:histTimes}
+\end{figure}
+
+\begin{figure}[ht]
+  \centering
+  \resizebox{0.95\textwidth}{!}{\input{graphs/app_P35Pf_relax}}
+  \caption{Histogram of maximal degrees of relaxed monomials of the P3.5Pf problem. It corresponds to value of variable $t$ in the last iteration of \refalg{POP:sol:alg} for the Polyopt package and MATLAB with MOSEK implementation. For the Gloptipoly toolbox it corresponds to two times the relaxation order.}
+  \labelfig{app:P35Pf:histRelax}
+\end{figure}
+
+\begin{table}[ht]
+  \centering
+  \input{tables/app_P35Pf_numberSolutions.tex}
+  \caption{Table of numbers of all real and complex solutions and of numbers of found real solutions by each of the polynomial solver for the P3.5Pf problem.}
+  \labeltab{app:P35Pf:numSol}
+\end{table}

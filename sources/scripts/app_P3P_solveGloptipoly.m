@@ -5,11 +5,11 @@ clear all;
 
 load('data/app_P3P_cams.mat');
 
-addpath('/media/SSD/Dokumenty/Skola/CMP/gloptipoly3');
-addpath('/media/SSD/Dokumenty/Skola/CMP/yalmip');
-addpath('/media/SSD/Dokumenty/Skola/CMP/yalmip/extras');
-addpath('/media/SSD/Dokumenty/Skola/CMP/yalmip/solvers');
-addpath('/media/SSD/Dokumenty/Skola/CMP/mosek/8/toolbox/r2014a');
+addpath('../gloptipoly3');
+addpath('../yalmip');
+addpath('../yalmip/extras');
+addpath('../yalmip/solvers');
+addpath('../mosek/8/toolbox/r2014a');
 
 n = size(cams{1}.a, 2);
 camNum = size(cams, 2);
@@ -20,9 +20,10 @@ mset('yalmip', true);
 mset(sdpsettings('verbose', 0, 'solver', 'mosek'));
 mset('verbose', false);
 
-relaxOrder = 4;
+relaxOrder = 6/2;
 
 for j = 1:camNum
+  fprintf([num2str(j), ': ']);
   cam = cams{j};
   for i = 1:n
     a = cam.a{i};
@@ -39,7 +40,11 @@ for j = 1:camNum
     else
       sol{j, i} = [];
     end
+    fprintf('.');
   end
+  fprintf('\n');
 end
 
-save('data/app_P3P_solGloptipoly.mat', 'sol', 'times');
+relaxOrders = ones(camNum, n)*relaxOrder*2;
+
+save('data/app_P3P_solGloptipoly.mat', 'sol', 'times', 'relaxOrders');

@@ -31,6 +31,7 @@ fileGnuplotErrPath = 'data/app_P3P_err.dat'
 fileGnuplotCDistPath = 'data/app_P3P_cdist.dat'
 fileGnuplotRAnglePath = 'data/app_P3P_rangle.dat'
 fileGnuplotTimesPath = 'data/app_P3P_times.dat'
+fileGnuplotRelaxPath = 'data/app_P3P_relax.dat'
 
 # command line arguments parsing
 @click.group()
@@ -121,20 +122,25 @@ def processData(case=['AG', 'Polyopt', 'Mosek', 'Gloptipoly']):
 
   sol = {}
   times = {}
+  relax = {}
   resErr = {}
   resCDist = {}
   resRAngle = {}
   resErrAll = {}
   resTimes = {}
+  resRelax = {}
   for c in case:
     d = scipy.io.loadmat('data/app_P3P_sol' + c + '.mat', struct_as_record=False, squeeze_me=True)
     sol[c] = d['sol']
     times[c] = d['times']
+    if c not in ['AG']:
+      relax[c] = d['relaxOrders']
     resErr[c] = []
     resCDist[c] = []
     resRAngle[c] = []
     resErrAll[c] = []
     resTimes[c] = []
+    resRelax[c] = []
   errGT = []
 
   camNum = cams.shape[0]
@@ -196,6 +202,8 @@ def processData(case=['AG', 'Polyopt', 'Mosek', 'Gloptipoly']):
         resRAngle[c].append(np.arccos(1 - np.linalg.norm(acos - 1)))
       resErrAll[c].append(err)
       resTimes[c].extend(times[c][k, :].tolist())
+      if c not in ['AG']:
+        resRelax[c].extend(relax[c][k, :].tolist())
 
     # compute ground truth
     K = data.K[camId]
@@ -209,7 +217,7 @@ def processData(case=['AG', 'Polyopt', 'Mosek', 'Gloptipoly']):
 
   saveobj = {}
   for c in case:
-    saveobj[c] = {'CDist': resCDist[c], 'RAngle': resRAngle[c], 'err': resErr[c], 'errAll': resErrAll[c], 'times': resTimes[c]}
+    saveobj[c] = {'CDist': resCDist[c], 'RAngle': resRAngle[c], 'err': resErr[c], 'errAll': resErrAll[c], 'times': resTimes[c], 'relaxOrders': resRelax[c]}
   saveobj['GT'] = {'err': errGT}
   scipy.io.savemat(fileResultsPath, saveobj)
 
@@ -246,6 +254,12 @@ def generateGnuplot(case=['GT', 'AG', 'Polyopt', 'Mosek', 'Gloptipoly']):
       for c in [d for d in case if d not in 'GT']:
         fTimes.write('{} '.format(np.log10(results[c].times[i])))
       fTimes.write('\n')
+  with open(fileGnuplotRelaxPath, 'wt') as fRelax:
+    for i in range(len(results['AG'].times)):
+      for c in [d for d in case if d not in ['GT', 'AG']]:
+        fRelax.write('{} '.format(results[c].relaxOrders[i]))
+      fRelax.write('\n')
+
 
 
 @cli.command()
@@ -330,18 +344,23 @@ def solvePolyopt():
   n = cams[0].a.shape[0]
   saveobj = np.zeros((cams.shape[0], n), dtype=np.object)
   times = np.zeros((cams.shape[0], n))
+  relaxOrders = np.zeros((cams.shape[0], n))
 
   for cam, j in zip(cams, range(cams.shape[0])):
+    print(str(j) + ': ', end='', flush=True)
     for i in range(n):
       a = cam.a[i]
       I = [{(0, ): a[0], (1, ): a[1], (2, ): a[2], (3, ): a[3], (4, ): a[4]}]
       timeStart = timeit.default_timer()
       problem = polyopt.PSSolver(I)
+      problem.setLoggingLevel(40)
       sol = problem.solve()
       times[j, i] = timeit.default_timer() - timeStart
-      print(sol)
       saveobj[j, i] = sol
-  scipy.io.savemat(fileSolPolyoptPath, {'sol': saveobj, 'times': times})
+      relaxOrders[j, i] = problem.getRelaxOrder()
+      print('.', end='', flush=True)
+    print('\n', end='', flush=True)
+  scipy.io.savemat(fileSolPolyoptPath, {'sol': saveobj, 'times': times, 'relaxOrders': relaxOrders})
 
 
 def P3PPol(K, x1, x2, x3, u1, u2, u3):
