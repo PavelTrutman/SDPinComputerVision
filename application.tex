@@ -167,7 +167,7 @@ Since the algebraic solver computes all complex solutions first and then the non
 On the other hand, given our observation, the methods based on optimization do not recover all real solutions, despite the theory.
 The implementation from the Polyopt package has some numerical issues, which we were unable to remove in the time of writing this thesis, and therefore there is a small chance that the SDP solver fails in its computation and the solution is not found.
 Moreover, the number of real solutions is related to the rank of the moment matrix found by the SDP solver, which  numerically depend on how good representative of the set $\K$ we have obtained.
-This issue is common for both Polyopt implementation and the MATLAB and MOSEK implementation.
+This issue is common for both Polyopt implementation and the MATLAB with MOSEK implementation.
 In the case of the Gloptipoly toolbox, which is in the first case a polynomial optimization toolbox and not a polynomial system solver, the relaxation order has to be given in advance.
 If the relaxation order is not high enough, no solution is found without distinguishing the cases when there is no solution or just the relaxation order is not high enough.
 Surprisingly, when the relaxation order is too high, there are not found all the real solutions (typically one or none solution is found), because of reasons not known to us.
@@ -186,9 +186,9 @@ We can see that for the P3P problem there is about $40$ \% of non-real solutions
 We observe that in practice the moment method based implementations do not found all of the real solutions.
 The Polyopt implementation found only $80$ \% of the solutions, but we belive that this can be improved up to $90$ \% success rate, which shows the MATLAB implementation.
 Very poor results performed the Gloptipoly toolbox, but they can be probably improved by correct setting of the relaxation order.
-On the other hand, from the histograms in Figures \reffignum{app:P3P:histErr}, \reffignum{app:P3P:histCDist}, \reffignum{app:P3P:histRAngle} we can see that the overall results for the P3P problem of the Polyopt implementation and the MATLAB implementation are comparable to the purely algebraic solver, despite they did not find all the real solutions.
-Regarding the computation times showed in \reffig{app:P3P:histTimes}, we see that the moment method based implementations are significantly slower than the  pure algebraic solver.
-The best results from the moment method based solvers shows the Gloptipoly \cite{gloptipoly} toolbox, but note that we have set the relaxation order in advance, and therefore only one semidefinite program was solved for each instance.
+On the other hand, from the histograms in Figures \reffignum{app:P3P:histErr}, \reffignum{app:P3P:histCDist}, \reffignum{app:P3P:histRAngle} we can see that the overall results for the P3P problem of the Polyopt implementation and the MATLAB implementation are comparable to the purely algebraic solver, despite they have not found all the real solutions.
+Regarding the computation times showed in \reffig{app:P3P:histTimes}, we can see that the moment method based implementations are significantly slower than the  pure algebraic solver.
+The best results from the moment method based solvers shows the Gloptipoly \cite{gloptipoly} toolbox, but note that we have set the relaxation order in advance, and therefore only one semidefinite program had to be solved for each instance.
 
 \section{Calibrated camera pose with unknown focal length}
 \input{macros/app_P35Pf.tex}
@@ -212,7 +212,7 @@ The solution of the P3.5Pf problem comes from the projection equation
 \begin{align}
   \lambda_i \bmB x_i\\ 1\bmE &= K_{known}K_f \bmB R & -RC\bmE \bmB X_i\\ 1 \bmE \labeleq{app:P35Pf:projection}
 \end{align}
-for $i = 1,2,3,4$ and $\lambda_i \in \R/\{0\}$, where $K_{known}\in\R^{3\times 3}$ is the known calibration matrix up to the focal length, which is stored in the matrix $K_f = \diag\Big(\bmB f & f & 1\bmE^\top\Big)$.
+for $i = 1,2,3,4$ and $\lambda_i \in \R/\{0\}$, where $K_{known}\in\R^{3\times 3}$ is the known calibration matrix up to the unknown focal length, which is stored in the matrix $K_f = \diag\Big(\bmB f & f & 1\bmE^\top\Big)$.
 The matrix $R\in\SO$ is the rotation matrix and the vector $C\in\R^3$ is the projection centre of the camera.
 The 3D coordinates are given in vectors $X_i$ and their projections in vectors $x_i$.
 We remove the known calibration matrix from the equation \refeqb{app:P35Pf:projection} by pre-calibrating of the images coordinates.
@@ -239,10 +239,20 @@ To fix the scale we add one additional equation
 \end{align}
 These eight equations can be written in a matrix form
 \begin{align}
-  A \bmB P_1\\ P_2\\ P_3 \bmE = Ap &=b
+  \bmB
+    -X_1^\top & -1 & 0 & 0          & \tilde{x}_1\ind{1}X_1 & \tilde{x}_1\ind{1}\\
+    0 & 0          & -X_1^\top & -1 & \tilde{x}_1\ind{2}X_1 & \tilde{x}_1\ind{2}\\
+    -X_2^\top & -1 & 0 & 0          & \tilde{x}_2\ind{1}X_2 & \tilde{x}_2\ind{1}\\
+    0 & 0          & -X_2^\top & -1 & \tilde{x}_2\ind{2}X_2 & \tilde{x}_2\ind{2}\\
+    -X_3^\top & -1 & 0 & 0          & \tilde{x}_3\ind{1}X_3 & \tilde{x}_3\ind{1}\\
+    0 & 0          & -X_3^\top & -1 & \tilde{x}_3\ind{2}X_3 & \tilde{x}_3\ind{2}\\
+    -X_4^\top & -1 & 0 & 0          & \tilde{x}_4\ind{1}X_4 & \tilde{x}_4\ind{1}\\
+    0 & 0          & 0 & 0          & X_1^\top & 1
+  \bmE \bmB P_1\\ P_2\\ P_3 \bmE &= \bmB 0\\ 0\\ 0\\ 0\\ 0\\ 0\\ 0\\ 1 \bmE\\
+  Ap &= b \labeleq{app:P35Pf:nullspace}
 \end{align}
-with coefficient matrix $A \in\R^{8\times 12}$.
-Then the problem is parametrized only by four unknowns using the nullspace of $A$.
+with coefficient matrix $A \in\R^{8\times 12}$ and vector $b \in\R^8$.
+Then we can parametrize the problem only by four unknowns using the vectors $p_1, p_2, p_3, p_4$ representing the nullspace of $A$ and particular solution $p_0$ of the equation \refeqb{app:P35Pf:nullspace}.
 \begin{align}
   p &= p_0 + \xi_1p_1 + \xi_2p_2 + \xi_3p_3 + \xi_4p_4 \labeleq{app:P35Pf:subst}
 \end{align}
@@ -269,7 +279,7 @@ From the solutions the focal length $f$, the camera location $C$ and the camera 
 Then the best triple $f$, $C$ and $R$ minimizing the maximal reprojection error on all correspondences in the images for each camera and solver has been selected.
 
 \subsection{Performance of the polynomial solvers}
-We have tested our two implementations of the moment method, i.e.\ the Polyopt package and the MATLAB implementation with MOSEK SDP solver, on the previously described P3.5Pf problem.
+We have tested our two implementations of the moment method, i.e.\ the Polyopt package and the MATLAB implementation with MOSEK semidefinite programming solver, on the previously described P3.5Pf problem.
 We compared them with the state of the art polynomial solver Gloptipoly with fixed relaxation order to three and with a pure algebraic solver generated by the automatic generator \cite{autogen} as described in \cite{P35Pf}.
 The generated solver consists of G-J elimination of a coefficient matrix of size $25 \times 35$ and of eigenvector computation of a multiplication matrix of size $10 \times 10$.
 
@@ -278,7 +288,7 @@ To evaluate the estimated focal length, we computed the relative focal length er
 \begin{align}
   e_f &= \bigg|\frac{f-f_{GT}}{f_{GT}}\bigg|.
 \end{align}
-The histograms of these relative focal length error are shown in \reffig{app:P35Pf:histFRel}.
+The histograms of these relative focal length errors are shown in \reffig{app:P35Pf:histFRel}.
 We have computed the errors in camera positions with respect to the ground truth values as described by the equation \refeqb{app:P3P:CDist}.
 These errors are presented as histograms in \reffig{app:P35Pf:histCDist}.
 Histograms of the residual rotation angle for each estimated camera computed by the equation \refeqb{app:P3P:RAngle} are in \reffig{app:P35Pf:histRAngle}.
