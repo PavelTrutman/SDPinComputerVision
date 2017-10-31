@@ -85,6 +85,7 @@ def prepareData():
   # select some cameras and points
   camSel = np.random.permutation(camNum)[:camSelNum]
   for cam, i in zip(camSel, range(camSelNum)):
+    print(str(i) + ' of ' + str(camSelNum))
     uIn = u[cam][np.matlib.repmat(inliers[cam].astype(bool), 2, 1)].reshape((2, -1))
     uIdIn = uid[cam][inliers[cam].astype(bool)]
     KCam = K[cam].astype('float64')
@@ -219,7 +220,7 @@ def processData(case=['AG', 'Mosek', 'Polyopt', 'Gloptipoly']):
         resRAngle[c].append(np.nan)
         resF[c].append(np.nan)
       else:
-        camMin = np.argmin(err)
+        camMin = np.nanargmin(err)
         resErr[c].append(err[camMin])
         resCDist[c].append(np.linalg.norm(CAll[camMin] - CGT))
         resF[c].append(abs((fAll[camMin] - fGT)/fGT))

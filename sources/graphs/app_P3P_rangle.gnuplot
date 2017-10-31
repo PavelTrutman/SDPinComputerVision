@@ -9,7 +9,7 @@ set ylabel "Frequency"
 set samples 100000
 
 # histogram
-Min = -4
+Min = -4.1
 Max = -1
 n = 15.0
 datafiles = 4.0

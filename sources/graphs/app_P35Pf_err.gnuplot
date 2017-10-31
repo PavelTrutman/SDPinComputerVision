@@ -10,7 +10,7 @@ set samples 100000
 
 # histogram
 Min = 0.4
-Max = 1
+Max = 0.85
 n = 15.0
 datafiles = 5.0
 width = (Max-Min)/n
