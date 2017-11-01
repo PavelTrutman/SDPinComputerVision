@@ -364,15 +364,24 @@ Let the feasibility set $P$ of the optimization problem \refeqb{POP:opt:polmin} 
 \end{align}
 Since the set $P$ is compact, the minimum $p^*$ is attained at a point $x^*\in P$.
 On the other hand, we do not assume convexity of neither the polynomial $p_0$ nor the set $P$, and therefore the problem \refeqb{POP:opt:polmin} may have several local minima and several global minima in general case.
-We are, of course, interested in the global minimum only.
+We are, of course, interested in the global minima only.
 
 \subsection{State of the art review}
-%TODO
+It is known that the polynomial optimization problem \refeqb{POP:opt:polmin} is NP-hard, and therefore several authors have proposed to approximate the problem \refeqb{POP:opt:polmin} by a hierarchy of semidefinite relaxations.
+The first idea of applying a convex optimization technique to minimize unconstrained polynomial is from \cite{shor} by N. Z. Shor.
+Then Y. Nesterov in \cite{nesterov-2000} has shown a description of the cones of polynomials that are representable as a sum of squares and by exploitation of the duality between the moment cones and the cones of non-negative polynomials he has shown the characterization of a moment cone by LMIs when the non-negative polynomials can be written as sum of squares.
+A breakthrough in polynomial optimization was done by J. B. Lasserre \cite{Lasserre}, who by application of algebraic results by M. Putinar \cite{putinar} showed that the polynomial optimization problems can be approximated by a sequence of semidefinite program relaxations, which optima converge to the optimum of the polynomial optimization problem.
+Nowadays, efficient algorithms and their implementations for solving semidefinite programs exists as described in \refsec{SDP:soa}, and therefore polynomial optimization problems in a form \refeqb{POP:opt:polmin} can be solved efficiently.
+
+In these days, many implementations of polynomial optimization problem solver exists.
+Probably the most common is the MATLAB toolbox Gloptipoly \cite{gloptipoly}, which can use many different semidefinite program solvers to solve the SDP problem arising from the relaxations.
+Then there is the GpoSolver \cite{gposolver}, which uses MATLAB to describe the problem and then generates a \CC{} code, which solves the problem for given parameters and which can be included into an existing codebase.
+Also the SOSTOOLS \cite{sostools} is a toolbox implemented in MATLAB, which can be used to solve the sum of squares optimization problems. 
 
 \subsection{Lasserre's LMI hierarchy}
-The global minimum can be found by hierarchies of semidefinite programs.
+The global minimum of a polynomial optimization problem in form \refeqb{POP:opt:polmin} can be found by hierarchies of semidefinite programs.
 This was introduced by J. B. Lasserre in \cite{Lasserre}.
-He has shown that the polynomial optimization problem \refeqb{POP:opt:polmin} can be equivalently written as the following semidefinite program \refeqb{POP:opt:SDP}.
+He has shown that the polynomial optimization problem can be equivalently written as the following semidefinite program \refeqb{POP:opt:SDP}.
 \begin{align}
   \arraycolsep=1.4pt
   \begin{array}{rclrcl@{\hskip0.5cm}l}
