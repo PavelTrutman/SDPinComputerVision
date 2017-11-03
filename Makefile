@@ -14,7 +14,7 @@ IMAGES = cmp.png lev.png LADIO_01.png LADIO_02.png
 
 ALGS = self-concordant-function.tex analytic-center.tex path-follow.tex moment-matrix.tex
 
-GRAPHS_FILES = SDP_hyperPar SDP_hyperParSlice SDP_demo SDP_barrier SDP_performance POP_multiplicationMatrices POP_Lasserre POP_dim_performance POP_deg_performance app_P3P_err app_P3P_cdist app_P3P_rangle app_P3P_times app_P3P_relax app_P35Pf_err app_P35Pf_cdist app_P35Pf_rangle app_P35Pf_times app_P35Pf_relax app_P35Pf_frel
+GRAPHS_FILES = SDP_hyperPar SDP_hyperParSlice SDP_demo SDP_barrier SDP_performance SDP_prec_eps_times SDP_prec_eps_iters SDP_prec_perc_iters POP_multiplicationMatrices POP_Lasserre POP_dim_performance POP_deg_performance app_P3P_err app_P3P_cdist app_P3P_rangle app_P3P_times app_P3P_relax app_P35Pf_err app_P35Pf_cdist app_P35Pf_rangle app_P35Pf_times app_P35Pf_relax app_P35Pf_frel
 GRAPHS_PDF = $(addsuffix .pdf, $(GRAPHS_FILES))
 GRAPHS_TEX = $(addsuffix .tex, $(GRAPHS_FILES))
 GRAPHS_EPS = $(addsuffix .eps, $(GRAPHS_FILES))
@@ -26,7 +26,7 @@ DRAWINGS_PDF = $(addsuffix .pdf, $(DRAWINGS_FILES))
 TABLES_FILES = SDP_performance POP_dim_performance POP_deg_performance app_P3P_numberSolutions app_P35Pf_numberSolutions
 TABLES_TEXS = $(addsuffix .tex, $(TABLES_FILES))
 
-MACROS_FILES = SDP_performance POP_dim_performance POP_deg_performance app_LADIO app_P3P app_P35Pf
+MACROS_FILES = SDP_performance SDP_prec_eps SDP_prec_perc POP_dim_performance POP_deg_performance app_LADIO app_P3P app_P35Pf
 MACROS_TEXS = $(addsuffix .tex, $(MACROS_FILES))
 
 INTER = $(addprefix graphs/, $(GRAPHS_EPS))
@@ -62,6 +62,15 @@ graphs/SDP_demo.tex graphs/SDP_demo.eps: sources/graphs/SDP_demo.gnuplot sources
 
 graphs/SDP_performance.tex graphs/SDP_performance.eps: sources/graphs/SDP_performance.gnuplot data/SDP_performance.dat
 	gnuplot sources/graphs/SDP_performance.gnuplot
+
+graphs/SDP_prec_eps_times.tex graphs/SDP_prec_eps_times.eps: sources/graphs/SDP_prec_eps_times.gnuplot data/SDP_prec_eps_times.dat
+	gnuplot sources/graphs/SDP_prec_eps_times.gnuplot
+
+graphs/SDP_prec_eps_iters.tex graphs/SDP_prec_eps_iters.eps: sources/graphs/SDP_prec_eps_iters.gnuplot data/SDP_prec_eps_iters.dat
+	gnuplot sources/graphs/SDP_prec_eps_iters.gnuplot
+
+graphs/SDP_prec_perc_iters.tex graphs/SDP_prec_perc_iters.eps: sources/graphs/SDP_prec_perc_iters.gnuplot data/SDP_prec_perc_iters.dat
+	gnuplot sources/graphs/SDP_prec_perc_iters.gnuplot
 
 graphs/POP_dim_performance.tex graphs/POP_dim_performance.eps: sources/graphs/POP_dim_performance.gnuplot data/POP_dim_performance.dat
 	gnuplot sources/graphs/POP_dim_performance.gnuplot
@@ -108,6 +117,12 @@ graphs/%.tex graphs/%.eps: sources/graphs/%.gnuplot
 tables/SDP_performance.tex macros/SDP_performance.tex data/SDP_performance.dat: data/SDP_matrices.mat data/SDP_timesPolyopt.mat data/SDP_timesSedumi.mat data/SDP_timesMosek.mat sources/scripts/SDP_timesLaTeX.py
 	PYTHONPATH=sources/scripts/ python3 -m SDP_timesLaTeX
 
+macros/SDP_prec_eps.tex data/SDP_prec_eps_times.dat data/SDP_prec_eps_iters.dat: data/SDP_prec_eps_matrices.mat data/SDP_prec_eps_results.mat sources/scripts/SDP_prec_eps_LaTeX.py
+	PYTHONPATH=sources/scripts/ python3 -m SDP_prec_eps_LaTeX
+
+macros/SDP_prec_perc.tex data/SDP_prec_perc_iters.dat: data/SDP_prec_perc_matrices.mat data/SDP_prec_perc_results.mat sources/scripts/SDP_prec_perc_LaTeX.py
+	PYTHONPATH=sources/scripts/ python3 -m SDP_prec_perc_LaTeX
+
 tables/POP_dim_performance.tex macros/POP_dim_performance.tex data/POP_dim_performance.dat: data/POP_dim_coefs.mat data/POP_dim_timesPolyopt.mat data/POP_dim_timesGloptipoly.mat sources/scripts/POP_dim_timesLaTeX.py
 	PYTHONPATH=sources/scripts/ python3 -m POP_dim_timesLaTeX
 
@@ -139,11 +154,13 @@ clean:
 	-rm thesis.!(tex)
 	-rm $(addprefix graphs/, $(GRAPHS)) $(addprefix graphs/, $(GRAPHS_EPS))
 	-rm tables/SDP_performance.tex tables/POP_dim_performance.tex tables/POP_deg_performance.tex tables/app_P3P_numberSolutions.tex tables/app_P35Pf_numberSolutions.tex
-	-rm data/SDP_performance.dat data/POP_dim_performance.dat data/POP_deg_performance.dat data/app_P3P_err.dat data/app_P3P_cdist.dat data/app_P3P_rangle.dat data/app_P3P_times.dat data/app_P3P_relax.dat data/app_P35Pf_err.dat data/app_P35Pf_cdist.dat data/app_P35Pf_rangle.dat data/app_P35Pf_times.dat data/app_P35Pf_relax.dat data/app_P35Pf_frel.dat
-	-rm macros/SDP_performance.tex macros/POP_dim_performance.tex macros/POP_deg_performance.tex macros/app_LADIO.tex macros/app_P3P.tex macros/app_P35Pf.tex
+	-rm data/SDP_performance.dat data/SDP_prec_eps_times.data data/SDP_prec_eps_iters.dat data/SDP_prec_perc_iters.dat data/POP_dim_performance.dat data/POP_deg_performance.dat data/app_P3P_err.dat data/app_P3P_cdist.dat data/app_P3P_rangle.dat data/app_P3P_times.dat data/app_P3P_relax.dat data/app_P35Pf_err.dat data/app_P35Pf_cdist.dat data/app_P35Pf_rangle.dat data/app_P35Pf_times.dat data/app_P35Pf_relax.dat data/app_P35Pf_frel.dat
+	-rm macros/SDP_performance.tex macros/SDP_prec_eps.tex macros/SDP_prec_perc.tex macros/POP_dim_performance.tex macros/POP_deg_performance.tex macros/app_LADIO.tex macros/app_P3P.tex macros/app_P35Pf.tex
 
 cleanData:
 	-rm data/SDP_matrices.mat data/SDP_timesPolyopt.mat data/SDP_timesSedumi.mat data/SDP_timesMosek.mat
+	-rm data/SDP_prec_eps_matrices.mat data/SDP_prec_eps_results.mat
+	-rm data/SDP_prec_perc_matrices.mat data/SDP_prec_perc_results.mat
 	-rm data/POP_dim_coefs.mat data/POP_dim_timesPolyopt.mat data/POP_dim_timesGloptipoly.mat
 	-rm data/POP_deg_coefs.mat data/POP_deg_timesPolyopt.mat data/POP_deg_timesGloptipoly.mat
 	-rm data/app_P3P_cams.mat data/app_P3P_solAG.mat data/app_P3P_solPolyopt.mat data/app_P3P_solGloptipoly.mat data/app_P3P_solMosek.mat data/app_P3P_results.mat
@@ -178,6 +195,34 @@ data/SDP_matrices.mat: sources/scripts/SDP_generateData.py
 		touch $@; \
 	else \
 		PYTHONPATH=sources/scripts/ python3 -m SDP_generateData; \
+	fi;
+
+data/SDP_prec_eps_results.mat: data/SDP_prec_eps_matrices.mat sources/scripts/SDP_prec_eps_polyopt.py
+	if [ -e $@ ] && [ "$(AllowGenerateData)" != "TRUE" ]; then \
+		touch $@; \
+	else \
+		PYTHONPATH=sources/scripts/ python3 -m SDP_prec_eps_polyopt; \
+	fi;
+
+data/SDP_prec_eps_matrices.mat: sources/scripts/SDP_prec_eps_generateData.py
+	if [ -e $@ ] && [ "$(AllowGenerateData)" != "TRUE" ]; then \
+		touch $@; \
+	else \
+		PYTHONPATH=sources/scripts/ python3 -m SDP_prec_eps_generateData; \
+	fi;
+
+data/SDP_prec_perc_results.mat: data/SDP_prec_perc_matrices.mat sources/scripts/SDP_prec_perc_polyopt.py
+	if [ -e $@ ] && [ "$(AllowGenerateData)" != "TRUE" ]; then \
+		touch $@; \
+	else \
+		PYTHONPATH=sources/scripts/ python3 -m SDP_prec_perc_polyopt; \
+	fi;
+
+data/SDP_prec_perc_matrices.mat: sources/scripts/SDP_prec_perc_generateData.py
+	if [ -e $@ ] && [ "$(AllowGenerateData)" != "TRUE" ]; then \
+		touch $@; \
+	else \
+		PYTHONPATH=sources/scripts/ python3 -m SDP_prec_perc_generateData; \
 	fi;
 
 data/POP_dim_timesPolyopt.mat: data/POP_dim_coefs.mat sources/scripts/POP_dim_polyopt.py

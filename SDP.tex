@@ -867,3 +867,28 @@ The SeDuMi toolbox seems to have some constant overhead, but the execution time 
 The Polyopt package accomplishes quite bad results compared to SeDuMi and MOSEK, especially for large sizes of problems.
 But this behavior was expected, as we know that the execution time should be proportional to $k^4$, where $k$ is the size of the problem.
 However, due to SeDuMi overhead, the Polyopt package is faster than SeDuMi for problem sizes up to 8.
+
+\section{Speed--accuracy trade-off}
+
+\input{macros/SDP_prec_eps}
+\begin{figure}[ht]
+  \centering
+  \resizebox{0.95\textwidth}{!}{\input{graphs/SDP_prec_eps_times}}
+  \caption{TODO: Graph of execution times based on the size of semidefinite problems solved by the selected toolboxes.}
+  \labelfig{TODO:SDP:perf:times}
+\end{figure}
+
+\begin{figure}[ht]
+  \centering
+  \resizebox{0.95\textwidth}{!}{\input{graphs/SDP_prec_eps_iters}}
+  \caption{TODO: Graph of execution times based on the size of semidefinite problems solved by the selected toolboxes.}
+  \labelfig{TODO:SDP:perf:times}
+\end{figure}
+
+\input{macros/SDP_prec_perc}
+\begin{figure}[ht]
+  \centering
+  \resizebox{0.95\textwidth}{!}{\input{graphs/SDP_prec_perc_iters}}
+  \caption{TODO: Graph of execution times based on the size of semidefinite problems solved by the selected toolboxes.}
+  \labelfig{TODO:SDP:perf:times}
+\end{figure}
