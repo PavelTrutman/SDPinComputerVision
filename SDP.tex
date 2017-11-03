@@ -818,7 +818,7 @@ The final generated problem denoted as $P_{k,l}$ looks like
           y\ind2 & 0 & 1 & \cdots & 0\\
           \vdots & \vdots & \vdots & \ddots & \vdots\\
           y\ind k & 0 & 0 & \cdots & 1\bmE &\succeq& 0.
- \end{array}
+ \end{array}\labeleq{SDP:perf:problem}
 \end{align}
 
 \subsection{Time measuring}
@@ -869,14 +869,33 @@ But this behavior was expected, as we know that the execution time should be pro
 However, due to SeDuMi overhead, the Polyopt package is faster than SeDuMi for problem sizes up to 8.
 
 \section{Speed--accuracy trade-off}
+Obtaining a precise solution of a semidefinite program is quite time consuming, especially for problems with many unknowns, as we can see from \reffig{SDP:perf:times}.
+However, in many applications we have no need for a precise solution.
+We only need a ``good enough'' solution, but obtained in a limited time period.
+Therefore one should be interested in a analysis describing this speed--accuracy trade-off.
 
+\subsection{Precision based analysis}
 \input{macros/SDP_prec_eps}
+The first experiment is an observation how many iterations, and therefore how much time, is required to find a solution based on the value of $\varepsilon$ from \refalg{SDP:scb:pf}.
+This value of $\varepsilon$ represents an accuracy of \refalg{SDP:scb:pf} and sets up a threshold for the termination condition.
+The bigger the value of $\varepsilon$ the less iterations the algorithm needs to terminate, and therefore less computation time is spent.
+
+To evaluate the dependency we have generated unique semidefinite programs $P_{k, l}$ according to \refeqb{SDP:perf:problem} for $k = \importSDPPrecEpsDims{}$ and $l = 1,\ldots,\importSDPPrecEpsUnique{}$.
+For each of this problem and accuracy $\varepsilon$ we have measured the number of iterations $N_{k,l,\varepsilon}$ of \refalg{SDP:scb:pf} required to find the solution.
+Then we have averaged the numbers across the unique problems.
+\begin{align}
+  N_{k,\varepsilon} &= \frac{1}{\importSDPPrecEpsUnique}\sum_{l=1}^{\importSDPPrecEpsUnique}N_{k,l,\varepsilon}
+\end{align}
+The values of $N_{k,\varepsilon}$ are plotted in \reffig{SDP:perf:eps} for different values of $k$ and $\varepsilon$.
+
 \begin{figure}[ht]
   \centering
-  \resizebox{0.95\textwidth}{!}{\input{graphs/SDP_prec_eps_times}}
-  \caption{TODO: Graph of execution times based on the size of semidefinite problems solved by the selected toolboxes.}
-  \labelfig{TODO:SDP:perf:times}
+  \resizebox{0.95\textwidth}{!}{\input{graphs/SDP_prec_eps_iters}}
+  \caption{Graph of numbers of iterations required to solve the semidefinite problems by \refalg{SDP:scb:pf} for different values of problem size $k$ based on $\varepsilon$ using the implementation from the Polyopt package.}
+  \labelfig{SDP:perf:eps}
 \end{figure}
+
+From the plot we can see that the number of iterations, and therefore the execution time, required to solve a given problem of fixed problem size $k$ is proportional to $\log(\varepsilon)$.
 
 \begin{figure}[ht]
   \centering

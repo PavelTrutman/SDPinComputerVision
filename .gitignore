@@ -31,8 +31,7 @@ __pycache__/
 /graphs/
 
 /data/SDP_performance.dat
-/data/SDP_prec_eps_iters.dat
-/data/SDP_prec_eps_times.dat
+/data/SDP_prec_eps.dat
 /data/SDP_prec_perc_iters.dat
 /data/POP_dim_performance.dat
 /data/POP_deg_performance.dat

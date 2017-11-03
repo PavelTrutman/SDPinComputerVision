@@ -15,37 +15,31 @@ if __name__ == '__main__':
 
   # load data
   matData = scipy.io.loadmat('data/SDP_prec_eps_matrices.mat', struct_as_record=False, squeeze_me=True)
-  dim = matData['dim']
+  dims = matData['dims'].tolist()
   unique = matData['unique']
-  repeat = matData['repeat']
   bound = matData['bound']
   precs = matData['precs'].tolist()
   matrices = matData['matrices']
 
-  timesAll = np.zeros(len(precs), dtype=np.object)
-  itersAll = np.zeros(len(precs), dtype=np.object)
-
-  for precIdx, prec in reversed(list(enumerate(precs))):
-    print('{}: '.format(prec), end='', flush=True)
-    objective = np.ones((dim, 1))
-    startPoint = np.zeros((dim, 1))
-    times = np.empty((unique, repeat))
-    iters = np.empty((unique, repeat))
-    for j in range(unique):
-      problem = polyopt.SDPSolver(objective, [matrices[:, j]])
-      problem.bound(bound)
-      ac = problem.dampedNewton(startPoint)
-      for i in range(repeat):
-        problem = polyopt.SDPSolver(objective, [matrices[:, j]])
+  iters = np.zeros((len(dims), ), dtype=np.object)
+  for dimIdx, dim in reversed(list(enumerate(dims))):
+    print('dim: ', dim)
+    matricesDim = matrices[dimIdx]
+    itersDim = np.empty((len(precs), unique))
+    for precIdx, prec in reversed(list(enumerate(precs))):
+      print('{}: '.format(prec), end='', flush=True)
+      objective = np.ones((dim, 1))
+      startPoint = np.zeros((dim, 1))
+      for j in range(unique):
+        problem = polyopt.SDPSolver(objective, [matricesDim[:, j]])
         problem.bound(bound)
+        ac = problem.dampedNewton(startPoint)
+        problem.iterations = 0
         problem.eps = prec
-        timeStart = timeit.default_timer()
         problem.mainFollow(ac)
-        times[j, i] = timeit.default_timer() - timeStart
-        iters[j, i] = problem.iterations
-      print('.', end='', flush=True)
-    print()
-    timesAll[precIdx] = times
-    itersAll[precIdx] = iters
+        itersDim[precIdx, j] = problem.iterations
+        print('.', end='', flush=True)
+      print()
+    iters[dimIdx] = itersDim
 
-  scipy.io.savemat('data/SDP_prec_eps_results.mat', {'times': timesAll, 'iters': itersAll})
+  scipy.io.savemat('data/SDP_prec_eps_results.mat', {'iters': iters})

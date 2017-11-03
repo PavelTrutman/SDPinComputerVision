@@ -14,34 +14,27 @@ if __name__ == '__main__':
   # load data
   matData = scipy.io.loadmat('data/SDP_prec_eps_matrices.mat', struct_as_record=False, squeeze_me=True)
   resData = scipy.io.loadmat('data/SDP_prec_eps_results.mat', struct_as_record=False, squeeze_me=True)
-  dim = matData['dim']
+  dims = matData['dims'].tolist()
   unique = matData['unique']
-  repeat = matData['repeat']
   bound = matData['bound']
   precs = matData['precs']
   matrices = matData['matrices']
-  times = resData['times']
   iters = resData['iters']
 
   # compute the stats
-  minTimes = np.empty((len(precs), unique))
-  minIters = np.empty((len(precs), unique))
-  for prec, precIdx in zip(precs, range(len(precs))):
-    minTimes[precIdx, :] = times[precIdx].min(axis=1)
-    minIters[precIdx, :] = iters[precIdx].min(axis=1)
+  resIters = np.empty((len(dims), len(precs)))
+  for dimIdx, dim in enumerate(dims):
+    resIters[dimIdx, :] = iters[dimIdx].mean(axis=1)
 
   # export to LaTeX
-  with open('data/SDP_prec_eps_times.dat', 'wt') as fTimes, open('data/SDP_prec_eps_iters.dat', 'wt') as fIters:
-    formatStrTimes = '{:f} '*len(precs) + '\n'
-    formatStrIters = '{:f} '*len(precs) + '\n'
-    for i in range(unique):
-      fTimes.write(formatStrTimes.format(*np.log10(minTimes[:, i]).tolist()))
-      fIters.write(formatStrIters.format(*minIters[:, i].tolist()))
+  with open('data/SDP_prec_eps.dat', 'wt') as f:
+    formatStr = '{:g}' + ' {:f}'*len(dims) + '\n'
+    for precIdx, prec in enumerate(precs):
+      f.write(formatStr.format(prec, *resIters[:, precIdx].tolist()))
 
   with open('macros/SDP_prec_eps.tex', 'wt') as f:
-    f.write('\\newcommand{{\\importSDPPrecEpsUnique}}{{{0:d}}}\n'.format(unique))
-    f.write('\\newcommand{{\\importSDPPrecEpsRepeat}}{{{0:d}}}\n'.format(repeat))
+    f.write('\\newcommand{{\\importSDPPrecEpsUnique}}{{\\num{{{0:d}}}}}\n'.format(unique))
     f.write('\\newcommand{{\\importSDPPrecEpsBound}}{{\\ensuremath{{10^{{{0:.0f}}}}}}}\n'.format(np.log10(bound)))
-    f.write('\\newcommand{{\\importSDPPrecEpsDim}}{{{0:d}}}\n'.format(dim))
-    for precIdx, prec in zip(range(len(precs)), precs):
-      f.write(('\\newcommand{{\\importSDPPrecEpsPrec' + 'I'*(precIdx + 1) + '}}{{\\ensuremath{{10^{{{0:d}}}}}}}\n').format(int(np.log10(prec))))
+    f.write('\\newcommand{{\\importSDPPrecEpsDims}}{{{:s}}}\n'.format(', '.join(str(dim) for dim in dims)))
+    for dimIdx, dim in enumerate(dims):
+      f.write(('\\newcommand{{\\importSDPPrecEpsDim' + 'I'*(dimIdx + 1) + '}}{{{:d}}}\n').format(dim))

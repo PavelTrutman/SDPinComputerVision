@@ -14,7 +14,7 @@ IMAGES = cmp.png lev.png LADIO_01.png LADIO_02.png
 
 ALGS = self-concordant-function.tex analytic-center.tex path-follow.tex moment-matrix.tex
 
-GRAPHS_FILES = SDP_hyperPar SDP_hyperParSlice SDP_demo SDP_barrier SDP_performance SDP_prec_eps_times SDP_prec_eps_iters SDP_prec_perc_iters POP_multiplicationMatrices POP_Lasserre POP_dim_performance POP_deg_performance app_P3P_err app_P3P_cdist app_P3P_rangle app_P3P_times app_P3P_relax app_P35Pf_err app_P35Pf_cdist app_P35Pf_rangle app_P35Pf_times app_P35Pf_relax app_P35Pf_frel
+GRAPHS_FILES = SDP_hyperPar SDP_hyperParSlice SDP_demo SDP_barrier SDP_performance SDP_prec_eps_iters SDP_prec_perc_iters POP_multiplicationMatrices POP_Lasserre POP_dim_performance POP_deg_performance app_P3P_err app_P3P_cdist app_P3P_rangle app_P3P_times app_P3P_relax app_P35Pf_err app_P35Pf_cdist app_P35Pf_rangle app_P35Pf_times app_P35Pf_relax app_P35Pf_frel
 GRAPHS_PDF = $(addsuffix .pdf, $(GRAPHS_FILES))
 GRAPHS_TEX = $(addsuffix .tex, $(GRAPHS_FILES))
 GRAPHS_EPS = $(addsuffix .eps, $(GRAPHS_FILES))
@@ -63,10 +63,7 @@ graphs/SDP_demo.tex graphs/SDP_demo.eps: sources/graphs/SDP_demo.gnuplot sources
 graphs/SDP_performance.tex graphs/SDP_performance.eps: sources/graphs/SDP_performance.gnuplot data/SDP_performance.dat
 	gnuplot sources/graphs/SDP_performance.gnuplot
 
-graphs/SDP_prec_eps_times.tex graphs/SDP_prec_eps_times.eps: sources/graphs/SDP_prec_eps_times.gnuplot data/SDP_prec_eps_times.dat
-	gnuplot sources/graphs/SDP_prec_eps_times.gnuplot
-
-graphs/SDP_prec_eps_iters.tex graphs/SDP_prec_eps_iters.eps: sources/graphs/SDP_prec_eps_iters.gnuplot data/SDP_prec_eps_iters.dat
+graphs/SDP_prec_eps_iters.tex graphs/SDP_prec_eps_iters.eps: sources/graphs/SDP_prec_eps_iters.gnuplot data/SDP_prec_eps.dat
 	gnuplot sources/graphs/SDP_prec_eps_iters.gnuplot
 
 graphs/SDP_prec_perc_iters.tex graphs/SDP_prec_perc_iters.eps: sources/graphs/SDP_prec_perc_iters.gnuplot data/SDP_prec_perc_iters.dat
@@ -117,7 +114,7 @@ graphs/%.tex graphs/%.eps: sources/graphs/%.gnuplot
 tables/SDP_performance.tex macros/SDP_performance.tex data/SDP_performance.dat: data/SDP_matrices.mat data/SDP_timesPolyopt.mat data/SDP_timesSedumi.mat data/SDP_timesMosek.mat sources/scripts/SDP_timesLaTeX.py
 	PYTHONPATH=sources/scripts/ python3 -m SDP_timesLaTeX
 
-macros/SDP_prec_eps.tex data/SDP_prec_eps_times.dat data/SDP_prec_eps_iters.dat: data/SDP_prec_eps_matrices.mat data/SDP_prec_eps_results.mat sources/scripts/SDP_prec_eps_LaTeX.py
+macros/SDP_prec_eps.tex data/SDP_prec_eps.dat: data/SDP_prec_eps_matrices.mat data/SDP_prec_eps_results.mat sources/scripts/SDP_prec_eps_LaTeX.py
 	PYTHONPATH=sources/scripts/ python3 -m SDP_prec_eps_LaTeX
 
 macros/SDP_prec_perc.tex data/SDP_prec_perc_iters.dat: data/SDP_prec_perc_matrices.mat data/SDP_prec_perc_results.mat sources/scripts/SDP_prec_perc_LaTeX.py
@@ -154,7 +151,7 @@ clean:
 	-rm thesis.!(tex)
 	-rm $(addprefix graphs/, $(GRAPHS)) $(addprefix graphs/, $(GRAPHS_EPS))
 	-rm tables/SDP_performance.tex tables/POP_dim_performance.tex tables/POP_deg_performance.tex tables/app_P3P_numberSolutions.tex tables/app_P35Pf_numberSolutions.tex
-	-rm data/SDP_performance.dat data/SDP_prec_eps_times.data data/SDP_prec_eps_iters.dat data/SDP_prec_perc_iters.dat data/POP_dim_performance.dat data/POP_deg_performance.dat data/app_P3P_err.dat data/app_P3P_cdist.dat data/app_P3P_rangle.dat data/app_P3P_times.dat data/app_P3P_relax.dat data/app_P35Pf_err.dat data/app_P35Pf_cdist.dat data/app_P35Pf_rangle.dat data/app_P35Pf_times.dat data/app_P35Pf_relax.dat data/app_P35Pf_frel.dat
+	-rm data/SDP_performance.dat data/SDP_prec_eps.data data/SDP_prec_perc_iters.dat data/POP_dim_performance.dat data/POP_deg_performance.dat data/app_P3P_err.dat data/app_P3P_cdist.dat data/app_P3P_rangle.dat data/app_P3P_times.dat data/app_P3P_relax.dat data/app_P35Pf_err.dat data/app_P35Pf_cdist.dat data/app_P35Pf_rangle.dat data/app_P35Pf_times.dat data/app_P35Pf_relax.dat data/app_P35Pf_frel.dat
 	-rm macros/SDP_performance.tex macros/SDP_prec_eps.tex macros/SDP_prec_perc.tex macros/POP_dim_performance.tex macros/POP_deg_performance.tex macros/app_LADIO.tex macros/app_P3P.tex macros/app_P35Pf.tex
 
 cleanData:
