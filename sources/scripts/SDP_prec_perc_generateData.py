@@ -13,10 +13,10 @@ import numpy as np
 if __name__ == '__main__':
 
   # dimension of the problem
-  dim = 20
+  dims = [5, 10, 15, 20]
 
   # number of different data for each dimension
-  unique = 10000
+  unique = 1000
 
   # bound
   bound = 1e3
@@ -25,12 +25,15 @@ if __name__ == '__main__':
   eps = 1e-9
 
   # percentages
-  percs = [float(x)/100.0 for x in [10, 1, 0.1, 0.01, 0.001, 0.0001]]
+  percs = [1e-1, 1e-2, 1e-3, 1e-4, 1e-5, 1e-6, 1e-7, 1e-8, 1e-9]
 
-  matricesDim = np.zeros((dim + 1, unique), dtype=np.object)
-  for j in range(unique):
-    matricesDim[0, j] = np.eye(dim)
-    for i in range(1, dim + 1):
-      matricesDim[i, j] = polyopt.utils.randomSymetric(dim)
+  matrices = np.empty((len(dims)), dtype=np.object)
+  for dimIdx, dim in enumerate(dims):
+    matricesDim = np.zeros((dim + 1, unique), dtype=np.object)
+    for j in range(unique):
+      matricesDim[0, j] = np.eye(dim)
+      for i in range(1, dim + 1):
+        matricesDim[i, j] = polyopt.utils.randomSymetric(dim)
+    matrices[dimIdx] = matricesDim
 
-  scipy.io.savemat('data/SDP_prec_perc_matrices.mat', {'matrices': matricesDim, 'dim': dim, 'unique': unique, 'bound': bound, 'percs': percs, 'eps': eps})
+  scipy.io.savemat('data/SDP_prec_perc_matrices.mat', {'matrices': matrices, 'dims': dims, 'unique': unique, 'bound': bound, 'percs': percs, 'eps': eps})

@@ -14,7 +14,7 @@ IMAGES = cmp.png lev.png LADIO_01.png LADIO_02.png
 
 ALGS = self-concordant-function.tex analytic-center.tex path-follow.tex moment-matrix.tex
 
-GRAPHS_FILES = SDP_hyperPar SDP_hyperParSlice SDP_demo SDP_barrier SDP_performance SDP_prec_eps_iters SDP_prec_perc_iters POP_multiplicationMatrices POP_Lasserre POP_dim_performance POP_deg_performance app_P3P_err app_P3P_cdist app_P3P_rangle app_P3P_times app_P3P_relax app_P35Pf_err app_P35Pf_cdist app_P35Pf_rangle app_P35Pf_times app_P35Pf_relax app_P35Pf_frel
+GRAPHS_FILES = SDP_hyperPar SDP_hyperParSlice SDP_demo SDP_barrier SDP_performance SDP_prec_eps_iters SDP_prec_perc_demo SDP_prec_perc_iters POP_multiplicationMatrices POP_Lasserre POP_dim_performance POP_deg_performance app_P3P_err app_P3P_cdist app_P3P_rangle app_P3P_times app_P3P_relax app_P35Pf_err app_P35Pf_cdist app_P35Pf_rangle app_P35Pf_times app_P35Pf_relax app_P35Pf_frel
 GRAPHS_PDF = $(addsuffix .pdf, $(GRAPHS_FILES))
 GRAPHS_TEX = $(addsuffix .tex, $(GRAPHS_FILES))
 GRAPHS_EPS = $(addsuffix .eps, $(GRAPHS_FILES))
@@ -65,6 +65,9 @@ graphs/SDP_performance.tex graphs/SDP_performance.eps: sources/graphs/SDP_perfor
 
 graphs/SDP_prec_eps_iters.tex graphs/SDP_prec_eps_iters.eps: sources/graphs/SDP_prec_eps_iters.gnuplot data/SDP_prec_eps.dat
 	gnuplot sources/graphs/SDP_prec_eps_iters.gnuplot
+
+graphs/SDP_prec_perc_demo.tex graphs/SDP_prec_perc_demo.eps: sources/graphs/SDP_prec_perc_demo.gnuplot sources/graphs/SDP_prec_perc_demo.dat
+	gnuplot sources/graphs/SDP_prec_perc_demo.gnuplot
 
 graphs/SDP_prec_perc_iters.tex graphs/SDP_prec_perc_iters.eps: sources/graphs/SDP_prec_perc_iters.gnuplot data/SDP_prec_perc_iters.dat
 	gnuplot sources/graphs/SDP_prec_perc_iters.gnuplot

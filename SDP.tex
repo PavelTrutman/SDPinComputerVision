@@ -897,17 +897,34 @@ The values of $N_{k,\varepsilon}$ are plotted in \reffig{SDP:perf:eps} for diffe
 
 From the plot we can see that the number of iterations, and therefore the execution time, required to solve a given problem of fixed problem size $k$ is proportional to $\log(\varepsilon)$.
 
+\subsection{Analysis based on the required distance from the solution}
+\input{macros/SDP_prec_perc}
+\refalg{SDP:scb:pf} starts at the analytic center $y_F^*$ of the feasible set of the problem and then follows the central path until it is sufficiently close to the optimal solution $y^*$.
+The sizes of the steps of the algorithm are decreasing as the algorithm is closing to the solution.
+Therefore, we need only few iterations to get within half the distance $\|y^* - y_F^*\|$ from the solution, but many of them to be within 1 \% of the distance $\|y^* - y_F^*\|$ from the solution.
+The situation for a simple semidefinite problem is shown in \reffig{SDP:perf:perc:demo}.
+
 \begin{figure}[ht]
   \centering
-  \resizebox{0.95\textwidth}{!}{\input{graphs/SDP_prec_eps_iters}}
-  \caption{TODO: Graph of execution times based on the size of semidefinite problems solved by the selected toolboxes.}
-  \labelfig{TODO:SDP:perf:times}
+  \resizebox{0.95\textwidth}{!}{\input{graphs/SDP_prec_perc_demo}}
+  \caption{Example of a simple semidefinite problem with steps of \refalg{SDP:scb:pf}. The algorithm starts from the analytic center $y^*_{F}$ and finishes at the optimal point $y^*$. Selected fractions of the distance $\|y^* - y_F^*\|$ are represented by concentric circles.}
+  \labelfig{SDP:perf:perc:demo}
 \end{figure}
 
-\input{macros/SDP_prec_perc}
+To see how many iterations are needed to get within some fraction of the distance $\|y^* - y_F^*\|$ from the optimal solution $y^*$, we have generated unique semidefinite problems $P_{k, l}$ for the problem sizes $k = \importSDPPrecPercDims{}$ and $l = 1, \ldots, \importSDPPrecPercUnique{}$ according to \refeqb{SDP:perf:problem}.
+Then we have solved each problem with accuracy $\varepsilon = \importSDPPrecPercEps$ to obtain a precise approximation of the solution $y^*$.
+After that we have counted how many iterations $N_{k,l,\lambda}$ are needed to get within the distance $\lambda \|y^* - y_F^*\|$ from the solution $y^*$ for the given problem and for selected values of $\lambda$.
+Then we have averaged the numbers across the unique problems.
+\begin{align}
+  N_{k,\lambda} &= \frac{1}{\importSDPPrecPercUnique}\sum_{l=1}^{\importSDPPrecPercUnique}N_{k,l,\lambda}
+\end{align}
+The values of $N_{k,\lambda}$ are plotted in \reffig{SDP:perf:perc} for different values of $k$ and $\lambda$.
+
 \begin{figure}[ht]
   \centering
   \resizebox{0.95\textwidth}{!}{\input{graphs/SDP_prec_perc_iters}}
-  \caption{TODO: Graph of execution times based on the size of semidefinite problems solved by the selected toolboxes.}
-  \labelfig{TODO:SDP:perf:times}
+  \caption{Graph of numbers of iterations required to get within the distance $\lambda \|y^* - y_F^*\|$ from the optimal solution $y^*$ using \refalg{SDP:scb:pf} for different values of problem size $k$ based on $\lambda$ using the implementation from the Polyopt package.}
+  \labelfig{SDP:perf:perc}
 \end{figure}
+
+From the experiments we can see that the number of iterations, and therefore the execution time, of \refalg{SDP:scb:pf} required to get within some fraction $\lambda$ of the distance $\|y^* - y_F^*\|$ for a given problem with fixed problem size $k$ is proportional to $\log(\lambda)$.
