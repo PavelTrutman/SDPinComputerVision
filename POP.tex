@@ -738,17 +738,6 @@ On the other hand, for really small polynomial optimization problems, the execut
 
 
 \section{Solving systems of polynomial equations over the real numbers}
-Solving polynomial equations efficiently is a key element in computer vision geometry.
-For this reason, specialized solvers are constructed for the most common geometry problems to make the solvers efficient and numerically stable.
-Previously, these solvers were handcrafted, then the process was automated using automatic generators \cite{autogen}.
-These automatic generators are based on Gr\"obner basis \cite{Becker93} and on eigenvalue computation of multiplication matrices.
-The disadvantage of this approach is that non-real solutions appear, which  have no sense in the geometry point of view and are discarded in the end.
-In case that many non-real solutions are present and only few real solutions are obtained, the time consumed by computing the non-real solutions is much bigger than the time needed to compute the real solutions, which we are interested in.
-
-Therefore, one should be interested in a method, which would solve the polynomial system over the real numbers only.
-One of the methods is the moment method introduced in \cite{momentMethodReal} and extended to the complex numbers in \cite{momentMethodComplex} both by J. B. Lasserre, M. Laurent and P. Rostalski.
-The moment method is summarized and enriched with examples in \cite{momentMethod}, which we will follow in this section.
-
 The goal of this section is to solve the system of polynomial equations \refeqb{POP:sol:system} without computation of the non-real solutions.
 Let $x\in\R^n$ and $f_1,f_2,\ldots,f_m\in\R[x]$.
 \begin{align}
@@ -761,12 +750,28 @@ Let $x\in\R^n$ and $f_1,f_2,\ldots,f_m\in\R[x]$.
   \end{array}\labeleq{POP:sol:system}
 \end{align}
 
+We will present and desribe one of the state of the art method for solving polynomial systems over the real numbers.
+We will implement the method, so we will be able to apply it on some selected problems from computer vision geometry and compare it with the state of the art methods used in computer vision.
+
 \subsection{State of the art review}
-%TODO
+Solving polynomial equations efficiently is a key element in computer vision geometry.
+For this reason, specialized solvers are constructed for the most common geometry problems to make the solvers efficient and numerically stable.
+Previously, these solvers were handcrafted, then the process was automated using automatic generators \cite{autogen}.
+These automatic generators are based on Gr\"obner bases \cite{Becker93}, which are typically computed by the Buchberger Algorithm \cite{buchberger} or by its successor, by the $F_4$ Algorithm \cite{F4}.
+When the Gr\"obner basis is found, the multiplication matrix is constructed and the solutions are found by the eigenvalue computation of the multiplication matrix.
+The disadvantage of this approach is that non-real solutions appear, which  have no sense in the geometry point of view and are discarded in the end.
+In case that many non-real solutions are present and only few real solutions are obtained, the time consumed by computing the non-real solutions is much bigger than the time needed to compute the real solutions, which we are interested in.
+
+Therefore, one should be interested in a method, which would solve the polynomial system over the real numbers only.
+One of the methods is the moment method introduced in \cite{momentMethodReal} and extended to the complex numbers in \cite{momentMethodComplex} both by J. B. Lasserre, M. Laurent and P. Rostalski.
+The moment method is summarized and enriched with examples in \cite{momentMethod}, which we will follow in this section.
 
 \subsection{The moment method}
-The moment method is based on positive linear forms and real radical ideals.
-Thus, let us introduce some basics from the theory about positive linear forms and their connection to the real radical ideals.
+The moment method is based on obtaining of the real radical ideal $\RRI$ of the original ideal $I$.
+The real radical ideal is found by computing the kernel of a moment matrix, which is obtained by solving a hierarchy of semidefinite programs.
+Once the real radical ideal is found, its Gr\"obner basis is constructed and the solutions can be extracted in a standard way.
+
+Since the moment method is based on positive linear forms and real radical ideals, let us introduce some basics from the theory about positive linear forms and their connection to the real radical ideals.
 
 \subsubsection{Positive linear forms}
 Let the dual vector space of the polynomial ring $\R[x]$ is denoted as $\R[x]^*$.
@@ -1172,7 +1177,7 @@ solution = problem.solve()
 Efficiency and numerical stability of the new algorithm implementations should be compared to the contemporary state of the art implementations.
 We would like to compare our implementation with another implementations of the moment method. A MATLAB toolbox called Bermeja should use this method as mentioned in \cite{momentMethod}, however we were unable to find it despite the provided link.
 Different, but still on moment matrices and SDP solvers built, algorithm uses the MATLAB toolbox Gloptipoly \cite{gloptipoly}.
-Then there are polynomial system solvers based on the Gr\"obner basis computations, e.g.\ the $F_4$ algorithm \cite{F4}, which compute all complex solutions.
+Then there are polynomial system solvers based on the Gr\"obner bases computations, e.g.\ the $F_4$ Algorithm \cite{F4}, which compute all complex solutions.
 The most challenging will probably be the comparison with solvers specialized for the given task, for example generated by some automatic generator \cite{autogen}.
 
 To compare these solvers in general, one would generate random polynomial systems, solve them by the selected solvers and compare their results and computational times.
