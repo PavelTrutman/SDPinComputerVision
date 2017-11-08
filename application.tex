@@ -61,7 +61,9 @@ with coefficients $a_0, \ldots, a_4\in\R$, which can be computed by the formulae
 \begin{align}
   a_4 &= -4d_{23}^4d_{12}^2d_{13}^2c_{23}^2+d_{23}^8-2d_{23}^6d_{12}^2-2d_{23}^6d_{13}^2+d_{23}^4d_{12}^4+2d_{23}^4d_{12}^2d_{13}^2+d_{23}^4d_{13}^4\\
   a_3 &= 8d_{23}^4d_{12}^2d_{13}^2c_{12}c_{23}^2+4d_{23}^6d_{12}^2c_{13}c_{23}-4d_{23}^4d_{12}^4c_{13}c_{23}+4d_{23}^4d_{12}^2d_{13}^2c_{13}c_{23}\\
-      &-4d_{23}^8c_{12}+4d_{23}^6d_{12}^2c_{12}+8d_{23}^6d_{13}^2c_{12}-4d_{23}^4d_{12}^2d_{13}^2c_{12}-4d_{23}^4d_{13}^4c_{12}\nonumber\\
+      &-4d_{23}^8c_{12}+4d_{23}^6d_{12}^2c_{12}+8d_{23}^6d_{13}^2c_{12}-4d_{23}^4d_{12}^2d_{13}^2c_{12}-4d_{23}^4d_{13}^4c_{12}\nonumber
+\end{align}
+\begin{align}
   a_2 &= -8d_{23}^6d_{12}^2c_{13}c_{12}c_{23}-8d_{23}^4d_{12}^2d_{13}^2c_{13}c_{12}c_{23}+4d_{23}^8c_{12}^2-4d_{23}^6d_{12}^2c_{13}^2\\
       &-8d_{23}^6d_{13}^2c_{12}^2+4d_{23}^4d_{12}^4c_{13}^2+4d_{23}^4d_{12}^4c_{23}^2-4d_{23}^4d_{12}^2d_{13}^2c_{23}^2+4d_{23}^4d_{13}^4c_{12}^2+2d_{23}^8\nonumber\\
       &-4d_{23}^6d_{13}^2-2d_{23}^4d_{12}^4+2d_{23}^4d_{13}^4\nonumber\\
@@ -168,7 +170,7 @@ On the other hand, given our observation, the methods based on optimization do n
 The implementation from the Polyopt package has some numerical issues, which we were unable to remove in the time of writing this thesis, and therefore there is a small chance that the SDP solver fails in its computation and the solution is not found.
 Moreover, the number of real solutions is related to the rank of the moment matrix found by the SDP solver, which  numerically depend on how good representative of the set $\K$ we have obtained.
 This issue is common for both Polyopt implementation and the MATLAB with MOSEK implementation.
-In the case of the Gloptipoly toolbox, which is in the first case a polynomial optimization toolbox and not a polynomial system solver, the relaxation order has to be given in advance.
+In case of the Gloptipoly toolbox, which is in the first case a polynomial optimization toolbox and not a polynomial system solver, the relaxation order has to be given in advance.
 If the relaxation order is not high enough, no solution is found without distinguishing the cases when there is no solution or just the relaxation order is not high enough.
 Surprisingly, when the relaxation order is too high, there are not found all the real solutions (typically one or none solution is found), because of reasons not known to us.
 Therefore, we have set the relaxation order for Gloptipoly to one fixed value, in this case to three, which is the most common relaxation order from all runs of the Polyopt package and the MATLAB with MOSEK implementation, as you can see from \reffig{app:P3P:histRelax}.
@@ -178,7 +180,7 @@ For the reasons stated above we present in \reftab{app:P3P:numSol} number of all
 \begin{table}[ht]
   \centering
   \input{tables/app_P3P_numberSolutions.tex}
-  \caption{Table of numbers of all real and complex solutions and of numbers of found real solutions by each of the polynomial solver for the P3P problem.}
+  \caption{Table of numbers of all real and complex solutions and of numbers of found real solutions by each of the selected polynomial solver for the P3P problem.}
   \labeltab{app:P3P:numSol}
 \end{table}
 
@@ -215,7 +217,7 @@ The solution of the P3.5Pf problem comes from the projection equation
 for $i = 1,2,3,4$ and $\lambda_i \in \R/\{0\}$, where $K_{known}\in\R^{3\times 3}$ is the known calibration matrix up to the unknown focal length, which is stored in the matrix $K_f = \diag\Big(\bmB f & f & 1\bmE^\top\Big)$.
 The matrix $R\in\SO$ is the rotation matrix and the vector $C\in\R^3$ is the projection centre of the camera.
 The 3D coordinates are given in vectors $X_i$ and their projections in vectors $x_i$.
-We remove the known calibration matrix from the equation \refeqb{app:P35Pf:projection} by pre-calibrating of the images coordinates.
+We remove the known calibration matrix from the equation \refeqb{app:P35Pf:projection} by pre-calibrating of the image coordinates.
 \begin{align}
   \tilde{x}_i &= K_{known}^{-1}x_i
 \end{align}
@@ -269,13 +271,13 @@ To ensure that the camera projection matrix $P$ can be decomposed to $K_f$, $R$ 
   p_{13}^2p_{31} - p_{22}^2p_{31} + p_{21}p_{22}p_{32} - p_{11}p_{13}p_{33} &= 0\\
   p_{12}p_{13}p_{31} + p_{22}p_{23}p_{31} - p_{11}p_{21}p_{33} - p_{21}p_{22}p_{33} &= 0 \labeleq{app:P35Pf:eqs9}
 \end{align}
-By solving these equations we obtain the unknowns $\xi_1, \xi_2, \xi_3, \xi_4$ from which we recover the projection matrix $P$, which we decompose by standard methods to $K_f$, $R$ and $C$.
+By solving these equations we obtain the unknowns $\xi_1, \xi_2, \xi_3, \xi_4$, from which we recover the projection matrix $P$, which we decompose by standard methods to $K_f$, $R$ and $C$.
 In general the system of equations has 10 complex solutions.
 
 In the experiment, we have randomly selected \importAppPPPfNumCameras{} cameras, for each of them \importAppPPPfNumPoints{} quadruples of 2D--to--3D correspondences has been randomly chosen.
 For each quadruple, the coefficient vectors $p_0, p_1, p_2, p_3, p_4$ of the equation \refeqb{app:P35Pf:subst} has been precomputed.
 Then the real roots $\xi_1, \xi_2, \xi_3, \xi_4$ of the equations \refeqb{app:P35Pf:eqs1} -- \refeqb{app:P35Pf:eqs9} has been found by the selected polynomial solvers.
-From the solutions the focal length $f$, the camera location $C$ and the camera rotation $R$ has been computed in a standard way.
+The focal length $f$, the camera location $C$ and the camera rotation $R$ has been computed in a standard way from the solutions.
 Then the best triple $f$, $C$ and $R$ minimizing the maximal reprojection error on all correspondences in the images for each camera and solver has been selected.
 
 \subsection{Performance of the polynomial solvers}
@@ -342,7 +344,7 @@ The numbers of all complex and real solutions as well as the numbers of found re
 \begin{table}[ht]
   \centering
   \input{tables/app_P35Pf_numberSolutions.tex}
-  \caption{Table of numbers of all real and complex solutions and of numbers of found real solutions by each of the polynomial solver for the P3.5Pf problem.}
+  \caption{Table of numbers of all real and complex solutions and of numbers of found real solutions by each of the selected polynomial solver for the P3.5Pf problem.}
   \labeltab{app:P35Pf:numSol}
 \end{table}
 

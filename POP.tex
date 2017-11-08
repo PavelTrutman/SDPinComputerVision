@@ -92,7 +92,7 @@ Moreover, if $I$ is a radical ideal, then
 
 Assume that the number of complex roots is finite and let $N = \dim\!\big(\R[x]/I\big)$, and therefore $|V_\C(I)|\leq N$.
 Consider a set $\Base = \{b_1, b_2, \ldots, b_N\} \subseteq \R[x]$ for which the equivalence classes $[b_1], [b_2], \ldots, [b_N]$ are pairwise distinct and $\big\{\![b_1], [b_2], \ldots, [b_N]\!\big\}$ is a basis of $\R[x]/I$.
-Then every polynomial $f\in\R[x]$ can be written in unique way as
+Then every polynomial $f\in\R[x]$ can be written in a unique way as
 \begin{align}
   f &= \sum_{i=1}^Nc_ib_i + p,
 \end{align}
@@ -102,7 +102,7 @@ The normal form of the polynomial $f$ modulo $I$ with respect to the basis $\Bas
   \NF_\Base(f) &= \sum_{i=1}^N c_ib_i.
 \end{align}
 
-\subsection{Solving systems of polynomial equations by multiplication matrices}\labelsec{POP:sol}
+\subsection{Solving systems of polynomial equations using multiplication matrices}
 Systems of polynomial equations can be solved by computing eigenvalues and eigenvectors of so called multiplication matrices.
 Given $f\in\R[x]$, we define the multiplication operator (by $f$) $\MM_f: \R[x]/I \rightarrow \R[x]/I$ as
 \begin{align}
@@ -195,7 +195,7 @@ In that case, each left eigenvector of $\MM_f$ corresponds to one solution $v\in
     \big\{\lambda_i(\MM_x)\big\}_{i=1}^4 &= \left\{-2;\ -1;\ -\frac{1}{2};\ 1\right\},\\
     \big\{\lambda_i(\MM_y)\big\}_{i=1}^4 &= \{-2;\ 0;\ 1;\ 2\}.
   \end{align}
-  Therefore, there are $4\times4=16$ possible solutions to the system and we must verify, which of them are true solutions.
+  Therefore, there are $4\times4=16$ possible solutions of the system and we must verify, which of them are true solutions.
   Let us denote the set of all possible solutions as $\tilde{V}_\C(I)$.
   These possible solutions are shown in \reffig{POP:mm:example} by the blue color.
 
@@ -338,7 +338,7 @@ since $\binom{n+s}{n}$ is the number of monomials in $n$ variables up to degree 
 Notation $M_s(qy)$ emphasis that the localizing matrix is bilinear in $q$ and $y$.
 
 \begin{example}
-  For $n = 2$ and a polynomial $q(x) = x_1x_2 + 2x_1 + 3$, the localizing matrix is
+  For $n = 2$ and a polynomial $q(x) = x_1x_2 + 2x_1 + 3$, the localizing matrix of order one is
   \begin{align}
     M_1(qy) &= \bmdB{c:cc}
                     y_{11} +2y_{10} +3y_{00} & y_{21} +2y_{20} +3y_{10} & y_{12} +2y_{11} +3y_{01}\\\hdashline
@@ -375,7 +375,7 @@ Nowadays, efficient algorithms and their implementations for solving semidefinit
 
 In these days, many implementations of polynomial optimization problem solver exists.
 Probably the most common is the MATLAB toolbox Gloptipoly \cite{gloptipoly}, which can use many different semidefinite program solvers to solve the SDP problem arising from the relaxations.
-Then there is the GpoSolver \cite{gposolver}, which uses MATLAB to describe the problem and then generates a \CC{} code, which solves the problem for given parameters and which can be included into an existing codebase.
+Then there is the GpoSolver \cite{gposolver}, which uses MATLAB to describe the problem and then generates \CC{} code, which solves the problem for given parameters and which can be included into an existing codebase.
 Also the SOSTOOLS \cite{sostools} is a toolbox implemented in MATLAB, which can be used to solve the sum of squares optimization problems. 
 
 \subsection{Lasserre's LMI hierarchy}
@@ -548,7 +548,7 @@ To verify and for better understanding of the Lasserre's LMI hierarchies, we hav
 More information about the Polyopt package and how to install it are in \refsec{SDP:install}.
 
 For solving the semidefinite programs \refeqb{POP:opt:SDPr} as proposed by Lasserre, we can use the interior-point algorithm as described in \refsec{SDP:nesterov} and implemented in the Polyopt package.
-All we have to do is to construct the moment matrix and the localizing matrices from the polynomial constrains for a given relaxation order, which is quite straightforward.
+All we have to do is to construct the moment matrix and the localizing matrices from the polynomial constraints for a given relaxation order, which is quite straightforward.
 
 What may be slightly complicated is, how to find the initial feasible point for the interior-point algorithm.
 The vector $y$ of the semidefinite program \refeqb{POP:opt:SDPr} can be constructed from a vector $x$ of the polynomial optimization problem \refeqb{POP:opt:polmin} followingly:
@@ -604,7 +604,7 @@ The values are the coefficients and the keys are $n$-tuples of integers, where e
 \begin{lstlisting}[language=python, caption={Typical usage of the class \texttt{POPSolver} of the Polyopt package.}, labellis={POP:opt:usage}]
 import polyopt
 
-# supposing the polynomials pi and the vectors xi are already defined
+# supposing the polynomials pi, the vectors xi and the relaxation order r is already defined
 problem = polyopt.POPSolver(p0, [p1, ..., pm], r)
 y0 = problem.getFeasiblePoint([x1, ..., xN])
 xStar = problem.solve(y0)
@@ -737,7 +737,7 @@ From the graphs we can see that the Polyopt package is not comparable with Glopt
 On the other hand, for really small polynomial optimization problems, the execution times of the Polyopt package are  similar to the Gloptipoly execution times.
 
 
-\section{Solving systems of polynomial equations over the real numbers}
+\section{Solving systems of polynomial equations over the real numbers}\labelsec{POP:sol}
 The goal of this section is to solve the system of polynomial equations \refeqb{POP:sol:system} without computation of the non-real solutions.
 Let $x\in\R^n$ and $f_1,f_2,\ldots,f_m\in\R[x]$.
 \begin{align}
@@ -760,7 +760,7 @@ Previously, these solvers were handcrafted, then the process was automated using
 These automatic generators are based on Gr\"obner bases \cite{Becker93}, which are typically computed by the Buchberger Algorithm \cite{buchberger} or by its successor, by the $F_4$ Algorithm \cite{F4}.
 When the Gr\"obner basis is found, the multiplication matrix is constructed and the solutions are found by the eigenvalue computation of the multiplication matrix.
 The disadvantage of this approach is that non-real solutions appear, which  have no sense in the geometry point of view and are discarded in the end.
-In case that many non-real solutions are present and only few real solutions are obtained, the time consumed by computing the non-real solutions is much bigger than the time needed to compute the real solutions, which we are interested in.
+In case that many non-real solutions are present and only few real solutions are obtained, the time consumed by computing the non-real solutions is much bigger than the time needed to compute the real solutions, in which we are interested.
 
 Therefore, one should be interested in a method, which would solve the polynomial system over the real numbers only.
 One of the methods is the moment method introduced in \cite{momentMethodReal} and extended to the complex numbers in \cite{momentMethodComplex} both by J. B. Lasserre, M. Laurent and P. Rostalski.
@@ -811,7 +811,7 @@ The moment matrix $\ML$ has some interesting properties. For $p\in\R[x]$ the equ
 \begin{align}
   Q_\Lambda(p) = \Lambda\big(p^2\big) &= \vc(p)^\top\ML\vc(p)
 \end{align}
-holds, and therefore $\ML$ is the matrix of the quadratic form $Q_\Lambda$ in some monomial base.
+holds, and therefore $\ML$ is the matrix of the quadratic form $Q_\Lambda$ in some monomial basis.
 This concludes that $\Lambda$ is positive if and only if $\ML\succeq 0$.
 
 Second interesting property is that a polynomial $p$ is from $\ker(Q_\Lambda)$ if and only if its coefficient vector $\vc(p)$ is from $\KerML$.
@@ -998,7 +998,7 @@ The required properties of this element describes the following theorem, which i
 \end{theorem}
 
 Now, we are almost ready to write down the algorithm, which will be described in the following section.
-All we need is the stopping criterion, which will describe \refthe{POP:sol:stop} and the certificate of termination, which ensures \refthe{POP:sol:term}.
+All we need is the stopping criterion, which will describe \refthe{POP:sol:stop} and the certificate of termination, which is ensured by \refthe{POP:sol:term}.
 
 \begin{theorem}\labelthe{POP:sol:stop}
   Let $I = \left<f_1, f_2, \ldots, f_m\right>$ be an ideal in $\R[x]$, $D = \max_{i=1}^m\deg(f_i)$, and $d = \Big\lceil \frac{D}{2} \Big\rceil$.
@@ -1063,7 +1063,7 @@ Both implementations are described below.
 \subsubsection{Implementation in MATLAB with MOSEK toolbox}
 The implementation in MATLAB is quite straightforward.
 In each iteration over $t$, the set $\F_t$ is extended with new polynomials of higher degree.
-Then the semidefinite program is \refeqb{POP:sol:SDP} is built.
+Then the semidefinite program \refeqb{POP:sol:SDP} is built.
 To avoid the notation of linear forms, the program can be rewritten into notation of moment matrices as known from \refsec{POP:MM} using LMI and affine constraints only.
 The fact that $M_{\lfloor t/2\rfloor}(y)$ is a moment matrix is implied by its structure.
 Using this, we get a equivalent semidefinite program \refeqb{POP:sol:SDP_MM}.
@@ -1175,7 +1175,7 @@ solution = problem.solve()
 
 \subsection{Comparison with the state of the art methods}
 Efficiency and numerical stability of the new algorithm implementations should be compared to the contemporary state of the art implementations.
-We would like to compare our implementation with another implementations of the moment method. A MATLAB toolbox called Bermeja should use this method as mentioned in \cite{momentMethod}, however we were unable to find it despite the provided link.
+We would like to compare our implementation with another implementations of the moment method. A MATLAB toolbox called Bermeja should use this method as mentioned in \cite{momentMethod}, however we were unable to obtain it despite the provided link.
 Different, but still on moment matrices and SDP solvers built, algorithm uses the MATLAB toolbox Gloptipoly \cite{gloptipoly}.
 Then there are polynomial system solvers based on the Gr\"obner bases computations, e.g.\ the $F_4$ Algorithm \cite{F4}, which compute all complex solutions.
 The most challenging will probably be the comparison with solvers specialized for the given task, for example generated by some automatic generator \cite{autogen}.
