@@ -10,7 +10,7 @@ TEXS = thesis.tex abstract.tex acknowledgement.tex acronyms.tex CD.tex conclusio
 
 TEMPLATE = cmpthesis.cls cmpcover.sty
 
-IMAGES = cmp.png lev.png LADIO_01.png LADIO_02.png
+IMAGES = CTU.pdf CIIRC.pdf LADIO_01.png LADIO_02.png
 
 ALGS = self-concordant-function.tex analytic-center.tex path-follow.tex moment-matrix.tex
 

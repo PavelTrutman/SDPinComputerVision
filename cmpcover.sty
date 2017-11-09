@@ -192,31 +192,36 @@
 \RequirePackage{color}
 \RequirePackage{graphicx}
 
+% Logo dimensions
+\def\LogoSize{39truemm}
+\def\LogoSkipSize{\dimexpr \LogoSize / 25}
 
 \def\@PSFrameTopSkip{8truemm}            % Additional space from the top
 \def\@PSFrameLeftMargin{18truemm}        % Additional space from the left
 
-\def\SideBarWidth{39truemm}
-\def\CMPLogoWidth{36truemm}
-\def\CVUTLogoWidth{30truemm}
+\def\SideBarWidth{\LogoSize}
 \def\MainMirrorWidth{136truemm}
 \def\@MirrorTopSkip{1.5truemm}           % top skip within the frame
 
 \def\CMPBoxSize{12truemm}
 
 \def\MainMirrorHeight{271truemm}
-\def\LogoSkip{3.5truemm}
-\def\CMPLogoHeight{32truemm}
-\def\CVUTLogoHeight{37truemm} 
 \def\BoxRule{1truemm}
 \newlength{\MainMirrorHeightPlus}
 \setlength{\MainMirrorHeightPlus}{\MainMirrorHeight}
 \addtolength{\MainMirrorHeightPlus}{\BoxRule}
+\addtolength{\MainMirrorHeightPlus}{\BoxRule}
+\def\BottomBarHeight{2truecm}
 \newlength\SideBarHeight
 \setlength{\SideBarHeight}{\MainMirrorHeightPlus}
-\addtolength{\SideBarHeight}{-\CMPLogoHeight}
-\addtolength{\SideBarHeight}{-\CVUTLogoHeight}
-\addtolength{\SideBarHeight}{-\LogoSkip}
+\addtolength{\SideBarHeight}{-\LogoSize}
+\addtolength{\SideBarHeight}{-\LogoSkipSize}
+\addtolength{\SideBarHeight}{-\LogoSize}
+\addtolength{\SideBarHeight}{-\LogoSkipSize}
+\addtolength{\SideBarHeight}{-\LogoSize}
+\addtolength{\SideBarHeight}{-\LogoSkipSize}
+\addtolength{\SideBarHeight}{-1.6truemm}
+\addtolength{\SideBarHeight}{-\BottomBarHeight}
 \def\BarWindowSep{4truemm}
 
 
@@ -360,36 +365,30 @@
  \fontsize{9}{11truept}\selectfont
 }
 
-\definecolor{cmporange}{rgb}{1,0.4,0}
-\definecolor{cmpgray}{gray}{0.7}
+\definecolor{PantoneDark}{rgb}{0.0745,0.4706,0.7804}
+\definecolor{PantoneLight}{rgb}{0.4157,0.6784,0.8941}
 
-\def\CMPLogo{\vbox to \CMPLogoHeight{%
- \hbox to \SideBarWidth{\hfil\includegraphics[width=\CMPLogoWidth]{cmp}\hfil}%
- \hbox to \SideBarWidth{\@LogoFont\hfil CENTER FOR\hfil}%
- \hbox to \SideBarWidth{\@LogoFont\hfil MACHINE PERCEPTION\hfil}\vss}}
+\def\Logo{\vbox to \dimexpr \LogoSize + \LogoSkipSize + \LogoSize{%
+ \hbox to \SideBarWidth{\hfil\includegraphics[width=\LogoSize]{CTU}\hfil}\vss}}
 
-\def\CVUTLogo{\vbox to \CVUTLogoHeight{%
- \hbox to \SideBarWidth{\hfil\includegraphics[width=\CVUTLogoWidth]{lev}\hfil}%
- \hbox to \SideBarWidth{\@LogoFont\hfil CZECH TECHNICAL\hfil}%
-% \hbox to \SideBarWidth{\@LogoFont\hfil UNIVERSITY\hfil}\vss}}
- \hbox to \SideBarWidth{\@LogoFont\hfil UNIVERSITY IN PRAGUE\hfil}\vss}}
-
-\def\CMPRect{\colorbox{cmporange}{%
-  \hbox to \CMPBoxSize{\vbox to \CMPBoxSize{\relax}\hss}}}
+\def\LogoCIIRC{\vbox to \LogoSize{%
+ \hbox to \SideBarWidth{\hfil\includegraphics[width=\LogoSize]{CIIRC}\hfil}\vss}}
 
 \def\@makeISSN{\ifISSN@\hfill%
 \rotatebox{90}{\hspace{0.5truecm}\@ISSNFont ISSN 1213-2365}\hspace{2truemm}\fi}
 \def\@SideNote{}
 
-\def\SideBar{\colorbox{cmpgray}{\textcolor{white}{%
+\def\SideBar{\colorbox{PantoneLight}{\textcolor{white}{%
  \vbox to \SideBarHeight{\vfill\hbox to\SideBarWidth{%
-  \rotatebox{90}{\CMPRect\hspace{0.5truecm}\@BarFont\@SideBarText\hss}%
+  \hfill
+  \rotatebox{90}{\hbox to \SideBarHeight{\hspace{1.5truecm}\@BarFont\@SideBarText\hss}}%
+  \hfill
   \@SideNote\hss}\vss}}}}
 
-%\def\Frame{\fcolorbox{cmpgray}{white}{%
-% \vbox to \MainMirrorHeight{\hbox to \MainMirrorWidth{aa\hss}\vss}}}
+\def\BottomBar{\colorbox{PantoneDark}{\textcolor{white}{%
+ \vbox to \BottomBarHeight{\vfill\hbox to \SideBarWidth{\relax}}}}}
 
-\def\Frame{\textcolor{cmpgray}{\fbox{%
+\def\Frame{\textcolor{PantoneLight}{\fbox{%
  \vbox to \MainMirrorHeight{%
   \hbox to \MainMirrorWidth{%
    \textcolor{black}{\ifDoPrint@\@dotext\fi}\hss}\vss}}}}
@@ -410,12 +409,11 @@
 %\ifx\dateczech\undefined
 \iflanguage{english}{
 \def\@Address{%
-  Center for Machine Perception, Department of Cybernetics\\
-  Faculty of Electrical Engineering, Czech Technical University\\
-  Technick\'a 2, 166\,27 Prague~6, Czech Republic\\
- %Karlovo n\'am\v{e}st\'\i \ 13, 121\,35 Prague 2, Czech Republic\\
-  fax +420\,2\,2435\,7385, phone +420\,2\,2435\,7637,
-  www: http://cmp.felk.cvut.cz}
+  Czech Institute of Informatics, Robotics, and Cybernetics\\
+  Czech Technical University in Prague\\
+  Jugosl\'avsk\'ych partyz\'an\r u 1580/3, 160~00 Prague~6, Czech Republic\\
+  phone +420\,723\,309\,712,
+  www: https://www.ciirc.cvut.cz}
 \def\@PublishedAlso{Published also as:}
 \def\@Available{Available at}
 \def\@Confidential{CONFIDENTIAL}
@@ -430,12 +428,11 @@
 %\else
 }{
 \def\@Address{%
-  Centrum strojov\'eho vn{\'\i}m\'an{\'\i}, Katedra kybernetiky\\
-  Fakulta elektrotechnick\'a \v{C}VUT\\
-  Technick\'a 2, 166\,27 Praha~6\\
-%  Karlovo n\'am\v{e}st\'\i\ 13, 121\,35 Praha~2\\
-  fax: (02)\,2435\,7385, tel: (02)\,2435\,7637,
-  www: http://cmp.felk.cvut.cz}
+  \v Cesk\'y institut informatiky, robotiky a kybernetiky\\
+  \v Cesk\'e vysoké u\v cen\'i technick\'e v Praze\\
+  Jugosl\'avsk\'ych partyz\'an\r u 1580/3, 160~00 Praha~6\\
+  tel +420\,723\,309\,712,
+  www: https://www.ciirc.cvut.cz}
 \def\@PublishedAlso{Vy\v{s}lo t\'e\v{z} jako:}
 \def\@Available{Lze z{\'\i}skat na}
 \def\@Confidential{NEVE\v REJN\'A PUBLIKACE}
@@ -902,10 +899,13 @@
 \topskip=\@PSFrameTopSkip
 \hoffset=\@PSFrameLeftMargin
 \hbox to 0pt{\vbox to 0pt{%
- \vspace*{\LogoSkip}%
- \hbox{\CMPLogo\hss}%
- \hbox{\CVUTLogo\hss}%
- \hbox{\SideBar}\vss%
+ \hbox{\Logo\hss}%
+ \vskip\dimexpr \LogoSkipSize + 0.5truemm
+ \hbox{\LogoCIIRC\hss}%
+ \vskip\dimexpr \LogoSkipSize + 0.5truemm
+ \hbox{\SideBar\hss}%
+ \vskip-1px
+ \hbox{\BottomBar}\vss%
  }\hspace{\BarWindowSep}%
 \vbox to 0pt{\hbox{\Frame}\vss}\hss}%
 \if@twoside\cleardoublepage\else\clearpage\fi%
