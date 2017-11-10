@@ -14,11 +14,9 @@ For this reason, we have selected few minimal problems from computer vision geom
 \section{Dataset description}
 \input{macros/app_LADIO.tex}
 First of all, we describe the scene, which we have chosen for our experiments.
-It is a real scene of a sculpture of Buddha head taken for the LADIO \cite{ladio} experiments.
-%TODO: cite Ladio experiments
-The reconstructed surface of the sculpture can be seen in \reffig{app:LADIO}.
-There are \importAppLADIONumCameras{} taken images of the sculpture, from which \importAppLADIONumPoints{} spatial points were reconstructed using a scene reconstruction pipeline including ..., on outliers
-%TODO: fill missing part of the pipeline
+It is a real scene of a sculpture of Buddha head taken for the LADIO \cite{ladio} project.
+The reconstructed 3D model can be seen at webpage \url{https://skfb.ly/67ZxD} and the source images are publicly available at Github in repository \href{https://github.com/alicevision/dataset\_buddha}{\nolinkurl{alicevision/dataset\_buddha}}.
+For the reader we show the reconstructed surface of the sculpture in \reffig{app:LADIO}.
 
 \begin{figure}[ht]
   \centering
@@ -33,6 +31,19 @@ There are \importAppLADIONumCameras{} taken images of the sculpture, from which 
   \caption{Sculpture of Buddha head. Surface representing a point cloud reconstructed from the taken images.}
   \labelfig{app:LADIO}
 \end{figure}
+
+There are \importAppLADIONumCameras{} taken images of the sculpture, from which \importAppLADIONumPoints{} spatial points were reconstructed using a scene reconstruction pipeline from the photogrammetric framework named Alice Vision \cite{ALiceVision}.
+This complex pipeline consists of SIFT \cite{sift} feature detection, RANSAC \cite{ransac} outlier detection framework using epipolar geometry and incremental structure from motion (SfM) algorithm.
+This algorithm starts with epipolar geometry between two cameras triangulating the corresponding 2D features into 3D points.
+Then new cameras are iteratively added and resectioned based on the 2D-to-3D correspondences using the perspective-n-point (PnP) \cite{pnp} algorithm in a RANSAC \cite{ransac} framework.
+Pose of each added camera is then refined by a non-linear optimization.
+After that new 3D points are triangulated and by a bundle adjustment (BA) extrinsic and intrinsic parameters of all cameras as well as the position of all 3D points are refined.
+Then next iteration of the SfM algorithm is performed until all cameras are estimated.
+Next step of the reconstruction pipeline is the retrieval of the depth value for each pixel for each reconstructed cameras.
+The method used in the pipeline is the semi-global matching (SGM) \cite{sgm} method.
+After that mesh is created from the reconstructed point cloud by the 3D Delaunay tetrahedralization, which is then textured.
+
+Usage this complex reconstruction pipeline provides us good ground truth values for our experiments with minimal number of outliers.
 
 \section{Calibrated camera pose}
 Computation of calibrated camera pose (its rotation and location with respect to the global coordinate system) is one of the typical problems in computer vision.
