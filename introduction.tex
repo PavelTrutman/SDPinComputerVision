@@ -1,5 +1,5 @@
 \chapter{Introduction}
-In computer vision geometry many problems are formulated as systems of polynomial equations.
+In computer vision geometry, many problems are formulated as systems of polynomial equations.
 The state of the arts methods are based on polynomial algebra, i.e.\ on Gr\"obner bases and multiplication matrices computation.
 Contrary to this approach, this work applies non-linear optimization techniques to solve the polynomial systems, which is a novel idea in the field of computer vision geometry.
 Moreover, the application of the optimization techniques allows us to enrich the polynomial systems with polynomial inequalities or to solve polynomial optimization problems, i.e.\ optimizing a polynomial function given polynomial constraints.
@@ -30,6 +30,7 @@ This method uses hierarchies of semidefinite programs to find a Gr\"obner basis 
 Then a multiplication matrix is constructed and solutions are obtained from it.
 In this case, the multiplication matrix should have smaller size than a multiplication matrix obtained from the automatic generator, which can save some computation time.
 We implement this method in Python and MATLAB and examine its properties on few minimal problems from computer vision geometry on real 3D scene.
+We show that this method is applicable on problems from computer vision.
 
 The second contribution of this work is, that we describe and review a method for polynomial optimization problems.
 This method solves hierarchies of semidefinite programs to find the optimal value.
@@ -39,3 +40,19 @@ We implement our own implementation of this method in Python and compare it to t
 Since semidefinite programs solving is a key element in both previously mentioned methods, we review and describe an interior-point method for semidefinite programs solving.
 To be able to use this method in implementations of the moment method and the polynomial optimization method, we implement this interior-point method in Python.
 To verify our implementation we compare it to the state of the art semidefinite solvers on synthetic semidefinite programs.
+
+\section{Thesis structure}
+In this work, we first review an interior-point method for semidefinite programs solving.
+To do so, general properties of self-concordant functions and barriers need to be introduced, since they are key elements in convex optimization.
+Then a specialized barrier function for semidefinite programming will be described.
+%The knowledge of semidefinite programming is important for us, since it plays crucial role in polynomial optimization techniques described later in the text.
+We describe our implementation of the semidefinite programs solver and compare it to the state of the art methods.
+
+Secondly, we focus on polynomial optimization.
+After an introduction to polynomial algebra and moment matrices, we describe and implement a method, which solves polynomial optimization problems by relaxations of semidefinite programs.
+Then we review the moment method and describe its implementation in Python.
+%The moment method allows us to solve systems of polynomial equations over real numbers.
+
+To compare the implementation of the moment method to the state of the art methods, we introduce two minimal problems from computer vision, on which we perform the experiments.
+The minimal problems namely are estimation of the calibrated camera pose and of the calibrated camera pose with unknown focal length.
+We show that our implementation of the moment method is applicable to the geometrical problems from computer vision.
