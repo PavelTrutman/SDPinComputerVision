@@ -1,4 +1,4 @@
-\chapter{Semidefinite programming}
+\chapter{Semidefinite programming}\labelcha{SDP}
 The goal of the semidefinite programming (SDP) is to optimize a linear function on a given set, which is an intersection of a cone of positive semidefinite matrices with an affine space.
 This set is called a spectrahedron and it is a convex set.
 As in SDP we are optimizing a convex function on a convex set, SDP is a special case of convex optimization.
@@ -867,7 +867,7 @@ The Polyopt package accomplishes quite bad results compared to SeDuMi and MOSEK,
 But this behavior was expected, as we know that the execution time should be proportional to $k^4$, where $k$ is the size of the problem.
 However, due to SeDuMi overhead, the Polyopt package is faster than SeDuMi for problem sizes up to 8.
 
-\section{Speed--accuracy trade-off}
+\section{Speed--accuracy trade-off}\labelsec{SDP:sa}
 Obtaining a precise solution of a semidefinite program is quite time consuming, especially for problems with many unknowns, as we can see from \reffig{SDP:perf:times}.
 However, in many applications we have no need for a precise solution.
 We only need a ``good enough'' solution, but obtained in a limited time period.
