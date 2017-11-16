@@ -1,9 +1,37 @@
 \chapter*{Abstract}
+Many problems in computer vision lead to polynomial systems solving.
+The state of the art algebraic methods for polynomial systems solving are able to efficiently solve the systems over complex numbers, but the non-real solutions are then discarded, as they are not solutions of the original geometric problems.
+On this purpose, we review and implement the moment method for polynomial systems solving, which solves the problems over real numbers directly.
+We show that the moment method is applicable to the minimal problems from computer vision geometry.
+For that, we give description of the calibrated camera pose problem and of the calibrated camera pose with unknown focal length problem.
+We compare our implementation of the moment with the state of the art methods on these two selected minimal problems on real 3D scene.
 
-\paragraph{Keywords:} 
+Moreover, we review and implement a method for solving polynomial optimization problems, which can extend the moment method with inequality constraints.
+This method uses Lasserre's hierarchies to find the optimal values of the original optimization problems.
+We compare the performance of our implementation with the state of the art methods on synthetically generated polynomial optimization problems.
+
+Since the semidefinite programs solving is a key element in the moment method and the polynomial optimization methods, we review and implement an interior-point algorithm for semidefinite programs solving.
+We compare the performance of our implementation with the state of the art methods on synthetically generated semidefinite programs.
+
+\paragraph{Keywords:}
+computer vision, polynomial systems solving, polynomial optimization, semidefinite programming, minimal problems
 
 \begin{otherlanguage}{czech}
 \chapter*{Abstrakt}
+Mnoho problémů v počítačovém vidění vede na řešení systémů polynomiálních rovnic.
+Současné metody na řešení systémů polynomiálních rovnic jsou schopny řešit tyto systémy v oboru komplexních čísel, ale následně jsou nereálná řešení vyřazena, protože ta nejsou řešeními původních geometrických problémů.
+Z tohoto důvodu prozkoumáme a implementujeme metodu momentů pro řešení systémů polynomiálních rovnic, která řeší tyto problémy přímo v oboru reálných čísel.
+Ukážeme, že metoda momentů je použitelná na minimální problémy z geometrie počítačového vidění.
+Proto popíšeme problém nalezení polohy kalibrované kamery a problém nalezení polohy kalibrované kamery s neznámou ohniskovou vzdáleností.
+Na těchto dvou vybraných minimálních problémech a reálné 3D scéně porovnáme naší implementaci metody momentů se sou\-čas\-ný\-mi metodami.
 
-\paragraph{Klíčová slova:} 
+Dále prozkoumáme a implementujeme metodu na řešení polynomiálně optimalizačních problémů, která může rozšířit metodu momentů o omezení s nerovnostmi.
+Tato metoda využívá Lasserrových hierarchií k nalezení optimálních hodnot původních optimalizačních problémů.
+Na synteticky generovaných polynomiálně optimalizačních prob\-lé\-mech porovnáme výkon naší implementace se současnými metodami.
+
+Protože řešení semidefinitních programů je klíčovým elementem metody momentů a metod polynomiální optimalizace, prozkoumáme a implementujeme algoritmus vnitřních bodů na řešení semidefinitních programů.
+Na synteticky generovaných semidefinitních problémech porovnáme výkon naší implementace se současnými metodami.
+
+\paragraph{Klíčová slova:}
+počítačové vidění, řešení polynomiálních systémů, polynomiální optimalizace, semidefinitní programování, minimální problémy
 \end{otherlanguage}
