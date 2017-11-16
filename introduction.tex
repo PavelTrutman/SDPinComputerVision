@@ -1,26 +1,26 @@
 \chapter{Introduction}
 In computer vision geometry, many problems are formulated as systems of polynomial equations.
-The state of the arts methods are based on polynomial algebra, i.e.\ on Gr\"obner bases and multiplication matrices computation.
+The state of the art methods are based on polynomial algebra, i.e.\ on Gr\"obner bases and multiplication matrices computation.
 Contrary to this approach, this work applies non-linear optimization techniques to solve the polynomial systems, which is a novel idea in the field of computer vision geometry.
-Moreover, the application of the optimization techniques allows us to enrich the polynomial systems with polynomial inequalities or to solve polynomial optimization problems, i.e.\ optimizing a polynomial function given polynomial constraints.
+Moreover, the application of the optimization techniques allows us to enrich the polynomial systems with polynomial inequalities or to solve polynomial optimization problems, i.e.\ optimizing a polynomial function with given polynomial constraints.
 
 \section{Motivation}
 Object recognition and localization, reconstruction of 3D scenes, self-driving cars, film production, augmented reality and robotics are only few of many applications of computer vision geometry.
 Thus, one would like to solve geometric problems efficiently, since these problems often have to be solved in real-time applications.
-Typical geometrical problems from computer vision are the minimal problems, which arise when estimating geometrical models of scenes from given images.
+Typical geometric problems from computer vision are the minimal problems, which arise when estimating geometric models of scenes from given images.
 To be able to solve these problems computationally, they are often represented by systems of algebraic equations.
 Hence, one of the issues of computer vision is, how to solve systems of polynomial equations efficiently, which is the scope of this work.
 
-The polynomial systems obtained from the geometrical problems are often not trivial, but usually consist of many polynomial equations of high degree in several unknowns.
+The polynomial systems obtained from the geometric problems are often not trivial, but usually consist of many polynomial equations of high degree in several unknowns.
 From that reason, general algorithms for polynomial systems solving are not efficient for them, and therefore special solvers have been developed for different problems to solve these problems efficiently and robustly.
 Previously, these solvers were handcrafted, which is quite time demanding process, which have to be done for each problem from scratch.
 Then the process was automated by automatic generator \cite{autogen}, which automatically generates efficient solver for a given type of the polynomial system.
 These solvers obtain the Gr\"obner basis of the system and then construct the multiplication matrix, from which solutions are extracted by eigenvectors computation.
-The side effect of this approach is that amongst real solutions some non-real solutions appear, which are not solutions to the original geometrical problem.
+The side effect of this approach is that amongst real solutions some non-real solutions appear, which are not solutions to the original geometric problem.
 Since the computation of the non-real solutions takes time, a method which would find real solutions only may be faster than the contemporary approach.
 
 Some of the arisen systems may be overconstrained.
-Such systems have a solution when solved on precise data using precise aritmetic, but they have no solution when solved on real noisy data.
+Such systems have a solution when solved on precise data using precise arithmetic, but they have no solution when solved on real noisy data.
 However, these systems may be transformed into optimization problem by relaxing some of the constrains and by minimizing the error of these constraints.
 Therefore, an efficient polynomial optimization method may prove useful for overconstrained systems.
 
@@ -54,5 +54,5 @@ Then we review the moment method and describe its implementation in Python.
 %The moment method allows us to solve systems of polynomial equations over real numbers.
 
 To compare the implementation of the moment method to the state of the art methods, we introduce two minimal problems from computer vision, on which we perform the experiments.
-The minimal problems namely are estimation of the calibrated camera pose and of the calibrated camera pose with unknown focal length.
-We show that our implementation of the moment method is applicable to the geometrical problems from computer vision.
+The minimal problems namely are the estimation of the calibrated camera pose and of the calibrated camera pose with unknown focal length.
+We show that our implementation of the moment method is applicable to these selected geometric problems from computer vision.
