@@ -141,7 +141,7 @@ Another type of methods used in SDP are the first-order methods.
 They avoid storing and factorizing Hessian matrices, and therefore they are able to solve much larger problems than interior-point methods, but at some cost in accuracy.
 This method is implemented, for instance, in the SCS solver \cite{scs}.
 
-\section{Nesterov's approach}\labelsec{SDP:nesterov}
+\section{Interior point method}\labelsec{SDP:nesterov}
 In this section, we will follow Chapter 4 of \cite{Nesterov-2004} by Y. Nesterov, which is devoted to the convex optimization problems.
 This chapter describes the state of the art interior-point methods for solving convex optimization problems.
 We will extract from it the only minimum, just to be able to introduce an algorithm for semidefinite programs solving.
@@ -524,7 +524,7 @@ To avoid the computation of eigenvalues, the function $F(X)$ can be also express
     F(x) &= -\ln(x).
   \end{align}
   Then, when following the central path \refeqb{SDP:scb:centralPath}, the function $F(x)$ allows us to reach the boundary of $Q$ as $t$ grows to $+\infty$.
-  This situation is showed in \reffig{SDP:bf:barrier} for different values of $t$.
+  This situation is shown in \reffig{SDP:bf:barrier} for different values of $t$.
 
   \begin{figure}[ht]
     \centering
@@ -713,7 +713,7 @@ When the problem is solved, we can list the eigenvalues of $X_{k+1}(y^*)$ by the
     y_0 &= \bmB 0 & 0\bmE^\top.
   \end{align}
   \reflis{SDP:imp:demo} shows the Python code used to solve the given problem.
-  The graph of the problem is showed in \reffig{SDP:imp:demo}.
+  The graph of the problem is shown in \reffig{SDP:imp:demo}.
   The analytic center of the feasible region of the problem is
   \begin{align}
     y_F^* &= \bmB -0.317 & 0\bmE^\top,

@@ -756,8 +756,8 @@ We will implement the method, so we will be able to apply it on some selected pr
 \subsection{State of the art review}
 Solving polynomial equations efficiently is a key element in computer vision geometry.
 For this reason, specialized solvers are constructed for the most common geometry problems to make the solvers efficient and numerically stable.
-Previously, these solvers were handcrafted, then the process was automated using automatic generators \cite{autogen}.
-These automatic generators are based on Gr\"obner bases \cite{Becker93}, which are typically computed by the Buchberger Algorithm \cite{buchberger} or by its successor, by the $F_4$ Algorithm \cite{F4}.
+Previously, these solvers were handcrafted, then the process was automated by the automatic generator \cite{autogen}.
+The automatic generator is based on Gr\"obner bases \cite{Becker93}, which are typically computed by the Buchberger Algorithm \cite{buchberger} or by its successor, by the $F_4$ Algorithm \cite{F4}.
 When the Gr\"obner basis is found, the multiplication matrix is constructed and the solutions are found by the eigenvalue computation of the multiplication matrix.
 The disadvantage of this approach is that non-real solutions appear, which  have no sense in the geometry point of view and are discarded in the end.
 In case that many non-real solutions are present and only few real solutions are obtained, the time consumed by computing the non-real solutions is much bigger than the time needed to compute the real solutions, in which we are interested.
@@ -814,7 +814,7 @@ The moment matrix $\ML$ has some interesting properties. For $p\in\R[x]$ the equ
 holds, and therefore $\ML$ is the matrix of the quadratic form $Q_\Lambda$ in some monomial basis.
 This concludes that $\Lambda$ is positive if and only if $\ML\succeq 0$.
 
-Second interesting property is that a polynomial $p$ is from $\ker(Q_\Lambda)$ if and only if its coefficient vector $\vc(p)$ is from $\KerML$.
+The second interesting property is that a polynomial $p$ is from $\ker(Q_\Lambda)$ if and only if its coefficient vector $\vc(p)$ is from $\KerML$.
 Therefore, we identify both $\ker(Q_\Lambda)$ and $\KerML$ with a set of polynomials hereafter.
 Thus by \refthe{POP:sol:ker}, $\KerML$ is an ideal, which is real radical ideal when $\ML\succeq0$.
 
@@ -1108,11 +1108,11 @@ Unfortunately, since we lowered the dimension of the semidefinite problem by eli
   A(\bar{y}) &= A_{0} + \sum_{i=1}^m A_{i}\bar{y}\ind i
 \end{align}
 from the LMI constraint stayed the same as before the elimination.
-This causes that $A(\bar{y})$ is singular never the less the values of $\bar{y}$.
+This causes that $A(\bar{y})$ is singular independently on the values of $\bar{y}$.
 Therefore, for each value of $\bar{y}$ there is at least one eigenvalue of $A(\bar{y})$ zero, and thus there is no interior point of the feasible region of the problem \refeqb{POP:sol:SDP_LMI}.
 This is no problem for the moment method algorithm, because we are looking for a point from its relative interior.
 But since the SDP solver from the Polyopt package is an interior-point method, it can not solve a problem, which has no feasible strictly interior point.
-This issue can be solved by a method called facial reduction, which shrinks the matrix $A(\bar{y})$  and removes the superfluous dimensions so that there will be interior points in the feasible region.
+This issue can be solved by a method called facial reduction \cite{facial}, which shrinks the matrix $A(\bar{y})$  and removes the superfluous dimensions so that there will be interior points in the feasible region.
 %TODO: cite facial reductions
 However, we did not implemented this method, but it may be a possible improvement to this implementation.
 Instead of this, we have constructed new semidefinite program \refeqb{POP:sol:SDP_tau}.
@@ -1124,7 +1124,7 @@ Instead of this, we have constructed new semidefinite program \refeqb{POP:sol:SD
     &&& \tau &\geq& 0
   \end{array}\labeleq{POP:sol:SDP_tau}
 \end{align}
-Feasible region of this problem has strictly interior points, since pro each value of $\bar{y}$ we can find $\tau$ large enough that $A(\bar{y}) + \Iden r \tau$ has all eigenvalues positive.
+Feasible region of this problem has strictly interior points, since for each value of $\bar{y}$ we can find $\tau$ large enough that $A(\bar{y}) + \Iden r \tau$ has all eigenvalues positive.
 Moreover, we can easily find a starting point for the SDP solver, for example when fixing $\bar{y}_0 = \bmB 0 & 0 & \cdots & 0 \bmE^\top$, any
 \begin{align}
   \tau_0 &> -\min\bigg\{\Big\{\lambda_i\big(A(\bar{y}_0)\big)\Big\}_{i=1}^r; 0\bigg\}
@@ -1137,7 +1137,7 @@ Then the moment matrix $M_{\lfloor t/2\rfloor}(y^*)$ is reconstructed and the so
 If $\tau^*$ is not zero, then the semidefinite program \refeqb{POP:sol:SDP_MM} has empty feasible region, which means that the original polynomial system \refeqb{POP:sol:system} has no real solutions.
 
 \subsubsection{Usage}
-The class \texttt{PSSolver} from from the Polyopt package provides Python implementation of the polynomial solver using the moment method.
+The class \texttt{PSSolver} from the Polyopt package provides Python implementation of the polynomial solver using the moment method.
 The class method \texttt{solve()} finds the real solutions of the polynomial system \refeqb{POP:sol:system}.
 Minimal working example provides \reflis{POP:sol:usage}.
 Detailed information about the execution can be enabled by setting \texttt{problem.setPrintOutput(True)}.
