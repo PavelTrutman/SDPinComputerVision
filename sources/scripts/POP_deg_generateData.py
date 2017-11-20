@@ -17,16 +17,16 @@ if __name__ == '__main__':
   dim = 2
 
   # degree of f
-  degs = [1, 2, 3, 4, 5]
+  degs = [1, 2, 3, 4, 5, 6, 7]
 
   # relaxation order
-  rs = [1, 1, 2, 2, 3]
+  rs = [1, 1, 2, 2, 3, 3, 4]
 
   # number of different data for each dimension
-  unique = 30
+  unique = 50
 
   # number of execution of each unique data
-  repeat = 30
+  repeat = 50
 
   coefsAll = np.zeros(len(degs), dtype=np.object)
   startAll = np.zeros(len(degs), dtype=np.object)

@@ -1,7 +1,15 @@
 % Pavel Trutman
 % pavel.trutman@fel.cvut.cz
 
+clear all;
+
 load('data/POP_deg_coefs.mat');
+
+addpath('../gloptipoly3');
+addpath('../yalmip');
+addpath('../yalmip/extras');
+addpath('../yalmip/solvers');
+addpath('../sedumi');
 
 timesAll = cell(1, size(degs, 2));
 resultsAll = cell(1, size(degs, 2));

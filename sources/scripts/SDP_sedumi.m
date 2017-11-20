@@ -1,7 +1,14 @@
 % Pavel Trutman
 % pavel.trutman@fel.cvut.cz
 
+clear all;
+
 load('data/SDP_matrices.mat');
+
+addpath('../yalmip');
+addpath('../yalmip/extras');
+addpath('../yalmip/solvers');
+addpath('../sedumi');
 
 timesAll = cell(1, size(dims, 2));
 resultsAll = cell(1, size(dims, 2));

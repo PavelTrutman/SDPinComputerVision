@@ -14,7 +14,7 @@ import numpy.random
 if __name__ == '__main__':
 
   # set of dimensions
-  dims = [1, 2, 3, 4, 5]
+  dims = [1, 2, 3, 4, 5, 6, 7]
 
   # degree of f
   d = 2
@@ -23,10 +23,10 @@ if __name__ == '__main__':
   r = 1
 
   # number of different data for each dimension
-  unique = 30
+  unique = 50
 
   # number of execution of each unique data
-  repeat = 30
+  repeat = 50
 
   coefsAll = np.zeros(len(dims), dtype=np.object)
   startAll = np.zeros(len(dims), dtype=np.object)
