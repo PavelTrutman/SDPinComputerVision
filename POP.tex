@@ -469,9 +469,9 @@ If the relaxation order $r$ is fixed then $N$ grows in $\mathcal{O}(n^r)$, that 
       &&& 12x_1^2 -58x_1x_2 +3x_2^2 +46x_1 -47x_2 +44 &\geq& 0
     \end{array}\labeleq{POP:opt:exPol}
   \end{align}
-  We expect that the problem has two global optima attained at
+  We expect that the problem has two global optimal points
   \begin{align}
-    \bmB x^*_1\\x^*_2\bmE &= \left\{\!\bmB -\frac{1}{2}\\ 2\bmE;\ \bmB 1\\ 1\bmE\!\right\}
+    \bmB x^*_1\\x^*_2\bmE &= \left\{\!\bmB -\frac{1}{2}\\ 2\bmE;\ \bmB 1\\ 1\bmE\!\right\}\labeleq{POP:opt:exOpt0}
   \end{align}
   with value of the objective function
   \begin{align}
@@ -503,11 +503,12 @@ If the relaxation order $r$ is fixed then $N$ grows in $\mathcal{O}(n^r)$, that 
     p_1^* &= -2.54,
   \end{align}
   which is not feasible.
-  The moment matrix has rank
+  Ranks of different sizes of the moment matrix are
   \begin{align}
+    \rank M_0(y^*) &= 1,\\
     \rank M_1(y^*) &= 2.
   \end{align}
-  Since the condition of \refthe{POP:opt:rank1} is not satisfied, we continue with the second relaxation.
+  Since the condition of \refthe{POP:opt:certConv} is not satisfied, we continue with the second relaxation.
 
   The second relaxation for $r = 2$ is below.
   \begin{align}
@@ -524,16 +525,17 @@ If the relaxation order $r$ is fixed then $N$ grows in $\mathcal{O}(n^r)$, that 
   \begin{align}
     p^*_2 &= -2.5,
   \end{align}
-  which is in correspondence with the optimum points
+  which is in correspondence with the optimal points
   \begin{align}
-    \bmB x^*_1\\x^*_2\bmE &= \left\{\!\bmB -\frac{1}{2}\\ 2\bmE;\ \bmB 1\\ 1\bmE\!\right\}.
+    \bmB x^*_1\\x^*_2\bmE &= \left\{\!\bmB -\frac{1}{2}\\ 2\bmE;\ \bmB 1\\ 1\bmE\!\right\}.\labeleq{POP:opt:exOpt2}
   \end{align}
-  They are the same as the minima of the original problem \refeqb{POP:opt:exPol} and it depends on the iterative algorithm and the chosen starting point in which of these minima we end up.
-  The moment matrix has rank
+  Ranks of different sizes of the moment matrix are
   \begin{align}
-    \rank M_2(y^*) &= 1,
+    \rank M_1(y^*) &= 2,\\
+    \rank M_2(y^*) &= 2,
   \end{align}
-  and therefore the global optimum has been found and we do not have to continue with the next relaxation.
+  and therefore \refthe{POP:opt:certConv} is satisfied and we do not have to continue with the next relaxation.
+  We can verify that the found optimal points \refeqb{POP:opt:exOpt2} are the same as the expected optimal points \refeqb{POP:opt:exOpt0} of the original problem \refeqb{POP:opt:exPol}.
   At the end, we verify that \refthe{POP:opt:hierConv} holds.
   \begin{alignat}{2}
     p_1^* \leq{} && p_2^* & \leq p^*\\
@@ -629,12 +631,12 @@ p1 =  {(2, 0): -20, (1, 1): 1, (0, 2): -12, (1, 0): -16, (0, 1): -1, (0, 0): 48}
 p2 =  {(2, 0): 12, (1, 1): -58, (0, 2): 3, (1, 0): 46, (0, 1): -47, (0, 0): 44}
 
 # feasible points of the polynomial problem
-x1 = array([[1], [1]])
-x2 = array([[2], [2]])
-x3 = array([[-1], [-1]])
-x4 = array([[-2], [1]])
-x5 = array([[1], [2]])
-x6 = array([[0], [2]])
+x1 = array([[-1], [-1]])
+x2 = array([[-1], [0]])
+x3 = array([[-1], [1]])
+x4 = array([[0], [-1]])
+x5 = array([[0], [0]])
+x6 = array([[1], [0]])
 
 # degree of the relaxation
 r = 2
