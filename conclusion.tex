@@ -2,7 +2,7 @@
 In this work, we have reviewed and implemented interior-point method for semidefinite programs solving.
 In the experiments on synthetic semidefinite programs we have verified the correctness of the implementation and we have compared it to the state of the art methods.
 The results showed that our implementation is significantly slower than the state of the art methods, but an efficient semidefinite programs solver was not a goal of this work.
-However, the goal was to understand the implemented method, so we can exploit its advantages and minimize the effects of its disadvantages when applied in polynomial optimization methods.
+However, the goal was to understand the implemented method, so we can now exploit its advantages and minimize the effects of its disadvantages when applied in polynomial optimization methods.
 In \refsec{SDP:sa} we have shown that typically only few iterations of \refalg{SDP:scb:pf} are enough to get a good approximation of the optimal point.
 
 Furthermore, we have focused on polynomial optimization.
@@ -30,11 +30,11 @@ In this work, we have solved this issue by solving another semidefinite program 
 Different approach can be to implement another SDP solver, which would use an infeasible interior-point method.
 Another solution to this issue may bring a method called facial reduction \cite{facial}.
 This method is able to find a reduced version of the original problem by solving a sequence of easier semidefinite programs.
-Using this method we are able to remove the superfluous dimensions of the SDP problem, which causes that then the problem is solvable by an interior-point method and moreover the size of the problem is reduced, and therefore some computation time can be saved.
+Using this method we would be able to remove the superfluous dimensions of the SDP problem, which causes that then the problem is solvable by an interior-point method and moreover the size of the problem is reduced, and therefore some computation time can be saved.
 
 Secondly, it is possible that the idea of automatic generator \cite{autogen} could be transformed to the optimization world, i.e.\ that for a given problem we would be able to generate a parametrized solver that would solve the problem efficiently for a given value of parameters of the problem.
 This idea is proposed in \cite{SDPstability}.
-They suggest that if we found out that the SDP relaxation is tight for a given value of parameters, and therefore solves the problem correctly, then under some sufficient conditions the relaxation is tight even for small perturbation of the parameters.
+The authors suggest that if we found out that the SDP relaxation is tight for a given value of parameters, and therefore solves the problem correctly, then under some sufficient conditions the relaxation is tight even for small perturbation of the parameters.
 Moreover, from histograms in \reffig{app:P3P:histRelax} and \reffig{app:P35Pf:histRelax} we can see that typically one relaxation order prevails over the others.
 Therefore, it would make sense not to start from the minimal possible relaxation order in \refalg{POP:sol:alg}, but to solve the problem only for one given relaxation order that would be known in advance.
 
@@ -46,3 +46,12 @@ Another advantage of usage optimization methods for polynomial systems solving, 
 An overconstrained system can be solved in precise arithmetic, but typically it has no solution when solved on real noisy data in floating-point arithmetic.
 But the constraints of such problems can be relaxed and the errors of them minimized, and then the optimization techniques as described in \refsec{POP:opt} can be applied.
 We have not provided such an experiment in this work, but it would be nice to find a problem, on which this approach would be applicable and to see, how this approach is performing compared to the state of the art approaches.
+
+In this work, we have provided one implementation for polynomial optimization problems solving (\refsec{POP:opt}) and a different one for solving polynomial systems (\refsec{POP:sol}).
+This is because of the evolution of this work.
+But since both these methods are based on hierarchies of semidefinite programs, it makes sense to implement one universal algorithm, which would be able to solve both tasks.
+The advantages are obvious.
+We would be able to add constraints in form of polynomial equations to the polynomial optimization problems \refeqb{POP:opt:polmin}, which currently allows only polynomial inequality constraints.
+On the other hand, we would be able to introduce polynomial inequalities into the systems of polynomial equations and eliminate some solutions by this approach.
+This would lead to smaller multiplication matrices, and therefore to faster eigenvector computations.
+A typical example from minimal problems from computer vision may be to impose positivity on focal lengths.

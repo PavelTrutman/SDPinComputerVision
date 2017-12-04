@@ -429,7 +429,7 @@ From \refthe{POP:opt:convergence} we know that the finite convergence of the Las
 The verification that the finite convergence occurred provides us the following theorem.
 
 \begin{theorem}[Certificate of finite convergence \cite{HenrionLectures}]\labelthe{POP:opt:certConv}
-  Let $y^*$ be the solution of the problem \refeqb{POP:opt:SDPr} at a given relaxation order $r > \max\{r_1,\ldots,r_m\}$.
+  Let $y^*$ be the solution of the problem \refeqb{POP:opt:SDPr} at a given relaxation order $r \geq \max\{r_1,\ldots,r_m\}$.
   If
   \begin{align}
     \rank M_{r-\max\{r_1,\ldots,r_m\}}(y^*) &= \rank M_r(y^*)
@@ -732,8 +732,8 @@ These execution times $\tau_d$ were measured and computed separately for the Pol
   \labelfig{POP:opt:perf:degTimes}
 \end{figure}
 
-The experiments were executed on Intel Core i5-3210M CPU 2.50 GHz based computer with sufficient amount of free system memory.
-The installed version of Python was 3.5.3 and MATLAB R2016b 64-bit was used.
+The experiments were executed on Intel Xeon E5-1650 v4 CPU 3.60GHz based computer with sufficient amount of free system memory.
+The installed version of Python was 3.5.3 and MATLAB R2017b 64-bit was used.
 
 From the graphs we can see that the Polyopt package is not comparable with Gloptipoly for high dimensions of the generated semidefinite program. This is in accordance with the results of \refsec{SDP:comparision}, since the semidefinite programs solver is the most expensive part in the polynomial optimization.
 On the other hand, for really small polynomial optimization problems, the execution times of the Polyopt package are  similar to the Gloptipoly execution times.
@@ -752,7 +752,7 @@ Let $x\in\R^n$ and $f_1,f_2,\ldots,f_m\in\R[x]$.
   \end{array}\labeleq{POP:sol:system}
 \end{align}
 
-We will present and desribe one of the state of the art method for solving polynomial systems over the real numbers.
+We will present and describe one of the state of the art method for solving polynomial systems over the real numbers.
 We will implement the method, so we will be able to apply it on some selected problems from computer vision geometry and compare it with the state of the art methods used in computer vision.
 
 \subsection{State of the art review}

@@ -45,6 +45,9 @@ After that mesh is created from the reconstructed point cloud by the 3D Delaunay
 
 Usage this complex reconstruction pipeline provides us good ground truth values for our experiments with minimal number of outliers.
 
+All the experiments were executed on Intel Xeon E5-1650 v4 CPU 3.60GHz based computer with sufficient amount of free system memory.
+The installed version of Python was 3.5.3 and MATLAB R2017b 64-bit was used.
+
 \section{Calibrated camera pose}
 Computation of calibrated camera pose (its rotation and location with respect to the global coordinate system) is one of the typical problems in computer vision.
 The pose can be computed from at least three known 3D points and their perspective projection into the image plane, thus the problem is called the perspective-three-point (P3P) problem and it is known since 1841 from \cite{p3p1841}, but its modern and complete description can be found in \cite{P3P}.
@@ -72,9 +75,7 @@ with coefficients $a_0, \ldots, a_4\in\R$, which can be computed by the formulae
 \begin{align}
   a_4 &= -4d_{23}^4d_{12}^2d_{13}^2c_{23}^2+d_{23}^8-2d_{23}^6d_{12}^2-2d_{23}^6d_{13}^2+d_{23}^4d_{12}^4+2d_{23}^4d_{12}^2d_{13}^2+d_{23}^4d_{13}^4\\
   a_3 &= 8d_{23}^4d_{12}^2d_{13}^2c_{12}c_{23}^2+4d_{23}^6d_{12}^2c_{13}c_{23}-4d_{23}^4d_{12}^4c_{13}c_{23}+4d_{23}^4d_{12}^2d_{13}^2c_{13}c_{23}\\
-      &-4d_{23}^8c_{12}+4d_{23}^6d_{12}^2c_{12}+8d_{23}^6d_{13}^2c_{12}-4d_{23}^4d_{12}^2d_{13}^2c_{12}-4d_{23}^4d_{13}^4c_{12}\nonumber
-\end{align}
-\begin{align}
+      &-4d_{23}^8c_{12}+4d_{23}^6d_{12}^2c_{12}+8d_{23}^6d_{13}^2c_{12}-4d_{23}^4d_{12}^2d_{13}^2c_{12}-4d_{23}^4d_{13}^4c_{12}\nonumber\\
   a_2 &= -8d_{23}^6d_{12}^2c_{13}c_{12}c_{23}-8d_{23}^4d_{12}^2d_{13}^2c_{13}c_{12}c_{23}+4d_{23}^8c_{12}^2-4d_{23}^6d_{12}^2c_{13}^2\\
       &-8d_{23}^6d_{13}^2c_{12}^2+4d_{23}^4d_{12}^4c_{13}^2+4d_{23}^4d_{12}^4c_{23}^2-4d_{23}^4d_{12}^2d_{13}^2c_{23}^2+4d_{23}^4d_{13}^4c_{12}^2+2d_{23}^8\nonumber\\
       &-4d_{23}^6d_{13}^2-2d_{23}^4d_{12}^4+2d_{23}^4d_{13}^4\nonumber\\
@@ -106,7 +107,7 @@ The camera pose ($C$ and $R$) is then computed from each of the remaining soluti
 The P3P problem is probably the simplest problem, which could be chosen from the computer vision geometry for comparison of the polynomial systems solvers, since only one polynomial of degree four in one variable is given.
 
 \input{macros/app_P3P.tex}
-In the experiment, we have randomly selected \importAppPPPNumCameras{} cameras, for each of them \importAppPPPNumPoints{} triplets of 2D--to--3D correspondences has been randomly chosen.
+In the experiment, we have selected all available \importAppPPPNumCameras{} cameras, for each of them \importAppPPPNumPoints{} triplets of 2D--to--3D correspondences has been randomly chosen.
 For each triplet, the coefficients $a_0, a_1, a_2, a_3, a_4$ of the equation \refeqb{app:P3P:4} has been precomputed.
 Then the real roots $\xi$  of the equation \refeqb{app:P3P:4} has been found by the selected polynomial solvers.
 From $\xi$ the camera location $C$ and rotation $R$ has been computed in a standard way.
