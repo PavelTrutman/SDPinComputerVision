@@ -52,14 +52,14 @@ The real radical ideal of the ideal $I\subseteq \R[x]$ is the ideal
 
 The following two theorems are stating the relations between the vanishing and (real) radical ideals.
 
-\begin{theorem}[Hilbert's Nullstellensatz]
+\begin{theorem}[Hilbert's Nullstellensatz {\thecite[Section~4.2, Theorem~6]{Cox-Little-Shea97}}]
   Let $I\in\R[x]$ be an ideal. The radical ideal of $I$ is equal to the vanishing ideal of its variety, i.e.\
   \begin{align}
     \sqrt{I} &= \Ideal\big(V_\C(I)\big).
   \end{align}
 \end{theorem}
 
-\begin{theorem}[Real Nullstellensatz]
+\begin{theorem}[Real Nullstellensatz {\thecite[Theorem~4.1.4]{Bochnak-Coste-Roy98}}]
   Let $I\in\R[x]$ be an ideal. The real radical ideal of $I$ is equal to the vanishing ideal of its real variety, i.e.\
   \begin{align}
     \sqrt[\R]{I} &= \Ideal\big(V_\R(I)\big).
@@ -240,7 +240,7 @@ We will use the notation $\vc(p)$ for the vector of the coefficients of the poly
 \end{align}
 for $\alpha\in\N_d^n$.
 
-\begin{definition}[Riesz functional]
+\begin{definition}[Riesz functional {\thecite[page 38]{lasserre2015}}]
   Given a sequence $y\ind\alpha = y_\alpha$ for $\alpha\in\N^n$, we define the Riesz linear functional $\ell_y: \R[x]\rightarrow\R$ such that
   \begin{align}
     \ell_y(x^\alpha) &= y_\alpha
@@ -272,7 +272,7 @@ From the equation above, we can see that Riesz functional substitutes a new vari
   \end{align}
 \end{example}
 
-\begin{definition}[Moment matrix]\labeldef{POP:MM}
+\begin{definition}[Moment matrix {\thecite[page 53]{SOS}}]\labeldef{POP:MM}
   A symmetric matrix $M$ indexed by $\N^n$ is said to be a moment matrix (or generalized Hankel matrix) if its $(\alpha, \beta)$-entry depends only on the sum $\alpha + \beta$ of the indices.
   Given sequence $y\ind\alpha = y_\alpha$ for $\alpha\in\N^n$, the moment matrix $M(y)$ has form
   \begin{align}
@@ -281,7 +281,7 @@ From the equation above, we can see that Riesz functional substitutes a new vari
   for $\alpha, \beta \in\N^n$.
 \end{definition}
 
-\begin{definition}[Truncated moment matrix]
+\begin{definition}[Truncated moment matrix {\thecite[page 53]{SOS}}]
   Given sequence $y\ind\alpha = y_\alpha$ for $\alpha\in\N^n$, the truncated moment matrix $M_s(y)$ of order $s\in\N$ has form
   \begin{align}
     M_s(y)\ind{\alpha, \beta} &= y_{\alpha + \beta}
@@ -327,7 +327,7 @@ since $\binom{n+s}{n}$ is the number of monomials in $n$ variables up to degree 
   \end{align}
 \end{example}
 
-\begin{definition}[Localizing matrix]
+\begin{definition}[Localizing matrix {\thecite[page 53]{SOS}}]
   Given sequence $y\ind\alpha = y_\alpha$ for $\alpha\in\N^n$ and polynomial $q(x)\in\R[x]$, its localizing matrix $M_s(qy)$ of order $s$ has form
   \begin{align}
     M_s(qy)\ind{\alpha,\beta} &= \sum_\gamma q_\gamma y_{\alpha + \beta + \gamma}
@@ -404,7 +404,7 @@ This infinite-dimensional semidefinite program is not solvable by computers, and
 Where $r_k = \left\lceil\frac{\deg(p_k)}{2}\right\rceil$ and $r\geq\max\{r_1, \ldots, r_m\}$.
 The semidefinite program \refeqb{POP:opt:SDPr} is a relaxed version of the program \refeqb{POP:opt:SDP} or of the initial polynomial optimization problem \refeqb{POP:opt:polmin}.
 
-\begin{theorem}[Lasserre's LMI hierarchy converges \cite{HenrionLectures}]\labelthe{POP:opt:hierConv}
+\begin{theorem}[Lasserre's LMI hierarchy converges {\thecite[Proposition~3.3]{HenrionLectures}}]\labelthe{POP:opt:hierConv}
   For $r\in\N$ holds
   \begin{align}
     p^*_r \leq p^*_{r+1} \leq p^*
@@ -418,7 +418,7 @@ The semidefinite program \refeqb{POP:opt:SDPr} is a relaxed version of the progr
 The semidefinite program \refeqb{POP:opt:SDPr} can be solved by the state of the art semidefinite program solvers or by the Polyopt package as described in \refsec{SDP:impl}.
 Solving the relaxed semidefinite programs for increasing relaxation order $r$ gives us tighter and tighter lower bounds on the global minimum of the original problem \refeqb{POP:opt:polmin}.
 
-\begin{theorem}[Generic finite convergence \cite{HenrionLectures}]\labelthe{POP:opt:convergence}
+\begin{theorem}[Generic finite convergence {\thecite[Proposition~3.4]{HenrionLectures}}]\labelthe{POP:opt:convergence}
   In the finite-dimensional space of coefficients of the polynomials $p_k$, $k = 0, 1, \ldots, m$, defining the problem \refeqb{POP:opt:polmin}, there is a low-dimensional algebraic set, which is such that if we choose an instance of the problem \refeqb{POP:opt:polmin} outside of this set, the Lasserre's LMI relaxations have finite convergence, i.e.\ there exists a finite $r^*\in\N$ such that $p^*_r=p^*$ for all $r\in\N: r\geq r^*$.
 \end{theorem}
 
@@ -428,7 +428,7 @@ Only in some exceptional and somewhat degenerate problems the finite convergence
 From \refthe{POP:opt:convergence} we know that the finite convergence of the Lasserre's LMI hierarchy is ensured generically for some relaxation order $r$, which is a priory not known to us.
 The verification that the finite convergence occurred provides us the following theorem.
 
-\begin{theorem}[Certificate of finite convergence \cite{HenrionLectures}]\labelthe{POP:opt:certConv}
+\begin{theorem}[Certificate of finite convergence {\thecite[Proposition~3.5]{HenrionLectures}}]\labelthe{POP:opt:certConv}
   Let $y^*$ be the solution of the problem \refeqb{POP:opt:SDPr} at a given relaxation order $r \geq \max\{r_1,\ldots,r_m\}$.
   If
   \begin{align}
@@ -437,10 +437,10 @@ The verification that the finite convergence occurred provides us the following 
   then $p^*_r = p^*$.
 \end{theorem}
 
-So when we find a relaxation order $r$ big enough, for which \refthe{POP:opt:certConv} is satisfied, we know, we have finished and we can extract the global optimum.
-However, in practise another condition is checked.
+So when we find a relaxation order $r$ big enough, for which \refthe{POP:opt:certConv} is satisfied, we know, we have finished and we can extract the global optima.
+However, if we expect that there is only one global optimum, we can check a simpler condition.
 
-\begin{theorem}[Rank-one moment matrix \cite{HenrionLectures}]\labelthe{POP:opt:rank1}
+\begin{theorem}[Rank-one moment matrix {\thecite[Proposition~3.6]{HenrionLectures}}]\labelthe{POP:opt:rank1}
   The condition of \refthe{POP:opt:certConv} is satisfied if
   \begin{align}
     \rank M_r(y^*) &= 1.
@@ -619,7 +619,7 @@ When the polynomial problem is solved, the rank of the moment matrix can be obta
 
 \begin{example}
 The Python code for the polynomial optimization problem \refeqb{POP:opt:exPol} from \refex{POP:opt:ex} is shown in \reflis{POP:opt:ex}.
-  \begin{lstlisting}[float, language=python, caption={Code for solving polynomial optimization problem stated in \refex{POP:opt:ex}}, labellis={POP:opt:ex}]
+  \begin{lstlisting}[float, language=python, caption={Code for solving polynomial optimization problem stated in \refex{POP:opt:ex}.}, labellis={POP:opt:ex}]
 from numpy import *
 import polyopt
 
@@ -793,14 +793,14 @@ with kernel
 
 How the positive linear forms are connected to real radical ideals shows the following theorem.
 
-\begin{theorem}\labelthe{POP:sol:ker}
+\begin{theorem}[{\thecite[Lemma~2.1]{momentMethod}}]\labelthe{POP:sol:ker}
   Let $\Lambda\in\R[x]^*$. Then $\ker(Q_\Lambda)$ is an ideal in $\R[x]$, which is real radical ideal when $\Lambda$ is positive.
 \end{theorem}
 
 We need to extend the theory about moments and moment matrices introduced in \refsec{POP:MM} and apply it to the linear forms.
 Therefore, we create a new definition of the moment matrix, which is equivalent to \refdef{POP:MM}.
 
-\begin{definition}[Moment matrix of $\Lambda$]
+\begin{definition}[Moment matrix of $\Lambda$ {\thecite[Definition~2.3]{momentMethod}}]
   A symmetric matrix $M$ indexed by $\N^n$ is said to be a moment matrix (or generalized Hankel matrix) if its $(\alpha, \beta)$-entry depends only on the sum $\alpha + \beta$ of the indices.
   Given linear form $\Lambda\in\R[x]^*$, the moment matrix $\ML$ has form
   \begin{align}
@@ -846,7 +846,7 @@ Thus by \refthe{POP:sol:ker}, $\KerML$ is an ideal, which is real radical ideal 
   Since the kernel is not a radical ideal, $\Lambda$ is not positive.
 \end{example}
 
-\begin{theorem}\labelthe{POP:sol:monbase}
+\begin{theorem}[{\thecite[Lemma~2.2]{momentMethod}}]\labelthe{POP:sol:monbase}
   Let $\Lambda\in\R[x]^*$ and let $\Base$  be a set of monomials.
   Then $\Base$ indexes a maximal linearly independent set of columns of $\ML$ if and only if $\Base$ corresponds to a basis of $\R[x]/\KerML$.
   That is,
@@ -859,7 +859,7 @@ Which means that the monomial basis $\Base$ of the quotient ring $\R[x]/\KerML$ 
 
 Following theorem shows, how to construct linear form $\Lambda$, such that the kernel of its moment matrix $\KerML$ is a vanishing ideal of some selected points from $\R^n$.
 
-\begin{theorem}\labelthe{POP:sol:eval}
+\begin{theorem}[{\thecite[Lemma~2.3]{momentMethod}}]\labelthe{POP:sol:eval}
   Let $\Lambda_{v_i}\in\R[x]^*$ is the evaluation at $v_i\in\R^n$.
   Let $\Base_\infty$ is monomial basis containing all monomials, $\Base_\infty\ind\alpha = x^\alpha$ for all $\alpha\in\N^n$.
   If $\Lambda$ is a conic combination of evaluations at real points,
@@ -875,7 +875,7 @@ Following theorem shows, how to construct linear form $\Lambda$, such that the k
 
 Next theorem shows the converse implication to \refthe{POP:sol:eval} so there is an equivalence in the end.
 
-\begin{theorem}[Finite rank moment matrix theorem]
+\begin{theorem}[Finite rank moment matrix theorem {\thecite[Theorem~2.6]{momentMethod}}]
   Assume that $\Lambda\in\R[x]^*$ is positive with $\rank\ML = r < \infty$.
   Then
   \begin{align}
@@ -900,14 +900,14 @@ When the real variety $V_\R(I)$ is finite, then $\KerML$ is zero-dimensional and
 \end{align}
 The equaility holds only for special elements $\Lambda\in\K$ named generic linear forms, which are described by the following definition.
 
-\begin{definition}[Generic linear forms]\labeldef{POP:sol:genlinform}
+\begin{definition}[Generic linear forms {\thecite[Definition~2.4]{momentMethod}}]\labeldef{POP:sol:genlinform}
   Let $\K$ be defined as in \refeqb{POP:sol:K} and assume $|V_\R(I)|<\infty$.
   A linear form $\Lambda\in\K$ is said to be generic if $\ML$ has maximum rank, i.e. if $\rank\ML = |V_\R(I)|$.
 \end{definition}
 
 The last theorem in this part is about equivalent condition on generic linear forms, which is crucial for computation of $\RRI$ using linear forms.
 
-\begin{theorem}\labelthe{POP:sol:ridealFromGenlinform}
+\begin{theorem}[{\thecite[Lemma~2.4]{momentMethod}}]\labelthe{POP:sol:ridealFromGenlinform}
   Assume $|V_\R(I)|<\infty$.
   An element $\Lambda\in\K$ is a generic linear form if and only if $\KerML\subseteq \ker\!\big(M(\Lambda^\prime)\big)$ for all $\Lambda^\prime\in\K$.
   Moreover, $\KerML = \RRI$ for all generic linear forms $\Lambda\in\K$.
@@ -928,7 +928,7 @@ Again we define the quadratic form $Q_\Lambda:\R[x]_s\mapsto\R$ of the linear fo
 \end{align}
 with matrix $\MLs$ denoted as truncated moment matrix of order $s$ of $\Lambda$ defined below.
 
-\begin{definition}[Truncated moment matrix of $\Lambda$]
+\begin{definition}[Truncated moment matrix of $\Lambda$ \thecite{momentMethod}]
   Given linear form $\Lambda\in\Rss$, the truncated moment matrix $\MLs$ of order $s\in\N$ has form
   \begin{align}
     \MLs\ind{\alpha, \beta} &= \Lambda\big(x^\alpha x^\beta\big)
@@ -939,7 +939,7 @@ with matrix $\MLs$ denoted as truncated moment matrix of order $s$ of $\Lambda$ 
 Linear form $\Lambda$ is positive if and only if $\Lambda\big(f^2\big)\geq0$ for all $f\in\Rs$, which is equivalent to the condition $\MLs\succeq0$.
 As before, we identify $\ker Q_\Lambda$ and $\KerMLs$ as a subset of $\Rs$.
 
-\begin{theorem}[Flat extension theorem]
+\begin{theorem}[Flat extension theorem {\thecite[Theorem~2.8]{momentMethod}}]
   Let $\Lambda\in\Rss$ and assume that $\MLs$ is a flat extension of $M_{s-1}(\Lambda)$, i.e.
   \begin{align}
     \rank\MLs &= \rank M_{s-1}(\Lambda).\labeleq{POP:sol:flat}
@@ -950,7 +950,7 @@ As before, we identify $\ker Q_\Lambda$ and $\KerMLs$ as a subset of $\Rs$.
 This theorem is a crucial one for the moment method, since is allows to conclude information about the infinite moment matrix $\ML$ from its finite part $\MLs$.
 How this can be done describes the following theorem.
 
-\begin{theorem}
+\begin{theorem}[{\thecite[Theorem~2.9]{momentMethod}}]
   Let $\Lambda\in\Rss$ and assume \refeqb{POP:sol:flat} holds.
   Then one can extend $\Lambda$ to $\tilde{\Lambda}\in\R[x]^*$ in such a way that $M(\tilde{\Lambda})$ is a flat extension of $\MLs$, and the ideal $\ker\!\big(M(\tilde{\Lambda})\big)$ is generated by the polynomials in $\KerMLs$, i.e.
   \begin{align}
@@ -981,7 +981,7 @@ Since the set $\K_t$ is an intersection of a cone of positive semidefinite matri
 This property allows us to use a SDP solver to find an element of this set, named generic truncated linear form.
 The required properties of this element describes the following theorem, which is the truncated analogue of \refthe{POP:sol:ridealFromGenlinform}.
 
-\begin{theorem}[Generic truncated linear forms]
+\begin{theorem}[Generic truncated linear forms {\thecite[Lemma~2.6]{momentMethod}}]
   The following assertions are equivalent for $\Lambda\in\Rts$:
   \begin{enumerate}
     \item $\rank\MLt \geq \rank M_{\lfloor t/2\rfloor}(\Lambda')$ for all $\Lambda'\in\K_t$.
@@ -991,7 +991,7 @@ The required properties of this element describes the following theorem, which i
   Then $\Lambda$ is called a generic element of $\K_t$ and the kernel $\NF_t = \KerMLt$ is independent of the particular choice of the generic element $\Lambda\in\K_t$.
 \end{theorem}
 
-\begin{theorem}
+\begin{theorem}[{\thecite[Theorem~2.10]{momentMethod}}]
   We have
   \begin{align}
     \NF_t \subseteq \NF_{t+1} \subseteq \ldots \subseteq \RRI,
@@ -1002,7 +1002,7 @@ The required properties of this element describes the following theorem, which i
 Now, we are almost ready to write down the algorithm, which will be described in the following section.
 All we need is the stopping criterion, which will describe \refthe{POP:sol:stop} and the certificate of termination, which is ensured by \refthe{POP:sol:term}.
 
-\begin{theorem}\labelthe{POP:sol:stop}
+\begin{theorem}[{\thecite[Theorem~2.11]{momentMethod}}]\labelthe{POP:sol:stop}
   Let $I = \left<f_1, f_2, \ldots, f_m\right>$ be an ideal in $\R[x]$, $D = \max_{i=1}^m\deg(f_i)$, and $d = \Big\lceil \frac{D}{2} \Big\rceil$.
   Let $\Lambda\in\K_t$ be a generic element and assume that at least one of the following two conditions holds:
   \begin{align}
@@ -1012,7 +1012,7 @@ All we need is the stopping criterion, which will describe \refthe{POP:sol:stop}
 Then $\RRI=\left<\KerMLs\right>$, and any basis of the column space of $M_{s-1}(\Lambda)$ is a basis of the quotient space $\R[x]/\RRI$.
 \end{theorem}
 
-\begin{theorem}\labelthe{POP:sol:term}
+\begin{theorem}[{\thecite[Theorem~2.12]{momentMethod}}]\labelthe{POP:sol:term}
   Let $I$ be an ideal in $\R[x]$.
   \begin{enumerate}
     \item If $V_\R(I)=\emptyset$, then $\K_t=\emptyset$ for $t$ large enough.
@@ -1155,7 +1155,7 @@ solution = problem.solve()
 \begin{example}\labelex{POP:sol:example}
 The Python code solving the system of polynomial equations consisting of equation \refeqb{POP:mm:example1} and \refeqb{POP:mm:example2} from \refex{POP:mm:ellhyp} is shown in \reflis{POP:sol:example}.
 
-  \begin{lstlisting}[language=python, caption={Code for solving system of polynomial equations stated in \refex{POP:sol:example}}, labellis={POP:sol:example}]
+  \begin{lstlisting}[language=python, caption={Code for solving system of polynomial equations stated in \refex{POP:sol:example}.}, labellis={POP:sol:example}]
 import polyopt
 
 # polynomials of the system

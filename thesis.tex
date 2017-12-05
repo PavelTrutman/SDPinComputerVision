@@ -165,9 +165,10 @@
   {\thmname{#1}\thmnumber{ #2}\thmnote{ (#3)}}
 \theoremstyle{definitionStyle}
 \newtheorem{definition}{Definition}[chapter]
-\newtheorem{theorem}{Theorem}[chapter]
-\newtheorem{example}{Example}[chapter]
-\newtheorem{corollary}{Corollary}[chapter]
+\newtheorem{theorem}[definition]{Theorem}
+\newtheorem{example}[definition]{Example}
+\newtheorem{corollary}[definition]{Corollary}
+\newcommand{\thecite}[2][]{\textnormal{\ifthenelse{\equal{#1}{}}{\cite{#2}}{\cite[#1]{#2}}}}
 \newcommand{\R}{\mathbb{R}}
 \newcommand{\N}{\mathbb{N}}
 \newcommand{\C}{\mathbb{C}}
