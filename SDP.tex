@@ -865,7 +865,7 @@ By the look of the graph in \reffig{SDP:perf:times}, we can see that the MOSEK t
 The SeDuMi toolbox seems to have some constant overhead, but the execution time grows slowly with the increasing size of the problem.
 The Polyopt package accomplishes quite bad results compared to SeDuMi and MOSEK, especially for large sizes of problems.
 But this behavior was expected, as we know that the execution time should be proportional to $k^4$, where $k$ is the size of the problem.
-However, due to SeDuMi overhead, the Polyopt package is faster than SeDuMi for problem sizes up to 8.
+However, due to SeDuMi overhead, the Polyopt package is faster than SeDuMi for problem sizes up to 10.
 
 \section{Speed--accuracy trade-off}\labelsec{SDP:sa}
 Obtaining a precise solution of a semidefinite program is quite time consuming, especially for problems with many unknowns, as we can see from \reffig{SDP:perf:times}.
@@ -927,4 +927,11 @@ The values of $N_{k,\lambda}$ are plotted in \reffig{SDP:perf:perc} for differen
   \labelfig{SDP:perf:perc}
 \end{figure}
 
-From the experiments we can see that the number of iterations, and therefore the execution time, of \refalg{SDP:scb:pf} required to get within some fraction $\lambda$ of the distance $\|y^* - y_F^*\|$ for a given problem with fixed problem size $k$ is proportional to $\log(\lambda)$.
+From the experiments we can see that the number of iterations, and therefore the execution time, of \refalg{SDP:scb:pf} required to get within some fraction $\lambda$ of the distance $\|y^* - y_F^*\|$ for a given problem with fixed problem size $k$ is almost proportional to $\log(\lambda)$.
+
+\section{Conclusions}
+In this chapter, we have reviewed the state of the art interior point algorithm for solving convex optimization problems and we have shown its application on semidefinite programming.
+We have implemented this algorithm in Python and verified its correctness on synthetically generated semidefinite programs.
+The computation time comparison to the state of the art toolboxes SeDuMi \cite{sedumi} and MOSEK \cite{mosek} was given and it revealed that out implementation is significantly slower.
+The computation times are comparable to the state of the art toolboxes only for small semidefinite problems, let us say for problems up to 10 unknowns.
+Then we have investigated the speed--accuracy trade-off, which has shown that computation time can be saved when the precision of the solution is not crucial.

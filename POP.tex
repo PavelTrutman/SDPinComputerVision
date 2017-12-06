@@ -1184,3 +1184,16 @@ The most challenging will probably be the comparison with solvers specialized fo
 
 To compare these solvers in general, one would generate random polynomial systems, solve them by the selected solvers and compare their results and computational times.
 But in the end, we are interested in performance on real geometric problems from computer vision computed on data captured from real 3D scenes, and therefore we skip these random polynomial system experiments and refer to the experiments on real geometric problems performed in \refcha{app}.
+
+\section{Conclusions}
+Firstly, the basics of polynomial algebra and moment matrices have been reviewed.
+
+Secondly, we focused on polynomial optimization.
+We have reviewed the state of the art method for solving polynomial optimization problems by using hierarchies of semidefinite problems.
+We have implemented this method in Python and the description of it was given.
+We have verified the implementation on synthetically generated polynomial optimization problems and compared its performance to the state of the art toolbox Gloptipoly \cite{gloptipoly}.
+Since the SDP solver is the most time consuming part of the method, the computation time of our implementation is comparable to Gloptipoly only for small POP problems, which generates semidefinite programs with up to 10 variables, e.g.\ for POP problems with three unknowns and polynomials up to degree two.
+
+Thirdly, the moment method for solving systems of polynomial equations was reviewed.
+We have implemented this method in Python with the SDP solver from \refcha{SDP} and in MATLAB with MOSEK \cite{mosek} SDP solver.
+No experiments has been performed, since we will evaluate the performance on minimal problems from computer vision in the next chapter.
