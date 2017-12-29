@@ -1,18 +1,18 @@
 \chapter{Semidefinite programming}\labelcha{SDP}
 The goal of the semidefinite programming (SDP) is to optimize a linear function on a given set, which is an intersection of a cone of positive semidefinite matrices with an affine space.
 This set is called a spectrahedron and it is a convex set.
-As in SDP we are optimizing a convex function on a convex set, SDP is a special case of convex optimization.
+SDP, which is optimizing a convex function on a convex set, is a special case of convex optimization.
 
 Since SDP can be solved efficiently in polynomial time using interior-point methods, it has many applications in practise.
 For example, any linear program (LP) and quadratically constrained quadratic program (QCQP) can be written as a semidefinite program.
-However, this may be not the best idea to do as more efficient algorithms exist for solving LPs and QCQPs.
+However, this may not be the best idea to do as more efficient algorithms exist for solving LPs and QCQPs.
 On the other hand, there exist many useful applications of SDP, e.g.\ many NP-complete problems in combinatorial optimization can be approximated by semidefinite programs. 
 One of the combinatorial problem worth mentioning is the MAX CUT problem (one of the Karp's original NP-complete problems \cite{karp1972}), for which M. Goemans and D. P. Williamson created the first approximation algorithm based on SDP \cite{max-cut}.
 Also in control theory, there are many problems based on linear matrix inequalities, which are solvable by SDP.\@
 
 Special application of SDP comes from polynomial optimization since global solution of polynomial optimization problems can be found by hierarchies of semidefinite programs.
-Also systems of polynomial equations can be solved by hierarchies of semidefinite problems.
-This approach has the advantage that there exists a method, which allows us to compute real solutions only.
+Systems of polynomial equations can also be solved by hierarchies of semidefinite problems.
+This approach has the advantage that there exists a method that allows us to compute real solutions only.
 Since in many applications, we are not interested in non-real solutions, this method may be the right tool for polynomial systems solving.
 We will focus in details on SDP application in polynomial optimization and polynomial systems solving in \refcha{POP}.
 
@@ -20,29 +20,29 @@ We will focus in details on SDP application in polynomial optimization and polyn
 In this section, we introduce some notation and preliminaries about symmetric matrices and semidefinite programs.
 We will introduce further notation and preliminaries later on in the text when needed.
 
-At the beginning, let us denote the inner product for two vectors $x$, $y \in\R^n$
+At the beginning, let us denote the inner product for two vectors $x$, $y \in\R^n$ by
 \begin{align}
   \langle x, y\rangle &= \sum_{i=1}^n x\ind{i}y\ind{i}
 \end{align}
-and the Frobenius inner product for two matrices $X$, $Y\in\R^{n\times m}$.
+and the Frobenius inner product for two matrices $X$, $Y\in\R^{n\times m}$ by
 \begin{align}
-  \langle X, Y\rangle &= \sum_{i=1}^n \sum_{j=1}^m X\ind{i,j}Y\ind{i,j}
+  \langle X, Y\rangle &= \sum_{i=1}^n \sum_{j=1}^m X\ind{i,j}Y\ind{i,j}.
 \end{align}
 
 \subsection{Symmetric matrices}
 Let $\Sym^n$ denotes the space of $n\times n$ real symmetric matrices.
 
 For a matrix $M\in\Sym^n$, the notation $M \succeq 0$ means that $M$ is positive semidefinite.
-$M \succeq 0$ if and only if any of the following equivalent properties holds.
+$M \succeq 0$ if and only if any of the following equivalent properties holds true:
 \begin{enumerate}
   \item $x^\top Mx \geq 0$ for all $x \in \R^n$.
   \item All eigenvalues of $M$ are nonnegative.
 \end{enumerate}
 The set of all positive semidefinite matrices is a cone.
-We will denote it as $\PSDCone^n$ and it is called a cone of positive semidefinite matrices.
+We will denote it as $\PSDCone^n$ and it is called the cone of positive semidefinite matrices.
 
 For a matrix $M\in\Sym^n$, the notation $M \succ 0$ means that $M$ is positive definite.
-$M \succ 0$ if and only if any of the following equivalent properties holds.
+$M \succ 0$ if and only if any of the following equivalent properties holds true:
 \begin{enumerate}
   \item $M \succeq 0$ and $\rank M = n$.
   \item $x^\top Mx > 0$ for all $x \in \R^n$.
@@ -75,13 +75,13 @@ The constraint
 \end{align}
 of the problem \refeqb{SDP:prelim:dual} is called a linear matrix inequality (LMI) in the variable $y$.
 The feasible region defined by LMI is called a spectrahedron.
-It can be shown, that this constraint is convex since if $F(x) \succeq 0$ and $F(y) \succeq 0$, then $\forall \alpha: 0\leq  \alpha \leq 1$ holds
+It can be shown, that this constraint is convex since if $F(x) \succeq 0$ and $F(y) \succeq 0$, then $\forall \alpha, 0\leq  \alpha \leq 1$ there holds
 \begin{align}
   F\big(\alpha x + (1-\alpha)y\big) &= \alpha F(x) + (1-\alpha)F(y) \succeq 0.
 \end{align}
 The objective function of the problem \refeqb{SDP:prelim:dual} is linear, and therefore convex too.
 Because the semidefinite program \refeqb{SDP:prelim:dual} has convex objective function and convex constraint, it is a convex optimization problem and can be solved by standard convex optimization methods.
-To get a general picture, how a simple semidefinite problem may look like, see \reffig{SDP:prelim:problem}.
+See \reffig{SDP:prelim:problem} to get a general picture, how a simple semidefinite problem may look like.
 
 \begin{figure}[ht]
   \centering
@@ -94,8 +94,8 @@ The optimal solution $y^*$ of any semidefinite program lies on the boundary of t
 The boundary of the feasible set is not smooth in general, but it is piecewise smooth as each piece is an algebraic surface.
 
 \begin{example}[Linear programming]
-  Semidefinite programming can be seen as an extension to the linear programming since the componentwise inequalities between vectors in linear programming can be replaced by LMI.
-  Consider a linear program in a standard form
+  Semidefinite programming can be seen as an extension to the linear programming when the componentwise inequalities between vectors in linear programming are replaced by LMI.
+  Consider a linear program in the standard form
   \begin{align}
     \arraycolsep=1.4pt
     \begin{array}{rclrcl@{\hskip0.5cm}l}
@@ -127,8 +127,8 @@ However, their proposed universal self-concordant barrier function and its first
 Fortunately for SDP, which is an important class of convex optimization programs, computable self-concordant barrier functions are known, and therefore the interior-point methods can be used.
 
 Nowadays, there are many libraries and toolboxes that one can use for solving semidefinite programs.
-They differ to each other in used methods and their implementations.
-Before starting solving a problem, one should know the details of the problem to solve and choose the library accordingly to it as not every method and its implementation is suitable for the given problem.
+They differ in methods used and their implementations.
+Before starting solving a problem, one should know the details of the problem to solve and choose the library accordingly to it as not every method and its implementation is suitable for every problem.
 
 Most methods are based on interior-point methods, which are efficient and robust for general semidefinite programs.
 The main disadvantage of these methods is that they need to store and factorize usually large Hessian matrix.
@@ -145,12 +145,12 @@ This method is implemented, for instance, in the SCS solver \cite{scs}.
 In this section, we will follow Chapter 4 of \cite{Nesterov-2004} by Y. Nesterov, which is devoted to the convex optimization problems.
 This chapter describes the state of the art interior-point methods for solving convex optimization problems.
 We will extract from it the only minimum, just to be able to introduce an algorithm for semidefinite programs solving.
-We will present some basic definitions and theorems, but we will not prove them.
-For the proofs and more details look into \cite{Nesterov-2004}.
+We will present some basic definitions and theorems but we will not prove them.
+Look into \cite{Nesterov-2004} for the proofs and more details.
 
 \subsection{Self-concordant functions}
 \begin{definition}[Self-concordant function in $\R$]
-  A closed convex function $f: \R \mapsto \R$ is self-concordant if there exist a constant $M_f \geq 0$ such that the inequality
+  A closed convex function $f\colon \R \mapsto \R$ is self-concordant if there exist a constant $M_f \geq 0$ such that the inequality
   \begin{align}
     |f'''(x)| &\leq M_f f''(x)^{3/2}
   \end{align}
@@ -187,17 +187,17 @@ For better understanding of the self-concordant functions, we provide several ex
 \end{example}
 
 \begin{definition}[Self-concordant function in $\R^n$]
-  A closed convex function $f: \R^n \mapsto \R$ is self-concordant if function $g: \R \mapsto \R$
+  A closed convex function $f\colon~\R^n \mapsto \R$ is self-concordant if function $g: \R \mapsto \R$
   \begin{align}
     g(t) &= f(x + tv)
   \end{align}
   is self-concordant for all $x\in\dom f$ and all $v\in\R^n$.
 \end{definition}
 
-Now, let us focus on the main properties of the self-concordant functions.
+Now, let us focus on the main properties of self-concordant functions.
 
 \begin{theorem}[{\thecite[Theorem~4.1.1]{Nesterov-2004}}]
-  Let functions $f_i$ be self-concordant with constants $M_i$  and let $\alpha_i > 0$, $i = 1,2$. Then the function
+  Let functions $f_i$ be self-concordant with constants $M_i$  and let $\alpha_i > 0$, $i = 1,2$. Then, the function
  \begin{align}
    f(x) &= \alpha_1f_1(x) + \alpha_2f_2(x)
  \end{align}
@@ -212,7 +212,7 @@ Now, let us focus on the main properties of the self-concordant functions.
 \end{theorem}
 
 \begin{corollary}[{\thecite[Corollary~4.1.2]{Nesterov-2004}}]\labelcol{SDP:scf:scaling}
-  Let function $f$ be self-concordant with some constant $M_f$ and $\alpha > 0$. Then the function $\phi(x) = \alpha f(x)$ is also self-concordant with the constant $M_\phi = \frac{1}{\sqrt{\alpha}}M_f$.
+  Let function $f$ be self-concordant with some constant $M_f$ and let $\alpha > 0$. Then, the function $\phi(x) = \alpha f(x)$ is also self-concordant with the constant $M_\phi = \frac{1}{\sqrt{\alpha}}M_f$.
 \end{corollary}
 
 We call function $f(x)$ as the standard self-concordant function if $f(x)$ is some self-concordant function with the constant $M_f = 2$. Using \refcol{SDP:scf:scaling}, we can see that any self-concordant function can be transformed into the standard self-concordant function by scaling.
@@ -221,24 +221,24 @@ We call function $f(x)$ as the standard self-concordant function if $f(x)$ is so
   Let function $f$ be self-concordant. If $\dom f$ contains no straight line, then the Hessian $f''(x)$ is nondegenerate at any $x$ from $\dom f$.
 \end{theorem}
 
-For some self-concordant function $f(x)$, for which we assume, that $\dom f$ contains no straight line (which implies that all $f''(x)$ are nondegenerate, see \refthe{SDP:scf:hessian}), we denote two local norms as
+For some self-concordant function $f(x)$, for which we assume that $\dom f$ contains no straight line (which implies that all $f''(x)$ are nondegenerate, see \refthe{SDP:scf:hessian}), we introduce two local norms as
 \begin{align}
   \| u \|_x &= \sqrt{u^\top f''(x) u},\\
   \| u \|_x^* &= \sqrt{u^\top f''(x)^{-1} u}.
 \end{align}
 
-Consider minimization problem
+Consider the following minimization problem
 \begin{align}
   x^* &= \arg\min_{x\in\dom f} f(x)\labeleq{SDP:scf:minProblem}
 \end{align}
-as the minimization of the self-concordant function $f(x)$.
-\refalg{SDP:scf} describes the iterative process of solving the optimization problem \refeqb{SDP:scf:minProblem}.
+with self-concordant function $f(x)$.
+\refalg{SDP:scf} describes an iterative process of solving the optimization problem \refeqb{SDP:scf:minProblem}.
 The algorithm is divided into two stages by the value of $\|f'(x_k)\|_{x_k}^*$.
 The splitting parameter $\beta$ guarantees quadratic convergence rate for the second part of the algorithm. The parameter $\beta$ is chosen from interval $(0, \bar{\lambda})$, where
 \begin{align}
   \bar{\lambda} &= \frac{3 - \sqrt{5}}{2},
 \end{align}
-which is a root of the equation
+which is a solution of the equation
 \begin{align}
   \frac{\lambda}{(1-\lambda)^2} &= 1.
 \end{align}
@@ -262,7 +262,7 @@ The algorithm terminates when the required precision $\varepsilon$ is reached.
 
 
 \subsection{Self-concordant barriers}
-To be able to introduce self-concordant barriers, let us denote $\Dom f = \cl(\dom f)$.
+To be able to introduce self-concordant barriers, let us denote $\Dom f$ as the closure of $\dom f$, i.e.\ $\Dom f = \cl(\dom f)$.
 
 \begin{definition}[Self-concordant barrier {\thecite[Definition~4.2.2]{Nesterov-2004}}]\labeldef{SDP:scb:scb}
   Let $F(x)$ be a standard self-concordant function. We call it a $\nu$-self-concordant barrier for set $\Dom F$, if
@@ -272,7 +272,7 @@ To be able to introduce self-concordant barriers, let us denote $\Dom f = \cl(\d
   for all $x\in\dom F$. The value $\nu$ is called the parameter of the barrier.
 \end{definition}
 
-The inequality \refeqb{SDP:scb:def} can be rewritten into the following equivalent matrix notation:
+The inequality \refeqb{SDP:scb:def} can be rewritten into the following equivalent matrix notation
 \begin{align}
   F''(x) &\succeq \frac{1}{\nu}F'(x)F'(x)^\top.\labeleq{SDP:scb:def1}
 \end{align}
@@ -324,11 +324,11 @@ Let us explore, which basic functions are self-concordant barriers.
 Now, let us focus on the main properties of the self-concordant barriers.
 
 \begin{theorem}[{\thecite[Theorem~4.2.1]{Nesterov-2004}}]\labelthe{SDP:scb:penaltyFunction}
-  Let $F(x)$ be a self-concordant barrier. Then the function $c^\top x + F(x)$ is a self-concordant function on $\dom F$.
+  Let $F(x)$ be a self-concordant barrier. Then, the function $c^\top x + F(x)$ is a self-concordant function on $\dom F$.
 \end{theorem}
 
 \begin{theorem}[{\thecite[Theorem~4.2.2]{Nesterov-2004}}]
-  Let $F_i$ be a $\nu_i$-self-concordant barriers, $i = 1,2$. Then the function
+  Let $F_i$ be a $\nu_i$-self-concordant barriers, $i = 1,2$. Then, the function
   \begin{align}
     F(x) &= F_1(x) + F_2(x)
   \end{align}
@@ -343,7 +343,7 @@ Now, let us focus on the main properties of the self-concordant barriers.
 \end{theorem}
 
 \begin{theorem}[{\thecite[Theorem~4.2.5]{Nesterov-2004}}]\labelthe{SDP:scb:distance}
-  Let $F(x)$ be a $\nu$-self-concordant barrier. Then for any $x\in\Dom F$ and $y\in\Dom F$ such that
+  Let $F(x)$ be a $\nu$-self-concordant barrier. Then, for any $x\in\Dom F$ and $y\in\Dom F$ such that
   \begin{align}
     (y-x)^\top F'(x) &\geq 0,
   \end{align}
@@ -353,7 +353,7 @@ Now, let us focus on the main properties of the self-concordant barriers.
   \end{align}
 \end{theorem}
 
-There is one special point of convex set, which is important for solving convex minimization problems.
+There is one special point of a convex set, which is important for solving convex minimization problems.
 It is called the analytic center of convex set and we will focus on its properties.
 
 \begin{definition}[{\thecite[Definition~4.2.3]{Nesterov-2004}}]
@@ -365,7 +365,7 @@ It is called the analytic center of convex set and we will focus on its properti
 \end{definition}
 
 \begin{theorem}[{\thecite[Theorem~4.2.6]{Nesterov-2004}}]
-  Assume that the analytic center of a $\nu$-self-concordant barrier $F(x)$ exists. Then for any $x\in\Dom F$ we have
+  Assume that the analytic center of a $\nu$-self-concordant barrier $F(x)$ exists. Then, for any $x\in\Dom F$ we have
   \begin{align}
     \|x-x^*_F\|_{x^*_F} &\leq \nu + 2\sqrt{\nu}.
   \end{align}
@@ -418,7 +418,7 @@ From the first-order optimality condition, any point of the central path satisfi
   tc + F'\big(x^*(t)\big) &= 0.
 \end{align}
 Since the analytic center lies on the central path and can be found by \refalg{SDP:scb:ac}, all we have to do, to find the solution $x^*$, is to follow the central path. 
-This enables us an approximate centering condition:
+This enables us an approximate centering condition
 \begin{align}
   \|f'(t,x)\|^*_x = \|tc + F'(x)\|^*_x &\leq \beta, \labeleq{SDP:scb:cntrCondition}
 \end{align}
@@ -464,12 +464,12 @@ The parameters $\beta$ and $\gamma$ in \refalg{SDP:scb:ac} and \refalg{SDP:scb:p
   \gamma &= \frac{\sqrt{\beta}}{1+\sqrt{\beta}} - \beta = \frac{5}{36}.\labeleq{SDP:scb:gamma}
 \end{align}
 
-The union of \refalg{SDP:scb:ac} and \refalg{SDP:scb:pf} can be easily used to solve the standard minimization problem \refeqb{SDP:scb:standardProblem}, supposing we have a feasible point $x_0\in Q$.
+\refalg{SDP:scb:ac} and \refalg{SDP:scb:pf} can be easily used to solve the standard minimization problem \refeqb{SDP:scb:standardProblem}, supposing we have a feasible point $x_0\in Q$.
 
 \subsection{Barrier function for semidefinite programming}
-In this section, we are going to show, how to find a self-concordant barrier for the semidefinite program \refeqb{SDP:prelim:dual}, so that we can use \refalg{SDP:scb:ac} and \refalg{SDP:scb:pf} to solve it.
+In this section, we are going to show how to find a self-concordant barrier for the semidefinite program \refeqb{SDP:prelim:dual} so that we can use \refalg{SDP:scb:ac} and \refalg{SDP:scb:pf} to solve it.
 For the purpose of this section, we are interested only in the constrains of the problem.
-The constrains are defining us the feasibility set $Q$:
+The constrains are defining us the feasibility set
 \begin{align}
   Q &= \bigg\{y\in\R^m\ |\ A_0 + \sum_{i=1}^mA_iy\ind i \succeq 0\bigg\},
 \end{align}
@@ -490,21 +490,23 @@ with $X_j(y)\in\Sym^{n_j}$ for $j = 1, \ldots, k$ and $\sum_{j=1}^k n_j = n$, th
 \end{align}
 This rule allows us to easily add or remove some constraints without touching the others and to keep the sizes of the used matrices small, which can significantly speed up the computation.
 
-Instead of the set $Q$, which is parametrized by $y$, we can directly optimize over the set of positive semidefinite matrices. This set $\PSDCone^n$ is defined as
+Instead of the set $Q$, which is parametrized by $y$, we can directly optimize over the set of positive semidefinite matrices.
+This set $\PSDCone^n$ is defined as
 \begin{align}
   \PSDCone^n &= \big\{X\in\Sym^n\ |\ X\succeq0\big\}
 \end{align}
-and it is called the cone of positive semidefinite $n\times n$ matrices. This cone is a closed convex set, which interior is formed by positive definite matrices and on its boundary lie matrices, which have at least one eigenvalue equal to zero.
+and it is called the cone of positive semidefinite $n\times n$ matrices.
+This cone is a closed convex set with interior formed by positive definite matrices and on its boundary lie matrices that have at least one eigenvalue equal to zero.
 
 Now, we are looking for a self-concordant barrier function, which will enable us to optimize over the cone $\PSDCone^n$.
 The domain of this function needs to contain the set $\PSDCone^n$ and the values of the function have to be growing to $+\infty$ as getting closer to the boundary of the set $\PSDCone^n$.
 This will create us a repelling force from the boundary of $\PSDCone^n$, when following the central path \refeqb{SDP:scb:centralPath}.
-Consider the function $F(X)$ as the self-concordant barrier function for the set $\PSDCone^n$:
+Consider the function 
 \begin{align}
-  F(X) &= -\ln\prod_{i=1}^{n}\lambda_i(X),
+  F(X) &= -\ln\prod_{i=1}^{n}\lambda_i(X)
 \end{align}
-where $X\in\inter\PSDCone^n$ and $\big\{\lambda_i(X)\big\}_{i=1}^n$ is the set of eigenvalues of the matrix $X$.
-To avoid the computation of eigenvalues, the function $F(X)$ can be also expressed as:
+as the self-concordant barrier function for the set $\PSDCone^n$, where $X\in\inter\PSDCone^n$ and $\big\{\lambda_i(X)\big\}_{i=1}^n$ is the set of eigenvalues of the matrix $X$.
+To avoid the computation of eigenvalues, the function $F(X)$ can be also expressed as
 \begin{align}
   F(X) &= -\ln\det(X).
 \end{align}
@@ -542,7 +544,7 @@ Similarly, the self-concordant barrier function for the set $Q$ is a function
 \end{align}
 
 \begin{example}
-  To make it clearer, what is the difference between the set $Q$ and $\Dom F(y)$, we have prepared this example. Let
+  To make it clearer, what is the difference between the set $Q$ and $\Dom F(y)$, let us present an example. Let
   \begin{align}
     X(y) &= \bmB y_2 & y_1 \\ y_1 & y_2 \bmE,
   \end{align}
@@ -555,8 +557,9 @@ Similarly, the self-concordant barrier function for the set $Q$ is a function
   \begin{align}
     \Dom F(y) &= \Big\{y\ |\ \det\!\big(X(y)\big) \geq 0\Big\}\labeleq{SDP:bf:domF}
   \end{align}
-  and is shaded by the blue color.
-  We can see, that the set $\Dom F(y)$ consists of two disjoint parts. One of them is the set, where $X(y)\succeq0$ (denoted by the orange color) and the second part is an area, where both eigenvalues of $X(y)$ are negative.
+  and is shaded blue.
+  We can see, that the set $\Dom F(y)$ consists of two disjoint parts.
+  One of them is the set where $X(y)\succeq0$ (denoted by the orange color) and the second part is an area where both eigenvalues of $X(y)$ are negative.
   Therefore, one has to pick his starting point $x_0$ from the interior of the set $Q = \big\{y\in\R^2\ |\ X(y) \succeq 0\big\}$ to obtain the optimal solution from the set $Q$.
 
   \begin{figure}[ht]
@@ -574,7 +577,7 @@ Similarly, the self-concordant barrier function for the set $Q$ is a function
   \end{figure}
 \end{example}
 
-When the matrix $X$ has the block diagonal form \refeqb{SDP:bf:bd}, we can rewrite the barrier function \refeqb{SDP:bf:bfy} into summation form
+When the matrix $X$ has the block diagonal form \refeqb{SDP:bf:bd}, we can rewrite the barrier function \refeqb{SDP:bf:bfy} as
 \begin{align}
   F(y) &= -\sum_{j=1}^k \ln\det\!\big(X_j(y)\big).
 \end{align}
@@ -588,7 +591,7 @@ for $u, v = 1,\ldots, m$.
 
 The computation of the derivatives is the most expensive part of each step of \refalg{SDP:scb:ac} and \refalg{SDP:scb:pf}.
 Therefore, the estimated number of arithmetic operations of computation of the derivatives is also the complexity of each step in the algorithms.
-The number of arithmetic operations for $j$-th constraint in form $\big\{y\ |\ X_j(y) \succeq 0\big\}$ is:
+The number of arithmetic operations for $j$-th constraint in form $\big\{y\ |\ X_j(y) \succeq 0\big\}$ is as follows:
 \begin{itemize}
   \item the computation of $X_j(y) = A_{j,0} + \sum_{i=1}^mA_{j,i}y\ind i$ needs $mn^2$ operations,
   \item the computation of the inversion $X_j(y)^{-1}$ needs $n^3$ operations,
@@ -597,7 +600,7 @@ The number of arithmetic operations for $j$-th constraint in form $\big\{y\ |\ X
   \item the computation of $\tr\!\Big(\!\big(X_j(y)^{-1}A_{j,u}\big)\big(X_j(y)^{-1}A_{j,v}\big)\!\Big)$ for $u, v = 1,\ldots, m$ needs $m^2n^2$ operations.
 \end{itemize}
 The most expensive parts requires $mn^3$ and $m^2n^2$ arithmetic operations on each constraint.
-Typically, the value $k$, the number of constraints, is small and it keeps constant, when the semidefinite programs are generated as subproblems, when solving more complex problems, e.g.\ polynomial optimization. Therefore, we can say, that $k$ is constant and we can omit it from the complexity estimation.
+Typically, the value $k$, the number of constraints, is small and is kept constant when the semidefinite programs are generated as subproblems, when solving more complex problems, e.g.\ polynomial optimization. Therefore, we can say, that $k$ is constant and we can omit it from the complexity estimation.
 To sum up, one step of \refalg{SDP:scb:ac} and \refalg{SDP:scb:pf} requires
 \begin{align}
   \mathcal{O}\big(m(m+n)n^2\big)\labeleq{SDP:bf:O}
@@ -609,7 +612,7 @@ To be able to study the algorithms described previously in this section, we have
 The full knowledge of the code allows us to trace the algorithms step by step and inspect their behaviors.
 Instead of using some state of the art toolboxes for semidefinite programming, e.g.\ SeDuMi \cite{sedumi} and MOSEK \cite{mosek}, which are more or less black boxes for us, the knowledge of the used algorithms allows us to decide, if the chosen algorithm is suitable for the given semidefinite problem or not.
 Moreover, if we would like to create some specialized solver for some class of semidefinite problems, we can easily reuse the code, edit it as required and build the solver very quickly.
-On the other hand, we can not expect that our implementation will be as fast as the implementation of some state of the art toolboxes, as much more time and people was used to develop them.
+On the other hand, we can not expect that our implementation will be as fast as the implementation of some state of the art toolboxes, as much more time and effort was used to develop them.
 
 The implementation is compatible with Python version 3.5 and higher.
 The package NumPy is used for linear algebra computations.
@@ -633,7 +636,7 @@ To check, whether the installation was successful, run command \texttt{python3 s
 If no error emerges, then the package is installed and ready to use.
 
 \subsection{Usage}
-The Polyopt package is created to be able to solve semidefinite programs in a form
+The Polyopt package is able to solve semidefinite programs in the form
 \begin{align}
   \arraycolsep=1.4pt
   \begin{array}{rclrcl@{\hskip0.5cm}l}
@@ -653,7 +656,7 @@ The minimal working example is shown in \reflis{SDP:imp:usage}.
 \begin{lstlisting}[language=python, caption={Typical usage of the class \texttt{SDPSolver} of the Polyopt package.}, labellis={SDP:imp:usage}]
 import polyopt
 
-# supposing the matrices Aij and the vectors c and y0 are already defined
+# assuming the matrices Aij and the vectors c and y0 are already defined
 problem = polyopt.SDPSolver(c, [[A10, A11, ..., A1m], ..., [Ak0, Ak1, ..., Akm]])
 yStar = problem.solve(y0, problem.dampedNewton)
 \end{lstlisting}
@@ -663,7 +666,7 @@ This option can be set by \texttt{problem.setPrintOutput(True)}.
 Then, in each iteration of \refalg{SDP:scb:ac} and \refalg{SDP:scb:pf}, the values $k$, $x_k$ and eigenvalues of $X_j(x_k)$ are printed to the terminal.
 
 If $n$, the dimension of the problem, is equal to 2, boundary of the set $\Dom F$ \refeqb{SDP:bf:domF} and all intermediate points $x_k$ can be plotted.
-This can be enabled by setting \texttt{problem.setDrawPlot(True)}.
+This is enabled by setting \texttt{problem.setDrawPlot(True)}.
 An example of such a graph is shown in \reffig{SDP:imp:demo}.
 
 The parameters $\beta$ and $\gamma$ are predefined to the same values as in \refeqb{SDP:scb:beta} and \refeqb{SDP:scb:gamma}.
@@ -799,7 +802,7 @@ But from the structure of the constraint \refeqb{SDP:perf:constr} we can see tha
   y_0 &= \bmB 0 & \cdots & 0\bmE^\top
 \end{align}
 is a feasible point.
-We used the point $y_0$ to initialize problems for Polyopt package, but we have let SeDuMi and MOSEK use their own initialization process. 
+We used the point $y_0$ to initialize problems for Polyopt package but we have let SeDuMi and MOSEK use their own initialization process. 
 However, since the LMI constraints were randomly generated, there is no guarantee that the sets, which they define, are bounded.
 Therefore, we have added constraint \refeqb{SDP:imp:bound} for $R = \importSDPPerformanceBound$, which guarantees that we are optimizing over bounded sets.
 
@@ -850,7 +853,7 @@ These execution times $\tau_k$, where $k$ is the size of the problem, were measu
 It has to be mentioned, that the Polyopt toolbox is implemented in Python, but the toolboxes SeDuMi and MOSEK were run from MATLAB with precompiled MEX files (compiled C, \CC{} or Fortran code) and therefore the execution times are not readily comparable.
 On the other side, the Python package NumPy uses common linear algebra libraries, like LAPACK \cite{lapack}, ATLAS \cite{atlas} and BLAS \cite{blas}, and we can presume that SeDuMi and MOSEK use them too.
 
-Our intention was to measure only the execution time of the solving phase, not of the preparation time.
+Our intention was to measure only the execution time of the solving phase, not of the setup time.
 In case of the Polyopt package, we measured the execution time of the function \texttt{solve()}.
 For SeDuMi and MOSEK, we have used MATLAB framework YALMIP \cite{yalmip} for defining the semidefinite programs and calling the solvers.
 The execution time of the YALMIP code is quite long, because YALMIP makes an analysis of the problem and compiles it into a standard form.
@@ -881,7 +884,7 @@ The bigger the value of $\varepsilon$ the less iterations the algorithm needs to
 
 To evaluate the dependency we have generated unique semidefinite programs $P_{k, l}$ according to \refeqb{SDP:perf:problem} for $k = \importSDPPrecEpsDims{}$ and $l = 1,\ldots,\importSDPPrecEpsUnique{}$.
 For each of this problem and accuracy $\varepsilon$ we have measured the number of iterations $N_{k,l,\varepsilon}$ of \refalg{SDP:scb:pf} required to find the solution.
-Then we have averaged the numbers across the unique problems.
+Then, we have averaged the numbers across the unique problems.
 \begin{align}
   N_{k,\varepsilon} &= \frac{1}{\importSDPPrecEpsUnique}\sum_{l=1}^{\importSDPPrecEpsUnique}N_{k,l,\varepsilon}
 \end{align}
@@ -912,9 +915,9 @@ The situation for a simple semidefinite problem is shown in \reffig{SDP:perf:per
 \end{figure}
 
 To see how many iterations are needed to get within some fraction of the distance $\|y^* - y_F^*\|$ from the optimal solution $y^*$, we have generated unique semidefinite problems $P_{k, l}$ for the problem sizes $k = \importSDPPrecPercDims{}$ and $l = 1, \ldots, \importSDPPrecPercUnique{}$ according to \refeqb{SDP:perf:problem}.
-Then we have solved each problem with accuracy $\varepsilon = \importSDPPrecPercEps$ to obtain a precise approximation of the solution $y^*$.
+Then, we have solved each problem with accuracy $\varepsilon = \importSDPPrecPercEps$ to obtain a precise approximation of the solution $y^*$.
 After that we have counted how many iterations $N_{k,l,\lambda}$ are needed to get within the distance $\lambda \|y^* - y_F^*\|$ from the solution $y^*$ for the given problem and for selected values of $\lambda$.
-Then we have averaged the numbers across the unique problems.
+Then, we have averaged the numbers across the unique problems.
 \begin{align}
   N_{k,\lambda} &= \frac{1}{\importSDPPrecPercUnique}\sum_{l=1}^{\importSDPPrecPercUnique}N_{k,l,\lambda}
 \end{align}
@@ -934,4 +937,4 @@ In this chapter, we have reviewed the state of the art interior point algorithm 
 We have implemented this algorithm in Python and verified its correctness on synthetically generated semidefinite programs.
 The computation time comparison to the state of the art toolboxes SeDuMi \cite{sedumi} and MOSEK \cite{mosek} was given and it revealed that out implementation is significantly slower.
 The computation times are comparable to the state of the art toolboxes only for small semidefinite problems, let us say for problems up to 10 unknowns.
-Then we have investigated the speed--accuracy trade-off, which has shown that computation time can be saved when the precision of the solution is not crucial.
+Then, we have investigated the speed--accuracy trade-off, which has shown that computation time can be saved when the precision of the solution is not crucial.

@@ -50,16 +50,20 @@ if __name__ == '__main__':
     avgMosek[dimIdx] = np.mean(timesMosek[dimIdx].min(axis=1))
 
   # export to LaTeX
+  digits = 7
   with open('tables/SDP_performance.tex', 'wt') as fTable, open('data/SDP_performance.dat', 'wt') as fGraph:
-    fTable.write('\\begin{tabular}{|c||r@{.}lr@{.}lr@{.}l|}\n')
+    fTable.write('\\begin{tabular}{|c||lll|}\n')
     fTable.write('  \\hline\n')
-    fTable.write('  \\textbf{Problem} & \\multicolumn{6}{c|}{\\textbf{Toolbox}}\\\\\n')
-    fTable.write('  \\cline{2-7}\n')
-    fTable.write('  \\textbf{size} & \\multicolumn{2}{c}{\\textbf{Polyopt}} & \\multicolumn{2}{c}{\\textbf{SeDuMi} \\cite{sedumi}} & \\multicolumn{2}{c|}{\\textbf{MOSEK} \\cite{mosek}}\\\\\n')
+    fTable.write('  \\textbf{Problem} & \\multicolumn{3}{c|}{\\textbf{Toolbox}}\\\\\n')
+    fTable.write('  \\cline{2-4}\n')
+    fTable.write('  \\textbf{size} & \\multicolumn{1}{c}{\\textbf{Polyopt}} & \\multicolumn{1}{c}{\\textbf{SeDuMi} \\cite{sedumi}} & \\multicolumn{1}{c|}{\\textbf{MOSEK} \\cite{mosek}}\\\\\n')
     fTable.write('  \hline\hline\n')
     for dimIdx in range(len(dims)):
       dim = dims[dimIdx]
-      fTable.write('  {dim:d} & \\hspace{{1mm}} {polyopt:#.3g} s & \\hspace{{6mm}} {sedumi:#.3g} s & \\hspace{{6mm}} {mosek:#.3g} s\\\\\n'.format(dim=dim, polyopt=avgPolyopt[dimIdx], sedumi=avgSedumi[dimIdx], mosek=avgMosek[dimIdx]).replace('.', '&'))
+      frmPolyopt = '{:#.3g}'.format(avgPolyopt[dimIdx]).ljust(digits, '0')
+      frmSedumi = '{:#.3g}'.format(avgSedumi[dimIdx]).ljust(digits, '0')
+      frmMosek = '{:#.3g}'.format(avgMosek[dimIdx]).ljust(digits, '0')
+      fTable.write('  {dim:d} & \\hspace{{1mm}} \\num{{{polyopt}}} s & \\hspace{{6mm}} \\num{{{sedumi}}} s & \\hspace{{5mm}} \\num{{{mosek}}} s\\\\\n'.format(dim=dim, polyopt=frmPolyopt, sedumi=frmSedumi, mosek=frmMosek))
       fGraph.write('{dim:d} {polyopt} {sedumi} {mosek}\n'.format(dim=dim, polyopt=avgPolyopt[dimIdx], sedumi=avgSedumi[dimIdx], mosek=avgMosek[dimIdx]))
     fTable.write('  \\hline')
     fTable.write('\\end{tabular}\n')

@@ -5,6 +5,7 @@ set grid
 set key tmargin right
 set title ""
 set xlabel "Maximal degree of relaxed monomials"
+set format y "\\num{%.0f}"
 set ylabel "Frequency"
 set samples 100000
 

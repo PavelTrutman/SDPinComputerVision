@@ -140,7 +140,10 @@ def processData(case=['AG', 'Polyopt', 'Mosek', 'Gloptipoly']):
     resCDist[c] = []
     resRAngle[c] = []
     resErrAll[c] = []
-    resTimes[c] = []
+    if c in ['Mosek', 'Polyopt']:
+      resTimes[c] = np.zeros((2, 0))
+    else:
+      resTimes[c] = np.zeros((1, 0))
     resRelax[c] = []
   errGT = []
 
@@ -202,7 +205,11 @@ def processData(case=['AG', 'Polyopt', 'Mosek', 'Gloptipoly']):
         acos = (np.trace(np.linalg.solve(RGT, RAll[camMin]))-1)/2
         resRAngle[c].append(np.arccos(1 - np.linalg.norm(acos - 1)))
       resErrAll[c].append(err)
-      resTimes[c].extend(times[c][k, :].tolist())
+      if c in ['Mosek', 'Polyopt']:
+        resTimes[c] = np.hstack((resTimes[c], times[c][k, :].T))
+      else:
+        resTimes[c] = np.hstack((resTimes[c], times[c][k, np.newaxis]))
+      #resTimes[c].extend(times[c][k, :].tolist())
       if c not in ['AG']:
         resRelax[c].extend(relax[c][k, :].tolist())
 
@@ -251,12 +258,17 @@ def generateGnuplot(case=['GT', 'AG', 'Polyopt', 'Mosek', 'Gloptipoly']):
       fCDist.write('\n')
       fRAngle.write('\n')
   with open(fileGnuplotTimesPath, 'wt') as fTimes:
-    for i in range(len(results['AG'].times)):
-      for c in [d for d in case if d not in 'GT']:
-        fTimes.write('{} '.format(np.log10(results[c].times[i])))
+    print(results['AG'].times.shape)
+    for i in range(results['AG'].times.shape[0]):
+      fTimes.write('{} '.format(np.log10(results['AG'].times[i])))
+      fTimes.write('{} '.format(np.log10(results['Polyopt'].times[0, i])))
+      fTimes.write('{} '.format(np.log10(results['Polyopt'].times[1, i])))
+      fTimes.write('{} '.format(np.log10(results['Mosek'].times[0, i])))
+      fTimes.write('{} '.format(np.log10(results['Mosek'].times[1, i])))
+      fTimes.write('{} '.format(np.log10(results['Gloptipoly'].times[i])))
       fTimes.write('\n')
   with open(fileGnuplotRelaxPath, 'wt') as fRelax:
-    for i in range(len(results['AG'].times)):
+    for i in range(results['Polyopt'].relaxOrders.shape[0]):
       for c in [d for d in case if d not in ['GT', 'AG']]:
         fRelax.write('{} '.format(results[c].relaxOrders[i]))
       fRelax.write('\n')
@@ -344,7 +356,7 @@ def solvePolyopt():
   cams = scipy.io.loadmat(fileCamsPath, struct_as_record=False, squeeze_me=True)['cams']
   n = cams[0].a.shape[0]
   saveobj = np.zeros((cams.shape[0], n), dtype=np.object)
-  times = np.zeros((cams.shape[0], n))
+  times = np.zeros((cams.shape[0], n, 2))
   relaxOrders = np.zeros((cams.shape[0], n))
 
   for cam, j in zip(cams, range(cams.shape[0])):
@@ -352,11 +364,11 @@ def solvePolyopt():
     for i in range(n):
       a = cam.a[i]
       I = [{(0, ): a[0], (1, ): a[1], (2, ): a[2], (3, ): a[3], (4, ): a[4]}]
-      timeStart = timeit.default_timer()
       problem = polyopt.PSSolver(I)
       problem.setLoggingLevel(40)
       sol = problem.solve()
-      times[j, i] = timeit.default_timer() - timeStart
+      times[j, i, 0] = problem.timeOffline
+      times[j, i, 1] = problem.timeOnline
       saveobj[j, i] = sol
       relaxOrders[j, i] = problem.getRelaxOrder()
       print('.', end='', flush=True)

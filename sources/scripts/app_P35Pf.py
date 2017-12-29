@@ -151,7 +151,10 @@ def processData(case=['AG', 'Mosek', 'Polyopt', 'Gloptipoly']):
     resCDist[c] = []
     resRAngle[c] = []
     resErrAll[c] = []
-    resTimes[c] = []
+    if c in ['Mosek', 'Polyopt']:
+      resTimes[c] = np.zeros((2, 0))
+    else:
+      resTimes[c] = np.zeros((1, 0))
     resRelax[c] = []
     resF[c] = []
   errGT = []
@@ -227,7 +230,10 @@ def processData(case=['AG', 'Mosek', 'Polyopt', 'Gloptipoly']):
         acos = (np.trace(np.linalg.solve(RGT, RAll[camMin]))-1)/2
         resRAngle[c].append(np.arccos(1 - np.linalg.norm(acos - 1)))
       resErrAll[c].append(err)
-      resTimes[c].extend(times[c][k, :].tolist())
+      if c in ['Mosek', 'Polyopt']:
+        resTimes[c] = np.hstack((resTimes[c], times[c][k, :].T))
+      else:
+        resTimes[c] = np.hstack((resTimes[c], times[c][k, np.newaxis]))
       if c not in ['AG']:
         resRelax[c].extend(relax[c][k, :].tolist())
 
@@ -278,9 +284,13 @@ def generateGnuplot(case=['GT', 'AG', 'Polyopt', 'Mosek', 'Gloptipoly']):
       fRAngle.write('\n')
       fFRel.write('\n')
   with open(fileGnuplotTimesPath, 'wt') as fTimes:
-    for i in range(len(results['AG'].times)):
-      for c in [d for d in case if d not in 'GT']:
-        fTimes.write('{} '.format(np.log10(results[c].times[i])))
+    for i in range(results['AG'].times.shape[0]):
+      fTimes.write('{} '.format(np.log10(results['AG'].times[i])))
+      fTimes.write('{} '.format(np.log10(results['Polyopt'].times[0, i])))
+      fTimes.write('{} '.format(np.log10(results['Polyopt'].times[1, i])))
+      fTimes.write('{} '.format(np.log10(results['Mosek'].times[0, i])))
+      fTimes.write('{} '.format(np.log10(results['Mosek'].times[1, i])))
+      fTimes.write('{} '.format(np.log10(results['Gloptipoly'].times[i])))
       fTimes.write('\n')
   with open(fileGnuplotRelaxPath, 'wt') as fRelax:
     for i in range(len(results['AG'].times)):
@@ -344,7 +354,7 @@ def solvePolyopt():
   cams = scipy.io.loadmat(fileCamsPath, struct_as_record=False, squeeze_me=True)['cams']
   n = cams[0].P.shape[0]
   saveobj = np.zeros((cams.shape[0], n), dtype=np.object)
-  times = np.zeros((cams.shape[0], n))
+  times = np.zeros((cams.shape[0], n, 2))
   relaxOrders = np.zeros((cams.shape[0], n))
 
   for cam, j in zip(cams, range(cams.shape[0])):
@@ -352,13 +362,13 @@ def solvePolyopt():
     for i in range(n):
       P = cam.P[i]
       I = coefsMatrix(P)
-      timeStart = timeit.default_timer()
       problem = polyopt.PSSolver(I)
       problem.eps = 1e-6
       problem.SDPTimeout = 120
       problem.setLoggingLevel(40)
       sol = problem.solve()
-      times[j, i] = timeit.default_timer() - timeStart
+      times[j, i, 0] = problem.timeOffline
+      times[j, i, 1] = problem.timeOnline
       saveobj[j, i] = sol.T
       relaxOrders[j, i] = problem.getRelaxOrder()
       print('.', end='', flush=True)

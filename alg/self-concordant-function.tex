@@ -6,7 +6,7 @@
       \Statex $\beta \in (0,\bar{\lambda})$ a parameter of size of the region of quadratic convergence
       \Statex $\varepsilon$ a precision
     \Ensure
-      \Statex $x^*$ an optimal solution to the minimization problem \refeqb{SDP:scf:minProblem}
+      \Statex $x^*$ an approximation to the optimal solution to the minimization problem \refeqb{SDP:scf:minProblem}
       \Statex
 
     \State $k \gets 0$
@@ -21,6 +21,6 @@
     \State \Return $x^* \gets x_k$
 
   \end{algorithmic}
-  \caption{Newton method for minimization of the self-concordant functions.}
+  \caption{Newton method for minimization of self-concordant functions.}
   \labelalg{SDP:scf}
 \end{algorithm}

@@ -14,7 +14,7 @@ addpath('../moment method for real roots finding');
 n = size(cams{1}.P, 2);
 camNum = size(cams, 2);
 sol = cell(camNum, n);
-times = zeros(camNum, n);
+times = zeros(camNum, n, 2);
 relaxOrders = zeros(camNum, n);
 
 for j = 1:camNum
@@ -24,11 +24,11 @@ for j = 1:camNum
     P = cam.P{i};  
     [I, monomials] = coefsMatrix(P);
 
-    timeStart = tic;
-    [s, relaxOrder] = solve(I, monomials);
-    times(j, i) = toc(timeStart);
+    [s, relaxOrder, res] = solve(I, monomials);
     sol{j, i} = s';
     relaxOrders(j, i) = relaxOrder;
+    times(j, i, 1) = res.timeOffline;
+    times(j, i, 2) = res.timeOnline;
     fprintf('.');
   end
   fprintf('\n');

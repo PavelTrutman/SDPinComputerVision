@@ -34,16 +34,19 @@ if __name__ == '__main__':
     avgGloptipoly[dimIdx] = np.mean(timesGloptipoly[dimIdx].min(axis=1))
 
   # export to LaTeX
+  digits = 7
   with open('tables/POP_dim_performance.tex', 'wt') as fTable, open('data/POP_dim_performance.dat', 'wt') as fGraph:
-    fTable.write('\\begin{tabular}{|c||c|r@{.}lr@{.}l|}\n')
+    fTable.write('\\begin{tabular}{|c||c|ll|}\n')
     fTable.write('  \\hline\n')
-    fTable.write('  \\textbf{Number of} & \\textbf{Dimension of} & \\multicolumn{4}{c|}{\\textbf{Toolbox}}\\\\\n')
-    fTable.write('  \\cline{3-6}\n')
-    fTable.write('  \\textbf{variables} & \\textbf{the SDP} & \\multicolumn{2}{c}{\\textbf{Polyopt}} & \\multicolumn{2}{c|}{\\textbf{Gloptipoly} \\cite{gloptipoly}}\\\\\n')
+    fTable.write('  \\textbf{Number of} & \\textbf{Dimension of} & \\multicolumn{2}{c|}{\\textbf{Toolbox}}\\\\\n')
+    fTable.write('  \\cline{3-4}\n')
+    fTable.write('  \\textbf{variables} & \\textbf{the SDP} & \\multicolumn{1}{c}{\\textbf{Polyopt}} & \\multicolumn{1}{c|}{\\textbf{Gloptipoly} \\cite{gloptipoly}}\\\\\n')
     fTable.write('  \hline\hline\n')
     for dimIdx in range(len(dims)):
       dim = dims[dimIdx]
-      fTable.write('  {dim:d} & {sdp:d} & \\hspace{{1mm}} {polyopt:#.3g} s & \\hspace{{11mm}} {gloptipoly:#.3g} s\\\\\n'.format(dim=dim, sdp=SDPSize[dimIdx], polyopt=avgPolyopt[dimIdx], gloptipoly=avgGloptipoly[dimIdx]).replace('.', '&'))
+      frmPolyopt = '{:#.3g}'.format(avgPolyopt[dimIdx]).ljust(digits, '0')
+      frmGloptipoly = '{:#.3g}'.format(avgGloptipoly[dimIdx]).ljust(digits, '0')
+      fTable.write('  {dim:d} & {sdp:d} & \\hspace{{1mm}} \\num{{{polyopt}}} s & \\hspace{{11mm}} \\num{{{gloptipoly}}} s\\\\\n'.format(dim=dim, sdp=SDPSize[dimIdx], polyopt=frmPolyopt, gloptipoly=frmGloptipoly))
       fGraph.write('{dim:d} {polyopt} {gloptipoly}\n'.format(dim=dim, polyopt=avgPolyopt[dimIdx], gloptipoly=avgGloptipoly[dimIdx]))
     fTable.write('  \\hline')
     fTable.write('\\end{tabular}\n')
