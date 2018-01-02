@@ -134,6 +134,9 @@ For each estimated camera rotation $R$, we have computed the residual rotation t
 \end{align}
 The histograms of the angles of residual rotations for each polynomial solver are in \reffig{app:P3P:histRAngle}.
 We have also measured the execution time required to solve each instance of the equation \refeqb{app:P3P:4} by each polynomial solver and histogram of these times can be found in \reffig{app:P3P:histTimes}.
+We have split the times to offline and online phases for the Polyopt package and the MATLAB implementation.
+The offline phase is the part of the algorithm that does not depend on the given parameters of the problem but only on its structure, and therefore it can be precomputed in advance, as it is done in the automatic generator when generating the solver.
+On the other hand, the online phase is dependent on the parameters, and thus it has be computed for each instance of the problem.
 The performance of our implemented polynomial solvers depends on the number of iterations of \refalg{POP:sol:alg}.
 This represents the variable $t$ from the algorithm, which is the degree of monomials, which are relaxed.
 The values of $t$ at which the algorithm terminated are shown as histograms in \reffig{app:P3P:histRelax}.
