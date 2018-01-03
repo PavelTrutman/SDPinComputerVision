@@ -30,15 +30,18 @@ if __name__ == '__main__':
     matricesDim = matrices[dimIdx]
     objective = np.ones((dim, 1))
     startPoint = np.zeros((dim, 1))
-    times = np.empty((unique, repeat))
+    times = np.empty((unique, repeat, 2))
     results = np.empty((unique, repeat), dtype=np.object)
     for j in range(unique):
       for i in range(repeat):
+        timeStartOffline = timeit.default_timer()
         problem = polyopt.SDPSolver(objective, [matricesDim[:, j]])
         problem.bound(bound)
-        timeStart = timeit.default_timer()
+        timeStartOnline = timeit.default_timer()
         r = problem.solve(startPoint, problem.dampedNewton)
-        times[j, i] = timeit.default_timer() - timeStart
+        timeEnd = timeit.default_timer()
+        times[j, i, 0] = timeStartOnline - timeStartOffline
+        times[j, i, 1] = timeEnd - timeStartOnline
         results[j, i] = r
       print('.', end='', flush=True)
     print()

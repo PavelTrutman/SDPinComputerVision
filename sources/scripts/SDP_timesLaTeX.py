@@ -29,9 +29,9 @@ if __name__ == '__main__':
   resultsMosek = timesDataMosek['results'][0]
  
   # compute the stats
-  avgPolyopt = np.empty((len(dims)))
-  avgSedumi = np.empty((len(dims)))
-  avgMosek = np.empty((len(dims)))
+  avgPolyopt = np.empty((len(dims), 2))
+  avgSedumi = np.empty((len(dims), 2))
+  avgMosek = np.empty((len(dims), 2))
   for dimIdx in range(len(dims)):
 
     # check correctness
@@ -45,9 +45,9 @@ if __name__ == '__main__':
         assert ((rMosek/rSedumi < 1 + 1e-3) & (rMosek/rSedumi > 1 - 1e-3)), 'Values of objective functions differ.'
 
     dim = dims[dimIdx]
-    avgPolyopt[dimIdx] = np.mean(timesPolyopt[dimIdx].min(axis=1))
-    avgSedumi[dimIdx] = np.mean(timesSedumi[dimIdx].min(axis=1))
-    avgMosek[dimIdx] = np.mean(timesMosek[dimIdx].min(axis=1))
+    avgPolyopt[dimIdx] = timesPolyopt[dimIdx].min(axis=1).mean(axis=0)
+    avgSedumi[dimIdx] = timesSedumi[dimIdx].min(axis=1).mean(axis=0)
+    avgMosek[dimIdx] = timesMosek[dimIdx].min(axis=1).mean(axis=0)
 
   # export to LaTeX
   digits = 7
@@ -60,11 +60,11 @@ if __name__ == '__main__':
     fTable.write('  \hline\hline\n')
     for dimIdx in range(len(dims)):
       dim = dims[dimIdx]
-      frmPolyopt = '{:#.3g}'.format(avgPolyopt[dimIdx]).ljust(digits, '0')
-      frmSedumi = '{:#.3g}'.format(avgSedumi[dimIdx]).ljust(digits, '0')
-      frmMosek = '{:#.3g}'.format(avgMosek[dimIdx]).ljust(digits, '0')
+      frmPolyopt = '{:#.3g}'.format(avgPolyopt[dimIdx][1]).ljust(digits, '0')
+      frmSedumi = '{:#.3g}'.format(avgSedumi[dimIdx][1]).ljust(digits, '0')
+      frmMosek = '{:#.3g}'.format(avgMosek[dimIdx][1]).ljust(digits, '0')
       fTable.write('  {dim:d} & \\hspace{{1mm}} \\num{{{polyopt}}} s & \\hspace{{6mm}} \\num{{{sedumi}}} s & \\hspace{{5mm}} \\num{{{mosek}}} s\\\\\n'.format(dim=dim, polyopt=frmPolyopt, sedumi=frmSedumi, mosek=frmMosek))
-      fGraph.write('{dim:d} {polyopt} {sedumi} {mosek}\n'.format(dim=dim, polyopt=avgPolyopt[dimIdx], sedumi=avgSedumi[dimIdx], mosek=avgMosek[dimIdx]))
+      fGraph.write('{dim:d} {polyoptOff} {polyoptOn} {sedumiOff} {sedumiOn} {mosekOff} {mosekOn}\n'.format(dim=dim, polyoptOff=avgPolyopt[dimIdx][0], polyoptOn=avgPolyopt[dimIdx][1], sedumiOff=avgSedumi[dimIdx][0], sedumiOn=avgSedumi[dimIdx][1], mosekOff=avgMosek[dimIdx][0], mosekOn=avgMosek[dimIdx][1]))
     fTable.write('  \\hline')
     fTable.write('\\end{tabular}\n')
 

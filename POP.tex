@@ -925,7 +925,7 @@ In the end, the multiplication matrices are obtained and the real solutions of \
 
 However, since we deal with infinite-dimensional spaces $\R[x]$ and $\R[x]^*$, this method is not applicable computationally.
 Therefore, we restrict ourselves to the finite-dimensional subspaces $\R[x]_s$ and $\Rss$, where $[x]_s$ denotes the vectors of all monomials up to degree $s\in\N$.
-Again we define the quadratic form $Q_\Lambda:\R[x]_s\mapsto\R$ of the linear form $\Lambda\in\Rss$ such that
+Again we define the quadratic form $Q_\Lambda\colon\R[x]_s\mapsto\R$ of the linear form $\Lambda\in\Rss$ such that
 \begin{align}
   Q_\Lambda(f) &= \Lambda\big(f^2\big)
 \end{align}
@@ -1118,7 +1118,6 @@ Therefore, for each value of $\bar{y}$ there is at least one eigenvalue of $A(\b
 This is no problem for the moment method algorithm, because we are looking for a point from its relative interior.
 But since the SDP solver from the Polyopt package is an interior-point method, it can not solve a problem, which has no feasible strictly interior point.
 This issue can be solved by a method called facial reduction \cite{facial}, which shrinks the matrix $A(\bar{y})$  and removes the superfluous dimensions so that there will be interior points in the feasible region.
-%TODO: cite facial reductions
 However, we did not implemented this method, but it may be a possible improvement to this implementation.
 Instead of this, we have constructed new semidefinite program \refeqb{POP:sol:SDP_tau}.
 \begin{align}

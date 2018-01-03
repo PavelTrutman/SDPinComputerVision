@@ -187,7 +187,7 @@ For better understanding of the self-concordant functions, we provide several ex
 \end{example}
 
 \begin{definition}[Self-concordant function in $\R^n$]
-  A closed convex function $f\colon~\R^n \mapsto \R$ is self-concordant if function $g: \R \mapsto \R$
+  A closed convex function $f\colon~\R^n \mapsto \R$ is self-concordant if function $g\colon \R \mapsto \R$
   \begin{align}
     g(t) &= f(x + tv)
   \end{align}
@@ -859,16 +859,20 @@ For SeDuMi and MOSEK, we have used MATLAB framework YALMIP \cite{yalmip} for def
 The execution time of the YALMIP code is quite long, because YALMIP makes an analysis of the problem and compiles it into a standard form.
 Only after that, an external solver (SeDuMi or MOSEK) is called to solve the problem.
 Fortunately, YALMIP internally measures the execution time of the solver, so we have used this time in our statistics.
+For overall comparison we have also measured the setup time, e.g.\ the execution time spent before the SDP solver is actually called, of all three packages and we have shown them in \reffig{SDP:perf:times}.
 
 The experiments were executed on Intel Xeon E5-1650 v4 CPU 3.60GHz based computer with sufficient amount of free system memory.
 The installed version of Python was 3.5.3 and MATLAB R2017b 64-bit was used.
 
 \subsection{Results}
-By the look of the graph in \reffig{SDP:perf:times}, we can see that the MOSEK toolbox totally wins.
+By the look of the solving times shown in \reffig{SDP:perf:times}, we can see that the MOSEK toolbox totally wins.
 The SeDuMi toolbox seems to have some constant overhead, but the execution time grows slowly with the increasing size of the problem.
 The Polyopt package accomplishes quite bad results compared to SeDuMi and MOSEK, especially for large sizes of problems.
 But this behavior was expected, as we know that the execution time should be proportional to $k^4$, where $k$ is the size of the problem.
-However, due to SeDuMi overhead, the Polyopt package is faster than SeDuMi for problem sizes up to 10.
+However, due to SeDuMi overhead, the Polyopt package is faster than SeDuMi for problem sizes up to eight.
+
+Regarding the setup times of the solvers, we can observe that the YALMIP framework spends more execution time by analyzing and compiling the problem than by solving it.
+This makes inadequate overhead for small problems, but it may prove crucial for solving large problems with many unknowns.
 
 \section{Speed--accuracy trade-off}\labelsec{SDP:sa}
 Obtaining a precise solution of a semidefinite program is quite time consuming, especially for problems with many unknowns, as we can see from \reffig{SDP:perf:times}.
