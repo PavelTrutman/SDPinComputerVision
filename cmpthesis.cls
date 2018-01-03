@@ -44,8 +44,8 @@
   \definecolor{dblue}{rgb}{0,0,0.5}
   \definecolor{dred}{rgb}{0.4,0,0}  
   \usepackage[pdftex,backref=page]{hyperref}
-  \hypersetup{colorlinks,pdfhighlight=/O,citecolor=dgreen,
-     filecolor=dblue,urlcolor=dblue,linkcolor=dred,
+  \hypersetup{colorlinks,pdfhighlight=/O,citecolor=black,
+     filecolor=black,urlcolor=black,linkcolor=black,pagecolor=black,
      breaklinks=true,pdfpagemode=UseNone,plainpages=false,
 %     backref=true,pagebackref=true,breaklinks=true,
      pdfauthor={Pavel Trutman},
