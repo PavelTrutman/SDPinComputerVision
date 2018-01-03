@@ -52,7 +52,7 @@
      pdfsubject={Master thesis},
      pdftitle={Semidefinite Programming for Geometric Problems in Computer Vision},
      pdfcreator={Pavel Trutman},
-     pdfkeywords={computer vision} {robotics} {minimal problems} {polynomials equations} {Gr\"obner basis},
+     pdfkeywords={computer vision} {polynomial systems solving} {polynomial optimization} {semidefinite programming} {minimal problems},
   }
 \else
   \usepackage{color,graphicx}
