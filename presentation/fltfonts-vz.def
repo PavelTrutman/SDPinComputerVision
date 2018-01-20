@@ -1,0 +1,325 @@
+%% Modified from: foiltex.dtx
+%% VZ 2008-03-05
+%% VZ 2008-03-18 \DeclareFontEncoding{IL2}{}{}
+%%
+%% ********************************************************************
+\def\filedate{2008/03/18}
+
+\def\f@encoding{OT1}
+\def\f@family{fcmss}
+\def\f@series{m}
+\def\f@shape{n}
+
+\begingroup
+\nfss@catcodes
+%\providecommand{\flt@family}[5]{%
+\gdef\flt@family#1#2#3#4#5{%
+  \DeclareFontShape{#1}{#2}{#3}{#4}
+  {<12><14.4><17.28><20.74><24.88><29.86>
+   <35.83><43.00><51.60> #5 }{}}
+%\providecommand{\fltodd@family}[6]{%
+\gdef\fltodd@family#1#2#3#4#5#6{%
+  \DeclareFontShape{#1}{#2}{#3}{#4}
+  {<12.1><14.5><17.38> #5
+   <12><14.4><17.28><20.74><24.88><29.86><35.83><43.00><51.60> #6}{}}
+%\providecommand{\flt@subfamily}[5]{%
+\gdef\flt@subfamily#1#2#3#4#5{%
+  \DeclareFontShape{#1}{#2}{#3}{#4}{<->ssub * #5}{}}
+%%\providecommand{\fltEC@family}[5]{%
+%\gdef\fltEC@family#1#2#3#4#5{%
+%  \DeclareFontShape{#1}{#2}{#3}{#4}
+%  {<12><14.4><17.28><20.74><24.88><29.86>
+%   <35.83><43.00><51.60> genb * #5}{}}
+%\providecommand{\fltmath@family}[6]{%
+\gdef\fltmath@family#1#2#3#4#5#6{%
+  \DeclareFontShape{#1}{#2}{#3}{#4}
+  {<12.1><14.5><17.38> #5
+   <20.74><24.88><29.86><35.83><43.00><51.60> #6}{}}
+
+% --- OT1
+\gdef\fltvz@CMfonts{%
+  \DeclareFontFamily{OT1}{fcmr}{}
+    \fltodd@family{OT1}{fcmr}{m}{n}   {cmr7}{cmr10}
+    \flt@family{OT1}{fcmr}{m}{it}     {cmti10}
+    \flt@family{OT1}{fcmr}{m}{sc}     {cmcsc10}
+    \flt@family{OT1}{fcmr}{bx}{n}     {cmbx10}
+    \flt@family{OT1}{fcmr}{bx}{sl}    {cmbxsl10}
+    \flt@family{OT1}{fcmr}{m}{ui}     {cmu10}
+    \flt@subfamily{OT1}{fcmr}{m}{sl}  {fcmss/m/sl}
+    \flt@subfamily{OT1}{fcmr}{b}{n}   {fcmr/bx/n}
+    \flt@subfamily{OT1}{fcmr}{bx}{it} {fcmr/bx/sl}
+  \DeclareFontFamily{OT1}{fcmss}{\fontdimen3\font=1.7\fontdimen3\font}
+    \flt@family{OT1}{fcmss}{m}{n}     {cmss10}
+    \flt@family{OT1}{fcmss}{m}{sl}    {cmssi10}
+    \flt@family{OT1}{fcmss}{sbc}{n}   {cmssdc10}
+    \flt@family{OT1}{fcmss}{bx}{n}    {cmssbx10}
+    \flt@subfamily{OT1}{fcmss}{m}{it} {fcmr/m/it}
+    \flt@subfamily{OT1}{fcmss}{m}{sc} {fcmr/m/sc}
+    \flt@subfamily{OT1}{fcmss}{m}{ui} {fcmr/m/ui}
+    \flt@subfamily{OT1}{fcmss}{b}{n}  {fcmss/bx/n}
+    \flt@subfamily{OT1}{fcmss}{bx}{sl}{fcmr/bx/sl}
+    \flt@subfamily{OT1}{fcmss}{bx}{it}{fcmr/bx/it}
+  \DeclareFontFamily{OT1}{fcmtt}{\hyphenchar\font\m@ne}
+    \flt@family{OT1}{fcmtt}{m}{n}     {cmtt10}
+    \flt@family{OT1}{fcmtt}{m}{sl}    {cmsltt10}
+    \flt@subfamily{OT1}{fcmtt}{m}{it} {fcmtt/m/sl}
+    \flt@subfamily{OT1}{fcmtt}{bx}{n} {fcmtt/m/n}
+    \flt@subfamily{OT1}{fcmtt}{bx}{it}{fcmtt/m/it}
+    \flt@subfamily{OT1}{fcmtt}{bx}{sl}{fcmtt/m/sl}
+
+  \DeclareFontFamily{OML}{fcmm}{\skewchar\font'177}
+    \fltmath@family{OML}{fcmm}{m}{it} {cmmi7}{cmmi10}
+    \fltmath@family{OML}{fcmm}{b}{it} {cmmib7}{cmmib10}
+    \flt@subfamily{OML}{fcmm}{bx}{it} {fcmm/b/it}
+  \DeclareFontFamily{OMS}{fcmsy}{\skewchar\font'60}
+    \fltmath@family{OMS}{fcmsy}{m}{n} {cmsy7}{cmsy10}
+    \fltmath@family{OMS}{fcmsy}{b}{n} {cmbsy7}{cmbsy10}
+    \flt@subfamily{OMS}{fcmsy}{bx}{n} {fcmsy/b/n}
+  \DeclareFontFamily{OML}{fcmss}{\skewchar\font'177}
+    \flt@subfamily{OML}{fcmss}{m}{n}  {fcmm/m/it}
+    \flt@subfamily{OML}{fcmss}{m}{it} {fcmm/m/it}
+    \flt@subfamily{OML}{fcmss}{m}{sl} {fcmm/m/it}
+    \flt@subfamily{OML}{fcmss}{m}{sc} {fcmm/m/it}
+    \flt@subfamily{OML}{fcmss}{bx}{n} {fcmm/m/it}
+    \flt@subfamily{OML}{fcmss}{b}{n}  {fcmm/m/it}
+    \flt@subfamily{OML}{fcmss}{bx}{sl}{fcmm/m/it}
+    \flt@subfamily{OML}{fcmss}{bx}{it}{fcmm/m/it}
+  \DeclareFontFamily{OMS}{fcmss}{\skewchar\font'60}
+    \flt@subfamily{OMS}{fcmss}{m}{n}  {fcmsy/m/n}
+    \flt@subfamily{OMS}{fcmss}{m}{it} {fcmsy/m/n}
+    \flt@subfamily{OMS}{fcmss}{m}{sl} {fcmsy/m/n}
+    \flt@subfamily{OMS}{fcmss}{m}{sc} {fcmsy/m/n}
+    \flt@subfamily{OMS}{fcmss}{bx}{n} {fcmsy/b/n}
+    \flt@subfamily{OMS}{fcmss}{b}{n}  {fcmsy/b/n}
+    \flt@subfamily{OMS}{fcmss}{bx}{sl}{fcmsy/b/n}
+    \flt@subfamily{OMS}{fcmss}{bx}{it}{fcmsy/b/n}
+  \DeclareFontFamily{OML}{fcmr}{\skewchar\font'177}
+    \flt@subfamily{OML}{fcmr}{m}{n}   {fcmm/m/it}
+    \DeclareFontFamily{OML}{fcmtt}{\skewchar\font'177}
+    \flt@subfamily{OML}{fcmtt}{m}{n}  {fcmm/m/it}
+  \DeclareFontFamily{OMS}{fcmr}{\skewchar\font'60}
+    \flt@subfamily{OMS}{fcmr}{m}{n}   {fcmsy/m/n}
+  \DeclareFontFamily{OMS}{fcmtt}{\skewchar\font'60}
+    \flt@subfamily{OMS}{fcmtt}{m}{n}  {fcmsy/m/n}
+  \DeclareFontFamily{OMX}{fcmex}{}{}
+    \fltmath@family{OMX}{fcmex}{m}{n} {cmex7}{cmex10}
+}
+
+%%% Added by Vit Zyka for czech fonts ----------------------------------
+\gdef\fltvz@ILtwo{IL2}
+\gdef\fltvz@Tone{T1}
+
+\gdef\fltvz@setfont{%
+  \renewcommand{\rmdefault}{fcmr}
+  \renewcommand{\sfdefault}{fcmss}
+  \renewcommand{\ttdefault}{fcmtt}
+
+  \SetSymbolFont{operators}   {normal}{OT1}{fcmr} {m}{n}
+  \SetSymbolFont{letters}     {normal}{OML}{fcmm} {m}{it}
+  \SetSymbolFont{symbols}     {normal}{OMS}{fcmsy}{m}{n}
+  \SetSymbolFont{largesymbols}{normal}{OMX}{fcmex}{m}{n}
+  \SetSymbolFont{operators}   {bold}  {OT1}{fcmr} {bx}{n}
+  \SetSymbolFont{letters}     {bold}  {OML}{fcmm} {b}{it}
+  \SetSymbolFont{symbols}     {bold}  {OMS}{fcmsy}{b}{n}
+  \SetSymbolFont{largesymbols}{bold}  {OMX}{fcmex}{m}{n}
+
+  \SetMathAlphabet{\mathbf}{normal}{OT1}{fcmr}{bx}{n}
+  \SetMathAlphabet{\mathsf}{normal}{OT1}{fcmss}{m}{n}
+  \SetMathAlphabet{\mathit}{normal}{OT1}{fcmr}{m}{it}
+  \SetMathAlphabet{\mathtt}{normal}{OT1}{fcmtt}{m}{n}
+  \SetMathAlphabet{\mathbf}{bold}  {OT1}{fcmr}{bx}{n}
+  \SetMathAlphabet{\mathsf}{bold}  {OT1}{fcmss}{bx}{n}
+  \SetMathAlphabet{\mathit}{bold}  {OT1}{fcmr}{bx}{it}
+  \SetMathAlphabet{\mathtt}{bold}  {OT1}{fcmtt}{m}{n}
+}
+
+% --- IL2 - CS fonts
+\DeclareFontEncoding{IL2}{}{}
+
+\gdef\fltvz@CSfonts{%
+  \DeclareFontFamily{IL2}{fcmr}{}
+    \fltodd@family{IL2}{fcmr}{m}{n}   {csr7}{csr10}
+    \flt@family{IL2}{fcmr}{m}{it}     {csti10}
+    \flt@family{IL2}{fcmr}{m}{sc}     {cscsc10}
+    \flt@family{IL2}{fcmr}{bx}{n}     {csbx10}
+    \flt@family{IL2}{fcmr}{bx}{sl}    {csbxsl10}
+    \flt@family{IL2}{fcmr}{m}{ui}     {csu10}
+    \flt@subfamily{IL2}{fcmr}{m}{sl}  {fcmss/m/sl}
+    \flt@subfamily{IL2}{fcmr}{b}{n}   {fcmr/bx/n}
+    \flt@subfamily{IL2}{fcmr}{bx}{it} {fcmr/bx/sl}
+  \DeclareFontFamily{IL2}{fcmss}{\fontdimen3\font=1.7\fontdimen3\font}
+    \flt@family{IL2}{fcmss}{m}{n}     {csss10}
+    \flt@family{IL2}{fcmss}{m}{sl}    {csssi10}
+    \flt@family{IL2}{fcmss}{sbc}{n}   {csssdc10}
+    \flt@family{IL2}{fcmss}{bx}{n}    {csssbx10}
+    \flt@subfamily{IL2}{fcmss}{m}{it} {fcmr/m/it}
+    \flt@subfamily{IL2}{fcmss}{m}{sc} {fcmr/m/sc}
+    \flt@subfamily{IL2}{fcmss}{m}{ui} {fcmr/m/ui}
+    \flt@subfamily{IL2}{fcmss}{b}{n}  {fcmss/bx/n}
+    \flt@subfamily{IL2}{fcmss}{bx}{sl}{fcmr/bx/sl}
+    \flt@subfamily{IL2}{fcmss}{bx}{it}{fcmr/bx/it}
+  \DeclareFontFamily{IL2}{fcmtt}{\hyphenchar\font\m@ne}
+    \flt@family{IL2}{fcmtt}{m}{n}     {cstt10}
+    \flt@family{IL2}{fcmtt}{m}{sl}    {cssltt10}
+    \flt@subfamily{IL2}{fcmtt}{m}{it} {fcmtt/m/sl}
+    \flt@subfamily{IL2}{fcmtt}{bx}{n} {fcmtt/m/n}
+    \flt@subfamily{IL2}{fcmtt}{bx}{it}{fcmtt/m/it}
+    \flt@subfamily{IL2}{fcmtt}{bx}{sl}{fcmtt/m/sl}
+}
+% --- T1  - Latin Modern
+\gdef\fltvz@LMfonts{%
+  \DeclareFontFamily{T1}{fcmr}{}
+    \fltodd@family{T1}{fcmr}{m}{n}   {ec-lmr7}{ec-lmr10}
+    \flt@family{T1}{fcmr}{m}{it}     {ec-lmri10}
+    \flt@family{T1}{fcmr}{m}{sl}     {ec-lmro10}
+    \flt@family{T1}{fcmr}{m}{sc}     {ec-lmcsc10}
+    \flt@family{T1}{fcmr}{m}{ui}     {ec-lmu10}
+    \flt@family{T1}{fcmr}{bx}{n}     {ec-lmbx10}
+    \flt@family{T1}{fcmr}{bx}{it}    {ec-lmbxi10}
+    \flt@family{T1}{fcmr}{bx}{sl}    {ec-lmbxo10}
+    \flt@family{T1}{fcmr}{b}{n}      {ec-lmb10}
+  \DeclareFontFamily{T1}{fcmss}{\fontdimen3\font=1.7\fontdimen3\font}
+    \flt@family{T1}{fcmss}{m}{n}     {ec-lmss10}
+    \flt@family{T1}{fcmss}{m}{sl}    {ec-lmsso10}
+    \flt@family{T1}{fcmss}{bx}{n}    {ec-lmssbx10}
+    \flt@family{T1}{fcmss}{bx}{sl}   {ec-lmssbo10}
+    \flt@family{T1}{fcmss}{sbc}{n}   {ec-lmssdc10}
+    \flt@subfamily{T1}{fcmss}{m}{it} {fcmss/m/sl}
+    \flt@subfamily{T1}{fcmss}{m}{sc} {fcmr/m/sc}
+    \flt@subfamily{T1}{fcmss}{m}{ui} {fcmr/m/ui}
+    \flt@subfamily{T1}{fcmss}{b}{n}  {fcmss/bx/n}
+    \flt@subfamily{T1}{fcmss}{bx}{it}{fcmss/bx/sl}
+  \DeclareFontFamily{T1}{fcmtt}{\hyphenchar\font\m@ne}
+    \flt@family{T1}{fcmtt}{m}{n}     {ec-lmtt10}
+    \flt@family{T1}{fcmtt}{m}{it}    {ec-lmtti10}
+    \flt@family{T1}{fcmtt}{m}{sl}    {ec-lmtto10}
+    \flt@family{T1}{fcmtt}{m}{sc}    {ec-lmtcsc10}
+    \flt@family{T1}{fcmtt}{bx}{n}    {ec-lmtk10}
+    \flt@family{T1}{fcmtt}{bx}{sl}   {ec-lmtko10}
+    \flt@family{T1}{fcmtt}{l}{n}     {ec-lmtl10}
+    \flt@subfamily{T1}{fcmtt}{bx}{it}{fcmtt/m/sl}
+  \DeclareFontFamily{OML}{fcmm}{\skewchar\font'177}
+    \fltmath@family{OML}{fcmm}{m}{it} {lmmi7}{lmmi10}
+    \fltmath@family{OML}{fcmm}{b}{it} {lmmib7}{lmmib10}
+    \flt@subfamily{OML}{fcmm}{bx}{it} {fcmm/b/it}
+  \DeclareFontFamily{OMS}{fcmsy}{\skewchar\font'60}
+    \fltmath@family{OMS}{fcmsy}{m}{n} {lmsy7}{lmsy10}
+    \fltmath@family{OMS}{fcmsy}{b}{n} {lmbsy7}{lmbsy10}
+    \flt@subfamily{OMS}{fcmsy}{bx}{n} {fcmsy/b/n}
+  \DeclareFontFamily{OML}{fcmss}{\skewchar\font'177}
+    \flt@subfamily{OML}{fcmss}{m}{n}  {fcmm/m/it}
+    \flt@subfamily{OML}{fcmss}{m}{it} {fcmm/m/it}
+    \flt@subfamily{OML}{fcmss}{m}{sl} {fcmm/m/it}
+    \flt@subfamily{OML}{fcmss}{m}{sc} {fcmm/m/it}
+    \flt@subfamily{OML}{fcmss}{bx}{n} {fcmm/m/it}
+    \flt@subfamily{OML}{fcmss}{b}{n}  {fcmm/m/it}
+    \flt@subfamily{OML}{fcmss}{bx}{sl}{fcmm/m/it}
+    \flt@subfamily{OML}{fcmss}{bx}{it}{fcmm/m/it}
+  \DeclareFontFamily{OMS}{fcmss}{\skewchar\font'60}
+    \flt@subfamily{OMS}{fcmss}{m}{n}  {fcmsy/m/n}
+    \flt@subfamily{OMS}{fcmss}{m}{it} {fcmsy/m/n}
+    \flt@subfamily{OMS}{fcmss}{m}{sl} {fcmsy/m/n}
+    \flt@subfamily{OMS}{fcmss}{m}{sc} {fcmsy/m/n}
+    \flt@subfamily{OMS}{fcmss}{bx}{n} {fcmsy/b/n}
+    \flt@subfamily{OMS}{fcmss}{b}{n}  {fcmsy/b/n}
+    \flt@subfamily{OMS}{fcmss}{bx}{sl}{fcmsy/b/n}
+    \flt@subfamily{OMS}{fcmss}{bx}{it}{fcmsy/b/n}
+  \DeclareFontFamily{OML}{fcmr}{\skewchar\font'177}
+    \flt@subfamily{OML}{fcmr}{m}{n}   {fcmm/m/it}
+    \DeclareFontFamily{OML}{fcmtt}{\skewchar\font'177}
+    \flt@subfamily{OML}{fcmtt}{m}{n}  {fcmm/m/it}
+  \DeclareFontFamily{OMS}{fcmr}{\skewchar\font'60}
+    \flt@subfamily{OMS}{fcmr}{m}{n}   {fcmsy/m/n}
+  \DeclareFontFamily{OMS}{fcmtt}{\skewchar\font'60}
+    \flt@subfamily{OMS}{fcmtt}{m}{n}  {fcmsy/m/n}
+  \DeclareFontFamily{OMX}{fcmex}{}{}
+    \fltmath@family{OMX}{fcmex}{m}{n} {lmex10}{lmex10}
+}
+\AtBeginDocument{%
+  \message{ <\f@encoding>-----------------------}%
+  \ifx      \f@encoding\fltvz@ILtwo \message{CS}\fltvz@CSfonts
+  \else\ifx \f@encoding\fltvz@Tone  \message{LM}\fltvz@LMfonts
+       \else \message{CM}%
+       \fi
+  \fi
+  \fltvz@setfont
+}
+\fltvz@CSfonts
+\fltvz@LMfonts
+\fltvz@CMfonts
+%%%
+
+\DeclareFontFamily{U}{lasy}{}
+  \fltmath@family{U}{lasy}{m}{n}    {lasy7}{lasy10}
+  \flt@family{U}{lasy}{b}{n}        {lasyb10}
+
+\endgroup  % end of nfss@catcodes group
+
+\DeclareSymbolFont{flasy}{U}{lasy}{m}{n}
+
+\def\rmdefault{fcmr}
+\def\sfdefault{fcmss}
+\def\ttdefault{fcmtt}
+\def\itdefault{it}
+\def\sldefault{sl}
+\def\bfdefault{bx}
+\renewcommand\familydefault{\sfdefault}
+
+\DeclareOldFontCommand{\rm}{\normalfont\rmfamily}{\mathrm}
+\DeclareOldFontCommand{\sf}{\normalfont\sffamily}{\mathsf}
+\DeclareOldFontCommand{\tt}{\normalfont\ttfamily}{\mathtt}
+\DeclareOldFontCommand{\bf}{\normalfont\bfseries}{\mathbf}
+\DeclareOldFontCommand{\it}{\normalfont\itshape}{\mathit}
+\DeclareOldFontCommand{\sl}{\normalfont\slshape}{\@nomath\sl}
+\DeclareOldFontCommand{\sc}{\normalfont\scshape}{\@nomath\sc}
+\DeclareRobustCommand\em{\@nomath\em \ifdim \fontdimen\@ne\font >\z@
+     \upshape \else \slshape \fi}
+
+\SetSymbolFont{operators}{normal}{OT1}{fcmr}{m}{n}
+\SetSymbolFont{letters}{normal}{OML}{fcmm}{m}{it}
+\SetSymbolFont{symbols}{normal}{OMS}{fcmsy}{m}{n}
+\SetSymbolFont{largesymbols}{normal}{OMX}{fcmex}{m}{n}
+\SetSymbolFont{operators}{bold}{OT1}{fcmr}{bx}{n}
+\SetSymbolFont{letters}{bold}{OML}{fcmm}{b}{it}
+\SetSymbolFont{symbols}{bold}{OMS}{fcmsy}{b}{n}
+\SetSymbolFont{largesymbols}{bold}{OMX}{fcmex}{m}{n}
+\DeclareMathAlphabet{\mathrm}{OT1}{fcmr}{m}{n}
+\DeclareMathAlphabet{\mathbf}{OT1}{fcmr}{bx}{n}
+\DeclareMathAlphabet{\mathsf}{OT1}{fcmss}{m}{n}
+\DeclareMathAlphabet{\mathit}{OT1}{fcmr}{m}{it}
+\DeclareMathAlphabet{\mathtt}{OT1}{fcmtt}{m}{n}
+\DeclareRobustCommand*\cal{\@fontswitch{\relax}{\mathcal}}
+\DeclareRobustCommand*\mit{\@fontswitch{\relax}{\mathnormal}}
+
+\renewcommand\@xii@ipt{12.1}
+\renewcommand\@xiv@vpt{14.5}
+\renewcommand\@xvii@iiipt{17.38}
+\renewcommand\@xxxpt{29.86}
+\renewcommand\@xxxvipt{35.83}
+\renewcommand\@xliiipt{43}
+\renewcommand\@lipt{51.60}
+\DeclareMathSizes{\@xiipt}{\@xii@ipt}{\@xii@ipt}{\@xii@ipt}
+\DeclareMathSizes{\@xivpt}{\@xiv@vpt}{\@xii@ipt}{\@xii@ipt}
+\DeclareMathSizes{\@xviipt}{\@xvii@iiipt}{\@xii@ipt}{\@xii@ipt}
+\DeclareMathSizes{\@xxpt}{\@xxpt}{\@xiv@vpt}{\@xii@ipt}
+\DeclareMathSizes{\@xxvpt}{\@xxvpt}{\@xvii@iiipt}{\@xiv@vpt}
+\DeclareMathSizes{\@xxxpt}{\@xxxpt}{\@xxpt}{\@xvii@iiipt}
+\DeclareMathSizes{\@xxxvipt}{\@xxxvipt}{\@xxvpt}{\@xxpt}
+\DeclareMathSizes{\@xliiipt}{\@xliiipt}{\@xxxpt}{\@xxvpt}
+\if@compatibility\else
+  \DeclareMathSizes{\@lipt}{\@lipt}{\@xxxvipt}{\@xxxpt}
+\fi
+\if@compatibility
+  \font\tencirc=lcircle10 scaled \magstep4
+  \font\tencircw=lcirclew10 scaled \magstep4
+  \font\tenln=line10 scaled \magstep4
+  \font\tenlnw=linew10 scaled \magstep4
+\else
+  \font\tencirc=lcircle10
+  \font\tencircw=lcirclew10
+  \font\tenln=line10
+  \font\tenlnw=linew10
+\fi
+
+\endinput
+%% End of file `fltfonts-vz.def'.

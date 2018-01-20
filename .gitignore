@@ -1,4 +1,6 @@
+*.apx
 *.aux
+*.bga
 *.glo
 *.idx
 *.log
