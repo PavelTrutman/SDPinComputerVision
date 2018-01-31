@@ -78,14 +78,14 @@ Oponent: doc.\ Dr.\ Ing.\ Radim Šára}
 \begin{cmptalkslide}[Obsah]
   \begin{itemize}
     \item Motivace
-    \item Lasserrova hierarchie
-    \item Metoda momentů
+    \item Metoda momentů a Lasserrova hierarchie
     \item Implementace
     \item Experimenty
     \begin{itemize}
       \item Poloha a orientace kalibrované kamery (P3P)
       \item Poloha a orientace kalibrované kamery s neznámou ohniskovou vzdáleností (P3.5Pf)
     \end{itemize}
+    \item Přínosy práce
   \end{itemize}
 \end{cmptalkslide}
 
@@ -113,7 +113,238 @@ Oponent: doc.\ Dr.\ Ing.\ Radim Šára}
 
 \end{cmptalkslide}
 
+
 % --------------------------------------------------------------------------- 
+\begin{cmptalkslide}[Metoda momentů \cite{MomentMethodReal}]
+  \setlength{\abovedisplayskip}{0.9em}
+  \setlength{\belowdisplayskip}{0.9em}
+  \placeat{
+    \Put(0,0.035)[lb]{\footnotesize \cite{Lasserre} J. B. Lasserre. Global optimization with polynomials and the problem of moments.}
+    \Put(0,0)[lb]{\footnotesize \cite{MomentMethodReal} J. B. Lasserre, M. Laurent, and P. Rostalski. Semidefinite characterization and computation of zero-dimensional real radical ideals.}
+  }
+
+  \begin{itemize}
+    \item Založena na Lasserrově hierarchii \cite{Lasserre}
+    \item Problém polynomiální optimalizace (nekonvexní)
+    \vspace{-0.6em}
+    \begin{align}
+      \arraycolsep=1.4pt
+      \begin{array}{rclrcl@{\hskip0.5cm}l}
+        p^* &=& \displaystyle \min_{x\in\R^n} & \multicolumn{3}{l}{f(x)} \\
+        && \text{s.t.} & g_i(x) &\geq& 0 & (i = 1,\ldots,k) \\
+        &&& h_j(x) &=& 0 & (j = 1,\ldots,l)
+      \end{array}
+    \end{align}
+
+    \vspace{-1em}
+    \item Každý monom nahradíme novou proměnnou: $\ell_y(x^\alpha)=y_\alpha$
+
+    \stepwise{
+      \switch{
+        \item Semidefinitní problém nekonečné dimenze (konvexní)
+        \vspace{-0.6em}
+        \begin{align}
+          \arraycolsep=1.4pt
+          \begin{array}{rclrcl@{\hskip0.5cm}l}
+            p^* &=& \displaystyle \min_{y\in\R^{\N^n}} & \multicolumn{3}{l}{\vc(f)^\top y} \\
+            && \text{s.t.} & y_{0\ldots0} &=& 1\\
+            &&& M(y) &\succeq& 0\\
+            &&& M(g_iy) &\succeq& 0 & (i = 1,\ldots,k)\\
+            &&& \vc(h)^\top y &=& 0 & \forall h\in \left<h_1,\ldots,h_l\right>
+          \end{array}
+        \end{align}
+      }
+      {\stepcounter{equation}
+        \item Semidefinitní problém dimenze $\color{cmporange} \binom{n + 2r}{n}$ {\color{cmporange} pro stupeň relaxace $r\in\N$}
+        \vspace{-0.6em}
+        \begin{align}
+          \arraycolsep=1.4pt
+          \begin{array}{rclrcl@{\hskip0.5cm}l}
+            p^*_{\color{cmporange} r} &=& \displaystyle \min_{y\in\R^{\N^n_{\color{cmporange} 2r}}} & \multicolumn{3}{l}{\vc(f)^\top y} \\
+            && \text{s.t.} & y_{0\ldots0} &=& 1\\
+            &&& M_{\color{cmporange} r}(y) &\succeq& 0\\
+            &&& M_{\color{cmporange} r - \big\lceil\frac{\deg(g_i)}{2} \big\rceil}(g_iy) &\succeq& 0 & (i = 1,\ldots,k)\\
+            &&& \vc(h)^\top y &=& 0 & \forall h\in {\color{cmporange} \big\{h_jx^\alpha \ |\ j=1,\ldots,l, |\alpha|\leq2r-\deg(h_j)\big\}}
+          \end{array}
+        \end{align}
+        \vspace{-1em}
+        \item Konvergence zajištěna
+        \vspace{-0.6em}
+        \begin{align}
+          p^*_r &\leq p^*_{r+1} \leq p^* & \lim_{r\rightarrow+\infty}p^*_r &= p^*
+        \end{align}
+      }
+    }
+
+  \end{itemize}
+  \placeat{
+    \Put(0,0.035)[lb]{\footnotesize \cite{Lasserre} J. B. Lasserre. Global optimization with polynomials and the problem of moments.}
+    \Put(0,0)[lb]{\footnotesize \cite{MomentMethodReal} J. B. Lasserre, M. Laurent, and P. Rostalski. Semidefinite characterization and computation of zero-dimensional real radical ideals.}
+  }
+
+
+\end{cmptalkslide}
+
+% --------------------------------------------------------------------------- 
+%\begin{cmptalkslide}[Metoda momentů \cite{MomentMethodReal}]
+  %\begin{itemize}
+    %\item Řešíme relaxované SDP pro rostoucí relaxační stupeň $r$
+    %\item Existuje test, zda je daná relaxace těsná
+    %\item Výpočet řešení přes vlastní vektory multiplikativní matice
+  %\end{itemize}
+
+  %\placeat{
+    %\Put(.5,0.35){\includegraphics[width=17cm]{pre_momentMethod}}
+    %\Put(0,0)[lb]{\footnotesize \cite{MomentMethodReal} J. B. Lasserre, M. Laurent, and P. Rostalski. Semidefinite characterization and computation of zero-dimensional real radical ideals.}
+  %}
+
+%\end{cmptalkslide}
+
+% --------------------------------------------------------------------------- 
+\begin{cmptalkslide}[Implementace]
+  \begin{itemize}
+    \item Balíček Polyopt
+    \begin{itemize}
+      \item programovací jazyk Python
+      \item implementace momentové metody
+      \item implementace vlastního nástroje na řešení semidefinitních problémů: algoritmus vnitřních bodů s využitím bariérové funkce, dle \cite{Nesterov-2004}
+    \end{itemize}
+    \item Implementace momentové metody v MATLABu
+    \begin{itemize}
+      \item využití nastoje MOSEK \cite{mosek} na řešení semidefinitních problémů
+      \item využití toolboxu YALMIP \cite{Yalmip} jako interface
+    \end{itemize}
+  \end{itemize}
+
+  \placeat{
+    \Put(0,0.070)[lb]{\footnotesize \cite{Yalmip} Johan L\"{o}fberg. YALMIP: A toolbox for modeling and optimization in MATLAB.}
+    \Put(0,0.035)[lb]{\footnotesize \cite{mosek} MOSEK ApS. The MOSEK optimization toolbox for MATLAB manual. Version 7.1 (Revision 28).}
+    \Put(0,0)[lb]{\footnotesize \cite{Nesterov-2004} Y. Nesterov. Introductory lectures on convex optimization: A basic course.}
+  }
+
+\end{cmptalkslide}
+
+% --------------------------------------------------------------------------- 
+\begin{cmptalkslide}[Experimenty]
+  \begin{itemize}
+    \item Řešení soustav polynomiálních rovnic
+    \item Aplikace na minimálních problémech z geometrie počítačového vidění
+    \begin{itemize}
+      \item Poloha a orientace kalibrované kamery (P3P)
+      \item Poloha a orientace kalibrované kamery s neznámou ohniskovou vzdáleností (P3.5Pf)
+    \end{itemize}
+    \item Testování na reálné 3D scéně
+    \begin{itemize}
+      \item robustně zrekonstruovaná
+      \item 67 kamer, 145\,001 bodů v prostoru
+    \end{itemize}
+    \item Porovnání různých implementací
+    \begin{itemize}
+      \item čistě algebraické řešení vygenerované Automatickým generátorem \cite{AutoGen}
+      \item balíček Polyopt
+      \item implementace v MATLABu s využitím nástroje MOSEK \cite{mosek}
+      \item optimalizační nástroj Gloptipoly \cite{gloptipoly}
+    \end{itemize}
+  \end{itemize}
+
+  \placeat{
+    \Put(0.85,0.48){\scalebox{-1}[1]{\includegraphics[height=5cm]{LADIO_01}}}
+    \Put(0.60,0.48){\includegraphics[height=5cm]{LADIO_02}}
+    \Put(0,0.070)[lb]{\footnotesize \cite{gloptipoly} D. Henrion, J. B. Lasserre, and J. Löfberg. Gloptipoly 3: Moments, optimization and semidefinite programming.}
+    \Put(0,0.035)[lb]{\footnotesize \cite{AutoGen} Z. Kukelova, M. Bujnak, T. Pajdla. Automatic generator of minimal problem solvers.}
+    \Put(0,0.000)[lb]{\footnotesize \cite{mosek} MOSEK ApS. The MOSEK optimization toolbox for MATLAB manual. Version 7.1 (Revision 28).}
+  }
+
+\end{cmptalkslide}
+
+% --------------------------------------------------------------------------- 
+\begin{cmptalkslide}[Poloha a orientace kalibrované kamery (P3P)]
+  \begin{minipage}{0.45\textwidth}
+    \begin{itemize}
+      \item Jedna rovnice čtvrtého stupně
+      \item Jedna neznámá
+      \item Vybrán nejlepší výsledek z 1000 různých konfigurací pro každou z~67 kamer (RANSAC-like)
+      \item 60 \% řešení je reálných
+    \end{itemize}
+  \end{minipage}
+
+  \placeat{
+    \Put(.25,0.05)[cb]{\hyperlink{P3P_err}{\resizebox{0.5\textwidth}{!}{\fontsize{15pt}{18.0pt}\selectfont \input{../graphs/pre_P3P_err}}}}
+    \Put(.75,0.05)[cb]{\hyperlink{P3P_times}{\resizebox{0.5\textwidth}{!}{\fontsize{15pt}{18.0pt}\selectfont \input{../graphs/pre_P3P_times}}}}
+    \Put(.75,0.45)[cb]{\hyperlink{P3P_relax}{\resizebox{0.5\textwidth}{!}{\fontsize{15pt}{18.0pt}\selectfont \input{../graphs/pre_P3P_relax}}}}
+  }
+
+\end{cmptalkslide}
+
+% --------------------------------------------------------------------------- 
+\begin{cmptalkslide}[Poloha a orientace kalibrované kamery s neznámou ohniskovou vzdáleností (P3.5Pf)]
+  \begin{minipage}{0.45\textwidth}
+    \begin{itemize}
+      \item Devět rovnic třetího stupně
+      \item Čtyři neznámé
+      \item Vybrán nejlepší výsledek z 100 různých konfigurací pro každou z~20 vybraných kamer (RANSAC-like)
+      \item 48 \% řešení je reálných
+    \end{itemize}
+  \end{minipage}
+
+  \placeat{
+    \Put(.25,0.05)[cb]{\hyperlink{P35Pf_err}{\resizebox{0.5\textwidth}{!}{\fontsize{15pt}{18.0pt}\selectfont \input{../graphs/pre_P35Pf_err}}}}
+    \Put(.75,0.05)[cb]{\hyperlink{P35Pf_times}{\resizebox{0.5\textwidth}{!}{\fontsize{15pt}{18.0pt}\selectfont \input{../graphs/pre_P35Pf_times}}}}
+    \Put(.75,0.45)[cb]{\hyperlink{P35Pf_relax}{\resizebox{0.5\textwidth}{!}{\fontsize{15pt}{18.0pt}\selectfont \input{../graphs/pre_P35Pf_relax}}}}
+  }
+
+\end{cmptalkslide}
+
+% --------------------------------------------------------------------------- 
+\begin{cmptalkslide}[Přínosy práce]
+  \begin{itemize}
+    \item Metoda momentů
+    \begin{itemize}
+      \item porozumění metodě
+      \item implementace metody v Pythonu a MATLABu
+      \item použití metody na problémy z geometrie počítačového vidění
+      \item aplikace na úlohy z robotiky: řešení inverzní kinematické úlohy
+    \end{itemize}
+    \item Nástroj na řešení semidefinitních problémů
+    \begin{itemize}
+      \item implementace v Pythonu
+      \item porozumění typům semidefinitních problémů vznikajících využitím Lasserrovy hierarchie
+      \item využití implementace v rámci formální verifikace algoritmů v konvexní optimalizaci, D. Henrion, LAAS--CNRS v Toulouse
+    \end{itemize}
+    \item Srovnání implementace momentové metody se současnými nástroji
+    \begin{itemize}
+      \item stabilita odpovídá algebraickým metodám
+      \item nemůže konkurovat algebraickým metodám v rychlosti
+    \end{itemize}
+  \end{itemize}
+\end{cmptalkslide}
+
+% --------------------------------------------------------------------------- 
+%\begin{cmptalkslide}[Shrnutí]
+  %\begin{itemize}
+    %\item Implementoval jsem nástroj na řešení semidefinitních problémů v Pythonu
+    %\item Implementoval jsem metodu momentů v Pythonu a MATLABu
+    %\item Porovnal jsem rychlost a stabilitu se současnými nástroji
+    %\begin{itemize}
+      %\item stabilita odpovídá algebraickým metodám
+      %\item nemůže konkurovat algebraickým metodám v rychlosti
+    %\end{itemize}
+  %\end{itemize}
+
+  %\placeat{
+    %\Put(.5,0.30){\Large \textbf{Děkuji za pozornost}}
+  %}
+
+%\end{cmptalkslide}
+
+% --------------------------------------------------------------------------- Bibliography
+\begin{cmptalkslide}[Použitá literatura]
+  \bibliographystyle{plain}
+  {\small \bibliography{../citations}}
+\end{cmptalkslide}
+
+% --------------------------------------------------------------------------- 
+%\maskfoil{momentMatrix}{
 %\begin{cmptalkslide}[Momentová matice]
   %\begin{minipage}{0.55\textwidth}
     %\begin{itemize}
@@ -158,197 +389,7 @@ Oponent: doc.\ Dr.\ Ing.\ Radim Šára}
   %}
 
 %\end{cmptalkslide}
-
-% --------------------------------------------------------------------------- 
-\begin{cmptalkslide}[Lasserrova hierarchie \cite{Lasserre}]
-  \setlength{\abovedisplayskip}{0.9em}
-  \setlength{\belowdisplayskip}{0.9em}
-  \placeat{
-    \Put(0,0)[lb]{\footnotesize \cite{Lasserre} J. B. Lasserre. Global optimization with polynomials and the problem of moments.}
-  }
-
-  \begin{itemize}
-
-    \item Problém polynomiální optimalizace
-    \begin{align}
-      \arraycolsep=1.4pt
-      \begin{array}{rclrcl@{\hskip0.5cm}l}
-        p^* &=& \displaystyle \min_{x\in\R^n} & \multicolumn{3}{l}{f(x)} \\
-        && \text{s.t.} & g_i(x) &\geq& 0 & (i = 1,\ldots,k) \\
-        &&& h_j(x) &=& 0 & (j = 1,\ldots,l)
-      \end{array}
-    \end{align}
-
-    \item Každý monom nahradíme novou proměnnou: $\ell_y(x^\alpha)=y_\alpha$
-
-    \stepwise{
-      \switch{
-        \item Semidefinitní problém (nekonečné dimenze)
-        \begin{align}
-          \arraycolsep=1.4pt
-          \begin{array}{rclrcl@{\hskip0.5cm}l}
-            p^* &=& \displaystyle \min_{y\in\R^{\N^n}} & \multicolumn{3}{l}{\vc(f)^\top y} \\
-            && \text{s.t.} & y_{0\ldots0} &=& 1\\
-            &&& M(y) &\succeq& 0\\
-            &&& M(g_iy) &\succeq& 0 & (i = 1,\ldots,k)\\
-            &&& \vc(h)^\top y &=& 0 & \forall h\in \left<h_1,\ldots,h_l\right>
-          \end{array}
-        \end{align}
-      }
-      {\stepcounter{equation}
-        \item Semidefinitní problém (dimenze $\color{cmporange} \binom{n + 2r}{n}$) {\color{cmporange} pro stupeň relaxace $r\in\N$}
-        \begin{align}
-          \arraycolsep=1.4pt
-          \begin{array}{rclrcl@{\hskip0.5cm}l}
-            p^*_{\color{cmporange} r} &=& \displaystyle \min_{y\in\R^{\N^n_{\color{cmporange} 2r}}} & \multicolumn{3}{l}{\vc(f)^\top y} \\
-            && \text{s.t.} & y_{0\ldots0} &=& 1\\
-            &&& M_{\color{cmporange} r}(y) &\succeq& 0\\
-            &&& M_{\color{cmporange} r - \big\lceil\frac{\deg(g_i)}{2} \big\rceil}(g_iy) &\succeq& 0 & (i = 1,\ldots,k)\\
-            &&& \vc(h)^\top y &=& 0 & \forall h\in {\color{cmporange} \big\{h_jx^\alpha \ |\ j=1,\ldots,l, |\alpha|\leq2r-\deg(h_j)\big\}}
-          \end{array}
-        \end{align}
-        \vspace{-0.8em}
-        \item Konvergence zajištěna
-        \vspace{-0.6em}
-        \begin{align}
-          p^*_r &\leq p^*_{r+1} \leq p^* & \lim_{r\rightarrow+\infty}p^*_r &= p^*
-        \end{align}
-      }
-    }
-
-  \end{itemize}
-  \placeat{
-    \Put(0,0)[lb]{\footnotesize \cite{Lasserre} J. B. Lasserre. Global optimization with polynomials and the problem of moments.}
-  }
-
-
-\end{cmptalkslide}
-
-% --------------------------------------------------------------------------- 
-\begin{cmptalkslide}[Metoda momentů \cite{MomentMethodReal}]
-  \begin{itemize}
-    \item Řešíme relaxované SDP pro rostoucí relaxační stupeň $r$
-    \item Existuje test, zda je daná relaxace těsná
-    \item Výpočet řešení přes vlastní vektory multiplikativní matice
-  \end{itemize}
-
-  \placeat{
-    \Put(.5,0.35){\includegraphics[width=17cm]{pre_momentMethod}}
-    \Put(0,0)[lb]{\footnotesize \cite{MomentMethodReal} J. B. Lasserre, M. Laurent, and P. Rostalski. Semidefinite characterization and computation of zero-dimensional real radical ideals.}
-  }
-
-\end{cmptalkslide}
-
-% --------------------------------------------------------------------------- 
-\begin{cmptalkslide}[Implementace]
-  \begin{itemize}
-    \item Balíček Polyopt
-    \begin{itemize}
-      \item programovací jazyk Python
-      \item implementace momentové metody
-      \item implementace vlastního nástroje na řešení semidefinitních problémů: algoritmus vnitřních bodů s využitím bariérové funkce, dle \cite{Nesterov-2004}
-    \end{itemize}
-    \item Implementace momentové metody v MATLABu
-    \begin{itemize}
-      \item využití nastoje MOSEK \cite{mosek} na řešení semidefinitních problémů
-      \item využití toolboxu YALMIP \cite{Yalmip} jako interface
-    \end{itemize}
-  \end{itemize}
-
-  \placeat{
-    \Put(0,0.070)[lb]{\footnotesize \cite{Yalmip} Johan L\"{o}fberg. YALMIP: A toolbox for modeling and optimization in MATLAB.}
-    \Put(0,0.035)[lb]{\footnotesize \cite{mosek} MOSEK ApS. The MOSEK optimization toolbox for MATLAB manual. Version 7.1 (Revision 28).}
-    \Put(0,0)[lb]{\footnotesize \cite{Nesterov-2004} Y. Nesterov. Introductory lectures on convex optimization: A basic course.}
-  }
-
-\end{cmptalkslide}
-
-% --------------------------------------------------------------------------- 
-\begin{cmptalkslide}[Experimenty]
-  \begin{itemize}
-    \item Řešení polynomiálních rovnic
-    \item Aplikace na minimálních problémech z geometrie počítačového vidění
-    \begin{itemize}
-      \item Poloha a orientace kalibrované kamery (P3P)
-      \item Poloha a orientace kalibrované kamery s neznámou ohniskovou vzdáleností (P3.5Pf)
-    \end{itemize}
-    \item Testování na reálné 3D scéně
-    \begin{itemize}
-      \item robustně zrekonstruovaná
-      \item 67 kamer, 145\,001 bodů v prostoru
-    \end{itemize}
-    \item Porovnání různých implementací
-    \begin{itemize}
-      \item čistě algebraické řešení vygenerované Automatickým generátorem \cite{AutoGen}
-      \item balíček Polyopt
-      \item implementace v MATLABu s využitím nástroje MOSEK \cite{mosek}
-      \item optimalizační nástroj Gloptipoly \cite{gloptipoly}
-    \end{itemize}
-  \end{itemize}
-
-  \placeat{
-    \Put(0,0.070)[lb]{\footnotesize \cite{gloptipoly} D. Henrion, J. B. Lasserre, and J. Löfberg. Gloptipoly 3: Moments, optimization and semidefinite programming.}
-    \Put(0,0.035)[lb]{\footnotesize \cite{AutoGen} Z. Kukelova, M. Bujnak, T. Pajdla. Automatic generator of minimal problem solvers.}
-    \Put(0,0.000)[lb]{\footnotesize \cite{mosek} MOSEK ApS. The MOSEK optimization toolbox for MATLAB manual. Version 7.1 (Revision 28).}
-  }
-
-\end{cmptalkslide}
-
-% --------------------------------------------------------------------------- 
-\begin{cmptalkslide}[Poloha a orientace kalibrované kamery (P3P)]
-  \begin{itemize}
-    \item Jedna rovnice čtvrtého stupně
-    \item Jedna neznámá
-    \item 60 \% řešení je reálných
-  \end{itemize}
-
-  \placeat{
-    \Put(.25,0.05)[cb]{\hyperlink{P3P_err}{\resizebox{0.5\textwidth}{!}{\fontsize{15pt}{18.0pt}\selectfont \input{../graphs/pre_P3P_err}}}}
-    \Put(.75,0.05)[cb]{\hyperlink{P3P_times}{\resizebox{0.5\textwidth}{!}{\fontsize{15pt}{18.0pt}\selectfont \input{../graphs/pre_P3P_times}}}}
-    \Put(.75,0.45)[cb]{\hyperlink{P3P_relax}{\resizebox{0.5\textwidth}{!}{\fontsize{15pt}{18.0pt}\selectfont \input{../graphs/pre_P3P_relax}}}}
-  }
-
-\end{cmptalkslide}
-
-% --------------------------------------------------------------------------- 
-\begin{cmptalkslide}[Poloha a orientace kalibrované kamery s neznámou ohniskovou vzdáleností (P3.5Pf)]
-  \begin{itemize}
-    \item Devět rovnic třetího stupně
-    \item Čtyři neznámé
-    \item 48 \% řešení je reálných
-  \end{itemize}
-
-  \placeat{
-    \Put(.25,0.05)[cb]{\hyperlink{P35Pf_err}{\resizebox{0.5\textwidth}{!}{\fontsize{15pt}{18.0pt}\selectfont \input{../graphs/pre_P35Pf_err}}}}
-    \Put(.75,0.05)[cb]{\hyperlink{P35Pf_times}{\resizebox{0.5\textwidth}{!}{\fontsize{15pt}{18.0pt}\selectfont \input{../graphs/pre_P35Pf_times}}}}
-    \Put(.75,0.45)[cb]{\hyperlink{P35Pf_relax}{\resizebox{0.5\textwidth}{!}{\fontsize{15pt}{18.0pt}\selectfont \input{../graphs/pre_P35Pf_relax}}}}
-  }
-
-\end{cmptalkslide}
-
-% --------------------------------------------------------------------------- 
-\begin{cmptalkslide}[Shrnutí]
-  \begin{itemize}
-    \item Implementovali jsme nástroj na řešení semidefinitních problémů v Pythonu
-    \item Implementovali jsme metodu momentů v Pythonu a MATLABu
-    \item Porovnali jsme rychlost a stabilitu se současnými nástroji
-    \begin{itemize}
-      \item stabilita odpovídá algebraickým metodám
-      \item nemůže konkurovat algebraickým metodám v rychlosti
-    \end{itemize}
-  \end{itemize}
-
-  \placeat{
-    \Put(.5,0.30){\Large \textbf{Děkuji za pozornost}}
-  }
-
-\end{cmptalkslide}
-
-% --------------------------------------------------------------------------- Bibliography
-\begin{cmptalkslide}[Použitá literatura]
-  \bibliographystyle{plain}
-  {\small \bibliography{../citations}}
-\end{cmptalkslide}
+%}
 
 \maskfoil{P3P_err}{
 
