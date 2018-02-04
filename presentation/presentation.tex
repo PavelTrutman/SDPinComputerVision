@@ -6,6 +6,7 @@
 \usepackage{mathtools,mathdots}
 \usepackage{xcolor}
 \usepackage{arydshln}
+\usepackage{multirow}
 
 \hypersetup{pdfstartpage=1,
   pdfauthor={Pavel Trutman},
@@ -37,12 +38,13 @@
 
 \newcommand{\bmdB}[1]{\left[\arraycolsep=\arraycolsepdef\begin{array}{@{}#1@{}}}
 \newcommand{\bmdE}{\end{array}\right]}
-\newcommand{\ind}[1]{\ensuremath{^{(#1)}}}
+\newcommand{\ind}[1]{\ensuremath{_{#1}}}
 \newcommand{\R}{\mathbb{R}}
 \newcommand{\N}{\mathbb{N}}
 \newcommand{\C}{\mathbb{C}}
 \newcommand{\Z}{\mathbb{Z}}
 \DeclareMathOperator{\vc}{vec}
+\DeclareMathOperator{\tr}{tr}
 \newlength{\arraycolsepdef}
 \setlength{\arraycolsepdef}{\arraycolsep}
 
@@ -300,15 +302,14 @@ Oponent: doc.\ Dr.\ Ing.\ Radim Šára}
   \begin{itemize}
     \item Metoda momentů
     \begin{itemize}
-      \item porozumění metodě
-      \item implementace metody v Pythonu a MATLABu
+      \item rozbor a implementace metody v Pythonu a MATLABu
       \item použití metody na problémy z geometrie počítačového vidění
       \item aplikace na úlohy z robotiky: řešení inverzní kinematické úlohy
     \end{itemize}
     \item Nástroj na řešení semidefinitních problémů
     \begin{itemize}
       \item implementace v Pythonu
-      \item porozumění typům semidefinitních problémů vznikajících využitím Lasserrovy hierarchie
+      \item porozumění typům semidefinitních problémů generovaných Lasserrovou hierarchií
       \item využití implementace v rámci formální verifikace algoritmů v konvexní optimalizaci, D. Henrion, LAAS--CNRS v Toulouse
     \end{itemize}
     \item Srovnání implementace momentové metody se současnými nástroji
@@ -317,6 +318,10 @@ Oponent: doc.\ Dr.\ Ing.\ Radim Šára}
       \item nemůže konkurovat algebraickým metodám v rychlosti
     \end{itemize}
   \end{itemize}
+
+  \placeat{
+    \Put(.5,0.06){\Large \textbf{Děkuji za pozornost}}
+  }
 \end{cmptalkslide}
 
 % --------------------------------------------------------------------------- 
@@ -344,52 +349,149 @@ Oponent: doc.\ Dr.\ Ing.\ Radim Šára}
 \end{cmptalkslide}
 
 % --------------------------------------------------------------------------- 
-%\maskfoil{momentMatrix}{
-%\begin{cmptalkslide}[Momentová matice]
-  %\begin{minipage}{0.55\textwidth}
-    %\begin{itemize}
-      %\item Momentová matice $M(y)$ pro \makebox{$y\in\R^{\N^n}$} má tvar
-      %\begin{align}
-        %M(y)\ind{\alpha,\beta}=y_{\alpha+\beta}
-      %\end{align}
-      %\item Lokalizační matice $M(qy)$ pro \makebox{$y\in\R^{\N^n}$} a polynom $q(x)$ má tvar
-      %\begin{align}
-        %M(qy)\ind{\alpha,\beta}=\sum_{\gamma\in\N^n} q_\gamma y_{\alpha+\beta+\gamma}
-      %\end{align}
-    %\end{itemize}
-  %\end{minipage}
+\maskfoil{P3PParametrization}{
 
-  %\placeat{
-    %\Put(0.6,0.865)[lt]{Příklad pro $n=2$:}
-    %\Put(0.6,0.805)[lt]{
-      %$M(y)=\bmdB{c:cc:c}
-              %y_{00} & y_{10} & y_{01} & \cdots\\\hdashline
-              %y_{10} & y_{20} & y_{11} & \cdots\\
-              %y_{01} & y_{11} & y_{02} & \cdots\\\hdashline
-              %\vdots & \vdots & \vdots & \ddots
-            %\bmdE$
-    %}
-    %\Put(0.07,0.31)[lt]{Příklad pro $q(x) = 5x^2 + 3$:}
-    %\Put(0.22,0.25)[lt]{
-      %$M(qy)= 5
-      %\bmdB{c:cc:c}
-        %y_{20} & y_{20} & y_{21} & \cdots\\\hdashline
-        %y_{30} & y_{40} & y_{31} & \cdots\\
-        %y_{21} & y_{31} & y_{22} & \cdots\\\hdashline
-        %\vdots & \vdots & \vdots & \ddots
-      %\bmdE
-      %+ 3
-      %\bmdB{c:cc:c}
-        %y_{00} & y_{10} & y_{01} & \cdots\\\hdashline
-        %y_{10} & y_{20} & y_{11} & \cdots\\
-        %y_{01} & y_{11} & y_{02} & \cdots\\\hdashline
-        %\vdots & \vdots & \vdots & \ddots
-      %\bmdE$
-    %}
-  %}
+  \centering
+  {\large\bfseries Parametrizace P3P problému}\\[1em]
+  \begin{minipage}{0.50\textwidth}
+    \begin{itemize}
+      \item Známe 3D body $X_i$ a jejich projekce $x_i$
+      \item Napočítáme vzdálenosti mezi 3D body $d_{ij}$ a kosiny úhlů paprsků $c_{ij}$
+      \item Z kosinovy věty dostáváme tři rovnice druhého stupně ve třech neznámých $z_i$
+      \begin{align}
+        d_{ij}^2 &= z_i^2 + z_j^2 - 2z_iz_jc_{ij}\label{eq:P3P:3}
+      \end{align}
+      \item Manipulací lze upravit na jednu rovnici čtvrtého stupně v jedné neznámé $\xi$
+      \begin{align}
+        a_4\xi^4 + a_3\xi^3 + a_2\xi^2 + a_1\xi + a_0 &= 0\label{eq:P3P:1}
+      \end{align}
+      \item Každý parametr $a_k$ je polynomiální funkcí hodnot $d_{ij}$ a $c_{ij}$
+    \end{itemize}
+  \end{minipage}\hspace{0.45\textwidth}~\\
+  \vspace{-17cm}\hspace{16cm}\includegraphics[width=11cm]{drawings/P3P}\\
+  \hspace{16cm}\textbf{Obrázek 1. }Nákres P3P problému.\\[2cm]
+  \hspace{16cm}\begin{tabular}{|c||c|c|}
+    \hline
+    $\boldsymbol{r}$ & \textbf{Soustava (\ref{eq:P3P:3})} & \textbf{Soustava (\ref{eq:P3P:1})}\\\hline\hline
+    1 & 10 & --\\
+    2 & 35 & 5\\
+    \textbf{3} & \textbf{84} & \textbf{7}\\\hline
+  \end{tabular}\\[5mm]
+  \hspace{16cm}\textbf{Tabulka 1. }Počet neznámých řešeného\\
+  \hspace{16cm}semidefinitního problému.
+}
 
-%\end{cmptalkslide}
-%}
+% --------------------------------------------------------------------------- 
+\maskfoil{numberRealSolutions}{
+
+  \centering
+  {\large\bfseries Počet nalezených reálných řešení}\\[1em]
+  \begin{minipage}{0.95\textwidth}
+    \begin{itemize}
+      \item Implementace založené na metodě momentů nenaleznou všechna reálná řešení
+    \end{itemize}
+    \centering
+    \vspace{5mm}
+    \input{../tables/pre_P3P_numberSolutions.tex}\\[5mm]
+    \textbf{Tabulka 1. }Počet nalezených reálných řešení pro P3P problém.\\
+    \vspace{1cm}
+    \input{../tables/pre_P35Pf_numberSolutions.tex}\\[5mm]
+    \textbf{Tabulka 2. }Počet nalezených reálných řešení pro P3.5Pf problém.\\
+  \end{minipage}
+}
+
+% --------------------------------------------------------------------------- 
+\maskfoil{numericalProblems}{
+
+  \centering
+  {\large\bfseries Numerické problémy v balíčku Polyopt}\\[1em]
+  \begin{minipage}{0.95\textwidth}
+    \begin{itemize}
+      \item Nástroj na řešení semidefinitních problémů nevyřeší zadaný semidefinitní problém
+      \item Metoda založena na minimalizaci bariérové funkce
+      \begin{align}
+        F(y) &= -\ln\det\!\big(A(y)\big)
+      \end{align}
+      \item $A(y)$ je semidefinitně pozitivní matice
+      \begin{align}
+        A(y) &= A_0 + \sum_{k=1}^m A_k y\ind k
+      \end{align}
+      %\item Optimalizace pomocí upravené Newtonovy metody $\rightarrow$ nutnost vypočítat první a druhé derivace bariérové funkce
+      \item Potřeba spočítat první a druhé derivace bariérové funkce
+      \begin{align}
+        \frac{\partial F}{\partial y\ind i}(y) &= -\tr\!\big(A(y)^{-1}A_i\big)\\
+        \frac{\partial^2 F}{\partial y\ind i \partial y\ind j}(y) &= \tr\!\Big(\!\big(A(y)^{-1}A_i\big)\big(A(y)^{-1}A_j\big)\!\Big)
+      \end{align}
+      \item Použití upravené Newtonovy metody $\rightarrow$ vyčíslení inverze Hessovy matice v bodě
+    \end{itemize}
+  \end{minipage}
+}
+
+% --------------------------------------------------------------------------- 
+\maskfoil{momentMatrix}{
+
+  \centering
+  {\large\bfseries Momentová matice}\\[1em]
+  \begin{minipage}{0.95\textwidth}
+    \begin{itemize}
+      \item Momentová matice $M(y)$ pro \makebox{$y\in\R^{\N^n}$} má tvar
+      \begin{align}
+        M(y)\ind{\alpha,\beta}=y_{\alpha+\beta}
+      \end{align}
+      \item Příklad pro $n=2$:
+      \begin{align}
+        M(y)&=\bmdB{c:cc:ccc:c}
+                y_{00} & y_{10} & y_{01} & y_{20} & y_{11} & y_{02} & \cdots\\\hdashline
+                y_{10} & y_{20} & y_{11} & y_{30} & y_{21} & y_{12} & \cdots\\
+                y_{01} & y_{11} & y_{02} & y_{21} & y_{12} & y_{03} & \cdots\\\hdashline
+                y_{20} & y_{30} & y_{21} & y_{40} & y_{31} & y_{22} & \cdots\\
+                y_{11} & y_{21} & y_{12} & y_{31} & y_{22} & y_{13} & \cdots\\
+                y_{02} & y_{12} & y_{03} & y_{22} & y_{13} & y_{04} & \cdots\\\hdashline
+                \vdots & \vdots & \vdots & \vdots & \vdots & \vdots & \ddots
+              \bmdE
+      \end{align}
+    \end{itemize}
+  \end{minipage}
+}
+
+% --------------------------------------------------------------------------- 
+\maskfoil{localizingMatrix}{
+
+  \centering
+  {\large\bfseries Lokalizační matice}\\[1em]
+  \begin{minipage}{0.95\textwidth}
+    \begin{itemize}
+      \item Lokalizační matice $M(qy)$ pro \makebox{$y\in\R^{\N^n}$} a polynom $q(x)$ má tvar
+      \begin{align}
+        M(qy)\ind{\alpha,\beta}=\sum_{\gamma\in\N^n} q_\gamma y_{\alpha+\beta+\gamma}
+      \end{align}
+      \item Příklad pro $n=2$ a $q(x) = 5x_1^2 + 8x_2 + 3$:
+      \begin{align}
+        M(qy)&= 5
+        \bmdB{c:cc:c}
+          y_{20} & y_{30} & y_{21} & \cdots\\\hdashline
+          y_{30} & y_{40} & y_{31} & \cdots\\
+          y_{21} & y_{31} & y_{22} & \cdots\\\hdashline
+          \vdots & \vdots & \vdots & \ddots
+        \bmdE
+        + 8
+        \bmdB{c:cc:c}
+          y_{01} & y_{11} & y_{02} & \cdots\\\hdashline
+          y_{11} & y_{21} & y_{12} & \cdots\\
+          y_{02} & y_{12} & y_{03} & \cdots\\\hdashline
+          \vdots & \vdots & \vdots & \ddots
+        \bmdE + {}\nonumber\\
+        &{}+ 3
+        \bmdB{c:cc:c}
+          y_{00} & y_{10} & y_{01} & \cdots\\\hdashline
+          y_{10} & y_{20} & y_{11} & \cdots\\
+          y_{01} & y_{11} & y_{02} & \cdots\\\hdashline
+          \vdots & \vdots & \vdots & \ddots
+        \bmdE
+      \end{align}
+    \end{itemize}
+  \end{minipage}
+}
 
 \maskfoil{P3P_err}{
 

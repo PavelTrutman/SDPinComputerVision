@@ -314,6 +314,20 @@ def generateTable(case=['AG', 'Polyopt', 'Mosek', 'Gloptipoly']):
     fTable.write('Number of all complex solutions is \\num{{{}}}.\\\\\n'.format(solCNum))
     fTable.write('Number of all real solutions is \\num{{{}}}, which is \\num{{{:#.1f}}} \% of all complex solutions.\n'.format(solNums['AG'], solNums['AG']/solCNum*100))
 
+  with open('tables/pre_P3P_numberSolutions.tex', 'wt') as fTable:
+    fTable.write('\\begin{tabular}{|c||r|r|}\n')
+    fTable.write('  \\hline\n')
+    fTable.write('  \\multirow{2}{*}{\\textbf{Implementace}} & \\multicolumn{1}{c|}{\\textbf{Počet nalezených}} & \\multicolumn{1}{c|}{\\textbf{Procento nalezených}}\\\\\n')
+    fTable.write('   & \\multicolumn{1}{c|}{\\textbf{reálných řešení}} & \\multicolumn{1}{c|}{\\textbf{reálných řešení}}\\\\\n')
+    fTable.write('  \\hline\\hline\n')
+    fTable.write('  Automatický generátor \\cite{{AutoGen}} & {} & {} \%\\\\\n'.format(solNums['AG'], solNums['AG']/solNums['AG']*100))
+    fTable.write('  Polyopt & {} & {:#.1f} \%\\\\\n'.format(solNums['Polyopt'], solNums['Polyopt']/solNums['AG']*100))
+    fTable.write('  Implementace v MATLABu & \\multirow{{2}}{{*}}{{{}}} & \\multirow{{2}}{{*}}{{{:#.1f} \%}}\\\\\n'.format(solNums['Mosek'], solNums['Mosek']/solNums['AG']*100))
+    fTable.write('  s nástrojem MOSEK \\cite{{mosek}} & & \\\\\n')
+    fTable.write('  Gloptipoly \\cite{{gloptipoly}} & {} & {:#.1f} \%\\\\\n'.format(solNums['Gloptipoly'], solNums['Gloptipoly']/solNums['AG']*100))
+    fTable.write('  \\hline\n')
+    fTable.write('\\end{tabular}\n')
+
 
 @cli.command()
 def solveAG():
