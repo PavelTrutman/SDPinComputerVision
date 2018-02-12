@@ -1,0 +1,87 @@
+% TeX macro for arrangement of numbered cell in matrix (rows x columns)
+% ArPgCell, (c) Vit Zyka
+% 2001-05-23
+% 2001-10-08 correction of multiplication
+
+\def\apcell#1{#1}
+\def\apcelldim#1#2#3{\apcell{#1}}
+\def\apcelltype#1{#1}
+\def\apcellframe#1{#1}
+\newdimen\apvrulewidth \apvrulewidth=.4pt
+\newdimen\aphrulewidth \aphrulewidth=.4pt
+\def\apcellbox#1{\apcellframe{\hbox to\apcellwidth{%
+  \vrule width\apvrulewidth depth0pt%
+  \dimen0=\apcellwidth \advance\dimen0 by-2\apvrulewidth
+  \dimen1=\apcellheight \advance\dimen1 by-2\aphrulewidth
+  \apcelltype{\vbox to\apcellheight{\hsize=\dimen0
+    \hrule height\aphrulewidth width\dimen0 depth0pt
+    \vss\hbox to\dimen0{\hss\apcelldim{#1}{\the\dimen1}{\the\dimen0}\hss}\vss
+    \hrule height\aphrulewidth width\dimen0 depth0pt}%
+  \vrule width\apvrulewidth depth0pt}}}}
+\def\aprestcels{\def\apcell##1{}}
+
+\newcount\apcoltot
+\newcount\aprowtot
+\newcount\aprow
+\newcount\appage \newcount\appagetot
+\newcount\appagelower
+\newdimen\apcellheight
+\newdimen\apcellwidth
+\def\arrangepages#1#2#3#4{% {height}{width}{#col}{#page}
+  \apcoltot=#3 \ifnum\apcoltot>0\else%
+   \errhelp={Set the third parameter of macro "arrangepages" greater then zero.}
+   \errmessage{Number of columns (\#3=#3) should be >0 !}
+  \fi%
+  \appagetot=#4 \ifnum\appagetot<0 \appagetot=-1\appagetot\fi%
+  \ifnum\appagetot=0
+    \message{Warning: number of pages in "arrangepages" is zero.}%
+    {\setbox0=\hbox{\hfil}\ht0=#1 \wd0=#2 \dp0=0pt \copy0 }%
+  \else%
+    \apcellwidth=#2 \divide\apcellwidth  by\apcoltot
+    \aprowtot=\appagetot \advance\aprowtot by-1 \divide\aprowtot by\apcoltot
+      \advance\aprowtot by1
+    \apcellheight=#1 \divide\apcellheight by\aprowtot
+    %\message{ <CellH=\the\apcellheight\space CellW=\the\apcellwidth\space%
+    %  Rows=\the\aprowtot> }%    
+    \appage=0
+    \hbox{\vbox to#1{\hsize=#2 \offinterlineskip
+      \parindent=0pt \leftskip=0pt \rightskip=0pt \parfillskip=0pt plus1fill
+      \leavevmode%
+      \loop%
+        \advance\appage by1
+        \apcellbox{\the\appage}\hskip0pt plus.1pt minus.1pt\penalty-100%
+      \ifnum\appage<\appagetot\repeat%
+      \aprestcels%
+      \loop%
+        \aprow=\appage \divide\aprow by\apcoltot%
+        \appagelower=\aprow \multiply\appagelower by\apcoltot%
+      \ifnum\appage>\appagelower
+        \advance\appage by1
+        \apcellbox{\the\appage}\hskip0pt plus.1pt minus.1pt\penalty-100%       
+      \repeat%
+      \vfill}}%
+  \fi}
+
+\endinput
+%% Tests:
+
+a%
+\arrangepages{50pt}{30pt}{2}{9}%
+b
+a%
+\arrangepages{50pt}{30pt}{2}{10}%
+b
+a%
+\arrangepages{50pt}{30pt}{1}{9}%
+b
+a%
+\arrangepages{50pt}{30pt}{9}{9}%
+b
+a%
+\arrangepages{50pt}{30pt}{1}{1}%
+b
+a%
+\arrangepages{495.07799pt}{56.6403pt}{2}{17}%
+b
+
+\end

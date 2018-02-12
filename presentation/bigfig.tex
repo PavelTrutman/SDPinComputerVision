@@ -1,0 +1,89 @@
+% Include every \includegraphics twice, second to enlarge to full page
+% area after click (only for active hyperref links output)
+% See example in the end of this file
+% Vit Zyka, 2000-01-13
+% 2001-10-17 : \graphicdraft, \nographicdraft
+% 2001-12-12 : v1.2; definition of hyperref link&target for case when
+%              hyperref is not loading
+% 2002-06-20 : v1.3; bigfig LaTeX environment
+
+\message{ Package: bigfig.tex v1.3 <2001-06-20> (Vit Zyka) }
+\makeatletter
+%\RequirePackage{graphicx}
+\ifx\Ginclude@graphics\undefined
+  \message{ Graphicx not loaded. BigFig needs it! }
+  \let\next=\endinput
+\else\let\next=\relax
+\fi
+\next
+
+\ifx\hypertarget\undefined\def\hypertarget#1#2{#2}\fi
+\ifx\shyperlink\undefined\let\shyperlink=\hyperlink\fi
+\ifx\hyperlink\undefined\def\hyperlink#1#2{#2}\fi
+
+\newcount\cbigfig
+\newwrite\biggraphicsfile \immediate\openout\biggraphicsfile=\jobname.bga
+\AtEndDocument{\immediate\closeout\biggraphicsfile\vfill\cleardoublepage%
+  \setbigfigparam\@input{\jobname.bga}}
+\def\setbigfigparam{%
+  \ifx\bigfigoutputpage\undefined%
+  \else\textwidth=\slidewidth\linewidth=\slidewidth\textheight=\slideheight%
+  \let\@outputpage=\bigfigoutputpage\fi%
+  \hsize=\textwidth\vsize=\textheight\@colht=\textheight%
+  \bigfigfalse\cbigfig=0\parindent=0pt\hfuzz=5pt}
+\let\Ginclude@graphicsold=\Ginclude@graphics
+\def\bigfigtrue{\let\Ginclude@graphics=\Ginclude@graphicsnew}
+\def\bigfigfalse{\let\Ginclude@graphics=\Ginclude@graphicsold}
+\def\Ginclude@graphicsnew#1{%
+  \global\advance\cbigfig by1
+  \immediate\write\biggraphicsfile{\string\biggraphics\string{#1\string}}%
+  \hypertarget{smallfig\the\cbigfig}{}\defsmalfigtarget{\the\cbigfig}%
+  \shyperlink{bigfig\the\cbigfig}{%
+    \Ginclude@graphicsold{#1}}}
+\def\biggraphics#1{\newpage%
+  \global\advance\cbigfig by1
+  \shyperlink{smallfig\the\cbigfig}{%
+    \vbox to\textheight{\vss%
+      \hypertarget{bigfig\the\cbigfig}{}%
+      \hbox to\linewidth{\hss%
+        %\shyperlink{smallfig\the\cbigfig}{%
+        \includegraphics[width=\linewidth,totalheight=\textheight,%
+          keepaspectratio=true]{#1}\hss}%
+    \vss}}\ignorespaces}
+\def\defsmalfigtarget#1{%
+  \expandafter\def\csname defsmallfigtarget#1\endcsname{}}
+\def\ifsmalfigtargetfalse#1{%
+  \expandafter\ifx\csname defsmallfigtarget#1\endcsname\relax}
+
+\def\bigfig{\bigfigtrue}
+\def\bigfigend{\bigfigfalse}
+\bigfigtrue
+
+\DeclareOption{off}{\bigfigfalse}
+\DeclareOption{printout}{\bigfigfalse}
+\ProcessOptions
+
+\makeatother
+
+%------------------------------------------------------------------------ draft
+\def\graphicdraft{\setkeys{Gin}{draft=true}}
+\def\nographicdraft{\setkeys{Gin}{draft=false}}
+
+\endinput
+
+%%######################################################### Example of an usage
+\documentclass{article}
+
+\usepackage[pdftex,draft]{graphicx}
+\usepackage[pdftex]{hyperref}
+\usepackage{bigfig}
+
+\begin{document}
+  Ahoj
+  \includegraphics[width=2cm]{cmp}
+  \includegraphics[width=5cm]{cmp}
+  \bigfigfalse
+  \includegraphics[width=6cm]{cmp}
+  \bigfigtrue
+  \includegraphics[width=8cm]{cmp}
+\end{document}

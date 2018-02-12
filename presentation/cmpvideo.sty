@@ -1,0 +1,29 @@
+% Macros for video inclusion using pdftex
+% (c) Vit Zyka
+% 2004-07-15 : v0.1  separated from cmptalk
+% 2006-10-02 : v0.11 obsolete; use movie15
+
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{cmpvideo}[2006/10/02 v0.11 (Vit Zyka);
+  *** obsolete, use package movie15 *** ]
+\message{2006/10/02 v0.11 (Vit Zyka); *** obsolete, use package movie15 *** }
+
+%% {width}{proportion}[static-figure]{videofile}
+
+\def\videoMode{/Open} % /Repeat /Once
+\def\videoShowControls{true} % false
+\def\videoPar{} % /Rate 0.1
+\def\video#1#2{\@ifnextchar[{\@video{#1}{#2}}{\@video{#1}{#2}[]}}
+\def\@video#1#2[#3]#4{{\dimen0=#1 \dimen1=#2\dimen0
+ \ifx\bigfig\undefined\else\bigfigfalse\fi%
+ \edef\tmp{#3}\ifx\tmp\empty\setbox0=\hbox{}\else%
+ \setbox0=\hbox{\includegraphics[width=#1,height=\dimen1]{#3}}\fi%
+ \wd0=#1 \ht0=\dimen1 \dp0=0pt
+ \mbox{\ifPDF\pdfannot width #1 height \dimen1 depth 0cm {%
+    /Subtype /Movie /T (Video)  
+    /Movie << /F (#4) /Poster true >>
+    /A << /ShowControls \videoShowControls\space /Mode \videoMode
+          \videoPar\space >>}\fi%
+  \copy0}}}
+
+\endinput
