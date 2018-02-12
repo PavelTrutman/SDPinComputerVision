@@ -134,7 +134,7 @@ Most methods are based on interior-point methods, which are efficient and robust
 The main disadvantage of these methods is that they need to store and factorize usually large Hessian matrix.
 Most modern implementations of the interior-point methods do not need the knowledge of an interior feasible point in advance.
 SeDuMi \cite{sedumi} casts the standard semidefinite program into the homogeneous self-dual form, which has a trivial feasible point.
-SDPA \cite{sdpa} uses an infeasible interior-point method, which can initialized by an infeasible point.
+SDPA \cite{sdpa} uses an infeasible interior-point method, which can be initialized by an infeasible point.
 Some of the libraries (e.g.\ MOSEK \cite{mosek}) have started out as LPs solvers and were extended for QCQPs solving and convex optimization later on.
 
 Another type of methods used in SDP are the first-order methods. 
